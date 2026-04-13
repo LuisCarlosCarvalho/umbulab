@@ -3,51 +3,69 @@ import { ShoppingCart, ExternalLink, Link as LinkIcon, AlertTriangle } from 'luc
 import { supabase, MarketingProduct } from '../lib/supabase';
 import { Link } from 'react-router-dom';
 import { showToast } from '../components/ui/Toast';
+import { LazyImage } from '../components/ui/LazyImage';
+
+// Global SWR Cache for standard data fetching
+let globalInfoproductsCache: MarketingProduct[] | null = null;
 
 export function InfoproductsPage() {
-  const [products, setProducts] = useState<MarketingProduct[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState<MarketingProduct[]>(globalInfoproductsCache || []);
+  const [loading, setLoading] = useState(!globalInfoproductsCache);
   const [errorStatus, setErrorStatus] = useState(false);
 
   useEffect(() => {
+    let mounted = true;
     const controller = new AbortController();
-    loadProducts(controller.signal);
+    
+    // Safety fallback: if cache exists, we drop the loading lock immediately
+    if (globalInfoproductsCache) {
+      setLoading(false);
+    }
+
+    const loadProducts = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('marketing_products')
+          .select('*')
+          .abortSignal(controller.signal)
+          .eq('status', 'active')
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+        
+        if (mounted) {
+          setProducts(data || []);
+          globalInfoproductsCache = data || [];
+        }
+      } catch (error: any) {
+        if (error.name === 'AbortError') return;
+        console.error('[Infoproducts] Error loading products:', error);
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    };
+
+    loadProducts();
 
     const timeout = setTimeout(() => {
-      setLoading((currentLoading) => {
-        if (currentLoading) {
-          console.warn('[Infoproducts] Aviso: Timeout de 30s da UI atingido (banco muito lento).');
-          setErrorStatus(true);
-          return false;
-        }
-        return currentLoading;
-      });
+      if (mounted) {
+        setLoading((current) => {
+          if (current) {
+            console.warn('[Infoproducts] Timeout de 30s atingido.');
+            setErrorStatus(true);
+            return false;
+          }
+          return current;
+        });
+      }
     }, 30000);
 
     return () => {
+      mounted = false;
       controller.abort();
       clearTimeout(timeout);
     };
   }, []);
-
-  const loadProducts = async (signal?: AbortSignal) => {
-    try {
-      const { data, error } = await supabase
-        .from('marketing_products')
-        .select('*')
-        .abortSignal(signal || new AbortController().signal)
-        .eq('status', 'active')
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-      setProducts(data || []);
-    } catch (error: any) {
-      if (error.name === 'AbortError') return;
-      console.error('Error loading products:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const copyToClipboard = (code: string) => {
     const url = `${window.location.origin}/${code}`;
@@ -102,28 +120,18 @@ export function InfoproductsPage() {
                 {/* Image Area */}
                 <div className="relative aspect-video bg-gray-100 overflow-hidden">
                    {product.image_urls && product.image_urls.length > 0 ? (
-                    <img
+                    <LazyImage
                       src={product.image_urls[0]}
                       alt={product.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      onError={(e) => {
-                        const target = e.currentTarget;
-                        if (!target.src.includes('placehold.co')) {
-                          target.src = 'https://placehold.co/800x600/e2e8f0/1e293b?text=Marketing';
-                        }
-                      }}
+                      wrapperClassName="w-full h-full"
+                      className="group-hover:scale-105 transition-transform duration-500"
                     />
                    ) : product.image_url ? (
-                    <img
+                    <LazyImage
                       src={product.image_url}
                       alt={product.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      onError={(e) => {
-                        const target = e.currentTarget;
-                        if (!target.src.includes('placehold.co')) {
-                          target.src = 'https://placehold.co/800x600/e2e8f0/1e293b?text=Marketing';
-                        }
-                      }}
+                      wrapperClassName="w-full h-full"
+                      className="group-hover:scale-105 transition-transform duration-500"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-50 to-white">
