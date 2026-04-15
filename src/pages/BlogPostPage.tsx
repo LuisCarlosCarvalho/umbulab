@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Calendar, ChevronLeft, Share2, Clock } from 'lucide-react';
-import { SEO } from '../components/SEO';
 import { supabase } from '../lib/supabase';
 import { BlogPost } from '../types';
 
@@ -66,7 +65,6 @@ export function BlogPostPage() {
 
   return (
     <article className="pt-32 pb-24 bg-white min-h-screen">
-      <SEO title={post.title} description={post.excerpt} />
       <div className="max-w-4xl mx-auto px-4">
         {/* Breadcrumb */}
         <button 

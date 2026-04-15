@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { supabase, Project, Service, Profile, QuoteRequest, MarketingProduct, Portfolio, BlogPost, ClientLogo } from '../lib/supabase';
 import { getErrorMessage } from '../lib/errors';
 
@@ -20,6 +20,7 @@ export type AdminData = {
 const globalAdminCache: Record<string, any> = {};
 
 export function useAdminData(activeTab: string) {
+  const abortControllerRef = useRef<AbortController | null>(null);
   const [projects, setProjects] = useState<(Project & { client: Profile; service: Service })[]>([]);
   const [clients, setClients] = useState<Profile[]>([]);
   const [quotes, setQuotes] = useState<QuoteRequest[]>([]);
@@ -44,13 +45,19 @@ export function useAdminData(activeTab: string) {
       return;
     }
 
+    // Aborta requisição anterior se existir (Limpeza de Zumbis)
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+
     const controller = new AbortController();
+    abortControllerRef.current = controller;
     const signal = controller.signal;
-    const cacheBuster = Date.now(); // Cache bypass
 
     console.log(`[Admin Data] DEBUG: Iniciando fetch para tab: ${activeTab}... VITE_SUPABASE_URL está configurado:`, !!import.meta.env.VITE_SUPABASE_URL);
 
     setLoading(true);
+    setErrorStatus(false);
     try {
       // Golden Rule: Verify Session & Token
       const { data: { session } } = await supabase.auth.getSession();
@@ -252,19 +259,24 @@ export function useAdminData(activeTab: string) {
     }
   }, [activeTab]);
 
-  // Safety timeout
+  // Timeout de Segurança: Reduzido para 10s conforme solicitação core
   useEffect(() => {
     const timeout = setTimeout(() => {
       setLoading((currentLoading) => {
         if (currentLoading) {
-          console.warn('[Admin Data] Aviso: Timeout de 30s da UI atingido no painel.');
+          console.warn('[Admin Data] Aviso: Timeout de 10s atingido. Ativando recuperação manual.');
           setErrorStatus(true);
           return false;
         }
         return currentLoading;
       });
-    }, 30000); // 30s timeout
-    return () => clearTimeout(timeout);
+    }, 10000); // 10s timeout
+    return () => {
+      clearTimeout(timeout);
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
   }, [activeTab]);
 
   useEffect(() => {
@@ -283,6 +295,7 @@ export function useAdminData(activeTab: string) {
     stats,
     loading,
     errorStatus,
+    setErrorStatus,
     loadData
   };
 }

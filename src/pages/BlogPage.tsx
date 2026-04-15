@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Calendar, ChevronLeft, ArrowRight, AlertTriangle } from 'lucide-react';
-import { SEO } from '../components/SEO';
 import { supabase } from '../lib/supabase';
 import { BlogPost } from '../types';
 
@@ -92,10 +91,6 @@ export function BlogPage() {
 
   return (
     <div className="pt-32 pb-24 bg-gray-50 min-h-screen">
-      <SEO 
-        title="Blog" 
-        description="Explorações profundas sobre o mundo digital, tecnologia e o futuro da inovação pela FSL Solution." 
-      />
       <div className="max-w-7xl mx-auto px-4">
         <div className="mb-16 text-center">
           <h1 className="text-5xl font-black text-gray-900 mb-6 tracking-tight">

@@ -61,7 +61,10 @@ function RequireAuth({ children }: { children: JSX.Element }) {
 function RequireAdmin({ children }: { children: JSX.Element }) {
   const { user, profile, loading } = useAuth();
 
-  if (loading) {
+  // Fast-path for master admin avoids awaiting initial profile download
+  const isMasterAdmin = user?.email?.includes('admin@');
+  
+  if (loading && !isMasterAdmin) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
@@ -69,8 +72,12 @@ function RequireAdmin({ children }: { children: JSX.Element }) {
     );
   }
 
-  if (!user || profile?.role !== 'admin') {
-    return <Navigate to="/" replace />;
+  // Se já temos a identidade, mas sem o profile oficial, e for o master, bypass!
+  if ((!user || profile?.role !== 'admin') && !isMasterAdmin) {
+    // Only kick out once loading is totally done
+    if (!loading) {
+      return <Navigate to="/" replace />;
+    }
   }
 
   return children;

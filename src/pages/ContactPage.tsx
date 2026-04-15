@@ -8,8 +8,6 @@ import { showToast } from '../components/ui/Toast';
 // Sub-forms
 import { WebsiteForm } from '../components/quotes/forms/WebsiteForm';
 import { LogoForm } from '../components/quotes/forms/LogoForm';
-import { TrafficForm } from '../components/quotes/forms/TrafficForm';
-import { SEOForm } from '../components/quotes/forms/SEOForm';
 import { CustomProjectForm } from '../components/quotes/forms/CustomProjectForm';
 import { FileUpload } from '../components/quotes/FileUpload';
 
@@ -180,9 +178,7 @@ export function ContactPage() {
       <div className="animate-in fade-in slide-in-from-bottom-2 duration-500">
         {(sName.includes('site') || sName.includes('web')) && <WebsiteForm {...props} />}
         {sName.includes('logo') && <LogoForm {...props} />}
-        {(sName.includes('tráfego') || sName.includes('trafego')) && <TrafficForm {...props} />}
-        {sName.includes('seo') && <SEOForm {...props} />}
-        {!sName.includes('site') && !sName.includes('web') && !sName.includes('logo') && !sName.includes('tráfego') && !sName.includes('trafego') && !sName.includes('seo') && (
+        {(!sName.includes('site') && !sName.includes('web') && !sName.includes('logo')) && (
           <CustomProjectForm {...props} />
         )}
       </div>

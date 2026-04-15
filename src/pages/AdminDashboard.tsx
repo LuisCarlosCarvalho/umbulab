@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense, lazy } from 'react';
 import { showToast } from '../components/ui/Toast';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
@@ -6,40 +6,40 @@ import { supabase } from '../lib/supabase';
 import { Project, Service, Profile, QuoteRequest, MarketingProduct, Portfolio, ProjectStep, BlogPost, ClientLogo } from '../types';
 import { getErrorMessage } from '../lib/errors';
 import { GlobalPaymentSettings, PaymentMethodsState } from '../types';
-import { Users, FolderOpen, MessageSquare, CheckSquare, Settings, Briefcase, TrendingUp, Lock, BarChart3, MessageCircle, FileText, ShoppingCart, Activity, AlertTriangle } from 'lucide-react';
+import { Users, FolderOpen, MessageSquare, CheckSquare, Settings, Briefcase, TrendingUp, Lock, BarChart3, MessageCircle, FileText, ShoppingCart, Activity, AlertTriangle, Loader2 } from 'lucide-react';
 import { generateContractPDF } from '../lib/contracts';
 import { useAdminData } from '../hooks/useAdminData';
-import { ProjectsTab } from './admin/components/ProjectsTab';
-import { ClientsTab } from './admin/components/ClientsTab';
-import { QuotesTab } from './admin/components/QuotesTab';
-import { MarketingTab } from './admin/components/MarketingTab';
-import { PortfolioTab } from './admin/components/PortfolioTab';
-import { ServicesTab } from './admin/components/ServicesTab';
-import { MessagesTab } from './admin/components/MessagesTab';
-import { BlogTab } from './admin/components/BlogTab';
-import { LogosTab } from './admin/components/LogosTab';
-import { OverviewTab } from './admin/components/OverviewTab';
-import { PaymentConfigTab } from './admin/components/PaymentConfigTab';
-import { ProductRegistrationStepper } from './admin/components/ProductRegistrationStepper';
-import { AdminAuthModal } from '../components/admin/AdminAuthModal';
-import { TrafficAnalysisTab } from './admin/components/TrafficAnalysisTab';
-import { SEOAdminTab } from './admin/components/SEOAdminTab';
-import { SEOAdminService } from '../services/SEOAdminService';
-import Dashboard from './admin/Dashboard';
-import FinancialIntelligence from './admin/FinancialIntelligence';
 
-import { ProjectModal } from './admin/modals/ProjectModal';
-import { ClientModal } from './admin/modals/ClientModal';
-import { StepModal } from './admin/modals/StepModal';
-import { ChatModal } from './admin/modals/ChatModal';
-import { ContractModal } from './admin/modals/ContractModal';
-import { BlogModal } from './admin/modals/BlogModal';
-import { LogoModal } from './admin/modals/LogoModal';
-import { ReplyModal } from './admin/modals/ReplyModal';
-import { PortfolioModal } from './admin/modals/PortfolioModal';
-import { ServiceModal } from './admin/modals/ServiceModal';
+// Lazy loading tab components
+const ProjectsTab = lazy(() => import('./admin/components/ProjectsTab').then(m => ({ default: m.ProjectsTab })));
+const ClientsTab = lazy(() => import('./admin/components/ClientsTab').then(m => ({ default: m.ClientsTab })));
+const QuotesTab = lazy(() => import('./admin/components/QuotesTab').then(m => ({ default: m.QuotesTab })));
+const MarketingTab = lazy(() => import('./admin/components/MarketingTab').then(m => ({ default: m.MarketingTab })));
+const PortfolioTab = lazy(() => import('./admin/components/PortfolioTab').then(m => ({ default: m.PortfolioTab })));
+const ServicesTab = lazy(() => import('./admin/components/ServicesTab').then(m => ({ default: m.ServicesTab })));
+const MessagesTab = lazy(() => import('./admin/components/MessagesTab').then(m => ({ default: m.MessagesTab })));
+const BlogTab = lazy(() => import('./admin/components/BlogTab').then(m => ({ default: m.BlogTab })));
+const LogosTab = lazy(() => import('./admin/components/LogosTab').then(m => ({ default: m.LogosTab })));
+const OverviewTab = lazy(() => import('./admin/components/OverviewTab').then(m => ({ default: m.OverviewTab })));
+const PaymentConfigTab = lazy(() => import('./admin/components/PaymentConfigTab').then(m => ({ default: m.PaymentConfigTab })));
+const Dashboard = lazy(() => import('./admin/Dashboard'));
+const FinancialIntelligence = lazy(() => import('./admin/FinancialIntelligence'));
 
-type Tab = 'overview' | 'engine_control' | 'financial_intelligence' | 'projects' | 'clients' | 'messages' | 'quotes' | 'infoproducts' | 'portfolio' | 'blog' | 'logos' | 'services' | 'checkout_config' | 'traffic' | 'seo_admin';
+const AdminAuthModal = lazy(() => import('../components/admin/AdminAuthModal').then(m => ({ default: m.AdminAuthModal })));
+const ProductRegistrationStepper = lazy(() => import('./admin/components/ProductRegistrationStepper').then(m => ({ default: m.ProductRegistrationStepper })));
+
+const ProjectModal = lazy(() => import('./admin/modals/ProjectModal').then(m => ({ default: m.ProjectModal })));
+const ClientModal = lazy(() => import('./admin/modals/ClientModal').then(m => ({ default: m.ClientModal })));
+const StepModal = lazy(() => import('./admin/modals/StepModal').then(m => ({ default: m.StepModal })));
+const ChatModal = lazy(() => import('./admin/modals/ChatModal').then(m => ({ default: m.ChatModal })));
+const ContractModal = lazy(() => import('./admin/modals/ContractModal').then(m => ({ default: m.ContractModal })));
+const BlogModal = lazy(() => import('./admin/modals/BlogModal').then(m => ({ default: m.BlogModal })));
+const LogoModal = lazy(() => import('./admin/modals/LogoModal').then(m => ({ default: m.LogoModal })));
+const ReplyModal = lazy(() => import('./admin/modals/ReplyModal').then(m => ({ default: m.ReplyModal })));
+const PortfolioModal = lazy(() => import('./admin/modals/PortfolioModal').then(m => ({ default: m.PortfolioModal })));
+const ServiceModal = lazy(() => import('./admin/modals/ServiceModal').then(m => ({ default: m.ServiceModal })));
+
+type Tab = 'overview' | 'engine_control' | 'financial_intelligence' | 'projects' | 'clients' | 'messages' | 'quotes' | 'infoproducts' | 'portfolio' | 'blog' | 'logos' | 'services' | 'checkout_config';
 
 export function AdminDashboard() {
   const { user, profile } = useAuth();
@@ -54,15 +54,15 @@ export function AdminDashboard() {
     if (tab && [
       'overview', 'engine_control', 'financial_intelligence', 'projects', 'clients', 'messages', 'quotes', 
       'infoproducts', 'portfolio', 'blog', 'logos', 'services', 
-      'checkout_config', 'traffic', 'seo_admin'
+      'checkout_config'
     ].includes(tab)) {
       setActiveTab(tab as Tab);
     }
 
     if (connected === 'true') {
       showToast('GSC Conectado com sucesso!', 'success');
-      // Clean URL
-      window.history.replaceState({}, '', `/admin?tab=${tab || 'traffic'}`);
+      // Limpamos a URL e mantemos na visão geral como fallback
+      window.history.replaceState({}, '', `/admin?tab=overview`);
     }
   }, []);
   
@@ -78,6 +78,7 @@ export function AdminDashboard() {
     stats,
     loading,
     errorStatus,
+    setErrorStatus,
     loadData
   } = useAdminData(activeTab);
 
@@ -143,13 +144,14 @@ export function AdminDashboard() {
   const [paymentGlobalSettings, setPaymentGlobalSettings] = useState<GlobalPaymentSettings | null>(null);
 
   useEffect(() => {
+    let isMounted = true;
     const loadPaymentSettings = async () => {
       const { data } = await supabase
         .from('configuracoes')
         .select('*')
         .in('chave', ['payment_methods', 'payment_global_settings']);
       
-      if (data) {
+      if (data && isMounted) {
         const methods = data.find(c => c.chave === 'payment_methods')?.valor;
         const global = data.find(c => c.chave === 'payment_global_settings')?.valor;
         if (methods) setPaymentConfigs(methods);
@@ -157,6 +159,7 @@ export function AdminDashboard() {
       }
     };
     loadPaymentSettings();
+    return () => { isMounted = false; };
   }, [activeTab]); // Recarrega se mudar de aba (ex: voltou da aba de config)
   const [isMessageEdited, setIsMessageEdited] = useState(false);
   const [isClientLocked, setIsClientLocked] = useState(false);
@@ -1029,28 +1032,7 @@ export function AdminDashboard() {
               <Lock size={20} />
               Pagamentos
             </button>
-            <button
-              onClick={() => setActiveTab('traffic')}
-              className={`w-full px-4 py-3 rounded-xl font-bold text-sm flex items-center gap-3 transition-all ${
-                activeTab === 'traffic'
-                  ? 'bg-blue-50 text-blue-700 shadow-sm ring-1 ring-blue-100'
-                  : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'
-              }`}
-            >
-              <TrendingUp size={20} />
-              Tráfego
-            </button>
-            <button
-              onClick={() => setActiveTab('seo_admin')}
-              className={`w-full px-4 py-3 rounded-xl font-bold text-sm flex items-center gap-3 transition-all ${
-                activeTab === 'seo_admin'
-                  ? 'bg-blue-50 text-blue-700 shadow-sm ring-1 ring-blue-100'
-                  : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'
-              }`}
-            >
-              <BarChart3 size={20} />
-              SEO Admin
-            </button>
+            {/* Abas de Tráfego e SEO Admin removidas por solicitação da gerência */}
           </nav>
 
           <div className="p-4 border-t border-gray-100">
@@ -1071,15 +1053,28 @@ export function AdminDashboard() {
           <div className="bg-white rounded-2xl shadow-sm border border-gray-200 min-h-[600px] p-6 lg:p-8">
             {errorStatus ? (
               <div className="text-center py-20 bg-red-50/50 rounded-3xl border border-red-100 shadow-sm mx-auto max-w-2xl mt-8">
-                <AlertTriangle className="mx-auto text-red-500 mb-4" size={48} />
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Erro de Conexão no Painel</h3>
-                <p className="text-gray-600 font-medium">O banco de dados demorou muito para responder. O cache de segurança foi limpo. Tente novamente.</p>
-                <button 
-                  onClick={() => window.location.reload()}
-                  className="mt-6 inline-flex items-center gap-2 bg-red-600 text-white px-6 py-2.5 rounded-lg font-bold hover:bg-red-700 transition-colors"
-                >
-                  Tentar Novamente
-                </button>
+                <div className="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                   <Activity size={32} className="animate-pulse" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-3">O Painel demorou para responder</h3>
+                <p className="text-gray-600 font-medium mb-8 px-8">Identificamos uma lentidão na conexão com o banco de dados. Para sua segurança, interrompemos a espera infinita.</p>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                  <button 
+                    onClick={() => {
+                      setErrorStatus(false);
+                      loadData();
+                    }}
+                    className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-3 rounded-xl font-black hover:bg-blue-700 transition-all shadow-lg shadow-blue-100 hover:scale-[1.02] active:scale-[0.98]"
+                  >
+                    Recarregar Dados
+                  </button>
+                  <button 
+                    onClick={() => window.location.reload()}
+                    className="inline-flex items-center gap-2 bg-white text-gray-600 border border-gray-200 px-6 py-3 rounded-xl font-bold hover:bg-gray-50 transition-all"
+                  >
+                    Forçar Atualização
+                  </button>
+                </div>
               </div>
             ) : loading ? (
               <div className="flex justify-center py-20">
@@ -1087,6 +1082,12 @@ export function AdminDashboard() {
               </div>
             ) : (
               <>
+              <Suspense fallback={
+                <div className="flex flex-col items-center justify-center py-20 animate-in fade-in duration-500">
+                  <Loader2 className="h-10 w-10 text-blue-600 animate-spin mb-4" />
+                  <p className="text-gray-500 font-medium">Carregando ferramenta...</p>
+                </div>
+              }>
                 {activeTab === 'overview' && (
                   <OverviewTab 
                     stats={stats} 
@@ -1475,12 +1476,8 @@ export function AdminDashboard() {
                 {activeTab === 'checkout_config' && (
                   <PaymentConfigTab />
                 )}
-                {activeTab === 'traffic' && (
-                  <TrafficAnalysisTab />
-                )}
-                {activeTab === 'seo_admin' && (
-                  <SEOAdminTab />
-                )}
+                {/* Blocos de Renderização de Tráfego e SEO Admin removidos */}
+              </Suspense>
               </>
             )}
           </div>
@@ -1504,180 +1501,158 @@ export function AdminDashboard() {
         paymentGlobalSettings={paymentGlobalSettings}
       />
 
-      {showInfoproductModal && (
-        <ProductRegistrationStepper 
-          product={editingMarketingProduct}
-          onSave={async (data) => {
-            try {
-              let saveError;
-              
-              const payload = {
-                ...data,
-                publish_to_social: data.publish_to_social ?? false,
-                updated_at: new Date().toISOString()
-              };
+      <Suspense fallback={null}>
+        {showInfoproductModal && (
+          <ProductRegistrationStepper 
+            product={editingMarketingProduct}
+            onSave={async (data) => {
+              try {
+                let saveError;
+                
+                const payload = {
+                  ...data,
+                  publish_to_social: data.publish_to_social ?? false,
+                  updated_at: new Date().toISOString()
+                };
 
-              if (editingMarketingProduct) {
-                const { error } = await supabase
-                  .from('marketing_products')
-                  .update(payload)
-                  .eq('id', editingMarketingProduct.id);
-                saveError = error;
-              } else {
-                const { error } = await supabase
-                  .from('marketing_products')
-                  .insert([payload]);
-                saveError = error;
-              }
-              
-              if (saveError) {
-                console.error("DB Insert Error:", saveError);
-                throw new Error(saveError.message);
-              }
-              
-              if (payload.publish_to_social) {
-                try {
-                  const config = await SEOAdminService.getSettings();
-                  if (config && config.social_webhook_url && config.social_webhook_url.trim() !== '') {
-                    const controller = new AbortController();
-                    const timeoutId = setTimeout(() => controller.abort(), 5000);
-                    
-                    await fetch(config.social_webhook_url, {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ 
-                        event: 'new_marketing_product', 
-                        product: { ...data, id: editingMarketingProduct?.id || 'new_post' } 
-                      }),
-                      signal: controller.signal
-                    });
-                    
-                    clearTimeout(timeoutId);
-                    showToast('Webhook Social Disparado!', 'success');
-                  }
-                } catch (webhookErr: any) {
-                  console.warn('Silent webhook failure (rede ou timeout):', webhookErr.message);
+                if (editingMarketingProduct) {
+                  const { error } = await supabase
+                    .from('marketing_products')
+                    .update(payload)
+                    .eq('id', editingMarketingProduct.id);
+                  saveError = error;
+                } else {
+                  const { error } = await supabase
+                    .from('marketing_products')
+                    .insert([payload]);
+                  saveError = error;
                 }
-              }
+                
+                if (saveError) {
+                  console.error("DB Insert Error:", saveError);
+                  throw new Error(saveError.message);
+                }
+                
 
+                setShowInfoproductModal(false);
+                setEditingMarketingProduct(null);
+                loadData();
+                showToast('Produto salvo com sucesso!', 'success');
+              } catch (error) {
+                console.error('Error saving marketing product:', getErrorMessage(error));
+                showToast(getErrorMessage(error), 'error');
+              }
+            }}
+            onClose={() => {
               setShowInfoproductModal(false);
               setEditingMarketingProduct(null);
-              loadData();
-              showToast('Produto salvo com sucesso!', 'success');
-            } catch (error) {
-              console.error('Error saving marketing product:', getErrorMessage(error));
-              showToast(getErrorMessage(error), 'error');
-            }
-          }}
+            }}
+          />
+        )}
+
+        <PortfolioModal
+          isOpen={showPortfolioModal}
           onClose={() => {
-            setShowInfoproductModal(false);
-            setEditingMarketingProduct(null);
+            setShowPortfolioModal(false);
+            setEditingPortfolio(null);
           }}
+          editingPortfolio={editingPortfolio}
+          portfolioForm={portfolioForm}
+          setPortfolioForm={setPortfolioForm}
+          handleSavePortfolio={handleSavePortfolio}
         />
-      )}
 
-      <PortfolioModal
-        isOpen={showPortfolioModal}
-        onClose={() => {
-          setShowPortfolioModal(false);
-          setEditingPortfolio(null);
-        }}
-        editingPortfolio={editingPortfolio}
-        portfolioForm={portfolioForm}
-        setPortfolioForm={setPortfolioForm}
-        handleSavePortfolio={handleSavePortfolio}
-      />
-
-      <ServiceModal
-        isOpen={showServiceModal}
-        onClose={() => {
-          setShowServiceModal(false);
-          setEditingService(null);
-        }}
-        editingService={editingService}
-        serviceForm={serviceForm}
-        setServiceForm={setServiceForm}
-        handleSaveService={handleSaveService}
-      />
-      <ReplyModal
-        isOpen={showReplyModal}
-        onClose={() => {
-          setShowReplyModal(false);
-          setSelectedMessage(null);
-          setIsMessageEdited(false);
-        }}
-        selectedMessage={selectedMessage}
-        replyForm={replyForm}
-        setReplyForm={setReplyForm}
-        setIsMessageEdited={setIsMessageEdited}
-        handleReplyWhatsApp={handleReplyWhatsApp}
-        handleReplyEmail={handleReplyEmail}
-      />
-      <ClientModal
-        isOpen={showClientModal}
-        onClose={() => {
-          setShowClientModal(false);
-          setEditingClient(null);
-        }}
-        editingClient={editingClient}
-        clientForm={clientForm}
-        setClientForm={setClientForm}
-        handleSaveClient={handleSaveClient}
-      />
-      <StepModal
-        isOpen={showStepModal}
-        onClose={() => setShowStepModal(false)}
-        selectedProject={selectedProjectForSteps}
-        projectSteps={projectSteps}
-        stepForm={stepForm}
-        setStepForm={setStepForm}
-        editingStep={editingStep}
-        setEditingStep={setEditingStep}
-        handleSaveStep={handleSaveStep}
-        handleDeleteStep={handleDeleteStep}
-      />
-      <ChatModal
-        isOpen={showChatModal}
-        onClose={() => setShowChatModal(false)}
-        selectedProject={selectedProjectForChat}
-        projectMessages={projectMessages}
-        newProjectMessage={newProjectMessage}
-        setNewProjectMessage={setNewProjectMessage}
-        handleSendProjectMessage={handleSendProjectMessage}
-        sendingProjectMessage={sendingProjectMessage}
-        user={user}
-      />
-      <ContractModal
-        isOpen={showContractModal}
-        onClose={() => setShowContractModal(false)}
-        selectedProject={selectedProjectForContract}
-        handleGenerateContract={handleGenerateContract}
-      />
-      {showAdminAuthModal && (
-        <AdminAuthModal 
-          onConfirm={() => handleSaveClient(true)}
-          onCancel={() => setShowAdminAuthModal(false)}
-          actionLabel="salvar alterações em dados sensíveis"
+        <ServiceModal
+          isOpen={showServiceModal}
+          onClose={() => {
+            setShowServiceModal(false);
+            setEditingService(null);
+          }}
+          editingService={editingService}
+          serviceForm={serviceForm}
+          setServiceForm={setServiceForm}
+          handleSaveService={handleSaveService}
         />
-      )}
-      
-      <BlogModal
-        isOpen={showBlogModal}
-        onClose={() => setShowBlogModal(false)}
-        editingBlogPost={editingBlogPost}
-        blogForm={blogForm}
-        setBlogForm={setBlogForm}
-        handleSaveBlogPost={handleSaveBlogPost}
-      />
+        <ReplyModal
+          isOpen={showReplyModal}
+          onClose={() => {
+            setShowReplyModal(false);
+            setSelectedMessage(null);
+            setIsMessageEdited(false);
+          }}
+          selectedMessage={selectedMessage}
+          replyForm={replyForm}
+          setReplyForm={setReplyForm}
+          setIsMessageEdited={setIsMessageEdited}
+          handleReplyWhatsApp={handleReplyWhatsApp}
+          handleReplyEmail={handleReplyEmail}
+        />
+        <ClientModal
+          isOpen={showClientModal}
+          onClose={() => {
+            setShowClientModal(false);
+            setEditingClient(null);
+          }}
+          editingClient={editingClient}
+          clientForm={clientForm}
+          setClientForm={setClientForm}
+          handleSaveClient={handleSaveClient}
+        />
+        <StepModal
+          isOpen={showStepModal}
+          onClose={() => setShowStepModal(false)}
+          selectedProject={selectedProjectForSteps}
+          projectSteps={projectSteps}
+          stepForm={stepForm}
+          setStepForm={setStepForm}
+          editingStep={editingStep}
+          setEditingStep={setEditingStep}
+          handleSaveStep={handleSaveStep}
+          handleDeleteStep={handleDeleteStep}
+        />
+        <ChatModal
+          isOpen={showChatModal}
+          onClose={() => setShowChatModal(false)}
+          selectedProject={selectedProjectForChat}
+          projectMessages={projectMessages}
+          newProjectMessage={newProjectMessage}
+          setNewProjectMessage={setNewProjectMessage}
+          handleSendProjectMessage={handleSendProjectMessage}
+          sendingProjectMessage={sendingProjectMessage}
+          user={user}
+        />
+        <ContractModal
+          isOpen={showContractModal}
+          onClose={() => setShowContractModal(false)}
+          selectedProject={selectedProjectForContract}
+          handleGenerateContract={handleGenerateContract}
+        />
+        {showAdminAuthModal && (
+          <AdminAuthModal 
+            onConfirm={() => handleSaveClient(true)}
+            onCancel={() => setShowAdminAuthModal(false)}
+            actionLabel="salvar alterações em dados sensíveis"
+          />
+        )}
+        
+        <BlogModal
+          isOpen={showBlogModal}
+          onClose={() => setShowBlogModal(false)}
+          editingBlogPost={editingBlogPost}
+          blogForm={blogForm}
+          setBlogForm={setBlogForm}
+          handleSaveBlogPost={handleSaveBlogPost}
+        />
 
-      <LogoModal
-        isOpen={showLogoModal}
-        onClose={() => setShowLogoModal(false)}
-        editingLogo={editingLogo}
-        logoForm={logoForm}
-        setLogoForm={setLogoForm}
-        handleSaveLogo={handleSaveLogo}
-      />
+        <LogoModal
+          isOpen={showLogoModal}
+          onClose={() => setShowLogoModal(false)}
+          editingLogo={editingLogo}
+          logoForm={logoForm}
+          setLogoForm={setLogoForm}
+          handleSaveLogo={handleSaveLogo}
+        />
+      </Suspense>
     </div>
   );
 }

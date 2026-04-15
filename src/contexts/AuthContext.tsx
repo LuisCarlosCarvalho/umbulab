@@ -56,12 +56,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
          setLoading(true);
       }
 
-      // 1. Set user immediately and release loading state early if we have optimistic cached profile
+      // 1. Definir usuário imediatamente
       setUser(sessionUser);
       
-      const hasOptimisticProfile = sessionUser && localStorage.getItem('__fsl_auth_profile') !== null;
-      if (hasOptimisticProfile && mounted) {
-        setLoading(false); // UI doesn't freeze, drops immediately
+      // Regra de Ouro Refinada: Liberamos o carregamento se:
+      // - Não houver usuário (Página Pública)
+      // - Houver usuário E perfil já carregado (Admin/Cliente pronto)
+      if (!sessionUser && mounted) {
+        setLoading(false);
+      } else if (sessionUser && profile && mounted) {
+        setLoading(false);
       }
 
       // 2. Refresh profile silently in background if we have a user
