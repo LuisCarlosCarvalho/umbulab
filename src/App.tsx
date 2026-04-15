@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { Navbar } from './components/Navbar';
@@ -86,7 +86,23 @@ function RequireAdmin({ children }: { children: JSX.Element }) {
 
 function Layout() {
   const { profile, user, reloadProfile } = useAuth();
+  const location = useLocation();
   
+  // Maintenance Mode Logic
+  const isDev = import.meta.env.DEV;
+  const isMaintenanceMode = true; // Turn this false when maintenance is over
+  const isExemptRoute = 
+    location.pathname.startsWith('/login') || 
+    location.pathname.startsWith('/admin') ||
+    location.pathname.startsWith('/dashboard') ||
+    location.pathname.startsWith('/approvals') ||
+    location.pathname.startsWith('/register');
+
+  // If maintenance is ON, we are NOT in dev environment, and the route is not an exempt admin/auth route
+  if (isMaintenanceMode && !isDev && !isExemptRoute) {
+    return <MaintenancePage />;
+  }
+
   return (
     <div className="flex flex-col min-h-screen">
       <Suspense fallback={null}>
@@ -104,16 +120,15 @@ function Layout() {
         <Suspense fallback={<PageLoader />}>
           <Routes>
           {/* Public Routes */}
-          {/* UNDER MAINTENANCE */}
-          <Route path="/" element={<MaintenancePage />} />
-          <Route path="/services" element={<MaintenancePage />} />
-          <Route path="/services/*" element={<MaintenancePage />} />
-          <Route path="/portfolio" element={<MaintenancePage />} />
-          <Route path="/contact" element={<MaintenancePage />} />
-          <Route path="/infoproducts" element={<MaintenancePage />} />
-          <Route path="/blog" element={<MaintenancePage />} />
-          <Route path="/blog/:slug" element={<MaintenancePage />} />
-          <Route path="/hub/analytics/cultura-data-driven-guia-definitivo" element={<MaintenancePage />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/services/*" element={<ServicesPage />} />
+          <Route path="/portfolio" element={<PortfolioPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/infoproducts" element={<InfoproductsPage />} />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/blog/:slug" element={<BlogPostPage />} />
+          <Route path="/hub/analytics/cultura-data-driven-guia-definitivo" element={<CulturaDataDriven />} />
           <Route path="/admin-setup" element={<AdminSetupPage />} />
 
           {/* Auth Routes */}
@@ -149,14 +164,14 @@ function Layout() {
           />
 
           {/* Public Template Demo Route */}
-          <Route path="/demo/:filename" element={<MaintenancePage />} />
-          <Route path="/portfolio/demo/:id" element={<MaintenancePage />} />
+          <Route path="/demo/:filename" element={<TemplateDemoPage />} />
+          <Route path="/portfolio/demo/:id" element={<VisualDemoPage />} />
 
           {/* Public Product Route (Must be last to avoid conflicts) */}
-          <Route path="/:public_code" element={<MaintenancePage />} />
+          <Route path="/:public_code" element={<ProductDetailsPage />} />
 
           {/* Fallback */}
-          <Route path="*" element={<MaintenancePage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>
     </main>
