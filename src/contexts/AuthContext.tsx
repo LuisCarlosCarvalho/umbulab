@@ -59,45 +59,34 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // 1. Definir usuário imediatamente
       setUser(sessionUser);
       
-      // Regra de Ouro Refinada: Liberamos o carregamento se:
-      // - Não houver usuário (Página Pública)
-      // - Houver usuário E perfil já carregado (Admin/Cliente pronto)
-      if (!sessionUser && mounted) {
-        setLoading(false);
-      } else if (sessionUser && profile && mounted) {
-        setLoading(false);
-      }
-
+      // Regra de Ouro: Liberamos o carregamento IMEDIATAMENTE após detectar o usuário/sessão.
+      // Não esperamos o Perfil ser buscado do banco para mostrar o site.
+      if (mounted) setLoading(false);
+      
       // 2. Refresh profile silently in background if we have a user
       if (sessionUser) {
-        try {
-          const { data, error } = await supabase
-            .from('profiles')
-            .select('*')
-            .eq('id', sessionUser.id)
-            .maybeSingle();
-            
-          if (error) throw error;
-          if (mounted) {
-            setProfile(data || null);
-            if (data) localStorage.setItem('__fsl_auth_profile', JSON.stringify(data));
-          }
-        } catch (err) {
-          console.error('[Auth Context] Profile load error:', err);
-          if (mounted) {
-            setProfile(null);
-            localStorage.removeItem('__fsl_auth_profile');
-          }
-        }
+        // Buscamos o perfil em background sem travar a UI
+        supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', sessionUser.id)
+          .maybeSingle()
+          .then(({ data, error }) => {
+            if (error) {
+               console.error('[Auth Context] Profile background load error:', error);
+               return;
+            }
+            if (mounted && data) {
+              setProfile(data);
+              localStorage.setItem('__fsl_auth_profile', JSON.stringify(data));
+            }
+          });
       } else {
         if (mounted) {
           setProfile(null);
           localStorage.removeItem('__fsl_auth_profile');
         }
       }
-
-      // 3. Finalize true loading state if not already dropped
-      if (mounted) setLoading(false);
     });
 
     return () => {

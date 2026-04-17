@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import { Link } from "../components/Link";
-import { Eye, AlertTriangle } from "lucide-react";
+import { Eye, AlertTriangle, ArrowRight } from "lucide-react";
 import { LazyImage } from "../components/ui/LazyImage";
 
 interface PortfolioItem {
@@ -27,6 +28,7 @@ const categories = [
 ];
 
 export function PortfolioPage() {
+  const navigate = useNavigate();
   const [portfolioItems, setPortfolioItems] = useState<PortfolioItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [errorStatus, setErrorStatus] = useState(false);
@@ -150,52 +152,44 @@ export function PortfolioPage() {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 mt-12 bg-gray-100 border border-gray-100 overflow-hidden rounded-[32px]">
             {filteredItems.map((item) => (
               <div
                 key={item.id}
-                className="group relative bg-white rounded-lg overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300"
+                className="group relative aspect-[4/5] overflow-hidden bg-gray-900 border-[0.5px] border-gray-200/10 cursor-pointer"
+                onClick={() => navigate(`/portfolio/${item.id}`)}
               >
-                <Link 
-                  href={`/portfolio/demo/${item.id}`}
-                  className="relative block aspect-[4/3] overflow-hidden bg-gray-100"
-                >
+                {/* Background Image */}
+                <div className="absolute inset-0 w-full h-full">
                   <LazyImage
                     src={item.image_url}
                     alt={item.title}
                     wrapperClassName="w-full h-full"
-                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-[1.5s] ease-out"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <p className="text-white text-sm px-6 text-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 font-medium">
+                </div>
+
+                {/* Dark Overlay on Hover */}
+                <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col items-center justify-center p-8 text-center backdrop-blur-sm">
+                  <div className="transform translate-y-10 group-hover:translate-y-0 transition-transform duration-500 delay-75">
+                    <span className="inline-block px-4 py-1.5 bg-blue-600/20 text-blue-400 text-[10px] font-black uppercase tracking-[0.2em] rounded-full border border-blue-500/20 mb-6">
+                      {item.category}
+                    </span>
+                    <h3 className="text-4xl font-black text-white leading-tight tracking-tighter mb-4">
+                      {item.title}
+                    </h3>
+                    <div className="h-0.5 w-12 bg-blue-600 mx-auto transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 delay-300" />
+                    <p className="mt-8 text-gray-400 text-sm font-medium leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-500 max-w-xs mx-auto">
                       {item.description}
                     </p>
                   </div>
-                </Link>
-                <div className="p-6">
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
-                      <h3 className="text-xl font-bold text-gray-900 mb-1">
-                        {item.title}
-                      </h3>
-                      <span className="inline-block px-3 py-1 bg-blue-50 text-blue-600 text-xs font-semibold rounded-full">
-                        {item.category}
-                      </span>
+
+                  {/* Icon indicator */}
+                  <div className="absolute bottom-12 opacity-0 group-hover:opacity-100 transition-all duration-700 delay-700 transform translate-y-4 group-hover:translate-y-0">
+                    <div className="flex items-center gap-3 text-white font-bold text-xs uppercase tracking-widest">
+                       Ver Projeto <ArrowRight size={16} className="text-blue-500" />
                     </div>
                   </div>
-                  
-                  <Link
-                    href={`/portfolio/demo/${item.id}`}
-                    className="block w-full text-center bg-gray-900 text-white py-3 rounded-lg font-bold hover:bg-blue-600 transition-all shadow-md active:transform active:scale-95"
-                    onClick={(e: React.MouseEvent) => {
-                      if (e) e.stopPropagation();
-                    }}
-                  >
-                    <div className="flex items-center justify-center gap-2">
-                      <Eye size={18} />
-                      Ver Demonstração
-                    </div>
-                  </Link>
                 </div>
               </div>
             ))}

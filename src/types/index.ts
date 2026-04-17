@@ -160,6 +160,15 @@ export type Portfolio = {
   project_url: string | null;
   description: string;
   is_active: boolean;
+  client_name?: string;
+  project_type?: string;
+  gallery_images?: string[];
+  challenge?: string;
+  solution?: string;
+  is_featured?: boolean;
+  laptop_image_url?: string;
+  tablet_image_url?: string;
+  mobile_image_url?: string;
   created_at: string;
 };
 

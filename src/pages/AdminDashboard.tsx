@@ -243,7 +243,16 @@ export function AdminDashboard() {
     image_url: '',
     project_url: '',
     description: '',
+    client_name: '',
+    project_type: '',
+    gallery_images: [] as string[],
+    challenge: '',
+    solution: '',
     is_active: true,
+    is_featured: false,
+    laptop_image_url: '',
+    tablet_image_url: '',
+    mobile_image_url: '',
   });
 
   const [serviceForm, setServiceForm] = useState<{
@@ -1135,17 +1144,23 @@ export function AdminDashboard() {
                         });
                         setShowClientModal(true);
                     }}
-                    onNewPost={() => {
-                      setEditingBlogPost(null);
-                      setBlogForm({
-                        title: '',
-                        slug: '',
-                        excerpt: '',
-                        content: '',
-                        featured_image_url: '',
-                        status: 'draft'
-                      });
-                      setShowBlogModal(true);
+                    onNewPortfolioItem={() => {
+                        setEditingPortfolio(null);
+                        setPortfolioForm({
+                          title: '',
+                          category: 'Design Gráfico',
+                          image_url: '',
+                          project_url: '',
+                          description: '',
+                          client_name: '',
+                          project_type: '',
+                          gallery_images: [],
+                          challenge: '',
+                          solution: '',
+                          is_active: true,
+                          is_featured: false,
+                        });
+                        setShowPortfolioModal(true);
                     }}
                     onViewMessages={() => setActiveTab('messages')}
                   />
@@ -1325,7 +1340,13 @@ export function AdminDashboard() {
                           image_url: '',
                           project_url: '',
                           description: '',
+                          client_name: '',
+                          project_type: '',
+                          gallery_images: [],
+                          challenge: '',
+                          solution: '',
                           is_active: true,
+                          is_featured: false,
                         });
                         setShowPortfolioModal(true);
                     }}
@@ -1337,7 +1358,16 @@ export function AdminDashboard() {
                           image_url: item.image_url,
                           project_url: item.project_url || '',
                           description: item.description,
+                          client_name: item.client_name || '',
+                          project_type: item.project_type || '',
+                          gallery_images: item.gallery_images || [],
+                          challenge: item.challenge || '',
+                          solution: item.solution || '',
                           is_active: item.is_active,
+                          is_featured: item.is_featured || false,
+                          laptop_image_url: item.laptop_image_url || '',
+                          tablet_image_url: item.tablet_image_url || '',
+                          mobile_image_url: item.mobile_image_url || '',
                         });
                         setShowPortfolioModal(true);
                     }}

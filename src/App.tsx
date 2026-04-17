@@ -25,6 +25,7 @@ const ApprovalsPage = lazy(() => import('./pages/ApprovalsPage'));
 const ProductDetailsPage = lazy(() => import('./pages/ProductDetailsPage').then(m => ({ default: m.ProductDetailsPage })));
 const TemplateDemoPage = lazy(() => import('./pages/TemplateDemoPage').then(m => ({ default: m.TemplateDemoPage })));
 const VisualDemoPage = lazy(() => import('./pages/VisualDemoPage').then(m => ({ default: m.VisualDemoPage })));
+const PortfolioDetailsPage = lazy(() => import('./pages/PortfolioDetailsPage').then(m => ({ default: m.PortfolioDetailsPage })));
 const CulturaDataDriven = lazy(() => import('./pages/hub/analytics/CulturaDataDriven'));
 const PasswordChangeModal = lazy(() => import('./components/auth/PasswordChangeModal').then(m => ({ default: m.PasswordChangeModal })));
 import { MaintenancePage } from './pages/MaintenancePage';
@@ -90,15 +91,16 @@ function Layout() {
   
   // Maintenance Mode Logic
   const isDev = import.meta.env.DEV;
-  const isMaintenanceMode = true; // Turn this false when maintenance is over
+  const isMaintenanceMode = true; // Set to false to disable maintenance
   const isExemptRoute = 
     location.pathname.startsWith('/login') || 
     location.pathname.startsWith('/admin') ||
     location.pathname.startsWith('/dashboard') ||
     location.pathname.startsWith('/approvals') ||
+    location.pathname.startsWith('/portfolio/') ||
     location.pathname.startsWith('/register');
 
-  // If maintenance is ON, we are NOT in dev environment, and the route is not an exempt admin/auth route
+  // Maintenance redirect: Skip for dev environment OR if route is exempt
   if (isMaintenanceMode && !isDev && !isExemptRoute) {
     return <MaintenancePage />;
   }
@@ -124,6 +126,8 @@ function Layout() {
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/services/*" element={<ServicesPage />} />
           <Route path="/portfolio" element={<PortfolioPage />} />
+          <Route path="/portfolio/:id" element={<PortfolioDetailsPage />} />
+          <Route path="/portfolio/demo/:id" element={<VisualDemoPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/infoproducts" element={<InfoproductsPage />} />
           <Route path="/blog" element={<BlogPage />} />

@@ -10,7 +10,7 @@ type OverviewTabProps = {
   loading: boolean;
   onNewProject: () => void;
   onNewClient: () => void;
-  onNewPost: () => void;
+  onNewPortfolioItem: () => void;
   onViewMessages: () => void;
 };
 
@@ -19,7 +19,7 @@ export function OverviewTab({
   loading,
   onNewProject,
   onNewClient,
-  onNewPost,
+  onNewPortfolioItem,
   onViewMessages
 }: OverviewTabProps) {
   const cards = [
@@ -108,11 +108,11 @@ export function OverviewTab({
               <span className="text-sm font-medium">Novo Cliente</span>
             </button>
             <button 
-              onClick={onNewPost}
+              onClick={onNewPortfolioItem}
               className="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-xl hover:bg-purple-50 hover:text-purple-600 transition-colors group"
             >
               <FileText size={24} className="mb-2 text-gray-400 group-hover:text-purple-600" />
-              <span className="text-sm font-medium">Postar Blog</span>
+              <span className="text-sm font-medium">Add Portfólio</span>
             </button>
             <button 
               onClick={onViewMessages}

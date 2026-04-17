@@ -12,78 +12,58 @@ export function BlogPage() {
 
   useEffect(() => {
     async function loadAllPosts() {
-      console.log(`[Blog] DEBUG: Iniciando fetch de blog... VITE_SUPABASE_URL ativo:`, !!import.meta.env.VITE_SUPABASE_URL);
+      // Reduzi o timeout para 10s para não deixar o usuário esperando 30s
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000);
+
       try {
-        const { data } = await supabase
+        const { data, error } = await supabase
           .from('blog_posts')
           .select('*')
           .eq('status', 'published')
           .order('published_at', { ascending: false });
-        console.log(`[Blog] DEBUG: Fetch concluído com sucesso. Artigos recebidos:`, data?.length);
+
+        if (error) throw error;
+
         setPosts(data || []);
       } catch (error) {
-        console.error('[Blog] DEBUG ERROR loading blog posts:', error);
+        console.error('[Blog] Erro ao carregar posts:', error);
         setErrorStatus(true);
-        await supabase.auth.signOut();
       } finally {
+        clearTimeout(timeoutId);
         setLoading(false);
       }
     }
+
     loadAllPosts();
     window.scrollTo(0, 0);
-
-    const timeout = setTimeout(() => {
-      setLoading((currentLoading) => {
-        if (currentLoading) {
-          console.warn('[Blog] Aviso: Timeout de 30s da UI atingido (banco muito lento).');
-          setErrorStatus(true);
-          return false;
-        }
-        return currentLoading;
-      });
-    }, 30000);
-
-    return () => clearTimeout(timeout);
   }, []);
 
+  // Tela de Erro (Fail-safe)
   if (errorStatus) {
     return (
-      <div className="pt-32 pb-24 min-h-screen bg-gray-50 flex flex-col justify-center">
-        <div className="max-w-2xl mx-auto px-4 text-center">
-          <div className="bg-red-50/50 rounded-3xl border border-red-100 p-12 shadow-sm">
-            <AlertTriangle className="mx-auto text-red-500 mb-6" size={56} />
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">Erro de Conexão</h3>
-            <p className="text-gray-600 font-medium text-lg leading-relaxed">
-              O banco de dados não respondeu no tempo esperado. Seu cache de sessão de segurança foi limpo automaticamente para resolver falhas de estado da Vercel.
-            </p>
-            <button 
-              onClick={() => window.location.reload()}
-              className="mt-8 inline-flex items-center gap-2 bg-red-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-red-700 transition-colors"
-            >
-              Atualizar Página
-            </button>
-          </div>
-        </div>
+      <div className="pt-32 pb-24 min-h-screen bg-gray-50 flex flex-col justify-center text-center px-4">
+        <AlertTriangle className="mx-auto text-red-500 mb-6" size={56} />
+        <h3 className="text-2xl font-bold text-gray-900 mb-2">Ops! Algo deu errado.</h3>
+        <p className="text-gray-600 mb-8">Não conseguimos conectar ao servidor. Verifique sua internet.</p>
+        <button 
+          onClick={() => window.location.reload()}
+          className="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition-all mx-auto"
+        >
+          Tentar Novamente
+        </button>
       </div>
     );
   }
 
+  // Skeletons de Carregamento
   if (loading) {
     return (
-      <div className="pt-32 pb-24 min-h-screen bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {[...Array(6)].map((_, i) => (
-              <div key={i} className="bg-white rounded-[32px] overflow-hidden border border-gray-100 animate-pulse">
-                <div className="aspect-[16/10] bg-gray-200" />
-                <div className="p-8 space-y-4">
-                  <div className="h-4 bg-gray-200 rounded w-1/4" />
-                  <div className="h-8 bg-gray-200 rounded w-3/4" />
-                  <div className="h-20 bg-gray-100 rounded w-full" />
-                </div>
-              </div>
-            ))}
-          </div>
+      <div className="pt-32 pb-24 min-h-screen bg-gray-50 px-4">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
+          {[...Array(6)].map((_, i) => (
+            <div key={i} className="bg-white rounded-[32px] h-96 animate-pulse border border-gray-100" />
+          ))}
         </div>
       </div>
     );
@@ -92,63 +72,47 @@ export function BlogPage() {
   return (
     <div className="pt-32 pb-24 bg-gray-50 min-h-screen">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="mb-16 text-center">
+        <header className="mb-16 text-center">
           <h1 className="text-5xl font-black text-gray-900 mb-6 tracking-tight">
             Nosso <span className="text-blue-600">Blog</span>
           </h1>
-          <p className="text-xl text-gray-500 mx-auto">
-            Explorações profundas sobre o mundo digital, tecnologia e o futuro da inovação.
+          <p className="text-xl text-gray-500 max-w-2xl mx-auto">
+            Insights sobre tecnologia, design e performance digital.
           </p>
-        </div>
+        </header>
 
         {posts.length === 0 ? (
           <div className="text-center py-20 bg-white rounded-3xl border border-gray-100 shadow-sm">
-            <p className="text-gray-400 font-medium">Nenhum artigo publicado ainda. Volte em breve!</p>
-            <button 
-              onClick={() => navigate('/')}
-              className="mt-6 flex items-center gap-2 mx-auto text-blue-600 font-bold hover:underline"
-            >
-              <ChevronLeft size={20} />
-              Voltar para Home
-            </button>
+            <p className="text-gray-400 font-medium">Nenhum artigo disponível no momento.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             {posts.map((post) => (
               <article 
                 key={post.id} 
-                className="group bg-white rounded-[32px] overflow-hidden border border-gray-100 hover:border-blue-100 hover:shadow-2xl hover:shadow-blue-50/50 transition-all duration-500 cursor-pointer flex flex-col"
+                className="group bg-white rounded-[32px] overflow-hidden border border-gray-100 hover:shadow-2xl transition-all duration-500 cursor-pointer flex flex-col"
                 onClick={() => navigate(`/blog/${post.slug}`)}
               >
-                <div className="aspect-[16/10] overflow-hidden relative">
+                <div className="aspect-[16/10] overflow-hidden">
                   <img 
                     src={post.featured_image_url} 
                     alt={post.title} 
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
                 </div>
-                
                 <div className="p-8 flex flex-col flex-1">
-                  <div className="flex items-center gap-2 text-blue-600 text-xs font-black uppercase tracking-widest mb-4">
+                  <div className="flex items-center gap-2 text-blue-600 text-xs font-bold uppercase mb-4">
                     <Calendar size={14} />
-                    {new Date(post.published_at).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })}
+                    {new Date(post.published_at).toLocaleDateString('pt-BR')}
                   </div>
-                  
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors leading-tight">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors">
                     {post.title}
                   </h2>
-                  
-                  <p className="text-gray-500 text-sm mb-6 line-clamp-3 leading-relaxed">
+                  <p className="text-gray-500 text-sm line-clamp-3 mb-6">
                     {post.excerpt}
                   </p>
-                  
-                  <div className="mt-auto pt-6 border-t border-gray-50 flex items-center justify-between">
-                    <span className="text-sm font-bold text-gray-900 group-hover:gap-2 transition-all flex items-center gap-1">
-                      Ler Artigo completo
-                      <ArrowRight size={16} className="text-blue-600" />
-                    </span>
+                  <div className="mt-auto pt-4 flex items-center gap-2 font-bold text-gray-900">
+                    Ler artigo <ArrowRight size={16} className="text-blue-600" />
                   </div>
                 </div>
               </article>
