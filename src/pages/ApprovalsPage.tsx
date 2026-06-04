@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { Check, X, Loader2, User, Key, MessageCircle, Mail, ExternalLink, RefreshCw, Trash2 } from 'lucide-react';
+import { showToast } from '../components/ui/Toast';
 
 interface ApprovalRequest {
   id: string;
@@ -20,8 +21,6 @@ interface PasswordResetRequest {
   token: string;
 }
 
-import { showToast } from '../components/ui/Toast';
-
 export default function ApprovalsPage() {
   const [activeTab, setActiveTab] = useState<'users' | 'passwords'>('users');
   const [userRequests, setUserRequests] = useState<ApprovalRequest[]>([]);
@@ -33,7 +32,7 @@ export default function ApprovalsPage() {
   useEffect(() => {
     loadAllData();
 
-    // Inscrição Realtime
+    // Realtime subscription
     const usersChannel = supabase
       .channel('user_approvals_changes')
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'user_approvals' }, () => {
@@ -119,7 +118,6 @@ export default function ApprovalsPage() {
 
       if (action === 'approve') {
         setTempPasswords(prev => ({ ...prev, [requestId]: result.tempPassword }));
-        // Não removemos da lista imediatamente para que o admin possa copiar/enviar a senha
         setPasswordRequests(prev => prev.map(r => r.id === requestId ? { ...r, status: 'approved' } : r));
       } else {
         setPasswordRequests(prev => prev.filter(r => r.id !== requestId));
@@ -138,7 +136,7 @@ export default function ApprovalsPage() {
     const password = tempPasswords[request.id];
     if (!password) return;
     
-    const message = encodeURIComponent(`Olá! Sua solicitação de recuperação de senha na FSL Solution foi aprovada.\n\nSua senha temporária é: *${password}*\n\nRecomendamos alterá-la logo após o login.`);
+    const message = encodeURIComponent(`Olá! Sua solicitação de recuperação de senha na UmbuLab foi aprovada.\n\nSua senha temporária é: *${password}*\n\nRecomendamos alterá-la logo após o login.`);
     window.open(`https://wa.me/?text=${message}`, '_blank');
   };
 
@@ -151,7 +149,7 @@ export default function ApprovalsPage() {
         </div>
         <button 
           onClick={() => loadAllData()}
-          className="p-2 text-blue-600 hover:bg-blue-50 rounded-full transition-colors"
+          className="p-2 text-green-700 hover:bg-green-50 rounded-full transition-colors"
           title="Recarregar dados"
         >
           <RefreshCw size={24} className={loading ? 'animate-spin' : ''} />
@@ -162,14 +160,14 @@ export default function ApprovalsPage() {
         <button
           onClick={() => setActiveTab('users')}
           className={`pb-4 px-4 font-semibold transition-colors relative ${
-            activeTab === 'users' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-gray-700'
+            activeTab === 'users' ? 'text-green-700 border-b-2 border-green-700' : 'text-gray-500 hover:text-gray-700'
           }`}
         >
           <div className="flex items-center gap-2">
             <User size={20} />
             Aprovações de Cadastro
             {userRequests.length > 0 && (
-              <span className="bg-blue-100 text-blue-600 py-0.5 px-2 rounded-full text-xs">
+              <span className="bg-green-100 text-green-700 py-0.5 px-2 rounded-full text-xs">
                 {userRequests.length}
               </span>
             )}
@@ -178,7 +176,7 @@ export default function ApprovalsPage() {
         <button
           onClick={() => setActiveTab('passwords')}
           className={`pb-4 px-4 font-semibold transition-colors relative ${
-            activeTab === 'passwords' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-gray-700'
+            activeTab === 'passwords' ? 'text-green-700 border-b-2 border-green-700' : 'text-gray-500 hover:text-gray-700'
           }`}
         >
           <div className="flex items-center gap-2">
@@ -196,7 +194,7 @@ export default function ApprovalsPage() {
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20">
-            <Loader2 className="animate-spin h-10 w-10 text-blue-600 mb-4" />
+            <Loader2 className="animate-spin h-10 w-10 text-green-700 mb-4" />
             <p className="text-gray-500 animate-pulse">Carregando solicitações...</p>
           </div>
         ) : activeTab === 'users' ? (
@@ -242,7 +240,7 @@ export default function ApprovalsPage() {
                       </td>
                       <td className="px-6 py-4 text-right">
                         {actionLoading === request.id ? (
-                          <Loader2 className="animate-spin h-5 w-5 ml-auto text-blue-600" />
+                          <Loader2 className="animate-spin h-5 w-5 ml-auto text-green-700" />
                         ) : (
                           <div className="flex justify-end gap-2">
                             <button onClick={() => handleUserDecision(request.id, 'approve')} className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors border border-green-100" title="Aprovar">
@@ -277,7 +275,7 @@ export default function ApprovalsPage() {
                 {passwordRequests.length === 0 ? (
                   <tr>
                     <td colSpan={5} className="py-20 text-center">
-                       <Key className="h-12 w-12 text-blue-100 mx-auto mb-4" />
+                       <Key className="h-12 w-12 text-green-100 mx-auto mb-4" />
                        <h3 className="text-lg font-medium text-gray-900">Nenhum pedido de senha</h3>
                        <p className="text-gray-500">Não há solicitações de recuperação de senha pendentes.</p>
                     </td>
@@ -303,12 +301,12 @@ export default function ApprovalsPage() {
                       <td className="px-6 py-4 whitespace-nowrap">
                         {tempPasswords[request.id] ? (
                           <div className="flex items-center gap-2">
-                             <code className="bg-blue-50 text-blue-700 font-bold px-2 py-1 rounded select-all">
+                             <code className="bg-green-50 text-green-700 font-bold px-2 py-1 rounded select-all">
                                 {tempPasswords[request.id]}
                              </code>
                              <button
                                onClick={() => navigator.clipboard.writeText(tempPasswords[request.id])}
-                               className="p-1 text-blue-400 hover:text-blue-600"
+                               className="p-1 text-green-500 hover:text-green-700"
                                title="Copiar senha"
                              >
                                 <ExternalLink size={14} />
@@ -320,14 +318,14 @@ export default function ApprovalsPage() {
                       </td>
                       <td className="px-6 py-4 text-right">
                         {actionLoading === request.id ? (
-                          <Loader2 className="animate-spin h-5 w-5 ml-auto text-blue-600" />
+                          <Loader2 className="animate-spin h-5 w-5 ml-auto text-green-700" />
                         ) : (
                           <div className="flex justify-end gap-2">
                             {request.status === 'pending' ? (
                               <>
                                 <button 
                                   onClick={() => handlePasswordAction(request.id, 'approve')} 
-                                  className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors border border-blue-100" 
+                                  className="p-2 text-green-700 hover:bg-green-50 rounded-lg transition-colors border border-green-100" 
                                   title="Aprovar e Gerar Senha"
                                 >
                                   <Key size={18} />
@@ -353,9 +351,9 @@ export default function ApprovalsPage() {
                                 <button 
                                   onClick={() => {
                                     const body = encodeURIComponent(`Sua nova senha é: ${tempPasswords[request.id]}`);
-                                    window.location.href = `mailto:${request.email}?subject=Recuperação de Senha - FSL Solution&body=${body}`;
+                                    window.location.href = `mailto:${request.email}?subject=Recuperação de Senha - UmbuLab&body=${body}`;
                                   }}
-                                  className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors border border-blue-100"
+                                  className="p-2 text-green-700 hover:bg-green-50 rounded-lg transition-colors border border-green-100"
                                   title="Enviar via E-mail"
                                 >
                                   <Mail size={18} />

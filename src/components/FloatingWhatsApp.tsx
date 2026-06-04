@@ -5,7 +5,7 @@ export function FloatingWhatsApp() {
   const [isVisible, setIsVisible] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const whatsappNumber = '351928485483';
-  const defaultMessage = encodeURIComponent('Olá FSL, vim pelo site e gostaria de conversar sobre um projeto!');
+  const defaultMessage = encodeURIComponent('Olá UmbuLab, vim pelo site e gostaria de conversar sobre um projeto!');
 
   // Mostra o botão após um pequeno delay para não atrapalhar o FCP (First Contentful Paint)
   useEffect(() => {

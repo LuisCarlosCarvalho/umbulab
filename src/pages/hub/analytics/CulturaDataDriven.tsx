@@ -26,52 +26,52 @@ const CulturaDataDriven = () => {
       <Helmet>
         <title>Cultura Data-Driven: Guia Definitivo para Decisões (2026)</title>
         <meta name="description" content="Aprenda a implementar uma cultura data-driven real. De infraestrutura (ETL, Data Warehouse) à otimização do ROI de marketing baseado em dados em 2026." />
-        <link rel="canonical" href="https://fslsolution.com/hub/analytics/cultura-data-driven-guia-definitivo" />
+        <link rel="canonical" href="https://umbulab.com/hub/analytics/cultura-data-driven-guia-definitivo" />
         
         {/* Open Graph Tags */}
         <meta property="og:type" content="article" />
         <meta property="og:title" content="Cultura Data-Driven: Guia Definitivo para Decisões (2026)" />
         <meta property="og:description" content="Aprenda a implementar uma cultura data-driven real. De infraestrutura (ETL, Data Warehouse) à otimização do ROI de marketing baseado em dados em 2026." />
-        <meta property="og:image" content="https://fslsolution.com/images/hero-data-driven.webp" />
-        <meta property="og:url" content="https://fslsolution.com/hub/analytics/cultura-data-driven-guia-definitivo" />
+        <meta property="og:image" content="https://umbulab.com/images/hero-data-driven.webp" />
+        <meta property="og:url" content="https://umbulab.com/hub/analytics/cultura-data-driven-guia-definitivo" />
         
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Cultura Data-Driven: Guia Definitivo" />
         <meta name="twitter:description" content="De infraestrutura à otimização do ROI de marketing baseado em dados." />
-        <meta name="twitter:image" content="https://fslsolution.com/images/hero-data-driven.webp" />
+        <meta name="twitter:image" content="https://umbulab.com/images/hero-data-driven.webp" />
 
         {/* JSON-LD Schema: TechArticle */}
         <script type="application/ld+json">
           {`
             {
-              "@context": "https://schema.org",
-              "@type": "TechArticle",
-              "mainEntityOfPage": {
-                "@type": "WebPage",
-                "@id": "https://fslsolution.com/hub/analytics/cultura-data-driven-guia-definitivo"
-              },
-              "headline": "Cultura Data-Driven: Guia Definitivo para Decisões (2026)",
-              "image": [
-                "https://fslsolution.com/images/hero-data-driven.webp"
-              ],
-              "datePublished": "2026-03-15T08:00:00-03:00",
-              "dateModified": "2026-03-15T08:00:00-03:00",
-              "author": {
-                "@type": "Organization",
-                "name": "FSL Solution",
-                "url": "https://fslsolution.com/"
-              },
-              "publisher": {
-                "@type": "Organization",
-                "name": "FSL Solution",
-                "logo": {
-                  "@type": "ImageObject",
-                  "url": "https://fslsolution.com/logo.png"
-                }
-              },
-              "keywords": "Data Analytics, Business Intelligence, Data Warehouse, ETL, Engenharia de Dados, GA4 Server-side",
-              "description": "Aprenda a implementar uma cultura data-driven real. De infraestrutura (ETL, Data Warehouse) à otimização do ROI de marketing baseado em dados em 2026."
+               "@context": "https://schema.org",
+               "@type": "TechArticle",
+               "mainEntityOfPage": {
+                 "@type": "WebPage",
+                 "@id": "https://umbulab.com/hub/analytics/cultura-data-driven-guia-definitivo"
+               },
+               "headline": "Cultura Data-Driven: Guia Definitivo para Decisões (2026)",
+               "image": [
+                 "https://umbulab.com/images/hero-data-driven.webp"
+               ],
+               "datePublished": "2026-03-15T08:00:00-03:00",
+               "dateModified": "2026-03-15T08:00:00-03:00",
+               "author": {
+                 "@type": "Organization",
+                 "name": "UmbuLab",
+                 "url": "https://umbulab.com/"
+               },
+               "publisher": {
+                 "@type": "Organization",
+                 "name": "UmbuLab",
+                 "logo": {
+                   "@type": "ImageObject",
+                   "url": "https://umbulab.com/logo.png"
+                 }
+               },
+               "keywords": "Data Analytics, Business Intelligence, Data Warehouse, ETL, Engenharia de Dados, GA4 Server-side",
+               "description": "Aprenda a implementar uma cultura data-driven real. De infraestrutura (ETL, Data Warehouse) à otimização do ROI de marketing baseado em dados em 2026."
             }
           `}
         </script>
@@ -82,7 +82,7 @@ const CulturaDataDriven = () => {
           Cultura Data-Driven: O Guia Definitivo para Decisões Inteligentes em 2026
         </h1>
         <p className="text-xl md:text-2xl text-slate-600 font-medium leading-relaxed">
-          Vivemos na era onde a intuição corporativa foi substituída pelo determinismo estatístico. Adotar uma <strong className="text-blue-600">cultura data-driven</strong> deixou de ser um diferencial competitivo para se tornar o alicerce da sobrevivência de empresas B2B e B2C de alta performance.
+          Vivemos na era onde a intuição corporativa foi substituída pelo determinismo estatístico. Adotar uma <strong className="text-green-600">cultura data-driven</strong> deixou de ser um diferencial competitivo para se tornar o alicerce da sobrevivência de empresas B2B e B2C de alta performance.
         </p>
       </header>
 
@@ -105,7 +105,7 @@ const CulturaDataDriven = () => {
           No entanto, o termo foi banalizado. Ver um relatório semanal no Google Analytics não torna uma operação <em>data-driven</em>. A verdadeira inteligência de negócios exige maturidade arquitetural e um fluxo onde a coleta de dados brutos passa por rigorosos processos de limpeza e higienização antes de orientar ações executivas.
         </p>
 
-        <div className="callout-box bg-blue-50 border-l-4 border-blue-600 p-6 rounded-r-2xl my-8">
+        <div className="callout-box bg-green-50 border-l-4 border-green-600 p-6 rounded-r-2xl my-8">
           <h3 className="text-xl font-bold text-slate-900 mb-3">Engenharia de Dados vs. Analytics: A Base do Iceberg</h3>
           <p className="mb-4">Para gestores C-Level, o resultado esperado é um dashboard intuitivo (Analytics e BI). Mas antes que um gráfico de dispersão mostre a correlação de vendas, existe o trabalho pesado da Engenharia de Dados estruturando o subsolo tecnológico.</p>
           <ul className="list-disc pl-5 space-y-2">
@@ -134,7 +134,7 @@ const CulturaDataDriven = () => {
 
         <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mt-12 mb-6">Data-Driven aplicado ao Marketing e Vendas</h2>
         <p>
-          A integração do universo do BI com o orçamento comercial e a publicidade programática é o santo graal das corporações tracionadas pela <strong className="text-blue-600">FSL Solution</strong>. O objetivo é transformar custos operacionais em máquinas mensuráveis de aquisição de clientes.
+          A integração do universo do BI com o orçamento comercial e a publicidade programática é o santo graal das corporações tracionadas pela <strong className="text-green-600">UmbuLab</strong>. O objetivo é transformar custos operacionais em máquinas mensuráveis de aquisição de clientes.
         </p>
 
         <h3 className="text-2xl font-bold text-slate-800 mt-8 mb-4">Calculando o Verdadeiro ROI de Marketing</h3>
@@ -174,7 +174,7 @@ const CulturaDataDriven = () => {
           <p className="text-slate-300 text-xl font-medium mb-8">
             A infraestrutura ideal entre Big Data, BI e Taggeamento precisa de direcionamento cirúrgico para fugir dos passivos da má configuração de mercado. Pronto para parar de adivinhar onde investir?
           </p>
-          <Link onClick={handleCTAClick} to="/solucoes/data-analytics-BI" className="premium-button bg-blue-600 text-white hover:bg-blue-500 w-full sm:w-auto text-lg py-4 px-10">
+          <Link onClick={handleCTAClick} to="/solucoes/data-analytics-BI" className="premium-button bg-green-600 text-white hover:bg-green-700 w-full sm:w-auto text-lg py-4 px-10">
             Conheça as Soluções de Data Analytics
           </Link>
         </div>

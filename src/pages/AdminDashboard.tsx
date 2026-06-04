@@ -697,7 +697,7 @@ export function AdminDashboard() {
       if (contactMethod === 'whatsapp') {
         msg = `Olá, ${name}! Obrigado pelo contato. Sobre o serviço de ${service}, o valor inicial é R$ ${val}. Fico à disposição para qualquer dúvida.`;
       } else {
-        msg = `Olá, ${name},\n\nAgradecemos o seu contato. Referente ao serviço de ${service}, o valor inicial é R$ ${val}, podendo variar conforme a necessidade do projeto.\n\nFicamos à disposição para esclarecimentos.\n\nAtenciosamente,\nFSL Solution`;
+        msg = `Olá, ${name},\n\nAgradecemos o seu contato. Referente ao serviço de ${service}, o valor inicial é R$ ${val}, podendo variar conforme a necessidade do projeto.\n\nFicamos à disposição para esclarecimentos.\n\nAtenciosamente,\nUmbuLab`;
       }
       
       if (replyForm.observations) {

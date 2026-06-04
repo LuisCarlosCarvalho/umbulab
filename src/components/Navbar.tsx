@@ -2,6 +2,7 @@ import { Link } from './Link';
 import { useAuth } from '../contexts/AuthContext';
 import { Menu, X, LogOut, LayoutDashboard } from 'lucide-react';
 import { useState } from 'react';
+import { Logo } from './Logo';
 
 export function Navbar() {
   const { user, profile, signOut } = useAuth();
@@ -9,31 +10,27 @@ export function Navbar() {
 
   return (
     <nav className="fixed w-full top-0 z-[9999] px-4 pt-4 pointer-events-none">
-      <div className="max-w-7xl mx-auto glass-card border-white/20 px-6 py-3 pointer-events-auto">
+      <div className="max-w-7xl mx-auto glass-card border-white/10 bg-[#121212]/80 backdrop-blur-xl px-6 py-3 pointer-events-auto">
         <div className="flex justify-between h-12">
           <div className="flex items-center">
-            <Link href="/" className="flex items-center gap-2 sm:gap-3">
-              <img src="/logo.png" alt="FSL Solution" className="h-8 w-8 sm:h-10 sm:w-10" loading="lazy" onError={(e) => { e.currentTarget.src = '/logo.png'; e.currentTarget.onerror = null; }} />
-              <div className="flex flex-col sm:flex-row sm:items-baseline sm:gap-2">
-                <span className="text-lg sm:text-2xl font-bold text-gray-900 leading-tight">FSL Solution</span>
-                <span className="text-[10px] sm:text-sm font-medium text-blue-600 uppercase tracking-wider -mt-1 sm:mt-0">Digital</span>
-              </div>
+            <Link href="/" className="flex items-center">
+              <Logo showText={true} iconSize={46} variant="dark" />
             </Link>
           </div>
 
           <div className="hidden md:flex items-center space-x-8">
-            <Link href="/" className="text-gray-700 hover:text-gray-900">Inicio</Link>
-            <Link href="/services" className="text-gray-700 hover:text-gray-900">Serviços</Link>
-            <Link href="/portfolio" className="text-gray-700 hover:text-gray-900">Portfolio</Link>
-            <Link href="/blog" className="text-gray-700 hover:text-gray-900">Blog</Link>
-            <Link href="/infoproducts" className="text-gray-700 hover:text-gray-900">SEO de Gestão</Link>
-            <Link href="/contact" className="text-gray-700 hover:text-gray-900">Contato</Link>
+            <Link href="/" className="text-neutral-300 hover:text-green-400 transition-colors font-medium text-sm">Inicio</Link>
+            <Link href="/services" className="text-neutral-300 hover:text-green-400 transition-colors font-medium text-sm">Serviços</Link>
+            <Link href="/portfolio" className="text-neutral-300 hover:text-green-400 transition-colors font-medium text-sm">Portfolio</Link>
+            <Link href="/blog" className="text-neutral-300 hover:text-green-400 transition-colors font-medium text-sm">Blog</Link>
+            <Link href="/infoproducts" className="text-neutral-300 hover:text-green-400 transition-colors font-medium text-sm">SEO de Gestão</Link>
+            <Link href="/contact" className="text-neutral-300 hover:text-green-400 transition-colors font-medium text-sm">Contato</Link>
 
             {user ? (
               <>
                 <Link
                   href={profile?.role === 'admin' ? '/admin' : '/dashboard'}
-                  className="text-gray-700 hover:text-gray-900 flex items-center gap-2"
+                  className="text-neutral-300 hover:text-green-400 transition-colors font-medium text-sm flex items-center gap-2"
                 >
                   <LayoutDashboard size={18} />
                   Dashboard
@@ -48,7 +45,7 @@ export function Navbar() {
                       window.location.href = '/login';
                     }
                   }}
-                  className="flex items-center gap-2 text-gray-700 hover:text-gray-900"
+                  className="flex items-center gap-2 text-neutral-300 hover:text-green-400 transition-colors font-medium text-sm"
                 >
                   <LogOut size={18} />
                   Sair
@@ -56,7 +53,7 @@ export function Navbar() {
               </>
             ) : (
               <>
-                <Link href="/login" className="text-gray-700 hover:text-gray-900">Login</Link>
+                <Link href="/login" className="text-neutral-300 hover:text-green-400 transition-colors font-medium text-sm">Login</Link>
               </>
             )}
           </div>
@@ -64,7 +61,7 @@ export function Navbar() {
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="text-gray-700"
+              className="text-neutral-300 hover:text-white transition-colors"
             >
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -74,32 +71,32 @@ export function Navbar() {
 
       {mobileMenuOpen && (
         <div className="absolute top-full left-4 right-4 mt-2 md:hidden pointer-events-auto animate-in fade-in zoom-in-95 duration-200 z-[9999]">
-          <div className="glass-card bg-white/90 backdrop-blur-xl border-white/40 shadow-2xl p-4 space-y-1">
-            <Link href="/" className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-all font-bold" onClick={() => setMobileMenuOpen(false)}>
+          <div className="glass-card bg-neutral-900/95 backdrop-blur-xl border-white/10 shadow-2xl p-4 space-y-1">
+            <Link href="/" className="flex items-center gap-3 px-4 py-3 text-neutral-200 hover:bg-white/5 hover:text-green-400 rounded-xl transition-all font-bold" onClick={() => setMobileMenuOpen(false)}>
               Inicio
             </Link>
-            <Link href="/services" className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-all font-bold" onClick={() => setMobileMenuOpen(false)}>
+            <Link href="/services" className="flex items-center gap-3 px-4 py-3 text-neutral-200 hover:bg-white/5 hover:text-green-400 rounded-xl transition-all font-bold" onClick={() => setMobileMenuOpen(false)}>
               Serviços
             </Link>
-            <Link href="/portfolio" className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-all font-bold" onClick={() => setMobileMenuOpen(false)}>
+            <Link href="/portfolio" className="flex items-center gap-3 px-4 py-3 text-neutral-200 hover:bg-white/5 hover:text-green-400 rounded-xl transition-all font-bold" onClick={() => setMobileMenuOpen(false)}>
               Portfolio
             </Link>
-            <Link href="/blog" className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-all font-bold" onClick={() => setMobileMenuOpen(false)}>
+            <Link href="/blog" className="flex items-center gap-3 px-4 py-3 text-neutral-200 hover:bg-white/5 hover:text-green-400 rounded-xl transition-all font-bold" onClick={() => setMobileMenuOpen(false)}>
               Blog
             </Link>
-            <Link href="/infoproducts" className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-all font-bold" onClick={() => setMobileMenuOpen(false)}>
+            <Link href="/infoproducts" className="flex items-center gap-3 px-4 py-3 text-neutral-200 hover:bg-white/5 hover:text-green-400 rounded-xl transition-all font-bold" onClick={() => setMobileMenuOpen(false)}>
               SEO de Gestão
             </Link>
-            <Link href="/contact" className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-all font-bold" onClick={() => setMobileMenuOpen(false)}>
+            <Link href="/contact" className="flex items-center gap-3 px-4 py-3 text-neutral-200 hover:bg-white/5 hover:text-green-400 rounded-xl transition-all font-bold" onClick={() => setMobileMenuOpen(false)}>
               Contato
             </Link>
 
-            <div className="pt-4 mt-4 border-t border-gray-100 space-y-1">
+            <div className="pt-4 mt-4 border-t border-white/5 space-y-1">
               {user ? (
                 <>
                   <Link
                     href={profile?.role === 'admin' ? '/admin' : '/dashboard'}
-                    className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-all font-bold"
+                    className="flex items-center gap-3 px-4 py-3 text-neutral-200 hover:bg-white/5 hover:text-green-400 rounded-xl transition-all font-bold"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     <LayoutDashboard size={18} />
@@ -115,7 +112,7 @@ export function Navbar() {
                         window.location.href = '/login';
                       }
                     }}
-                    className="flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-xl transition-all font-bold w-full text-left"
+                    className="flex items-center gap-3 px-4 py-3 text-red-400 hover:bg-red-500/10 rounded-xl transition-all font-bold w-full text-left"
                   >
                     <LogOut size={18} />
                     Sair
@@ -124,7 +121,7 @@ export function Navbar() {
               ) : (
                 <Link 
                   href="/login" 
-                  className="flex items-center gap-3 px-4 py-3 bg-blue-600 text-white rounded-xl transition-all font-bold justify-center" 
+                  className="flex items-center gap-3 px-4 py-3 bg-green-700 text-white rounded-xl transition-all font-bold justify-center hover:bg-green-800" 
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Login
@@ -137,3 +134,4 @@ export function Navbar() {
     </nav>
   );
 }
+

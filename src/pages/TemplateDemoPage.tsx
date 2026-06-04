@@ -51,7 +51,7 @@ export function TemplateDemoPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-slate-900 flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
+        <Loader2 className="w-8 h-8 text-green-500 animate-spin" />
       </div>
     );
   }
@@ -63,7 +63,7 @@ export function TemplateDemoPage() {
         <p className="text-slate-400 mb-8">{error || 'Modelo não encontrado'}</p>
         <button
           onClick={() => navigate('/portfolio')}
-          className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-full transition-colors"
+          className="flex items-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 rounded-full transition-colors"
         >
           <ArrowLeft className="w-5 h-5" />
           Voltar ao Portfólio
@@ -193,7 +193,7 @@ export function TemplateDemoPage() {
           >
             <ArrowLeft className="w-6 h-6" />
           </button>
-          <span className="text-xl font-black text-blue-600 tracking-tighter uppercase leading-none">
+          <span className="text-xl font-black text-green-600 tracking-tighter uppercase leading-none">
             PRÉVIA
           </span>
         </div>
@@ -202,21 +202,21 @@ export function TemplateDemoPage() {
         <div className="flex items-center bg-gray-100 p-1 rounded-lg">
           <button
             onClick={() => setViewMode('desktop')}
-            className={`p-2 rounded-md transition-all ${viewMode === 'desktop' ? 'bg-white shadow text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+            className={`p-2 rounded-md transition-all ${viewMode === 'desktop' ? 'bg-white shadow text-green-600' : 'text-gray-500 hover:text-gray-700'}`}
             title="Desktop View"
           >
             <Monitor size={20} />
           </button>
           <button
             onClick={() => setViewMode('tablet')}
-            className={`p-2 rounded-md transition-all ${viewMode === 'tablet' ? 'bg-white shadow text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+            className={`p-2 rounded-md transition-all ${viewMode === 'tablet' ? 'bg-white shadow text-green-600' : 'text-gray-500 hover:text-gray-700'}`}
             title="Tablet View"
           >
             <Tablet size={20} />
           </button>
           <button
             onClick={() => setViewMode('mobile')}
-            className={`p-2 rounded-md transition-all ${viewMode === 'mobile' ? 'bg-white shadow text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+            className={`p-2 rounded-md transition-all ${viewMode === 'mobile' ? 'bg-white shadow text-green-600' : 'text-gray-500 hover:text-gray-700'}`}
             title="Mobile View"
           >
             <Smartphone size={20} />
@@ -225,7 +225,7 @@ export function TemplateDemoPage() {
 
         <div className="flex items-center gap-2">
            <span className="hidden md:inline text-xs text-slate-400 mr-4">Preview do Modelo de Página</span>
-           <button className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition-colors">
+           <button className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors">
              Comprar Template
            </button>
         </div>
@@ -246,7 +246,7 @@ export function TemplateDemoPage() {
           {/* Footer Disclaimer Inside Frame */}
           <footer className="bg-slate-900 text-white py-12 px-6 text-center border-t border-slate-800">
              <p className="text-slate-400 text-sm">
-               &copy; {new Date().getFullYear()} FSL Solution. Este é um preview demonstrativo do modelo de página.
+               &copy; {new Date().getFullYear()} UmbuLab. Este é um preview demonstrativo do modelo de página.
              </p>
           </footer>
         </div>

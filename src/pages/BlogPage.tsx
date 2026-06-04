@@ -42,13 +42,13 @@ export function BlogPage() {
   // Tela de Erro (Fail-safe)
   if (errorStatus) {
     return (
-      <div className="pt-32 pb-24 min-h-screen bg-gray-50 flex flex-col justify-center text-center px-4">
+      <div className="pt-32 pb-24 min-h-screen bg-[#0d0d0d] flex flex-col justify-center text-center px-4">
         <AlertTriangle className="mx-auto text-red-500 mb-6" size={56} />
-        <h3 className="text-2xl font-bold text-gray-900 mb-2">Ops! Algo deu errado.</h3>
-        <p className="text-gray-600 mb-8">Não conseguimos conectar ao servidor. Verifique sua internet.</p>
+        <h3 className="text-2xl font-bold text-white mb-2">Ops! Algo deu errado.</h3>
+        <p className="text-neutral-400 mb-8">Não conseguimos conectar ao servidor. Verifique sua internet.</p>
         <button 
           onClick={() => window.location.reload()}
-          className="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition-all mx-auto"
+          className="btn btn-primary mx-auto"
         >
           Tentar Novamente
         </button>
@@ -59,10 +59,10 @@ export function BlogPage() {
   // Skeletons de Carregamento
   if (loading) {
     return (
-      <div className="pt-32 pb-24 min-h-screen bg-gray-50 px-4">
+      <div className="pt-32 pb-24 min-h-screen bg-[#0d0d0d] px-4">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
           {[...Array(6)].map((_, i) => (
-            <div key={i} className="bg-white rounded-[32px] h-96 animate-pulse border border-gray-100" />
+            <div key={i} className="bg-[#121212] rounded-[32px] h-96 animate-pulse border border-white/5" />
           ))}
         </div>
       </div>
@@ -70,49 +70,54 @@ export function BlogPage() {
   }
 
   return (
-    <div className="pt-32 pb-24 bg-gray-50 min-h-screen">
-      <div className="max-w-7xl mx-auto px-4">
+    <div className="pt-32 pb-24 bg-[#0d0d0d] min-h-screen dot-pattern">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,_rgba(46,125,50,0.1),_transparent_50%)] pointer-events-none" />
+      
+      <div className="max-w-7xl mx-auto px-4 relative z-10">
         <header className="mb-16 text-center">
-          <h1 className="text-5xl font-black text-gray-900 mb-6 tracking-tight">
-            Nosso <span className="text-blue-600">Blog</span>
+          <span className="text-xs font-extrabold uppercase tracking-widest text-green-400 bg-green-500/10 px-3 py-1.5 rounded-lg border border-green-500/20">
+            CONHECIMENTO & INSIGHTS
+          </span>
+          <h1 className="text-5xl font-black text-white mt-6 mb-6 tracking-tight">
+            Nosso <span className="text-green-400">Blog</span>
           </h1>
-          <p className="text-xl text-gray-500 max-w-2xl mx-auto">
+          <p className="text-xl text-neutral-400 max-w-2xl mx-auto">
             Insights sobre tecnologia, design e performance digital.
           </p>
         </header>
 
         {posts.length === 0 ? (
-          <div className="text-center py-20 bg-white rounded-3xl border border-gray-100 shadow-sm">
-            <p className="text-gray-400 font-medium">Nenhum artigo disponível no momento.</p>
+          <div className="text-center py-20 bg-[#121212] rounded-3xl border border-white/5 shadow-sm">
+            <p className="text-neutral-400 font-medium">Nenhum artigo disponível no momento.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             {posts.map((post) => (
               <article 
                 key={post.id} 
-                className="group bg-white rounded-[32px] overflow-hidden border border-gray-100 hover:shadow-2xl transition-all duration-500 cursor-pointer flex flex-col"
+                className="group bg-[#121212] rounded-[32px] overflow-hidden border border-white/5 hover:border-green-600/35 hover:shadow-[0_0_30px_rgba(46,125,50,0.15)] transition-all duration-500 cursor-pointer flex flex-col"
                 onClick={() => navigate(`/blog/${post.slug}`)}
               >
-                <div className="aspect-[16/10] overflow-hidden">
+                <div className="aspect-[16/10] overflow-hidden border-b border-white/5 bg-neutral-900">
                   <img 
                     src={post.featured_image_url} 
                     alt={post.title} 
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80"
                   />
                 </div>
                 <div className="p-8 flex flex-col flex-1">
-                  <div className="flex items-center gap-2 text-blue-600 text-xs font-bold uppercase mb-4">
+                  <div className="flex items-center gap-2 text-green-400 text-xs font-bold uppercase mb-4">
                     <Calendar size={14} />
                     {new Date(post.published_at).toLocaleDateString('pt-BR')}
                   </div>
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors">
+                  <h2 className="text-2xl font-bold text-white mb-4 group-hover:text-green-400 transition-colors">
                     {post.title}
                   </h2>
-                  <p className="text-gray-500 text-sm line-clamp-3 mb-6">
+                  <p className="text-neutral-400 text-sm line-clamp-3 mb-6">
                     {post.excerpt}
                   </p>
-                  <div className="mt-auto pt-4 flex items-center gap-2 font-bold text-gray-900">
-                    Ler artigo <ArrowRight size={16} className="text-blue-600" />
+                  <div className="mt-auto pt-4 flex items-center gap-2 font-bold text-white group-hover:text-green-400 transition-colors">
+                    Ler artigo <ArrowRight size={16} className="text-green-400 animate-pulse" />
                   </div>
                 </div>
               </article>
@@ -123,3 +128,4 @@ export function BlogPage() {
     </div>
   );
 }
+

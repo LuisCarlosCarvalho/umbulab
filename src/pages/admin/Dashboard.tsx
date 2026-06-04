@@ -123,7 +123,7 @@ const Dashboard = () => {
     <div className="min-h-screen bg-slate-900 text-slate-100 p-6">
       <header className="mb-8 flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">FSL Solution - Engine Control</h1>
+          <h1 className="text-3xl font-bold">UmbuLab - Engine Control</h1>
           <p className="text-slate-400">Monitoramento de Transição de Autoridade Semântica</p>
         </div>
         
@@ -198,7 +198,7 @@ const Dashboard = () => {
             </li>
             <li className="flex items-start space-x-3 text-sm">
               <span className="w-2 h-2 mt-1.5 bg-blue-500 rounded-full shadow-[0_0_8px_rgba(59,130,246,0.6)]"></span>
-              <p>Sitemap detectado pelo Google Search Console em fslsolution.com</p>
+              <p>Sitemap detectado pelo Google Search Console em umbulab.com</p>
             </li>
           </ul>
         </div>

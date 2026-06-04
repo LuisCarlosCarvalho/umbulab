@@ -237,7 +237,7 @@ export function ClientDashboard() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'pending': return 'bg-yellow-100 text-yellow-800';
-      case 'in_progress': return 'bg-blue-100 text-blue-800';
+      case 'in_progress': return 'bg-green-100 text-green-800';
       case 'completed': return 'bg-green-100 text-green-800';
       case 'cancelled': return 'bg-red-100 text-red-800';
       default: return 'bg-gray-100 text-gray-800';
@@ -258,7 +258,7 @@ export function ClientDashboard() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent shadow-xl"></div>
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-green-700 border-t-transparent shadow-xl"></div>
           <p className="mt-4 text-gray-500 font-medium">Carregando painel de controle...</p>
         </div>
       </div>
@@ -275,9 +275,9 @@ export function ClientDashboard() {
               <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight">Meus Projetos</h1>
               <p className="text-gray-500 mt-2 text-lg">Olá {profile?.full_name}, você possui {projects.length} {projects.length === 1 ? 'projeto' : 'projetos'} em andamento.</p>
             </div>
-            <div className="bg-white p-3 rounded-2xl shadow-xl shadow-blue-50/40 border border-white ring-1 ring-gray-50 flex items-center gap-4">
+            <div className="bg-white p-3 rounded-2xl shadow-xl shadow-green-50/40 border border-white ring-1 ring-gray-50 flex items-center gap-4">
                <label className="relative cursor-pointer group">
-                 <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold text-xl overflow-hidden border-2 border-transparent group-hover:border-blue-400 transition-all">
+                 <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-700 font-bold text-xl overflow-hidden border-2 border-transparent group-hover:border-green-400 transition-all">
                    {profile?.avatar_url ? (
                      <img src={profile.avatar_url} alt={profile.full_name} className="w-full h-full object-cover" loading="lazy" onError={(e) => { e.currentTarget.src = 'https://ui-avatars.com/api/?name=User&background=random'; e.currentTarget.onerror = null; }} />
                    ) : (
@@ -311,7 +311,7 @@ export function ClientDashboard() {
                    </span>
                 </div>
 
-                <h3 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">{project.project_name}</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-green-700 transition-colors">{project.project_name}</h3>
                 <p className="text-gray-500 text-sm mb-8 font-medium">{project.service.name}</p>
 
                 <div className="space-y-4 mb-8">
@@ -321,7 +321,7 @@ export function ClientDashboard() {
                   </div>
                   <div className="w-full bg-gray-100 h-3 rounded-full overflow-hidden">
                     <div 
-                      className="h-full bg-blue-600 rounded-full transition-all duration-1000"
+                      className="h-full bg-green-700 rounded-full transition-all duration-1000"
                       style={{ width: `${project.progress_percentage}%` }}
                     />
                   </div>
@@ -332,7 +332,7 @@ export function ClientDashboard() {
                     setSelectedProject(project);
                     setActiveTab('overview');
                   }}
-                  className="w-full py-4 bg-gray-900 text-white rounded-2xl font-bold hover:bg-blue-600 shadow-lg shadow-gray-200 hover:shadow-blue-200 transition-all active:scale-95 flex items-center justify-center gap-2"
+                  className="w-full py-4 bg-gray-900 text-white rounded-2xl font-bold hover:bg-green-700 shadow-lg shadow-gray-200 hover:shadow-green-200 transition-all active:scale-95 flex items-center justify-center gap-2"
                 >
                   Abrir Projeto
                   <ArrowLeft className="rotate-180" size={18} />
@@ -355,8 +355,8 @@ export function ClientDashboard() {
                {profile?.avatar_url ? (
                  <img src={profile.avatar_url} alt={profile.full_name} className="w-full h-full object-cover" />
                ) : (
-                 <div className="w-full h-full bg-gradient-to-br from-blue-50 to-gray-100 flex items-center justify-center">
-                    <LayoutDashboard size={48} className="text-blue-200" />
+                 <div className="w-full h-full bg-gradient-to-br from-green-50 to-gray-100 flex items-center justify-center">
+                    <LayoutDashboard size={48} className="text-green-200" />
                  </div>
                )}
                <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -365,15 +365,15 @@ export function ClientDashboard() {
              </div>
              <input type="file" className="hidden" accept="image/*" onChange={handleAvatarUpload} disabled={uploadingFile} />
              {uploadingFile && (
-               <div className="absolute -bottom-2 right-0 bg-blue-600 text-white p-1.5 rounded-full animate-spin">
+               <div className="absolute -bottom-2 right-0 bg-green-700 text-white p-1.5 rounded-full animate-spin">
                  <Clock size={14} />
                </div>
              )}
            </label>
 
-           <h2 className="text-4xl font-black text-gray-900 mb-6 tracking-tight">Bem-vindo à FSL Solution</h2>
+           <h2 className="text-4xl font-black text-gray-900 mb-6 tracking-tight">Bem-vindo à UmbuLab</h2>
            
-           <div className="bg-white p-8 rounded-[40px] shadow-xl shadow-blue-50/40 border border-white ring-1 ring-gray-50 mb-10">
+           <div className="bg-white p-8 rounded-[40px] shadow-xl shadow-green-50/40 border border-white ring-1 ring-gray-50 mb-10">
              <p className="text-gray-600 leading-relaxed text-lg">
                Você está em sua área administrativa.<br />
                <span className="text-gray-400 font-medium">Assim que seu projeto for iniciado, ele aparecerá aqui para acompanhamento em tempo real.</span>
@@ -382,7 +382,7 @@ export function ClientDashboard() {
 
            <a 
             href="/contact" 
-            className="inline-flex items-center gap-3 bg-blue-600 text-white px-10 py-5 rounded-3xl font-bold hover:bg-blue-700 transition-all shadow-2xl shadow-blue-200 hover:-translate-y-1 active:scale-95"
+            className="inline-flex items-center gap-3 bg-green-700 text-white px-10 py-5 rounded-3xl font-bold hover:bg-green-800 transition-all shadow-2xl shadow-green-200 hover:-translate-y-1 active:scale-95"
            >
              Acompanhe seu Projeto
              <ArrowLeft className="rotate-180" size={20} />
@@ -391,8 +391,7 @@ export function ClientDashboard() {
       </div>
     );
   }
-
-  // DETAILED PROJECT VIEW
+   // DETAILED PROJECT VIEW
   return (
     <div className="min-h-screen py-24 px-4 bg-[#f8fafc]">
       <div className="max-w-7xl mx-auto">
@@ -400,14 +399,14 @@ export function ClientDashboard() {
           <div className="flex items-center gap-6">
             <button 
               onClick={() => setSelectedProject(null)}
-              className="p-4 bg-white border border-gray-200 rounded-2xl text-gray-400 hover:text-blue-600 hover:border-blue-200 transition-all shadow-sm"
+              className="p-4 bg-white border border-gray-200 rounded-2xl text-gray-400 hover:text-green-700 hover:border-green-200 transition-all shadow-sm"
               style={{ display: projects.length > 1 ? 'flex' : 'none' }}
             >
               <ArrowLeft size={20} />
             </button>
             <div>
               <div className="flex items-center gap-3 mb-1">
-                <span className="text-[10px] font-black text-blue-600 bg-blue-50 px-2 py-1 rounded tracking-tighter uppercase">
+                <span className="text-[10px] font-black text-green-700 bg-green-50 px-2 py-1 rounded tracking-tighter uppercase">
                   ID: {profile?.os_number || 'S/ID'}
                 </span>
                 <span className={`text-[10px] font-black px-2 py-1 rounded tracking-tighter uppercase ${getStatusColor(selectedProject!.status)}`}>
@@ -421,7 +420,7 @@ export function ClientDashboard() {
 
           <div className="flex items-center gap-4 bg-white p-2.5 rounded-[30px] border border-gray-100 shadow-sm pr-6">
              <label className="relative cursor-pointer group ml-1">
-               <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold text-sm overflow-hidden border-2 border-transparent group-hover:border-blue-400 transition-all">
+               <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-700 font-bold text-sm overflow-hidden border-2 border-transparent group-hover:border-green-400 transition-all">
                  {profile?.avatar_url ? (
                    <img src={profile.avatar_url} alt={profile.full_name} className="w-full h-full object-cover" />
                  ) : (
@@ -436,40 +435,40 @@ export function ClientDashboard() {
              <div className="flex items-center gap-2">
              <button 
               onClick={() => setActiveTab('overview')}
-              className={`px-6 py-3 rounded-2xl text-sm font-bold transition-all flex items-center gap-2 ${activeTab === 'overview' ? 'bg-blue-600 text-white shadow-lg shadow-blue-100' : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50'}`}
+              className={`px-6 py-3 rounded-2xl text-sm font-bold transition-all flex items-center gap-2 ${activeTab === 'overview' ? 'bg-green-700 text-white shadow-lg shadow-green-100' : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50'}`}
              >
                <LayoutDashboard size={18} />
                <span className="hidden md:inline">Visão Geral</span>
              </button>
              <button 
               onClick={() => setActiveTab('progress')}
-              className={`px-6 py-3 rounded-2xl text-sm font-bold transition-all flex items-center gap-2 ${activeTab === 'progress' ? 'bg-blue-600 text-white shadow-lg shadow-blue-100' : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50'}`}
+              className={`px-6 py-3 rounded-2xl text-sm font-bold transition-all flex items-center gap-2 ${activeTab === 'progress' ? 'bg-green-700 text-white shadow-lg shadow-green-100' : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50'}`}
              >
                <CheckSquare size={18} />
                <span className="hidden md:inline">Andamento</span>
              </button>
              <button 
               onClick={() => setActiveTab('messages')}
-              className={`px-6 py-3 rounded-2xl text-sm font-bold transition-all flex items-center gap-2 ${activeTab === 'messages' ? 'bg-blue-600 text-white shadow-lg shadow-blue-100' : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50'}`}
+              className={`px-6 py-3 rounded-2xl text-sm font-bold transition-all flex items-center gap-2 ${activeTab === 'messages' ? 'bg-green-700 text-white shadow-lg shadow-green-100' : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50'}`}
              >
                <MessageSquare size={18} />
                <span className="hidden md:inline">Mensagens</span>
              </button>
              <button 
               onClick={() => setActiveTab('files')}
-              className={`px-6 py-3 rounded-2xl text-sm font-bold transition-all flex items-center gap-2 ${activeTab === 'files' ? 'bg-blue-600 text-white shadow-lg shadow-blue-100' : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50'}`}
+              className={`px-6 py-3 rounded-2xl text-sm font-bold transition-all flex items-center gap-2 ${activeTab === 'files' ? 'bg-green-700 text-white shadow-lg shadow-green-100' : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50'}`}
              >
                <FileText size={18} />
                <span className="hidden md:inline">Arquivos</span>
              </button>
              <button 
               onClick={() => setActiveTab('finance')}
-              className={`px-6 py-3 rounded-2xl text-sm font-bold transition-all flex items-center gap-2 ${activeTab === 'finance' ? 'bg-blue-600 text-white shadow-lg shadow-blue-100' : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50'}`}
+              className={`px-6 py-3 rounded-2xl text-sm font-bold transition-all flex items-center gap-2 ${activeTab === 'finance' ? 'bg-green-700 text-white shadow-lg shadow-green-100' : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50'}`}
              >
                <DollarSign size={18} />
                <span className="hidden md:inline">Financeiro</span>
              </button>
-           </div>
+            </div>
           </div>
         </div>
 
@@ -478,30 +477,30 @@ export function ClientDashboard() {
           <div className="lg:col-span-3">
              {activeTab === 'overview' && (
                <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                  <div className="bg-white rounded-[40px] p-10 shadow-xl shadow-blue-50/40 border border-white ring-1 ring-gray-50 bg-gradient-to-br from-white to-blue-50/30">
+                  <div className="bg-white rounded-[40px] p-10 shadow-xl shadow-green-50/40 border border-white ring-1 ring-gray-50 bg-gradient-to-br from-white to-green-50/30">
                     <div className="max-w-3xl">
-                      <h2 className="text-3xl font-black text-gray-900 mb-4">Bem-vindo à FSL Solution</h2>
+                      <h2 className="text-3xl font-black text-gray-900 mb-4">Bem-vindo à UmbuLab</h2>
                       <p className="text-gray-600 leading-relaxed text-lg">
                         Você está em sua área administrativa. <br />
-                        Aqui você pode acompanhar o andamento do seu projeto <span className="text-blue-600 font-bold">{selectedProject?.project_name}</span>, visualizar atualizações e manter contato com nossa equipe sempre que necessário.
+                        Aqui você pode acompanhar o andamento do seu projeto <span className="text-green-700 font-bold">{selectedProject?.project_name}</span>, visualizar atualizações e manter contato com nossa equipe sempre que necessário.
                       </p>
                     </div>
                   </div>
 
-                  <div className="bg-white rounded-[40px] p-10 shadow-xl shadow-blue-50/40 border border-white ring-1 ring-gray-50">
+                  <div className="bg-white rounded-[40px] p-10 shadow-xl shadow-green-50/40 border border-white ring-1 ring-gray-50">
                     <h3 className="text-xl font-black text-gray-900 mb-8 border-b border-gray-50 pb-6 uppercase tracking-widest text-[10px] text-gray-400">Resumo Operacional</h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
                        <div className="space-y-2">
-                          <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest italic">Responsável FSL</p>
+                          <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest italic">Responsável UmbuLab</p>
                           <p className="text-lg font-bold text-gray-900">Equipe de Desenvolvimento</p>
-                          <div className="flex items-center gap-2 text-sm text-blue-600 font-medium bg-blue-50 px-3 py-1 rounded-full w-fit">
+                          <div className="flex items-center gap-2 text-sm text-green-700 font-medium bg-green-50 px-3 py-1 rounded-full w-fit">
                              <CheckCircle2 size={14} /> Ativo no Projeto
                           </div>
                        </div>
                        <div className="space-y-2 border-l border-gray-50 pl-12">
                           <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest italic">Última Atividade</p>
                           <p className="text-lg font-bold text-gray-900">
-                            {selectedProject!.updated_at ? new Date(selectedProject!.updated_at).toLocaleDateString() : 'Não registrado'}
+                             {selectedProject!.updated_at ? new Date(selectedProject!.updated_at).toLocaleDateString() : 'Não registrado'}
                           </p>
                           <p className="text-xs text-gray-400 font-medium">Sincronizado com servidor central</p>
                        </div>
@@ -512,7 +511,7 @@ export function ClientDashboard() {
                           </div>
                           <div className="w-full bg-gray-50 h-3 rounded-full overflow-hidden border border-gray-100">
                             <div 
-                              className="h-full bg-gradient-to-r from-blue-600 to-blue-400 rounded-full transition-all duration-1000"
+                              className="h-full bg-gradient-to-r from-green-700 to-green-500 rounded-full transition-all duration-1000"
                               style={{ width: `${selectedProject!.progress_percentage}%` }}
                             />
                           </div>
@@ -521,9 +520,9 @@ export function ClientDashboard() {
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                     <div className="bg-white rounded-[40px] p-10 shadow-xl shadow-blue-50/40 border border-white ring-1 ring-gray-50">
+                     <div className="bg-white rounded-[40px] p-10 shadow-xl shadow-green-50/40 border border-white ring-1 ring-gray-50">
                         <div className="flex items-center gap-4 mb-8">
-                           <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 shadow-inner">
+                           <div className="w-12 h-12 bg-green-50 rounded-2xl flex items-center justify-center text-green-700 shadow-inner">
                               <Calendar size={24} />
                            </div>
                            <h4 className="text-lg font-black text-gray-900">Prazos e Datas</h4>
@@ -539,14 +538,14 @@ export function ClientDashboard() {
                            </div>
                            <div className="flex justify-between items-center py-4">
                               <span className="text-sm font-bold text-gray-400">Entrega Estimada</span>
-                              <span className="text-sm font-black text-blue-600 bg-blue-50 px-3 py-1 rounded-lg">
+                              <span className="text-sm font-black text-green-700 bg-green-50 px-3 py-1 rounded-lg">
                                 {selectedProject!.end_date ? new Date(selectedProject!.end_date).toLocaleDateString() : 'A definir'}
                               </span>
                            </div>
                         </div>
                      </div>
 
-                     <div className="bg-white rounded-[40px] p-10 shadow-xl shadow-blue-50/40 border border-white ring-1 ring-gray-50 relative overflow-hidden group">
+                     <div className="bg-white rounded-[40px] p-10 shadow-xl shadow-green-50/40 border border-white ring-1 ring-gray-50 relative overflow-hidden group">
                         <div className="flex items-center gap-4 mb-8">
                            <div className="w-12 h-12 bg-gray-50 rounded-2xl flex items-center justify-center text-gray-400">
                               <HistoryIcon size={24} />
@@ -566,7 +565,7 @@ export function ClientDashboard() {
 
              {activeTab === 'progress' && (
                <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                 <div className="bg-white rounded-[40px] p-10 shadow-xl shadow-blue-50/40 border border-white ring-1 ring-gray-50 overflow-hidden">
+                 <div className="bg-white rounded-[40px] p-10 shadow-xl shadow-green-50/40 border border-white ring-1 ring-gray-50 overflow-hidden">
                     <div className="flex justify-between items-center mb-10">
                       <div>
                         <h3 className="text-2xl font-black text-gray-900">Lifecycle do Projeto</h3>
@@ -590,7 +589,7 @@ export function ClientDashboard() {
                            {selectedProject!.steps.map((step, index) => (
                              <div 
                               key={step.id} 
-                              className={`flex gap-6 p-8 rounded-3xl border transition-all ${step.is_completed ? 'bg-blue-50/30 border-blue-100 opacity-80' : 'bg-white border-gray-100 shadow-sm'}`}
+                              className={`flex gap-6 p-8 rounded-3xl border transition-all ${step.is_completed ? 'bg-green-50/30 border-green-100 opacity-80' : 'bg-white border-gray-100 shadow-sm'}`}
                              >
                                 <div className="flex flex-col items-center gap-2">
                                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg transition-all ${step.is_completed ? 'bg-green-500 text-white' : 'bg-white text-gray-200 border border-gray-100'}`}>
@@ -610,8 +609,8 @@ export function ClientDashboard() {
                                    <p className="text-gray-400 text-sm leading-relaxed mb-4">{step.description || 'Nenhuma descrição detalhada para esta etapa.'}</p>
                                    
                                    {step.file_url && (
-                                     <div className="flex items-center gap-3 bg-white p-3 rounded-2xl border border-gray-100 w-fit group cursor-pointer hover:border-blue-200 transition-all">
-                                        <div className="w-10 h-10 bg-gray-50 rounded-xl flex items-center justify-center text-gray-400 group-hover:text-blue-500 transition-colors">
+                                     <div className="flex items-center gap-3 bg-white p-3 rounded-2xl border border-gray-100 w-fit group cursor-pointer hover:border-green-200 transition-all">
+                                        <div className="w-10 h-10 bg-gray-50 rounded-xl flex items-center justify-center text-gray-400 group-hover:text-green-700 transition-colors">
                                           <Download size={18} />
                                         </div>
                                         <div>
@@ -620,7 +619,7 @@ export function ClientDashboard() {
                                             href={`${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/project-attachments/${step.file_url}`}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="text-[10px] text-blue-500 font-bold hover:underline"
+                                            className="text-[10px] text-green-700 font-bold hover:underline"
                                           >
                                             Ver Documentação Completa
                                           </a>
@@ -638,15 +637,15 @@ export function ClientDashboard() {
              )}
 
              {activeTab === 'messages' && (
-               <div className="bg-white rounded-[40px] shadow-xl shadow-blue-50/40 border border-white ring-1 ring-gray-50 flex flex-col h-[70vh] animate-in fade-in zoom-in-95 duration-500 overflow-hidden">
+               <div className="bg-white rounded-[40px] shadow-xl shadow-green-50/40 border border-white ring-1 ring-gray-50 flex flex-col h-[70vh] animate-in fade-in zoom-in-95 duration-500 overflow-hidden">
                   <div className="p-8 border-b border-gray-50 flex justify-between items-center bg-gray-50/50">
                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-blue-600 shadow-xl shadow-blue-50/40 border border-white ring-1 ring-gray-50">
+                        <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-green-700 shadow-xl shadow-green-50/40 border border-white ring-1 ring-gray-50">
                            <MessageSquare size={24} />
                         </div>
                         <div>
                            <h3 className="text-lg font-black text-gray-900">Timeline de Comunicação</h3>
-                           <p className="text-xs text-gray-400 font-medium">As mensagens são monitoradas pela equipe FSL</p>
+                           <p className="text-xs text-gray-400 font-medium">As mensagens são monitoradas pela equipe UmbuLab</p>
                         </div>
                      </div>
                      <div className="flex items-center gap-2">
@@ -684,7 +683,7 @@ export function ClientDashboard() {
                                    )}
                                 </div>
                                 <div className="flex items-center gap-2 px-2">
-                                  {!isMe && <span className="text-[10px] font-black text-blue-600 uppercase tracking-tighter">{message.sender_name}</span>}
+                                  {!isMe && <span className="text-[10px] font-black text-green-700 uppercase tracking-tighter">{message.sender_name}</span>}
                                   <span className="text-[9px] text-gray-300 font-bold">{new Date(message.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                                 </div>
                              </div>
@@ -693,10 +692,10 @@ export function ClientDashboard() {
                       })
                     )}
                   </div>
-
+ 
                   <div className="p-8 border-t border-gray-50 bg-white">
-                     <div className="flex gap-4 items-center bg-gray-50 p-2 rounded-[30px] border border-gray-100 focus-within:border-blue-200 transition-all focus-within:shadow-xl focus-within:shadow-blue-50/50">
-                        <label className="p-4 text-gray-400 hover:text-blue-600 cursor-pointer transition-all active:scale-90">
+                     <div className="flex gap-4 items-center bg-gray-50 p-2 rounded-[30px] border border-gray-100 focus-within:border-green-200 transition-all focus-within:shadow-xl focus-within:shadow-green-50/50">
+                        <label className="p-4 text-gray-400 hover:text-green-700 cursor-pointer transition-all active:scale-90">
                            <Paperclip size={20} />
                            <input type="file" className="hidden" onChange={handleFileUpload} disabled={uploadingFile} />
                         </label>
@@ -711,7 +710,7 @@ export function ClientDashboard() {
                         <button 
                           onClick={sendMessage}
                           disabled={sendingMessage || !newMessage.trim()}
-                          className="w-14 h-14 bg-gray-900 text-white rounded-2xl flex items-center justify-center hover:bg-blue-600 shadow-lg shadow-gray-200 hover:shadow-blue-200 transition-all active:scale-90 disabled:opacity-20"
+                          className="w-14 h-14 bg-gray-900 text-white rounded-2xl flex items-center justify-center hover:bg-green-700 shadow-lg shadow-gray-200 hover:shadow-green-200 transition-all active:scale-90 disabled:opacity-20"
                         >
                           <Send size={18} />
                         </button>
@@ -722,7 +721,7 @@ export function ClientDashboard() {
 
              {activeTab === 'files' && (
                <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-                  <div className="bg-white rounded-[40px] p-10 shadow-xl shadow-blue-50/40 border border-white ring-1 ring-gray-50">
+                  <div className="bg-white rounded-[40px] p-10 shadow-xl shadow-green-50/40 border border-white ring-1 ring-gray-50">
                      <div className="flex justify-between items-center mb-10">
                         <div>
                           <h3 className="text-2xl font-black text-gray-900">Central de Documentos</h3>
@@ -734,7 +733,6 @@ export function ClientDashboard() {
                      </div>
 
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {/* Merge files from messages and steps */}
                         {[
                           ...selectedProject!.messages.filter(m => (m as any).payload?.type === 'attachment').map(m => ({ 
                             name: m.message.replace('[Anexo: ', '').replace(']', ''), 
@@ -749,9 +747,9 @@ export function ClientDashboard() {
                             source: 'Andamento'
                           }))
                         ].sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime()).map((file, idx) => (
-                           <div key={idx} className="flex items-center justify-between p-6 bg-white border border-gray-100 rounded-[30px] group hover:border-blue-200 hover:bg-blue-50/10 transition-all shadow-sm">
+                           <div key={idx} className="flex items-center justify-between p-6 bg-white border border-gray-100 rounded-[30px] group hover:border-green-200 hover:bg-green-50/10 transition-all shadow-sm">
                               <div className="flex items-center gap-4">
-                                 <div className="w-14 h-14 bg-gray-50 rounded-2xl flex items-center justify-center text-gray-400 group-hover:bg-blue-100 group-hover:text-blue-600 transition-all shadow-inner">
+                                 <div className="w-14 h-14 bg-gray-50 rounded-2xl flex items-center justify-center text-gray-400 group-hover:bg-green-100 group-hover:text-green-700 transition-all shadow-inner">
                                     <FileText size={28} />
                                  </div>
                                  <div className="max-w-[150px] md:max-w-xs">
@@ -759,7 +757,7 @@ export function ClientDashboard() {
                                     <div className="flex items-center gap-2 mt-1">
                                        <span className="text-[10px] font-bold text-gray-400 italic">{new Date(file.date).toLocaleDateString()}</span>
                                        <span className="w-1 h-1 bg-gray-200 rounded-full" />
-                                       <span className="text-[10px] font-black text-blue-500 bg-blue-50 px-2 py-0.5 rounded uppercase tracking-widest">{file.source}</span>
+                                       <span className="text-[10px] font-black text-green-700 bg-green-50 px-2 py-0.5 rounded uppercase tracking-widest">{file.source}</span>
                                     </div>
                                  </div>
                               </div>
@@ -767,13 +765,12 @@ export function ClientDashboard() {
                                 href={`${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/project-attachments/${file.url}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="w-12 h-12 bg-white border border-gray-200 rounded-2xl flex items-center justify-center text-gray-400 hover:text-blue-600 hover:border-blue-200 hover:shadow-lg transition-all active:scale-90"
+                                className="w-12 h-12 bg-white border border-gray-200 rounded-2xl flex items-center justify-center text-gray-400 hover:text-green-700 hover:border-green-200 hover:shadow-lg transition-all active:scale-90"
                               >
                                 <Download size={20} />
                               </a>
                            </div>
                         ))}
-                        {/* If no files */}
                         {selectedProject!.messages.filter(m => (m as any).payload?.type === 'attachment').length === 0 && 
                          selectedProject!.steps.filter(s => s.file_url).length === 0 && (
                           <div className="col-span-full py-20 bg-gray-50 rounded-[40px] border-2 border-dashed border-gray-100 text-center">
@@ -788,15 +785,15 @@ export function ClientDashboard() {
 
              {activeTab === 'finance' && (
                <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-                  <div className="bg-white rounded-[40px] p-10 shadow-xl shadow-blue-50/40 border border-white ring-1 ring-gray-50 overflow-hidden relative">
+                  <div className="bg-white rounded-[40px] p-10 shadow-xl shadow-green-50/40 border border-white ring-1 ring-gray-50 overflow-hidden relative">
                      <div className="flex justify-between items-start mb-12">
                         <div>
                           <h3 className="text-2xl font-black text-gray-900">Demonstrativo Financeiro</h3>
                           <p className="text-gray-400 font-medium mt-1">Informações sobre investimentos e pagamentos do projeto.</p>
                         </div>
-                        <div className={`px-4 py-2 rounded-2xl text-xs font-black uppercase tracking-widest shadow-xl shadow-blue-50 ${
+                        <div className={`px-4 py-2 rounded-2xl text-xs font-black uppercase tracking-widest shadow-xl shadow-green-50 ${
                           selectedProject!.payment_status === 'paid' ? 'bg-green-600 text-white' : 
-                          selectedProject!.payment_status === 'pending' ? 'bg-orange-500 text-white' : 'bg-blue-600 text-white'
+                          selectedProject!.payment_status === 'pending' ? 'bg-orange-500 text-white' : 'bg-green-700 text-white'
                         }`}>
                            {selectedProject!.payment_status === 'paid' ? 'QUITADO' : 
                             selectedProject!.payment_status === 'pending' ? 'AGUARDANDO' : 'EM DIA'}
@@ -810,20 +807,20 @@ export function ClientDashboard() {
                            <h4 className="text-5xl font-black tracking-tighter">
                              {selectedProject!.total_value ? `R$ ${selectedProject!.total_value.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}` : 'R$ ---'}
                            </h4>
-                           <p className="mt-6 text-xs text-white/60 font-medium leading-relaxed">Este valor engloba todos os serviços descritos no escopo inicial do projeto.</p>
+                           <p className="mt-6 text-xs text-white/60 font-medium leading-relaxed">Este valor engloba todos os serviços acordados.</p>
                         </div>
-                        <div className="bg-blue-50 rounded-[35px] p-8 border border-blue-100 flex flex-col justify-between">
+                        <div className="bg-green-50 rounded-[35px] p-8 border border-green-100 flex flex-col justify-between">
                             <div>
-                               <p className="text-[10px] font-black text-blue-400 uppercase tracking-widest mb-1">Status Base</p>
-                               <h4 className="text-2xl font-black text-blue-900">Operação Financeira Ativa</h4>
+                               <p className="text-[10px] font-black text-green-500 uppercase tracking-widest mb-1">Status Base</p>
+                               <h4 className="text-2xl font-black text-green-900">Operação Financeira Ativa</h4>
                             </div>
                             <div className="mt-8">
-                               <div className="flex justify-between text-xs font-bold text-blue-600 mb-2">
+                               <div className="flex justify-between text-xs font-bold text-green-700 mb-2">
                                   <span>Comprometimento do Plano</span>
                                   <span>100%</span>
-                               </div>
+                                </div>
                                <div className="w-full bg-white h-2 rounded-full overflow-hidden">
-                                  <div className="w-full h-full bg-blue-600 rounded-full" />
+                                  <div className="w-full h-full bg-green-700 rounded-full" />
                                </div>
                             </div>
                         </div>
@@ -843,13 +840,12 @@ export function ClientDashboard() {
              )}
           </div>
 
-          {/* Sidebar / Quick Tips */}
           <div className="lg:col-span-1 space-y-6">
              <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm">
                 <h4 className="text-sm font-black text-gray-900 uppercase tracking-widest mb-6">Informações Rápidas</h4>
                 <div className="space-y-6">
                    <div className="flex gap-4">
-                      <div className="w-2 h-2 bg-blue-600 rounded-full mt-1.5" />
+                      <div className="w-2 h-2 bg-green-700 rounded-full mt-1.5" />
                       <div>
                         <p className="text-xs font-black text-gray-900 uppercase tracking-tighter">Segurança</p>
                         <p className="text-xs text-gray-400 font-medium">Todos os anexos são protegidos por criptografia ponta-a-ponta.</p>
@@ -865,13 +861,13 @@ export function ClientDashboard() {
                 </div>
              </div>
 
-             <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-3xl p-8 text-white shadow-xl shadow-blue-100">
+             <div className="bg-gradient-to-br from-green-700 to-green-900 rounded-3xl p-8 text-white shadow-xl shadow-green-100">
                 <Plus size={32} className="mb-6 opacity-40" />
                 <h4 className="text-xl font-bold mb-2">Novo Serviço?</h4>
-                <p className="text-blue-100 text-sm leading-relaxed mb-6 font-medium">Precisa de algo extra para seu projeto? Solicite um novo orçamento agora mesmo.</p>
+                <p className="text-green-100 text-sm leading-relaxed mb-6 font-medium">Precisa de algo extra para seu projeto? Solicite um novo orçamento agora mesmo.</p>
                 <a 
                   href="/contact"
-                  className="block w-full py-4 bg-white text-blue-600 text-center rounded-2xl font-bold hover:bg-blue-50 transition-all active:scale-95 shadow-lg"
+                  className="block w-full py-4 bg-white text-green-700 text-center rounded-2xl font-bold hover:bg-green-50 transition-all active:scale-95 shadow-lg"
                 >
                   Contratar Agora
                 </a>
@@ -879,7 +875,7 @@ export function ClientDashboard() {
 
              <div className="bg-gray-50 border-2 border-dashed border-gray-200 rounded-3xl p-8 text-center opacity-60">
                 <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Acesso Cliente</p>
-                <p className="text-base font-black text-gray-900 mt-1">FSL SOLUTION v2.0</p>
+                <p className="text-base font-black text-gray-900 mt-1">UMBULAB v2.0</p>
              </div>
           </div>
         </div>

@@ -38,7 +38,7 @@ function addSection(title, content) {
 doc.yPos = 20;
 
 // Content
-const title = "CONFIGURAÇÃO DE DEPLOY - FSL SOLUTION (HOSTINGER + GITHUB)";
+const title = "CONFIGURAÇÃO DE DEPLOY - UMBULAB (HOSTINGER + GITHUB)";
 const intro = "Este documento contém as configurações necessárias para automatizar o deploy do projeto React/Vite na Hostinger usando GitHub Actions, corrigindo o erro de tela branca.";
 
 const secretsText = "1. Configurar Segredos no GitHub:\n- VITE_SUPABASE_URL: https://qzjzlpilmptoojuguqas.supabase.co\n- VITE_SUPABASE_ANON_KEY: (Sua chave do arquivo .env)";

@@ -8,11 +8,11 @@ interface ContractData {
   type: 'service' | 'maintenance';
 }
 
-const FSL_INFO = {
-  name: 'FSL Solution',
+const UMBULAB_INFO = {
+  name: 'UmbuLab',
   cnpj: '00.000.000/0001-00', // Placeholder
   address: 'Rua das Inovações, 1000 - São Paulo, SP',
-  email: 'contato@fslsolution.com.br',
+  email: 'contato@umbulab.com',
   phone: '+55 (11) 99999-9999'
 };
 
@@ -47,14 +47,14 @@ export const generateContractPDF = async (data: ContractData) => {
   } catch (e) { /* ignore */ }
 
   doc.setFontSize(18);
-  doc.setTextColor(30, 64, 175);
+  doc.setTextColor(46, 125, 50); // Brand Green #2E7D32
   doc.setFont('helvetica', 'bold');
-  doc.text('FSL SOLUTION', 115, 20, { align: 'center' });
+  doc.text('UMBULAB', 115, 20, { align: 'center' });
   
   doc.setFontSize(8);
   doc.setTextColor(150);
   doc.setFont('helvetica', 'normal');
-  doc.text('INTELIGÊNCIA EM DESENVOLVIMENTO DIGITAL', 115, 26, { align: 'center' });
+  doc.text('CRESCIMENTO DIGITAL COM RAÍZES FORTES', 115, 26, { align: 'center' });
   
   doc.setDrawColor(200);
   doc.line(15, 35, 195, 35);
@@ -86,11 +86,11 @@ export const generateContractPDF = async (data: ContractData) => {
 
   // Right Column
   doc.setFont('helvetica', 'bold');
-  doc.text(`CONTRATADA: ${FSL_INFO.name}`, 105, currentY + 6);
+  doc.text(`CONTRATADA: ${UMBULAB_INFO.name}`, 105, currentY + 6);
   doc.setFont('helvetica', 'normal');
-  doc.text(`CNPJ: ${FSL_INFO.cnpj}`, 105, currentY + 10);
-  doc.text(`Endereço: ${FSL_INFO.address}`, 105, currentY + 14);
-  doc.text(`E-mail: ${FSL_INFO.email} | Telefone: ${FSL_INFO.phone}`, 105, currentY + 18);
+  doc.text(`CNPJ: ${UMBULAB_INFO.cnpj}`, 105, currentY + 10);
+  doc.text(`Endereço: ${UMBULAB_INFO.address}`, 105, currentY + 14);
+  doc.text(`E-mail: ${UMBULAB_INFO.email} | Telefone: ${UMBULAB_INFO.phone}`, 105, currentY + 18);
 
   // --- 2. Objective ---
   currentY = 90;
@@ -100,7 +100,7 @@ export const generateContractPDF = async (data: ContractData) => {
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8);
   const objective = type === 'service'
-    ? `O presente contrato tem como objetivo a prestação de serviços de ${project.service.name} pela FSL Solution à contratante. Detalhamento: ${serviceDetail}`
+    ? `O presente contrato tem como objetivo a prestação de serviços de ${project.service.name} pela UmbuLab à contratante. Detalhamento: ${serviceDetail}`
     : `O presente contrato visa a manutenção e suporte do serviço de ${project.service.name}. Detalhamento: ${serviceDetail}`;
   
   const splitObjective = doc.splitTextToSize(objective, 180);
@@ -146,7 +146,7 @@ export const generateContractPDF = async (data: ContractData) => {
   doc.text('5. RESPONSABILIDADES', 15, currentY);
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8);
-  const respT = `A FSL Solution compromete-se a desenvolver o projeto conforme o escopo técnico acordado. A CONTRATANTE compromete-se a fornecer os materiais e acessos necessários para o bom andamento do cronograma.`;
+  const respT = `A UmbuLab compromete-se a desenvolver o projeto conforme o escopo técnico acordado. A CONTRATANTE compromete-se a fornecer os materiais e acessos necessários para o bom andamento do cronograma.`;
   const splitResp = doc.splitTextToSize(respT, 180);
   doc.text(splitResp, 15, currentY + 6);
   currentY += 10 + (splitResp.length * 4);
@@ -175,15 +175,15 @@ export const generateContractPDF = async (data: ContractData) => {
   
   doc.setFontSize(10);
   doc.text('CONTRATANTE', 55, currentY + 6, { align: 'center' });
-  doc.text('CONTRATADA (FSL SOLUTION)', 155, currentY + 6, { align: 'center' });
+  doc.text('CONTRATADA (UMBULAB)', 155, currentY + 6, { align: 'center' });
   
   doc.setFontSize(9);
   doc.setTextColor(180);
   doc.setFont('helvetica', 'normal');
-  doc.text('Assinatura Digital via Hash de Autenticação - FSL System', 105, currentY + 25, { align: 'center' });
+  doc.text('Assinatura Digital via Hash de Autenticação - UmbuLab System', 105, currentY + 25, { align: 'center' });
 
   // Save/Download
-  const fileName = `Contrato_FSL_${client.full_name.replace(/\s+/g, '_')}_${type}.pdf`;
+  const fileName = `Contrato_UmbuLab_${client.full_name.replace(/\s+/g, '_')}_${type}.pdf`;
   doc.save(fileName);
   
   return { blob: doc.output('blob'), fileName };

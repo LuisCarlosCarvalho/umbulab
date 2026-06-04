@@ -88,7 +88,7 @@ Deno.serve(async (req: Request) => {
     // If we're on the Supabase domain, we need to know where we came from.
     // We can check if it's localhost or the production domain.
     // For now, let's prefer the production domain as default for safety.
-    origin = 'https://fslsolution.com'
+    origin = 'https://umbulab.com'
   }
   
   return Response.redirect(`${origin}/admin?tab=traffic&connected=true`, 302)

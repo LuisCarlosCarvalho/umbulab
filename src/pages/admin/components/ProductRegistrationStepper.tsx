@@ -120,9 +120,9 @@ export function ProductRegistrationStepper({ product, onSave, onClose }: Product
       case 1:
         return (
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4">
-            <div className="bg-blue-50 border border-blue-100 p-4 rounded-xl flex gap-3">
-              <AlertCircle className="text-blue-600 shrink-0" size={20} />
-              <p className="text-sm text-blue-800">
+            <div className="bg-green-50 border border-green-100 p-4 rounded-xl flex gap-3">
+              <AlertCircle className="text-green-600 shrink-0" size={20} />
+              <p className="text-sm text-green-800">
                 Comece definindo o terreno. Quais palavras as pessoas usam para achar seu produto? Quem é seu concorrente?
               </p>
             </div>
@@ -138,7 +138,7 @@ export function ProductRegistrationStepper({ product, onSave, onClose }: Product
                       ...formData,
                       market_intel: { ...formData.market_intel, niche: e.target.value }
                     })}
-                    className="mt-1 w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                    className="mt-1 w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 outline-none"
                     placeholder="Ex: Consultoria de Tráfego Pago"
                   />
                 </label>
@@ -152,7 +152,7 @@ export function ProductRegistrationStepper({ product, onSave, onClose }: Product
                       ...formData,
                       market_intel: { ...formData.market_intel, root_keyword: e.target.value }
                     })}
-                    className="mt-1 w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                    className="mt-1 w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 outline-none"
                     placeholder="Ex: Gestor de Anúncios"
                   />
                 </label>
@@ -168,7 +168,7 @@ export function ProductRegistrationStepper({ product, onSave, onClose }: Product
                       ...formData,
                       seo_metadata: { ...formData.seo_metadata, primary_keyword: e.target.value }
                     })}
-                    className="mt-1 w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                    className="mt-1 w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 outline-none"
                     placeholder="A palavra que você quer rankear"
                   />
                 </label>
@@ -182,7 +182,7 @@ export function ProductRegistrationStepper({ product, onSave, onClose }: Product
                       ...formData,
                       seo_metadata: { ...formData.seo_metadata, target_audience: e.target.value }
                     })}
-                    className="mt-1 w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                    className="mt-1 w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 outline-none"
                     placeholder="Ex: Pequenos empresários locais"
                   />
                 </label>
@@ -223,7 +223,7 @@ export function ProductRegistrationStepper({ product, onSave, onClose }: Product
                       competitor_urls: [...(formData.market_intel?.competitor_urls || []), ''] 
                     }
                   })}
-                  className="text-xs font-bold text-blue-600 hover:underline flex items-center gap-1"
+                  className="text-xs font-bold text-green-600 hover:underline flex items-center gap-1"
                 >
                   + Adicionar Concorrente
                 </button>
@@ -249,7 +249,7 @@ export function ProductRegistrationStepper({ product, onSave, onClose }: Product
                   type="text"
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  className="w-full px-6 py-4 border-2 border-gray-100 rounded-2xl text-xl font-bold focus:ring-4 focus:ring-blue-100 outline-none transition-all"
+                  className="w-full px-6 py-4 border-2 border-gray-100 rounded-2xl text-xl font-bold focus:ring-4 focus:ring-green-100 outline-none transition-all"
                   placeholder="Ex: Gestão de Tráfego Pago para Negócios Locais"
                 />
                 <div className="mt-2 flex justify-between items-center px-1">
@@ -275,7 +275,7 @@ export function ProductRegistrationStepper({ product, onSave, onClose }: Product
                 <textarea
                   value={formData.subtitle || ''}
                   onChange={(e) => setFormData({ ...formData, subtitle: e.target.value })}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none min-h-[80px]"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 outline-none min-h-[80px]"
                   placeholder="Qual o principal benefício imediato?"
                 />
               </div>
@@ -329,7 +329,7 @@ export function ProductRegistrationStepper({ product, onSave, onClose }: Product
                     ...formData,
                     copy_metadata: { ...formData.copy_metadata, headline: e.target.value }
                   })}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none font-bold"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 outline-none font-bold"
                   placeholder="A frase que prende a atenção"
                 />
               </div>
@@ -339,7 +339,7 @@ export function ProductRegistrationStepper({ product, onSave, onClose }: Product
                 <textarea
                   value={formData.description || ''}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none min-h-[150px]"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 outline-none min-h-[150px]"
                   placeholder="Detalhe seu produto ou serviço..."
                 />
               </div>
@@ -379,7 +379,7 @@ export function ProductRegistrationStepper({ product, onSave, onClose }: Product
                           benefits: [...(formData.copy_metadata?.benefits || []), ''] 
                         }
                       })}
-                      className="text-[10px] font-black uppercase text-blue-600 hover:text-blue-700"
+                      className="text-[10px] font-black uppercase text-green-600 hover:text-green-700"
                     >
                       + Adicionar Benefício
                     </button>
@@ -528,14 +528,14 @@ export function ProductRegistrationStepper({ product, onSave, onClose }: Product
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4">
             <h3 className="font-black text-gray-900 uppercase tracking-widest text-lg">Mídia e Ativos Digitais</h3>
             
-            <div className="bg-blue-50/50 p-6 rounded-3xl border border-blue-100">
+            <div className="bg-green-50/50 p-6 rounded-3xl border border-green-100">
                <div className="flex items-center gap-4 mb-6">
-                 <div className="w-12 h-12 bg-blue-600 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-blue-200">
+                 <div className="w-12 h-12 bg-green-600 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-green-200">
                    <ImageIcon size={24} />
                  </div>
                  <div>
-                   <h4 className="font-bold text-blue-900">Galeria de Imagens</h4>
-                   <p className="text-xs text-blue-600">Recomendado: 1080x1080, Fundo Branco, WebP</p>
+                   <h4 className="font-bold text-green-900">Galeria de Imagens</h4>
+                   <p className="text-xs text-green-600">Recomendado: 1080x1080, Fundo Branco, WebP</p>
                  </div>
                </div>
 
@@ -555,13 +555,13 @@ export function ProductRegistrationStepper({ product, onSave, onClose }: Product
                          </button>
                       </div>
                       {i === 0 && (
-                        <span className="absolute top-2 left-2 px-2 py-0.5 bg-blue-600 text-white text-[8px] font-black uppercase rounded">Capa</span>
+                        <span className="absolute top-2 left-2 px-2 py-0.5 bg-green-600 text-white text-[8px] font-black uppercase rounded">Capa</span>
                       )}
                    </div>
                  ))}
                  
                  {(!formData.image_urls || formData.image_urls.length < 5) && (
-                   <div className="aspect-square border-2 border-dashed border-blue-200 rounded-2xl flex flex-col items-center justify-center bg-white/50 hover:bg-white hover:border-blue-400 transition-all cursor-pointer group"
+                   <div className="aspect-square border-2 border-dashed border-green-200 rounded-2xl flex flex-col items-center justify-center bg-white/50 hover:bg-white hover:border-green-400 transition-all cursor-pointer group"
                     onClick={() => {
                       const url = prompt('Cole o link da imagem (ou use upload):');
                       if (url) {
@@ -569,8 +569,8 @@ export function ProductRegistrationStepper({ product, onSave, onClose }: Product
                       }
                     }}
                    >
-                     <Plus className="text-blue-300 group-hover:text-blue-500" size={24} />
-                     <span className="text-[10px] font-black text-blue-300 group-hover:text-blue-500 uppercase mt-2">Add Foto</span>
+                     <Plus className="text-green-300 group-hover:text-green-500" size={24} />
+                     <span className="text-[10px] font-black text-green-300 group-hover:text-green-500 uppercase mt-2">Add Foto</span>
                    </div>
                  )}
                </div>
@@ -606,7 +606,7 @@ export function ProductRegistrationStepper({ product, onSave, onClose }: Product
              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                <div className="lg:col-span-2 space-y-6">
                   <h3 className="font-black text-gray-900 uppercase tracking-widest text-lg flex items-center gap-2">
-                    <Eye size={20} className="text-blue-600" />
+                    <Eye size={20} className="text-green-600" />
                     Review Multicanal
                   </h3>
                   
@@ -617,7 +617,7 @@ export function ProductRegistrationStepper({ product, onSave, onClose }: Product
                     </div>
                     <div className="p-6 bg-white space-y-1">
                        <p className="text-[#1a0dab] text-xl hover:underline cursor-pointer truncate">{formData.title}</p>
-                       <p className="text-[#006621] text-sm flex items-center gap-1">https://fslsolution.pt/produtos/{formData.public_code} <ChevronRight size={10} /></p>
+                       <p className="text-[#006621] text-sm flex items-center gap-1">https://umbulab.com/produtos/{formData.public_code} <ChevronRight size={10} /></p>
                        <p className="text-[#4d5156] text-sm line-clamp-2">{formData.description || formData.subtitle}</p>
                     </div>
                   </div>
@@ -634,7 +634,7 @@ export function ProductRegistrationStepper({ product, onSave, onClose }: Product
                        <div className="space-y-2">
                          <h4 className="font-bold text-gray-900">{formData.title}</h4>
                          <p className="text-xs text-gray-500 line-clamp-2">{formData.subtitle}</p>
-                         <span className="inline-block px-3 py-1 bg-blue-600 text-white text-[10px] font-bold rounded-lg">{formData.cta_label}</span>
+                         <span className="inline-block px-3 py-1 bg-green-600 text-white text-[10px] font-bold rounded-lg">{formData.cta_label}</span>
                        </div>
                     </div>
                   </div>
@@ -676,13 +676,13 @@ export function ProductRegistrationStepper({ product, onSave, onClose }: Product
         {/* Header */}
         <div className="px-10 py-6 border-b flex items-center justify-between bg-white relative">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-100">
+            <div className="w-12 h-12 bg-green-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-green-100">
               <Sparkles size={24} />
             </div>
             <div>
               <h2 className="text-xl font-black text-gray-900 uppercase tracking-tighter">SEO de Gestão - Módulo Inteligente</h2>
               <div className="flex items-center gap-2 mt-0.5">
-                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">FSL Solution • Intelligent Registration</span>
+                <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">UmbuLab • Intelligent Registration</span>
               </div>
             </div>
           </div>
@@ -698,7 +698,7 @@ export function ProductRegistrationStepper({ product, onSave, onClose }: Product
                     isActive ? 'scale-110' : 'opacity-40 hover:opacity-100'
                   }`}>
                     <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${
-                      isActive ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' : isPast ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-400'
+                      isActive ? 'bg-green-600 text-white shadow-lg shadow-green-200' : isPast ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-400'
                     }`}>
                       {isPast ? <CheckCircle2 size={18} /> : <Icon size={18} />}
                     </div>
@@ -742,7 +742,7 @@ export function ProductRegistrationStepper({ product, onSave, onClose }: Product
              {currentStep < 6 ? (
                <button 
                 onClick={handleNext}
-                className="px-8 py-4 bg-gray-900 text-white rounded-2xl font-bold hover:bg-blue-600 transition-all flex items-center gap-2 shadow-lg shadow-gray-200 active:scale-95"
+                className="px-8 py-4 bg-gray-900 text-white rounded-2xl font-bold hover:bg-green-600 transition-all flex items-center gap-2 shadow-lg shadow-gray-200 active:scale-95"
                >
                  Próxima Etapa
                  <ChevronRight size={20} />
@@ -758,8 +758,8 @@ export function ProductRegistrationStepper({ product, onSave, onClose }: Product
                   }
                 }}
                 disabled={isSubmitting}
-                className={`px-8 py-4 bg-blue-600 text-white rounded-2xl font-bold transition-all flex items-center gap-2 shadow-xl shadow-blue-200 ${
-                  isSubmitting ? 'opacity-70 cursor-wait' : 'hover:bg-blue-700 active:scale-95'
+                className={`px-8 py-4 bg-green-600 text-white rounded-2xl font-bold transition-all flex items-center gap-2 shadow-xl shadow-green-200 ${
+                  isSubmitting ? 'opacity-70 cursor-wait' : 'hover:bg-green-700 active:scale-95'
                 }`}
                >
                  {isSubmitting ? <Loader2 size={20} className="animate-spin" /> : <Save size={20} />}

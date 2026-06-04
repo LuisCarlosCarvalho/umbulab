@@ -26,7 +26,7 @@ export function LogoCarousel() {
   return (
     <div className="py-20 bg-gray-50 border-y border-gray-100 overflow-hidden relative group">
       <div className="max-w-7xl mx-auto px-4 mb-10 text-center">
-        <h3 className="text-xs font-black text-gray-400 uppercase tracking-[0.3em] mb-4">Empresas que confiam na FSL</h3>
+        <h3 className="text-xs font-black text-gray-400 uppercase tracking-[0.3em] mb-4">Empresas que confiam na UmbuLab</h3>
       </div>
       
       <div className="flex w-fit animate-scroll hover:[animation-play-state:paused]">

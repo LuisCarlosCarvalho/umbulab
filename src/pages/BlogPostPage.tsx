@@ -37,20 +37,20 @@ export function BlogPostPage() {
 
   if (loading) {
     return (
-      <div className="pt-32 pb-24 min-h-screen bg-white flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="pt-32 pb-24 min-h-screen bg-[#0d0d0d] flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-700"></div>
       </div>
     );
   }
 
   if (!post) {
     return (
-      <div className="pt-32 pb-24 min-h-screen bg-white flex flex-col items-center justify-center px-4 text-center">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">Artigo não encontrado</h1>
-        <p className="text-gray-500 mb-8 max-w-md">O artigo que você está procurando pode ter sido removido ou o link está incorreto.</p>
+      <div className="pt-32 pb-24 min-h-screen bg-[#0d0d0d] flex flex-col items-center justify-center px-4 text-center text-white">
+        <h1 className="text-4xl font-bold text-white mb-4">Artigo não encontrado</h1>
+        <p className="text-neutral-400 mb-8 max-w-md">O artigo que você está procurando pode ter sido removido ou o link está incorreto.</p>
         <button 
           onClick={() => navigate('/blog')}
-          className="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition-all"
+          className="btn btn-primary"
         >
           Ver todos os artigos
         </button>
@@ -64,12 +64,12 @@ export function BlogPostPage() {
   const minutes = Math.ceil(noOfWords / wordsPerMinute);
 
   return (
-    <article className="pt-32 pb-24 bg-white min-h-screen">
+    <article className="pt-32 pb-24 bg-[#0d0d0d] min-h-screen text-white">
       <div className="max-w-4xl mx-auto px-4">
         {/* Breadcrumb */}
         <button 
           onClick={() => navigate('/blog')}
-          className="flex items-center gap-2 text-gray-500 hover:text-blue-600 transition-colors mb-8 font-medium group"
+          className="flex items-center gap-2 text-neutral-400 hover:text-green-400 transition-colors mb-8 font-medium group"
         >
           <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
           Voltar para o Blog
@@ -77,7 +77,7 @@ export function BlogPostPage() {
 
         {/* Header */}
         <header className="mb-12">
-          <div className="flex items-center gap-6 mb-8 text-sm font-bold text-blue-600 uppercase tracking-widest">
+          <div className="flex items-center gap-6 mb-8 text-sm font-bold text-green-400 uppercase tracking-widest">
             <div className="flex items-center gap-2">
               <Calendar size={16} />
               {new Date(post.published_at).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })}
@@ -88,18 +88,18 @@ export function BlogPostPage() {
             </div>
           </div>
           
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 leading-[1.1] mb-8 tracking-tight">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] mb-8 tracking-tight">
             {post.title}
           </h1>
 
-          <div className="flex items-center justify-between pb-8 border-b border-gray-100">
+          <div className="flex items-center justify-between pb-8 border-b border-white/5">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-xl uppercase shadow-lg shadow-blue-100">
-                F
+              <div className="w-12 h-12 bg-green-700 rounded-full flex items-center justify-center text-white font-bold text-xl uppercase shadow-lg shadow-green-950/20">
+                U
               </div>
               <div>
-                <p className="font-bold text-gray-900">Equipe FSL Solution</p>
-                <p className="text-xs text-gray-400">Especialistas em Estratégia Digital</p>
+                <p className="font-bold text-white">Equipe UmbuLab</p>
+                <p className="text-xs text-neutral-400">Especialistas em Estratégia Digital</p>
               </div>
             </div>
             
@@ -113,7 +113,7 @@ export function BlogPostPage() {
                   alert('Link do artigo copiado!');
                 });
               }}
-              className="p-3 border border-gray-100 rounded-2xl hover:bg-gray-50 text-gray-500 transition-all shadow-sm"
+              className="p-3 border border-white/5 rounded-2xl hover:bg-white/5 text-neutral-400 hover:text-white transition-all shadow-sm"
               title="Compartilhar"
             >
               <Share2 size={20} />
@@ -122,16 +122,16 @@ export function BlogPostPage() {
         </header>
 
         {/* Featured Image */}
-        <div className="aspect-video w-full rounded-[40px] overflow-hidden mb-16 shadow-2xl shadow-blue-100/50 border border-gray-50">
+        <div className="aspect-video w-full rounded-[40px] overflow-hidden mb-16 border border-white/5 shadow-2xl">
           <img 
             src={post.featured_image_url} 
             alt={post.title} 
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover opacity-90"
           />
         </div>
 
         {/* Content */}
-        <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed font-medium">
+        <div className="prose prose-lg prose-invert max-w-none text-neutral-300 leading-relaxed font-medium">
           <div 
              className="blog-content"
              dangerouslySetInnerHTML={{ __html: post.content.replace(/\n/g, '<br />') }} 
@@ -139,12 +139,12 @@ export function BlogPostPage() {
         </div>
 
         {/* Footer info */}
-        <footer className="mt-24 pt-12 border-t border-gray-100 text-center">
-            <h4 className="text-2xl font-bold text-gray-900 mb-4">Gostou deste artigo?</h4>
-            <p className="text-gray-500 mb-8 max-w-lg mx-auto italic">Compartilhe conhecimento! A FSL Solution está sempre em busca de inovação e resultados para nossos parceiros.</p>
+        <footer className="mt-24 pt-12 border-t border-white/5 text-center">
+            <h4 className="text-2xl font-bold text-white mb-4">Gostou deste artigo?</h4>
+            <p className="text-neutral-400 mb-8 max-w-lg mx-auto italic">Compartilhe conhecimento! A UmbuLab está sempre em busca de inovação e resultados para nossos parceiros.</p>
             <button 
               onClick={() => navigate('/blog')}
-              className="inline-flex items-center gap-3 px-8 py-4 bg-gray-900 text-white rounded-2xl font-bold hover:bg-blue-600 transition-all shadow-xl hover:shadow-blue-200"
+              className="inline-flex items-center gap-3 px-8 py-4 bg-green-700 hover:bg-green-800 text-white rounded-2xl font-bold transition-all shadow-xl shadow-green-950/20"
             >
               Explorar mais artigos
             </button>
@@ -152,14 +152,15 @@ export function BlogPostPage() {
       </div>
 
       <style>{`
-        .blog-content h2 { font-size: 2rem; font-weight: 800; color: #111827; margin-top: 3rem; margin-bottom: 1.5rem; letter-spacing: -0.025em; }
-        .blog-content h3 { font-size: 1.5rem; font-weight: 700; color: #111827; margin-top: 2.5rem; margin-bottom: 1rem; }
-        .blog-content p { margin-bottom: 1.5rem; color: #374151; }
+        .blog-content h2 { font-size: 2rem; font-weight: 800; color: #ffffff; margin-top: 3rem; margin-bottom: 1.5rem; letter-spacing: -0.025em; }
+        .blog-content h3 { font-size: 1.5rem; font-weight: 700; color: #ffffff; margin-top: 2.5rem; margin-bottom: 1rem; }
+        .blog-content p { margin-bottom: 1.5rem; color: #d4d4d4; }
         .blog-content ul { list-style-type: disc; margin-left: 1.5rem; margin-bottom: 1.5rem; }
-        .blog-content li { margin-bottom: 0.5rem; }
-        .blog-content strong { color: #111827; font-weight: 700; }
-        .blog-content blockquote { border-left: 4px solid #2563eb; padding-left: 1.5rem; font-style: italic; font-size: 1.25rem; color: #1d4ed8; margin: 3rem 0; background: #eff6ff; padding: 2rem; border-radius: 0 24px 24px 0; }
+        .blog-content li { margin-bottom: 0.5rem; color: #d4d4d4; }
+        .blog-content strong { color: #ffffff; font-weight: 700; }
+        .blog-content blockquote { border-left: 4px solid #2e7d32; padding-left: 1.5rem; font-style: italic; font-size: 1.25rem; color: #4ade80; margin: 3rem 0; background: rgba(46,125,50,0.1); padding: 2rem; border-radius: 0 24px 24px 0; }
       `}</style>
     </article>
   );
 }
+

@@ -95,8 +95,8 @@ Deno.serve(async (req: Request) => {
         "Authorization": `Bearer ${resendApiKey}`,
       },
       body: JSON.stringify({
-        from: "FSL Solution <onboarding@resend.dev>",
-        to: ["fslsolutiondigital@gmail.com"],
+        from: "UmbuLab <onboarding@resend.dev>",
+        to: ["contato@umbulab.com"],
         subject: `Nova Solicitação: ${serviceName} - ${name}`,
         html: emailBody,
       }),

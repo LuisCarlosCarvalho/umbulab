@@ -25,7 +25,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<Profile | null>(() => {
     try {
-      const cached = localStorage.getItem('__fsl_auth_profile');
+      const cached = localStorage.getItem('__umbulab_auth_profile');
       return cached ? JSON.parse(cached) : null;
     } catch {
       return null;
@@ -40,7 +40,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     supabase.auth.getSession().then(({ data, error }) => {
       if (error || !data.session) {
         if (error) console.error('[Auth Context] Session init error - forcing clean state:', error);
-        localStorage.removeItem('__fsl_auth_profile');
+        localStorage.removeItem('__umbulab_auth_profile');
         supabase.auth.signOut().catch(() => {});
       }
     });
@@ -78,13 +78,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             }
             if (mounted && data) {
               setProfile(data);
-              localStorage.setItem('__fsl_auth_profile', JSON.stringify(data));
+              localStorage.setItem('__umbulab_auth_profile', JSON.stringify(data));
             }
           });
       } else {
         if (mounted) {
           setProfile(null);
-          localStorage.removeItem('__fsl_auth_profile');
+          localStorage.removeItem('__umbulab_auth_profile');
         }
       }
     });

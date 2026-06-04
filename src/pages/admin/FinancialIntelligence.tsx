@@ -35,7 +35,7 @@ export const FinancialIntelligence = () => {
             Controladoria Analítica
           </h1>
           <p className="text-slate-400 mt-2 text-sm uppercase tracking-wider font-semibold">
-            Visão Executiva C-Level • FSL Solution
+            Visão Executiva C-Level • UmbuLab
           </p>
         </div>
         <div className="flex gap-4">

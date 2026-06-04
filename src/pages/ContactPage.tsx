@@ -202,12 +202,12 @@ export function ContactPage() {
               <h2 className="text-xl font-bold text-gray-900 mb-8">Informações de Contato</h2>
               <div className="space-y-8">
                 <div className="flex items-center gap-4 group">
-                  <div className="bg-blue-50 p-4 rounded-2xl group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 text-blue-600">
+                  <div className="bg-green-50 p-4 rounded-2xl group-hover:bg-green-600 group-hover:text-white transition-all duration-300 text-green-600">
                     <Mail size={24} />
                   </div>
                   <div>
                     <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider">Email</h3>
-                    <p className="text-gray-900 font-semibold">contato@fslsolution.com</p>
+                    <p className="text-gray-900 font-semibold">contato@umbulab.com</p>
                   </div>
                 </div>
 
@@ -233,7 +233,7 @@ export function ContactPage() {
               </div>
 
               <div className="mt-12 p-6 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
-                 <div className="flex items-center gap-2 text-blue-600 mb-2">
+                 <div className="flex items-center gap-2 text-green-600 mb-2">
                    <ShieldCheck size={18} />
                    <span className="font-bold text-sm">Privacidade Garantida</span>
                  </div>
@@ -243,14 +243,14 @@ export function ContactPage() {
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-blue-700 to-indigo-800 rounded-3xl p-8 text-white shadow-lg shadow-blue-200">
+            <div className="bg-gradient-to-br from-green-800 to-emerald-950 rounded-3xl p-8 text-white shadow-lg shadow-green-100">
               <h3 className="text-2xl font-bold mb-6">Suporte Estratégico</h3>
               <ul className="space-y-4 mb-8">
-                <li className="flex items-start gap-3 text-blue-100">
+                <li className="flex items-start gap-3 text-green-100">
                   <ArrowRight size={18} className="mt-1 flex-shrink-0" />
                   <span>Análise técnica detalhada do projeto</span>
                 </li>
-                <li className="flex items-start gap-3 text-blue-100">
+                <li className="flex items-start gap-3 text-green-100">
                   <ArrowRight size={18} className="mt-1 flex-shrink-0" />
                   <span>Consultoria gratuita no primeiro contato</span>
                 </li>
@@ -268,27 +268,27 @@ export function ContactPage() {
               <div className="bg-gray-50 px-8 py-4 border-b border-gray-100 flex items-center justify-between overflow-x-auto">
                 <div className="flex gap-3 min-w-max">
                   {/* Step 1 */}
-                  <div className={`flex items-center gap-2 ${step >= 1 ? 'text-blue-600' : 'text-gray-400'}`}>
-                    <span className={`w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs ${step >= 1 ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' : 'bg-gray-200'}`}>1</span>
+                  <div className={`flex items-center gap-2 ${step >= 1 ? 'text-green-600' : 'text-gray-400'}`}>
+                    <span className={`w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs ${step >= 1 ? 'bg-green-600 text-white shadow-lg shadow-green-200' : 'bg-gray-200'}`}>1</span>
                     <span className="font-bold text-sm">Identificação</span>
                   </div>
-                  <div className={`w-8 h-1 rounded-full self-center ${step >= 2 ? 'bg-blue-600' : 'bg-gray-200'}`} />
+                  <div className={`w-8 h-1 rounded-full self-center ${step >= 2 ? 'bg-green-600' : 'bg-gray-200'}`} />
                   
                   {/* Step 2 */}
-                  <div className={`flex items-center gap-2 ${step >= 2 ? 'text-blue-600' : 'text-gray-400'}`}>
-                    <span className={`w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs ${step >= 2 ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' : 'bg-gray-200'}`}>2</span>
+                  <div className={`flex items-center gap-2 ${step >= 2 ? 'text-green-600' : 'text-gray-400'}`}>
+                    <span className={`w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs ${step >= 2 ? 'bg-green-600 text-white shadow-lg shadow-green-200' : 'bg-gray-200'}`}>2</span>
                     <span className="font-bold text-sm">Interesse</span>
                   </div>
-                  <div className={`w-8 h-1 rounded-full self-center ${step >= 3 ? 'bg-blue-600' : 'bg-gray-200'}`} />
+                  <div className={`w-8 h-1 rounded-full self-center ${step >= 3 ? 'bg-green-600' : 'bg-gray-200'}`} />
 
                   {/* Step 3 */}
-                  <div className={`flex items-center gap-2 ${step >= 3 ? 'text-blue-600' : 'text-gray-400'}`}>
-                    <span className={`w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs ${step >= 3 ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' : 'bg-gray-200'}`}>3</span>
+                  <div className={`flex items-center gap-2 ${step >= 3 ? 'text-green-600' : 'text-gray-400'}`}>
+                    <span className={`w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs ${step >= 3 ? 'bg-green-600 text-white shadow-lg shadow-green-200' : 'bg-gray-200'}`}>3</span>
                     <span className="font-bold text-sm">Detalhes</span>
                   </div>
                 </div>
                 {step > 1 && !submitSuccess && (
-                  <button onClick={() => setStep(step - 1)} className="text-sm font-bold text-gray-400 hover:text-blue-600 flex-shrink-0 ml-4 transition-colors">
+                  <button onClick={() => setStep(step - 1)} className="text-sm font-bold text-gray-400 hover:text-green-600 flex-shrink-0 ml-4 transition-colors">
                     Voltar
                   </button>
                 )}
@@ -321,13 +321,13 @@ export function ContactPage() {
                         <div className="grid grid-cols-1 gap-6">
                            <div>
                              <label className="block text-sm font-bold text-gray-700 mb-2 flex items-center gap-2">
-                               <User size={16} className="text-blue-500" />
+                               <User size={16} className="text-green-500" />
                                Nome Completo *
                              </label>
                              <input
                                type="text"
                                required
-                               className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition-all font-medium"
+                               className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-green-500 outline-none transition-all font-medium"
                                placeholder="Ex: João Silva"
                                value={formData.name}
                                onChange={(e) => setFormData({...formData, name: e.target.value})}
@@ -336,13 +336,13 @@ export function ContactPage() {
 
                            <div>
                              <label className="block text-sm font-bold text-gray-700 mb-2 flex items-center gap-2">
-                               <Mail size={16} className="text-blue-500" />
+                               <Mail size={16} className="text-green-500" />
                                E-mail Corporativo *
                              </label>
                              <input
                                type="email"
                                required
-                               className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition-all font-medium"
+                               className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-green-500 outline-none transition-all font-medium"
                                placeholder="seu@empresa.com"
                                value={formData.email}
                                onChange={(e) => setFormData({...formData, email: e.target.value})}
@@ -351,12 +351,12 @@ export function ContactPage() {
 
                            <div>
                               <label className="block text-sm font-bold text-gray-700 mb-2 flex items-center gap-2">
-                                <Globe size={16} className="text-blue-500" />
+                                <Globe size={16} className="text-green-500" />
                                 Região de Faturamento *
                               </label>
                               <select
                                 required
-                                className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition-all font-bold text-gray-900 appearance-none cursor-pointer"
+                                className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-green-500 outline-none transition-all font-bold text-gray-900 appearance-none cursor-pointer"
                                 value={formData.region}
                                 onChange={(e) => {
                                   const selected = countryCodes.find(c => c.country === e.target.value);
@@ -379,7 +379,7 @@ export function ContactPage() {
                           <button
                             type="button"
                             onClick={handleNextStep1}
-                            className="w-full bg-blue-600 text-white px-8 py-5 rounded-2xl font-black text-lg hover:bg-blue-700 transition-all flex items-center justify-center gap-3 shadow-lg shadow-blue-100"
+                            className="w-full bg-green-600 text-white px-8 py-5 rounded-2xl font-black text-lg hover:bg-green-700 transition-all flex items-center justify-center gap-3 shadow-lg shadow-green-100"
                           >
                             Continuar para Contato
                             <ArrowRight size={24} />
@@ -393,12 +393,12 @@ export function ContactPage() {
                         <div className="grid grid-cols-1 gap-6">
                            <div>
                              <label className="block text-sm font-bold text-gray-700 mb-2 flex items-center gap-2">
-                               <MessageCircle size={16} className="text-blue-500" />
+                               <MessageCircle size={16} className="text-green-500" />
                                WhatsApp / Telemóvel
                              </label>
                              <div className="flex gap-2">
                                <select 
-                                 className="px-3 bg-gray-50 border border-gray-200 rounded-2xl outline-none text-sm font-bold focus:ring-2 focus:ring-blue-500"
+                                 className="px-3 bg-gray-50 border border-gray-200 rounded-2xl outline-none text-sm font-bold focus:ring-2 focus:ring-green-500"
                                  value={formData.countryCode}
                                  onChange={(e) => {
                                    const selected = countryCodes.find(c => c.code === e.target.value);
@@ -414,7 +414,7 @@ export function ContactPage() {
                                </select>
                                <input
                                  type="tel"
-                                 className="flex-1 px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition-all font-medium"
+                                 className="flex-1 px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-green-500 outline-none transition-all font-medium"
                                  placeholder="99999-9999"
                                  value={formData.phone}
                                  onChange={(e) => setFormData({...formData, phone: e.target.value.replace(/\D/g, '')})}
@@ -424,12 +424,12 @@ export function ContactPage() {
 
                           <div>
                              <label className="block text-sm font-bold text-gray-700 mb-2 flex items-center gap-2">
-                               <Globe size={16} className="text-blue-500" />
+                               <Globe size={16} className="text-green-500" />
                                Qual Serviço você precisa? *
                              </label>
                              <select
                                required
-                               className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition-all font-bold text-gray-900 appearance-none cursor-pointer"
+                               className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-green-500 outline-none transition-all font-bold text-gray-900 appearance-none cursor-pointer"
                                value={formData.service_type}
                                onChange={(e) => setFormData({...formData, service_type: e.target.value})}
                              >
@@ -443,7 +443,7 @@ export function ContactPage() {
                           <button
                             type="button"
                             onClick={handleNextStep2}
-                            className="w-full bg-blue-600 text-white px-8 py-5 rounded-2xl font-black text-lg hover:bg-blue-700 transition-all flex items-center justify-center gap-3 shadow-lg shadow-blue-100"
+                            className="w-full bg-green-600 text-white px-8 py-5 rounded-2xl font-black text-lg hover:bg-green-700 transition-all flex items-center justify-center gap-3 shadow-lg shadow-green-100"
                           >
                             Configurar Escopo do Projeto
                             <ArrowRight size={24} />
@@ -454,12 +454,12 @@ export function ContactPage() {
 
                     {step === 3 && (
                       <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
-                        <div className="bg-blue-50/50 p-6 rounded-2xl border border-blue-100 flex items-center justify-between">
+                        <div className="bg-green-50/50 p-6 rounded-2xl border border-green-100 flex items-center justify-between">
                           <div>
-                            <p className="text-xs font-bold text-blue-600 uppercase tracking-widest mb-1">Passo 3 de 3</p>
+                            <p className="text-xs font-bold text-green-600 uppercase tracking-widest mb-1">Passo 3 de 3</p>
                             <h4 className="text-lg font-black text-gray-900">{formData.service_type}</h4>
                           </div>
-                          <Globe className="text-blue-500" size={32} />
+                          <Globe className="text-green-500" size={32} />
                         </div>
 
                         {renderServiceForm()}
@@ -468,7 +468,7 @@ export function ContactPage() {
                            <label className="block text-sm font-bold text-gray-700">Informações Adicionais / Contexto</label>
                            <textarea
                              rows={4}
-                             className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none resize-none font-medium"
+                             className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-green-500 outline-none resize-none font-medium"
                              placeholder="Qual é o cenário atual da sua empresa e o que deseja alcançar?"
                              value={formData.message}
                              onChange={(e) => setFormData({...formData, message: e.target.value})}
