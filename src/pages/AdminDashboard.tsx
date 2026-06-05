@@ -140,27 +140,38 @@ export function AdminDashboard() {
   });
 
   // Payment Settings Global State (for rules engine)
+  const [isBlogActive, setIsBlogActive] = useState<boolean>(true);
+  const [isSeoGestaoActive, setIsSeoGestaoActive] = useState<boolean>(true);
   const [paymentConfigs, setPaymentConfigs] = useState<PaymentMethodsState | null>(null);
   const [paymentGlobalSettings, setPaymentGlobalSettings] = useState<GlobalPaymentSettings | null>(null);
 
   useEffect(() => {
     let isMounted = true;
-    const loadPaymentSettings = async () => {
+    const loadSettings = async () => {
       const { data } = await supabase
         .from('configuracoes')
         .select('*')
-        .in('chave', ['payment_methods', 'payment_global_settings']);
+        .in('chave', ['payment_methods', 'payment_global_settings', 'blog_settings', 'seo_gestao_settings']);
       
       if (data && isMounted) {
         const methods = data.find(c => c.chave === 'payment_methods')?.valor;
         const global = data.find(c => c.chave === 'payment_global_settings')?.valor;
+        const blogSettings = data.find(c => c.chave === 'blog_settings')?.valor;
+        const seoGestaoSettings = data.find(c => c.chave === 'seo_gestao_settings')?.valor;
+        
         if (methods) setPaymentConfigs(methods);
         if (global) setPaymentGlobalSettings(global);
+        if (blogSettings && typeof blogSettings === 'object' && 'is_active' in blogSettings) {
+          setIsBlogActive(!!blogSettings.is_active);
+        }
+        if (seoGestaoSettings && typeof seoGestaoSettings === 'object' && 'is_active' in seoGestaoSettings) {
+          setIsSeoGestaoActive(!!seoGestaoSettings.is_active);
+        }
       }
     };
-    loadPaymentSettings();
+    loadSettings();
     return () => { isMounted = false; };
-  }, [activeTab]); // Recarrega se mudar de aba (ex: voltou da aba de config)
+  }, [activeTab]);
   const [isMessageEdited, setIsMessageEdited] = useState(false);
   const [isClientLocked, setIsClientLocked] = useState(false);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
@@ -790,6 +801,38 @@ export function AdminDashboard() {
     }
   };
 
+  const handleToggleBlogActive = async () => {
+    const nextState = !isBlogActive;
+    try {
+      const { error } = await supabase
+        .from('configuracoes')
+        .update({ valor: { is_active: nextState } })
+        .eq('chave', 'blog_settings');
+      if (error) throw error;
+      setIsBlogActive(nextState);
+      showToast(nextState ? 'Blog ativado com sucesso!' : 'Blog desativado com sucesso!', 'success');
+    } catch (err) {
+      console.error('Error toggling blog active state:', err);
+      showToast('Erro ao alterar status do blog.', 'error');
+    }
+  };
+
+  const handleToggleSeoGestaoActive = async () => {
+    const nextState = !isSeoGestaoActive;
+    try {
+      const { error } = await supabase
+        .from('configuracoes')
+        .update({ valor: { is_active: nextState } })
+        .eq('chave', 'seo_gestao_settings');
+      if (error) throw error;
+      setIsSeoGestaoActive(nextState);
+      showToast(nextState ? 'Página SEO de Gestão ativada!' : 'Página SEO de Gestão desativada!', 'success');
+    } catch (err) {
+      console.error('Error toggling seo gestao active state:', err);
+      showToast('Erro ao alterar status da página SEO de Gestão.', 'error');
+    }
+  };
+
   const handleSaveLogo = async () => {
     try {
       if (editingLogo) {
@@ -1159,6 +1202,9 @@ export function AdminDashboard() {
                           solution: '',
                           is_active: true,
                           is_featured: false,
+                          laptop_image_url: '',
+                          tablet_image_url: '',
+                          mobile_image_url: '',
                         });
                         setShowPortfolioModal(true);
                     }}
@@ -1347,6 +1393,9 @@ export function AdminDashboard() {
                           solution: '',
                           is_active: true,
                           is_featured: false,
+                          laptop_image_url: '',
+                          tablet_image_url: '',
+                          mobile_image_url: '',
                         });
                         setShowPortfolioModal(true);
                     }}
@@ -1378,6 +1427,8 @@ export function AdminDashboard() {
                 {activeTab === 'blog' && (
                   <BlogTab
                     posts={blogPosts}
+                    isBlogActive={isBlogActive}
+                    onToggleBlogActive={handleToggleBlogActive}
                     onNewPost={() => {
                       setEditingBlogPost(null);
                       setBlogForm({
@@ -1451,6 +1502,8 @@ export function AdminDashboard() {
                     }}
                     onDeleteProduct={handleDeleteMarketingProduct}
                     onCopyLink={copyProductLink}
+                    isSeoGestaoActive={isSeoGestaoActive}
+                    onToggleSeoGestaoActive={handleToggleSeoGestaoActive}
                   />
                 )}
 

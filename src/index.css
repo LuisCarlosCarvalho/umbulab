@@ -231,3 +231,26 @@ main > section::before {
   @apply hover:bg-green-500/10 hover:-translate-y-0.5 active:scale-95;
 }
 
+/* Mascot float animation */
+@keyframes mascot-float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.animate-mascot-float {
+  animation: mascot-float 4s ease-in-out infinite;
+}
+
+/* Ensure all form controls with light backgrounds have dark text */
+input.bg-gray-50,
+select.bg-gray-50,
+textarea.bg-gray-50 {
+  color: #111827 !important;
+}
+
+
+

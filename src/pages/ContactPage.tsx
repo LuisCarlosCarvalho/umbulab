@@ -5,11 +5,7 @@ import VisitCounter from '../components/VisitCounter';
 import { getErrorMessage } from '../lib/errors';
 import { showToast } from '../components/ui/Toast';
 
-// Sub-forms
-import { WebsiteForm } from '../components/quotes/forms/WebsiteForm';
-import { LogoForm } from '../components/quotes/forms/LogoForm';
-import { CustomProjectForm } from '../components/quotes/forms/CustomProjectForm';
-import { FileUpload } from '../components/quotes/FileUpload';
+
 
 const countryCodes = [
   { code: '+55', country: 'Brasil', flag: '🇧🇷' },
@@ -38,7 +34,7 @@ export function ContactPage() {
   const [loading, setLoading] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitType, setSubmitType] = useState<'whatsapp' | 'email'>('whatsapp');
-  const [step, setStep] = useState(1); // 1: Basic Info, 2: Service Details
+  const [gdprConsent, setGdprConsent] = useState(false);
 
   useEffect(() => {
     loadServices();
@@ -63,47 +59,40 @@ export function ContactPage() {
     }
   };
 
-  const handleNextStep1 = () => {
-    if (!formData.name || !formData.email || !formData.region) {
-      showToast('Por favor, preencha os campos obrigatórios (Nome, E-mail, Região).', 'error');
-      return;
-    }
-    setStep(2);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
 
-  const handleNextStep2 = () => {
-    if (!formData.service_type) {
-      showToast('Por favor, selecione o serviço.', 'error');
-      return;
-    }
-    setStep(3);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!formData.name || !formData.email || !formData.region || !formData.service_type) {
+      showToast('Por favor, preencha os campos obrigatórios (Nome, E-mail, Região, Serviço).', 'error');
+      return;
+    }
+    if (!gdprConsent) {
+      showToast('Por favor, marque a caixa autorizando o tratamento de dados (LGPD/RGPD) para enviar.', 'error');
+      return;
+    }
+
     setLoading(true);
     setSubmitSuccess(false);
 
     try {
       const fullPhone = `${formData.countryCode}${formData.phone}`;
+      const selectedService = services.find(s => s.name === formData.service_type || s.id === formData.service_type);
+      const serviceName = selectedService ? selectedService.name : formData.service_type || 'Outro';
 
       const { error } = await supabase.from('quote_requests').insert([{
         name: formData.name,
         email: formData.email,
         phone: fullPhone,
-        service_type: formData.service_type,
-        message: formData.message,
-        service_details: formData.service_details,
-        attachments: formData.attachments,
+        service_type: serviceName,
+        message: `Solicitação de contato rápido para: ${serviceName}`,
+        service_details: {},
+        attachments: [],
         contact_method: submitType,
       }]);
 
       if (error) throw error;
-
-      const selectedService = services.find(s => s.name === formData.service_type || s.id === formData.service_type);
-      const serviceName = selectedService ? selectedService.name : formData.service_type || 'Outro';
 
       // Disparo de Eventos Google Analytics 4 (DataLayer)
       if (typeof window !== 'undefined') {
@@ -154,7 +143,7 @@ export function ContactPage() {
         service_details: {} as any,
         attachments: [],
       });
-      setStep(1);
+      setGdprConsent(false);
     } catch (err: unknown) {
       console.error('Erro ao processar solicitação:', getErrorMessage(err));
       showToast('Erro ao enviar solicitação.', 'error');
@@ -163,27 +152,7 @@ export function ContactPage() {
     }
   };
 
-  const renderServiceForm = () => {
-    const sName = formData.service_type.toLowerCase();
-    const currentService = services.find(s => s.name.toLowerCase() === sName || s.category.toLowerCase() === sName);
-    
-    const props = {
-      data: formData.service_details,
-      onChange: (details: any) => setFormData({ ...formData, service_details: details }),
-      region: formData.region,
-      pricingConfig: currentService?.pricing_config
-    };
-    
-    return (
-      <div className="animate-in fade-in slide-in-from-bottom-2 duration-500">
-        {(sName.includes('site') || sName.includes('web')) && <WebsiteForm {...props} />}
-        {sName.includes('logo') && <LogoForm {...props} />}
-        {(!sName.includes('site') && !sName.includes('web') && !sName.includes('logo')) && (
-          <CustomProjectForm {...props} />
-        )}
-      </div>
-    );
-  };
+
 
   return (
     <div className="min-h-screen py-20 px-4 sm:px-6 lg:px-8 bg-gray-50/50">
@@ -197,42 +166,53 @@ export function ContactPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Contact Info Sidebar */}
-          <div className="lg:col-span-1 space-y-6">
-            <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
-              <h2 className="text-xl font-bold text-gray-900 mb-8">Informações de Contato</h2>
-              <div className="space-y-8">
-                <div className="flex items-center gap-4 group">
-                  <div className="bg-green-50 p-4 rounded-2xl group-hover:bg-green-600 group-hover:text-white transition-all duration-300 text-green-600">
-                    <Mail size={24} />
+          <div className="lg:col-span-1">
+            <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 h-full flex flex-col justify-between">
+              <div>
+                <h2 className="text-xl font-bold text-gray-900 mb-5">Informações de Contato</h2>
+                <div className="space-y-5">
+                  <div className="flex items-center gap-4 group">
+                    <div className="bg-green-50 p-4 rounded-2xl group-hover:bg-green-600 group-hover:text-white transition-all duration-300 text-green-600">
+                      <Mail size={24} />
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider">Email</h3>
+                      <p className="text-gray-900 font-semibold">contato@umbulab.com</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider">Email</h3>
-                    <p className="text-gray-900 font-semibold">contato@umbulab.com</p>
-                  </div>
-                </div>
 
-                <div className="flex items-center gap-4 group">
-                  <div className="bg-green-50 p-4 rounded-2xl group-hover:bg-green-600 group-hover:text-white transition-all duration-300 text-green-600">
-                    <Phone size={24} />
+                  <div className="flex items-center gap-4 group">
+                    <div className="bg-green-50 p-4 rounded-2xl group-hover:bg-green-600 group-hover:text-white transition-all duration-300 text-green-600">
+                      <Phone size={24} />
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider">Telefone</h3>
+                      <p className="text-gray-900 font-semibold">+351 928 485 483</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider">Telefone</h3>
-                    <p className="text-gray-900 font-semibold">+351 928 485 483</p>
-                  </div>
-                </div>
 
-                <div className="flex items-center gap-4 group">
-                  <div className="bg-orange-50 p-4 rounded-2xl group-hover:bg-orange-600 group-hover:text-white transition-all duration-300 text-orange-600">
-                    <MapPin size={24} />
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider">Localização</h3>
-                    <p className="text-gray-900 font-semibold">Brasil / Portugal</p>
+                  <div className="flex items-center gap-4 group">
+                    <div className="bg-orange-50 p-4 rounded-2xl group-hover:bg-orange-600 group-hover:text-white transition-all duration-300 text-orange-600">
+                      <MapPin size={24} />
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider">Localização</h3>
+                      <p className="text-gray-900 font-semibold">Brasil / Portugal</p>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-12 p-6 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
+              {/* Mascot container with float animation */}
+              <div className="flex justify-center my-2 select-none pointer-events-none">
+                <img 
+                  src="https://i.imgur.com/fpsWjKl.png" 
+                  alt="Mascote UmbuLab" 
+                  className="w-20 h-auto object-contain animate-mascot-float drop-shadow-lg"
+                />
+              </div>
+
+              <div className="mt-4 p-6 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
                  <div className="flex items-center gap-2 text-green-600 mb-2">
                    <ShieldCheck size={18} />
                    <span className="font-bold text-sm">Privacidade Garantida</span>
@@ -242,58 +222,11 @@ export function ContactPage() {
                  </p>
               </div>
             </div>
-
-            <div className="bg-gradient-to-br from-green-800 to-emerald-950 rounded-3xl p-8 text-white shadow-lg shadow-green-100">
-              <h3 className="text-2xl font-bold mb-6">Suporte Estratégico</h3>
-              <ul className="space-y-4 mb-8">
-                <li className="flex items-start gap-3 text-green-100">
-                  <ArrowRight size={18} className="mt-1 flex-shrink-0" />
-                  <span>Análise técnica detalhada do projeto</span>
-                </li>
-                <li className="flex items-start gap-3 text-green-100">
-                  <ArrowRight size={18} className="mt-1 flex-shrink-0" />
-                  <span>Consultoria gratuita no primeiro contato</span>
-                </li>
-              </ul>
-              <div className="pt-6 border-t border-white/10">
-                <VisitCounter />
-              </div>
-            </div>
           </div>
 
           {/* Main Form Area */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 overflow-hidden">
-              {/* Progress Bar */}
-              <div className="bg-gray-50 px-8 py-4 border-b border-gray-100 flex items-center justify-between overflow-x-auto">
-                <div className="flex gap-3 min-w-max">
-                  {/* Step 1 */}
-                  <div className={`flex items-center gap-2 ${step >= 1 ? 'text-green-600' : 'text-gray-400'}`}>
-                    <span className={`w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs ${step >= 1 ? 'bg-green-600 text-white shadow-lg shadow-green-200' : 'bg-gray-200'}`}>1</span>
-                    <span className="font-bold text-sm">Identificação</span>
-                  </div>
-                  <div className={`w-8 h-1 rounded-full self-center ${step >= 2 ? 'bg-green-600' : 'bg-gray-200'}`} />
-                  
-                  {/* Step 2 */}
-                  <div className={`flex items-center gap-2 ${step >= 2 ? 'text-green-600' : 'text-gray-400'}`}>
-                    <span className={`w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs ${step >= 2 ? 'bg-green-600 text-white shadow-lg shadow-green-200' : 'bg-gray-200'}`}>2</span>
-                    <span className="font-bold text-sm">Interesse</span>
-                  </div>
-                  <div className={`w-8 h-1 rounded-full self-center ${step >= 3 ? 'bg-green-600' : 'bg-gray-200'}`} />
-
-                  {/* Step 3 */}
-                  <div className={`flex items-center gap-2 ${step >= 3 ? 'text-green-600' : 'text-gray-400'}`}>
-                    <span className={`w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs ${step >= 3 ? 'bg-green-600 text-white shadow-lg shadow-green-200' : 'bg-gray-200'}`}>3</span>
-                    <span className="font-bold text-sm">Detalhes</span>
-                  </div>
-                </div>
-                {step > 1 && !submitSuccess && (
-                  <button onClick={() => setStep(step - 1)} className="text-sm font-bold text-gray-400 hover:text-green-600 flex-shrink-0 ml-4 transition-colors">
-                    Voltar
-                  </button>
-                )}
-              </div>
-
+            <div className="bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 overflow-hidden h-full">
               <div className="p-8 lg:p-12">
                 {submitSuccess ? (
                   <div className="text-center py-16 animate-in zoom-in-95 duration-700">
@@ -316,205 +249,185 @@ export function ContactPage() {
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-8">
-                    {step === 1 && (
-                      <div className="space-y-6 animate-in fade-in slide-in-from-left-4 duration-500">
-                        <div className="grid grid-cols-1 gap-6">
-                           <div>
-                             <label className="block text-sm font-bold text-gray-700 mb-2 flex items-center gap-2">
-                               <User size={16} className="text-green-500" />
-                               Nome Completo *
-                             </label>
-                             <input
-                               type="text"
-                               required
-                               className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-green-500 outline-none transition-all font-medium"
-                               placeholder="Ex: João Silva"
-                               value={formData.name}
-                               onChange={(e) => setFormData({...formData, name: e.target.value})}
-                             />
-                           </div>
-
-                           <div>
-                             <label className="block text-sm font-bold text-gray-700 mb-2 flex items-center gap-2">
-                               <Mail size={16} className="text-green-500" />
-                               E-mail Corporativo *
-                             </label>
-                             <input
-                               type="email"
-                               required
-                               className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-green-500 outline-none transition-all font-medium"
-                               placeholder="seu@empresa.com"
-                               value={formData.email}
-                               onChange={(e) => setFormData({...formData, email: e.target.value})}
-                             />
-                           </div>
-
-                           <div>
-                              <label className="block text-sm font-bold text-gray-700 mb-2 flex items-center gap-2">
-                                <Globe size={16} className="text-green-500" />
-                                Região de Faturamento *
-                              </label>
-                              <select
-                                required
-                                className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-green-500 outline-none transition-all font-bold text-gray-900 appearance-none cursor-pointer"
-                                value={formData.region}
-                                onChange={(e) => {
-                                  const selected = countryCodes.find(c => c.country === e.target.value);
-                                  setFormData(prev => ({ 
-                                    ...prev, 
-                                    region: e.target.value,
-                                    countryCode: selected ? selected.code : prev.countryCode,
-                                    service_details: { ...prev.service_details, budget_range: '' }
-                                  }));
-                                }}
-                              >
-                                <option value="Brasil">Brasil</option>
-                                <option value="Portugal">Portugal</option>
-                                <option value="Internacional">Outros (Internacional)</option>
-                              </select>
-                           </div>
+                    <div className="space-y-6">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                          <label className="block text-sm font-bold text-gray-700 mb-2 flex items-center gap-2">
+                            <User size={16} className="text-green-500" />
+                            Nome Completo *
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-green-500 outline-none transition-all font-medium text-gray-900"
+                            placeholder="Ex: João Silva"
+                            value={formData.name}
+                            onChange={(e) => setFormData({...formData, name: e.target.value})}
+                          />
                         </div>
 
-                        <div className="pt-6">
-                          <button
-                            type="button"
-                            onClick={handleNextStep1}
-                            className="w-full bg-green-600 text-white px-8 py-5 rounded-2xl font-black text-lg hover:bg-green-700 transition-all flex items-center justify-center gap-3 shadow-lg shadow-green-100"
-                          >
-                            Continuar para Contato
-                            <ArrowRight size={24} />
-                          </button>
+                        <div>
+                          <label className="block text-sm font-bold text-gray-700 mb-2 flex items-center gap-2">
+                            <Mail size={16} className="text-green-500" />
+                            E-mail de Contato Principal *
+                          </label>
+                          <input
+                            type="email"
+                            required
+                            className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-green-500 outline-none transition-all font-medium text-gray-900"
+                            placeholder="seu@empresa.com"
+                            value={formData.email}
+                            onChange={(e) => setFormData({...formData, email: e.target.value})}
+                          />
                         </div>
                       </div>
-                    )}
-                    
-                    {step === 2 && (
-                      <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-500">
-                        <div className="grid grid-cols-1 gap-6">
-                           <div>
-                             <label className="block text-sm font-bold text-gray-700 mb-2 flex items-center gap-2">
-                               <MessageCircle size={16} className="text-green-500" />
-                               WhatsApp / Telemóvel
-                             </label>
-                             <div className="flex gap-2">
-                               <select 
-                                 className="px-3 bg-gray-50 border border-gray-200 rounded-2xl outline-none text-sm font-bold focus:ring-2 focus:ring-green-500"
-                                 value={formData.countryCode}
-                                 onChange={(e) => {
-                                   const selected = countryCodes.find(c => c.code === e.target.value);
-                                   setFormData(prev => ({ 
-                                     ...prev, 
-                                     countryCode: e.target.value,
-                                     region: selected ? selected.country : prev.region,
-                                     service_details: { ...prev.service_details, budget_range: '' }
-                                   }));
-                                 }}
-                               >
-                                 {countryCodes.map(c => <option key={c.code} value={c.code}>{c.flag} {c.code}</option>)}
-                               </select>
-                               <input
-                                 type="tel"
-                                 className="flex-1 px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-green-500 outline-none transition-all font-medium"
-                                 placeholder="99999-9999"
-                                 value={formData.phone}
-                                 onChange={(e) => setFormData({...formData, phone: e.target.value.replace(/\D/g, '')})}
-                               />
-                             </div>
-                           </div>
 
-                          <div>
-                             <label className="block text-sm font-bold text-gray-700 mb-2 flex items-center gap-2">
-                               <Globe size={16} className="text-green-500" />
-                               Qual Serviço você precisa? *
-                             </label>
-                             <select
-                               required
-                               className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-green-500 outline-none transition-all font-bold text-gray-900 appearance-none cursor-pointer"
-                               value={formData.service_type}
-                               onChange={(e) => setFormData({...formData, service_type: e.target.value})}
-                             >
-                               {services.map(s => <option key={s.id} value={s.name}>{s.name}</option>)}
-                               <option value="other">Projeto Especial / Outro</option>
-                             </select>
-                          </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                          <label className="block text-sm font-bold text-gray-700 mb-2 flex items-center gap-2">
+                            <Globe size={16} className="text-green-500" />
+                            Região de Atendimento *
+                          </label>
+                          <select
+                            required
+                            className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-green-500 outline-none transition-all font-bold text-gray-900 appearance-none cursor-pointer"
+                            value={formData.region}
+                            onChange={(e) => {
+                              const selected = countryCodes.find(c => c.country === e.target.value);
+                              setFormData(prev => ({ 
+                                ...prev, 
+                                region: e.target.value,
+                                countryCode: selected ? selected.code : prev.countryCode,
+                                service_details: { ...prev.service_details, budget_range: '' }
+                              }));
+                            }}
+                          >
+                            <option value="Brasil">Brasil</option>
+                            <option value="Portugal">Portugal</option>
+                            <option value="Internacional">Outros (Internacional)</option>
+                          </select>
                         </div>
 
-                        <div className="pt-6">
-                          <button
-                            type="button"
-                            onClick={handleNextStep2}
-                            className="w-full bg-green-600 text-white px-8 py-5 rounded-2xl font-black text-lg hover:bg-green-700 transition-all flex items-center justify-center gap-3 shadow-lg shadow-green-100"
-                          >
-                            Configurar Escopo do Projeto
-                            <ArrowRight size={24} />
-                          </button>
+                        <div>
+                          <label className="block text-sm font-bold text-gray-700 mb-2 flex items-center gap-2">
+                            <MessageCircle size={16} className="text-green-500" />
+                            WhatsApp / Telemóvel
+                          </label>
+                          <div className="flex gap-2">
+                            <select 
+                              className="px-3 bg-gray-50 border border-gray-200 rounded-2xl outline-none text-sm font-bold focus:ring-2 focus:ring-green-500 text-gray-900"
+                              value={formData.countryCode}
+                              onChange={(e) => {
+                                const selected = countryCodes.find(c => c.code === e.target.value);
+                                setFormData(prev => ({ 
+                                  ...prev, 
+                                  countryCode: e.target.value,
+                                  region: selected ? selected.country : prev.region,
+                                  service_details: { ...prev.service_details, budget_range: '' }
+                                }));
+                              }}
+                            >
+                              {countryCodes.map(c => <option key={c.code} value={c.code}>{c.flag} {c.code}</option>)}
+                            </select>
+                            <input
+                              type="tel"
+                              className="flex-1 px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-green-500 outline-none transition-all font-medium text-gray-900"
+                              placeholder="99999-9999"
+                              value={formData.phone}
+                              onChange={(e) => setFormData({...formData, phone: e.target.value.replace(/\D/g, '')})}
+                            />
+                          </div>
                         </div>
                       </div>
-                    )}
 
-                    {step === 3 && (
-                      <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
-                        <div className="bg-green-50/50 p-6 rounded-2xl border border-green-100 flex items-center justify-between">
-                          <div>
-                            <p className="text-xs font-bold text-green-600 uppercase tracking-widest mb-1">Passo 3 de 3</p>
-                            <h4 className="text-lg font-black text-gray-900">{formData.service_type}</h4>
-                          </div>
-                          <Globe className="text-green-500" size={32} />
-                        </div>
+                      <div>
+                        <label className="block text-sm font-bold text-gray-700 mb-2 flex items-center gap-2">
+                          <Globe size={16} className="text-green-500" />
+                          Qual Serviço você precisa? *
+                        </label>
+                        <select
+                          required
+                          className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-green-500 outline-none transition-all font-bold text-gray-900 appearance-none cursor-pointer"
+                          value={formData.service_type}
+                          onChange={(e) => setFormData({...formData, service_type: e.target.value})}
+                        >
+                          {services.map(s => <option key={s.id} value={s.name}>{s.name}</option>)}
+                          <option value="other">Projeto Especial / Outro</option>
+                        </select>
+                      </div>
 
-                        {renderServiceForm()}
-
-                        <div className="space-y-2">
-                           <label className="block text-sm font-bold text-gray-700">Informações Adicionais / Contexto</label>
-                           <textarea
-                             rows={4}
-                             className="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-green-500 outline-none resize-none font-medium"
-                             placeholder="Qual é o cenário atual da sua empresa e o que deseja alcançar?"
-                             value={formData.message}
-                             onChange={(e) => setFormData({...formData, message: e.target.value})}
-                           />
-                        </div>
-
-                        <FileUpload 
-                          files={formData.attachments} 
-                          onFilesChange={(urls) => setFormData({...formData, attachments: urls})} 
+                      {/* LGPD/RGPD Consent Checkbox */}
+                      <div className="flex items-start gap-3 mt-4 select-none">
+                        <input
+                          id="gdpr_consent"
+                          type="checkbox"
+                          required
+                          className="mt-1 h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500 cursor-pointer"
+                          checked={gdprConsent}
+                          onChange={(e) => setGdprConsent(e.target.checked)}
                         />
-
-                        <div className="pt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                          <button
-                            type="submit"
-                            disabled={loading}
-                            onClick={() => setSubmitType('whatsapp')}
-                            className="bg-[#25D366] text-white px-8 py-5 rounded-2xl font-black hover:bg-[#1DA851] transition-all flex items-center justify-center gap-3 shadow-lg shadow-[#25D366]/30 disabled:opacity-50"
-                          >
-                            {loading && submitType === 'whatsapp' ? 'Gerando Link Wa.me...' : (
-                              <>
-                                <MessageCircle size={24} />
-                                Pedir via WhatsApp
-                              </>
-                            )}
-                          </button>
-                          <button
-                            type="submit"
-                            disabled={loading}
-                            onClick={() => setSubmitType('email')}
-                            className="bg-black text-white px-8 py-5 rounded-2xl font-black hover:bg-gray-900 transition-all flex items-center justify-center gap-3 shadow-lg shadow-gray-200 disabled:opacity-50"
-                          >
-                            {loading && submitType === 'email' ? 'Registrando Lead...' : (
-                              <>
-                                <Mail size={24} />
-                                Enviar por E-mail
-                              </>
-                            )}
-                          </button>
-                        </div>
-                        <p className="text-xs text-gray-400 text-center font-medium bg-gray-50 py-3 rounded-lg border border-dashed border-gray-200">
-                          Analistas técnicos revisam cada orçamento individualmente. Resposta em até 24h.
-                        </p>
+                        <label htmlFor="gdpr_consent" className="text-xs text-gray-500 cursor-pointer leading-relaxed">
+                          Autorizo o tratamento dos meus dados pessoais para contacto e elaboração de proposta comercial, em conformidade com as leis de proteção de dados (LGPD/RGPD). *
+                        </label>
                       </div>
-                    )}
+
+                      <div className="pt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <button
+                          type="submit"
+                          disabled={loading}
+                          onClick={() => setSubmitType('whatsapp')}
+                          className="bg-[#25D366] text-white px-8 py-5 rounded-2xl font-black hover:bg-[#1DA851] transition-all flex items-center justify-center gap-3 shadow-lg shadow-[#25D366]/30 disabled:opacity-50"
+                        >
+                          {loading && submitType === 'whatsapp' ? 'Gerando Link Wa.me...' : (
+                            <>
+                              <MessageCircle size={24} />
+                              Pedir via WhatsApp
+                            </>
+                          )}
+                        </button>
+                        <button
+                          type="submit"
+                          disabled={loading}
+                          onClick={() => setSubmitType('email')}
+                          className="bg-black text-white px-8 py-5 rounded-2xl font-black hover:bg-gray-900 transition-all flex items-center justify-center gap-3 shadow-lg shadow-gray-200 disabled:opacity-50"
+                        >
+                          {loading && submitType === 'email' ? 'Registrando Lead...' : (
+                            <>
+                              <Mail size={24} />
+                              Enviar por E-mail
+                            </>
+                          )}
+                        </button>
+                      </div>
+                      <p className="text-xs text-gray-400 text-center font-medium bg-gray-50 py-3 rounded-lg border border-dashed border-gray-200">
+                        Analistas técnicos revisam cada orçamento individualmente. Resposta em até 24h.
+                      </p>
+                    </div>
                   </form>
                 )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Suporte Estratégico Card placed full-width below the grid */}
+        <div className="bg-gradient-to-br from-green-800 to-emerald-950 rounded-3xl p-8 md:p-10 text-white shadow-lg shadow-green-900/10 mt-8">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-8">
+            <div className="space-y-2">
+              <h3 className="text-2xl font-black tracking-tight">Suporte Estratégico</h3>
+              <div className="opacity-75">
+                <VisitCounter />
+              </div>
+            </div>
+            
+            <div className="flex flex-col sm:flex-row gap-6 md:gap-12 flex-grow justify-end">
+              <div className="flex items-center gap-3 text-green-100 bg-white/5 border border-white/10 px-5 py-3 rounded-2xl">
+                <ArrowRight size={18} className="text-green-400 flex-shrink-0" />
+                <span className="font-semibold text-sm">Análise técnica detalhada do projeto</span>
+              </div>
+              <div className="flex items-center gap-3 text-green-100 bg-white/5 border border-white/10 px-5 py-3 rounded-2xl">
+                <ArrowRight size={18} className="text-green-400 flex-shrink-0" />
+                <span className="font-semibold text-sm">Consultoria gratuita no primeiro contato</span>
               </div>
             </div>
           </div>

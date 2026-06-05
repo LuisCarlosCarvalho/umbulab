@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { 
   ArrowLeft, 
-  ExternalLink, 
   Monitor, 
   Smartphone, 
   Tablet, 
@@ -134,19 +133,6 @@ export function PortfolioDetailsPage() {
                 </div>
               </div>
 
-              {item.project_url && (
-                <div className="mt-12">
-                  <a 
-                    href={item.project_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-3 px-8 py-4 bg-blue-600 text-white rounded-2xl font-black hover:bg-blue-700 transition-all shadow-xl shadow-blue-900/20 group"
-                  >
-                    Ver Projeto ao Vivo
-                    <ExternalLink size={20} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                  </a>
-                </div>
-              )}
             </div>
 
             <div className="hidden lg:block relative group">

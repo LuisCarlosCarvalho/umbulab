@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Calendar, ChevronLeft, Share2, Clock } from 'lucide-react';
+import { Calendar, ChevronLeft, Share2, Clock, AlertTriangle } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { BlogPost } from '../types';
 
@@ -8,10 +8,28 @@ export function BlogPostPage() {
   const navigate = useNavigate();
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isBlogActive, setIsBlogActive] = useState<boolean | null>(null);
 
   useEffect(() => {
     async function loadPost() {
       try {
+        const { data: settingsData } = await supabase
+          .from('configuracoes')
+          .select('valor')
+          .eq('chave', 'blog_settings')
+          .single();
+        
+        const active = settingsData?.valor && typeof settingsData.valor === 'object' && 'is_active' in settingsData.valor
+          ? !!settingsData.valor.is_active
+          : true;
+        
+        setIsBlogActive(active);
+
+        if (!active) {
+          setLoading(false);
+          return;
+        }
+
         // Get slug from URL
         const slug = window.location.pathname.split('/').pop();
         if (!slug) return;
@@ -39,6 +57,25 @@ export function BlogPostPage() {
     return (
       <div className="pt-32 pb-24 min-h-screen bg-[#0d0d0d] flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-700"></div>
+      </div>
+    );
+  }
+
+  if (isBlogActive === false) {
+    return (
+      <div className="pt-32 pb-24 min-h-screen bg-[#0d0d0d] flex flex-col justify-center items-center text-center px-4 dot-pattern">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,_rgba(46,125,50,0.1),_transparent_50%)] pointer-events-none" />
+        <div className="max-w-md bg-[#121212] p-10 rounded-3xl border border-white/5 relative z-10 shadow-2xl">
+          <AlertTriangle className="mx-auto text-amber-500 mb-6" size={56} />
+          <h3 className="text-2xl font-bold text-white mb-2">Blog Temporariamente Inativo</h3>
+          <p className="text-neutral-400 mb-8">Esta funcionalidade está temporariamente indisponível. Volte mais tarde!</p>
+          <button 
+            onClick={() => navigate('/')}
+            className="btn btn-primary w-full justify-center"
+          >
+            Voltar para o Início
+          </button>
+        </div>
       </div>
     );
   }

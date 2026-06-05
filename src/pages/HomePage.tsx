@@ -5,6 +5,148 @@ import { BlogSection } from '../components/BlogSection';
 import { LogoCarousel } from '../components/LogoCarousel';
 import { Logo } from '../components/Logo';
 
+const adsTools = [
+  {
+    name: 'Google Ads',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5 opacity-60 group-hover/item:opacity-100 transition-opacity">
+        <path d="M16.12 12.86L8.43 1.18c-.51-.88-1.63-1.18-2.51-.67L1.18 3.69c-.88.51-1.18 1.63-.67 2.51l7.69 11.68c.51.88 1.63 1.18 2.51.67l4.74-2.73c.88-.51 1.18-1.63.67-2.51z" fill="#4285F4"/>
+        <path d="M22.82 4.74l-4.74-2.73c-.88-.51-2-.21-2.51.67L12.3 8.36c-.51.88-.21 2 .67 2.51l4.74 2.73c.88.51 2 .21 2.51-.67l3.28-5.68c.51-.88.21-2-.68-2.51z" fill="#F4B400"/>
+      </svg>
+    )
+  },
+  {
+    name: 'Meta Ads',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="#0064E0" strokeWidth="2.5" className="w-5 h-5 opacity-60 group-hover/item:opacity-100 transition-opacity">
+        <path d="M16.5 6C13.5 6 12 8.5 12 8.5S10.5 6 7.5 6C4.5 6 2 8.5 2 12s2.5 6 5.5 6c3 0 4.5-2.5 4.5-2.5s1.5 2.5 4.5 2.5c3 0 5.5-2.5 5.5-6S19.5 6 16.5 6z" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+    )
+  },
+  {
+    name: 'TikTok Ads',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-5 h-5 text-white opacity-60 group-hover/item:opacity-100 transition-opacity">
+        <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+    )
+  },
+  {
+    name: 'LinkedIn Ads',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-[#0077B5] opacity-60 group-hover/item:opacity-100 transition-opacity">
+        <path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.27c-.96 0-1.73-.77-1.73-1.73s.77-1.73 1.73-1.73 1.73.77 1.73 1.73-.77 1.73-1.73 1.73zm13.5 11.27h-3v-5.6c0-3.37-4-3.12-4 0v5.6h-3v-10h3v1.39c1.4-2.58 7-2.78 7 2.48v6.13z"/>
+      </svg>
+    )
+  },
+  {
+    name: 'Pinterest Ads',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-[#BD081C] opacity-60 group-hover/item:opacity-100 transition-opacity">
+        <path d="M12 0c-6.627 0-12 5.373-12 12 0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.993-.283 1.194.599 2.169 1.775 2.169 2.13 0 3.769-2.248 3.769-5.49 0-2.87-2.062-4.876-5.01-4.876-3.414 0-5.419 2.561-5.419 5.208 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.162 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146 1.124.347 2.317.535 3.554.535 6.627 0 12-5.373 12-12 0-6.627-5.373-12-12-12z"/>
+      </svg>
+    )
+  },
+  {
+    name: 'YouTube Ads',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-[#FF0000] opacity-60 group-hover/item:opacity-100 transition-opacity">
+        <path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.517 3.545 12 3.545 12 3.545s-7.517 0-9.388.508a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11c1.871.508 9.388.508 9.388.508s7.517 0 9.388-.508a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+      </svg>
+    )
+  }
+];
+
+const displayAdsTools = [...adsTools, ...adsTools, ...adsTools];
+
+function AnimatedGraph() {
+  const [graphTime, setGraphTime] = useState(0);
+
+  useEffect(() => {
+    let animId: number;
+    const tick = () => {
+      setGraphTime((prev) => (prev + 0.012) % (Math.PI * 2));
+      animId = requestAnimationFrame(tick);
+    };
+    animId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(animId);
+  }, []);
+
+  // Generate Gray Line (Sem Otimização)
+  const grayPoints: string[] = [];
+  for (let x = 0; x <= 1000; x += 15) {
+    const progress = x / 1000;
+    const base = 250 - 25 * progress;
+    const wave = Math.sin(progress * Math.PI * 2 + graphTime) * 3;
+    grayPoints.push(`${x},${base + wave}`);
+  }
+  const grayPath = `M ${grayPoints.join(' L ')}`;
+
+  // Generate Blue Line (Média do Mercado)
+  const bluePoints: string[] = [];
+  for (let x = 0; x <= 1000; x += 15) {
+    const progress = x / 1000;
+    const base = 250 - 110 * Math.pow(progress, 1.2);
+    const wave = Math.sin(progress * Math.PI * 3 - graphTime * 1.2) * 5;
+    bluePoints.push(`${x},${base + wave}`);
+  }
+  const bluePath = `M ${bluePoints.join(' L ')}`;
+
+  // Generate Green Line (UmbuLab)
+  const greenPoints: string[] = [];
+  for (let x = 0; x <= 1000; x += 15) {
+    const progress = x / 1000;
+    const base = 250 - 210 * Math.sin(progress * Math.PI / 2);
+    const wave = Math.sin(progress * Math.PI * 2.5 + graphTime * 1.5) * 7;
+    greenPoints.push(`${x},${base + wave}`);
+  }
+  const greenPath = `M ${greenPoints.join(' L ')}`;
+  const greenAreaPath = `${greenPath} L 1000 300 L 0 300 Z`;
+
+  // Calculate dynamic coordinates for middle and end nodes on the green line
+  const midProgress = 0.5;
+  const midBaseY = 250 - 210 * Math.sin(midProgress * Math.PI / 2);
+  const midWaveY = Math.sin(midProgress * Math.PI * 2.5 + graphTime * 1.5) * 7;
+  const midY = midBaseY + midWaveY;
+
+  const endProgress = 1.0;
+  const endBaseY = 250 - 210 * Math.sin(endProgress * Math.PI / 2);
+  const endWaveY = Math.sin(endProgress * Math.PI * 2.5 + graphTime * 1.5) * 7;
+  const endY = endBaseY + endWaveY;
+
+  return (
+    <svg className="w-full h-full" viewBox="0 0 1000 300" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="gradient-chart" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#66BB6A" stopOpacity="0.3" />
+          <stop offset="100%" stopColor="#66BB6A" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+
+      {/* Grid lines */}
+      <line x1="0" y1="75" x2="1000" y2="75" stroke="#222" strokeWidth="1" strokeDasharray="5,5" />
+      <line x1="0" y1="150" x2="1000" y2="150" stroke="#222" strokeWidth="1" strokeDasharray="5,5" />
+      <line x1="0" y1="225" x2="1000" y2="225" stroke="#222" strokeWidth="1" strokeDasharray="5,5" />
+
+      {/* Gray curve (Sem Otimização) */}
+      <path d={grayPath} fill="none" stroke="#64748b" strokeWidth="2.5" opacity="0.6" strokeLinecap="round" />
+
+      {/* Blue curve (Média do Mercado) */}
+      <path d={bluePath} fill="none" stroke="#0284c7" strokeWidth="3.5" opacity="0.75" strokeLinecap="round" />
+
+      {/* Green Area under UmbuLab curve */}
+      <path d={greenAreaPath} fill="url(#gradient-chart)" />
+
+      {/* Green curve (UmbuLab SEO) */}
+      <path d={greenPath} fill="none" stroke="#2E7D32" strokeWidth="5.5" strokeLinecap="round" />
+
+      {/* Node Points on the high performing green line */}
+      <circle cx="500" cy={midY} r="6" fill="#FFB300" />
+      <circle cx="1000" cy={endY} r="7" fill="#66BB6A" />
+    </svg>
+  );
+}
+
 export function HomePage() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
@@ -172,29 +314,42 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="section-padding bg-[#0d0d0d] relative z-10 px-6 sm:px-8 lg:px-12 border-t border-white/5">
+      <section className="section-padding !pb-12 md:!pb-16 bg-[#0d0d0d] relative z-10 px-6 sm:px-8 lg:px-12 border-t border-white/5">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,_rgba(46,125,50,0.05),_transparent_60%)] pointer-events-none" />
         <div className="max-w-7xl mx-auto">
-          <div className="max-w-3xl mb-24">
-            <span className="text-xs font-extrabold uppercase tracking-widest text-green-400 bg-green-500/10 px-3 py-1.5 rounded-lg border border-green-500/20">
-              O QUE FAZEMOS
-            </span>
-            <h2 className="text-white text-4xl sm:text-5xl mt-6 leading-tight font-extrabold">
-              Soluções integradas para marcas que visam liderança.
-            </h2>
-            <p className="text-neutral-400 mt-6 text-lg font-light max-w-2xl leading-relaxed">
-              Trabalhamos na interseção entre design premium, desenvolvimento técnico e aquisição de tráfego qualificado para estruturar o sucesso do seu negócio.
-            </p>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-24">
+            <div className="lg:col-span-8 space-y-6">
+              <span className="text-xs font-extrabold uppercase tracking-widest text-green-400 bg-green-500/10 px-3 py-1.5 rounded-lg border border-green-500/20 inline-block">
+                O QUE FAZEMOS
+              </span>
+              <h2 className="text-white text-4xl sm:text-5xl leading-tight font-extrabold">
+                Soluções integradas de design, desenvolvimento e marketing digital para marcas que querem liderar.
+              </h2>
+              <p className="text-neutral-400 text-lg font-light leading-relaxed text-justify">
+                Criamos estratégias completas que combinam design premium, desenvolvimento web de alto desempenho e aquisição de tráfego qualificado, ajudando o seu negócio a crescer de forma estruturada, aumentar a visibilidade online e gerar mais resultados.
+              </p>
+            </div>
+            <div className="lg:col-span-4 flex justify-center lg:justify-end">
+              <div className="relative select-none pointer-events-none">
+                <div className="absolute -inset-4 bg-green-500/10 rounded-full blur-2xl pointer-events-none" />
+                <img 
+                  src="https://i.imgur.com/fpsWjKl.png" 
+                  alt="Mascote UmbuLab" 
+                  className="w-48 h-auto object-contain animate-mascot-float drop-shadow-2xl relative z-10"
+                />
+              </div>
+            </div>
           </div>
+          
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="group border border-white/5 bg-[#121212] hover:bg-[#151515] rounded-3xl p-10 hover:border-green-600/35 hover:shadow-[0_0_30px_rgba(46,125,50,0.15)] transition-all duration-500 flex flex-col justify-between min-h-[380px]">
               <div>
                 <div className="bg-green-500/10 text-green-400 w-16 h-16 rounded-2xl flex items-center justify-center mb-10 group-hover:scale-110 transition-transform duration-300 border border-green-500/20">
                   <Laptop size={28} />
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-4">Criação de Sites</h3>
-                <p className="text-neutral-400 text-sm leading-relaxed">
-                  Websites, landing pages e e-commerces ultrarrápidos, totalmente responsivos e otimizados para converter visitantes casuais em clientes recorrentes. Design único sob medida.
+                <h3 className="text-2xl font-bold text-white mb-4">CRIAÇÃO DE SITES</h3>
+                <p className="text-neutral-400 text-sm leading-relaxed text-justify">
+                  Desenvolvimento de websites, landing pages e e-commerces rápidos, responsivos e otimizados para conversão. Criamos experiências digitais sob medida, com design exclusivo e foco total em transformar visitantes em clientes.
                 </p>
               </div>
               <div className="pt-8">
@@ -208,9 +363,9 @@ export function HomePage() {
                 <div className="bg-amber-500/10 text-amber-400 w-16 h-16 rounded-2xl flex items-center justify-center mb-10 group-hover:scale-110 transition-transform duration-300 border border-amber-500/20">
                   <Search size={28} />
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-4">SEO Profissional</h3>
-                <p className="text-neutral-400 text-sm leading-relaxed">
-                  Colocamos seu site nas primeiras posições do Google. Otimização on-page avançada, criação de conteúdo estratégico focado em intenção de busca e link building de autoridade.
+                <h3 className="text-2xl font-bold text-white mb-4">SEO PROFISSIONAL</h3>
+                <p className="text-neutral-400 text-sm leading-relaxed text-justify">
+                  Posicionamos o seu site nas primeiras páginas do Google com estratégias avançadas de SEO. Realizamos otimização on-page, produção de conteúdo orientado por intenção de busca e link building para aumentar autoridade, tráfego e resultados consistentes.
                 </p>
               </div>
               <div className="pt-8">
@@ -224,9 +379,9 @@ export function HomePage() {
                 <div className="bg-green-500/10 text-green-400 w-16 h-16 rounded-2xl flex items-center justify-center mb-10 group-hover:scale-110 transition-transform duration-300 border border-green-500/20">
                   <Palette size={28} />
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-4">Branding</h3>
-                <p className="text-neutral-400 text-sm leading-relaxed">
-                  Criação de identidades visuais marcantes e profissionais que contam uma história. Logos, manual de marca, tipografia e diretrizes de design que constroem credibilidade instantânea.
+                <h3 className="text-2xl font-bold text-white mb-4">BRANDING</h3>
+                <p className="text-neutral-400 text-sm leading-relaxed text-justify">
+                  Criamos identidades visuais estratégicas que destacam a sua marca no mercado. Desenvolvemos logotipos, paletas de cores, tipografia e manuais de marca completos para transmitir profissionalismo, consistência e credibilidade desde o primeiro contato.
                 </p>
               </div>
               <div className="pt-8">
@@ -235,6 +390,45 @@ export function HomePage() {
                 </Link>
               </div>
             </div>
+          </div>
+
+          {/* Ads Tools Carousel */}
+          <div className="mt-20 border-t border-white/5 pt-12 relative overflow-hidden">
+            <div className="text-center mb-8">
+              <h4 className="text-xs font-black text-neutral-500 uppercase tracking-[0.2em]">
+                Integração e Gestão de Campanhas nas Principais Plataformas de Anúncios
+              </h4>
+            </div>
+            
+            <div className="relative w-full overflow-hidden py-4">
+              {/* Fade Overlays */}
+              <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#0d0d0d] to-transparent z-10 pointer-events-none" />
+              <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#0d0d0d] to-transparent z-10 pointer-events-none" />
+              
+              <div className="flex w-fit animate-scroll-ads hover:[animation-play-state:paused]">
+                {displayAdsTools.map((tool, idx) => (
+                  <div 
+                    key={`${tool.name}-${idx}`} 
+                    className="flex-shrink-0 mx-4 bg-[#121212] hover:bg-[#161616] border border-white/5 hover:border-green-500/20 px-6 py-4 rounded-2xl flex items-center gap-3 transition-all duration-300 hover:scale-105 group/item cursor-pointer"
+                  >
+                    {tool.icon}
+                    <span className="text-sm font-bold text-neutral-400 group-hover/item:text-white transition-colors">
+                      {tool.name}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <style>{`
+              @keyframes scroll-ads {
+                0% { transform: translateX(0); }
+                100% { transform: translateX(-33.33%); }
+              }
+              .animate-scroll-ads {
+                animation: scroll-ads 30s linear infinite;
+              }
+            `}</style>
           </div>
         </div>
       </section>
@@ -248,8 +442,8 @@ export function HomePage() {
             <h2 className="text-white text-4xl sm:text-5xl font-extrabold leading-tight">
               Por que escolher a UmbuLab?
             </h2>
-            <p className="text-neutral-400 text-lg font-light leading-relaxed">
-              Não acreditamos em soluções genéricas ou "hacks" de marketing de curto prazo. Nosso compromisso é estruturar uma fundação digital sólida que gera resultados constantes.
+            <p className="text-neutral-400 text-lg font-light leading-relaxed text-justify">
+              Não acreditamos em soluções genéricas nem em “hacks” de marketing de curto prazo. Nosso foco é construir uma base digital sólida, com estratégia, tecnologia e consistência para gerar resultados reais e sustentáveis ao longo do tempo.
             </p>
             <div className="pt-4">
               <Link href="/contact" className="btn btn-primary">
@@ -261,30 +455,30 @@ export function HomePage() {
           <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-8">
             <div className="bg-[#121212] p-8 rounded-2xl border border-white/5 hover:border-green-600/25 transition-all">
               <div className="text-green-400 mb-4"><Target size={24} /></div>
-              <h4 className="text-lg font-bold text-white mb-2">Estratégia antes de Execução</h4>
-              <p className="text-neutral-400 text-xs leading-relaxed">
-                Estudamos seu nicho, seus concorrentes e a intenção do seu cliente antes de escrever uma única linha de código.
+              <h4 className="text-lg font-bold text-white mb-2">Estratégia antes da Execução</h4>
+              <p className="text-neutral-400 text-xs leading-relaxed text-justify">
+                Antes de qualquer ação, analisamos profundamente o seu mercado, concorrência e comportamento do cliente. Cada decisão é orientada por dados, intenção de busca e oportunidades reais de crescimento.
               </p>
             </div>
             <div className="bg-[#121212] p-8 rounded-2xl border border-white/5 hover:border-green-600/25 transition-all">
               <div className="text-green-400 mb-4"><Zap size={24} /></div>
-              <h4 className="text-lg font-bold text-white mb-2">Foco em Resultado Real</h4>
-              <p className="text-neutral-400 text-xs leading-relaxed">
-                Métricas de vaidade não pagam contas. Focamos em gerar leads qualificados, ligações e vendas.
+              <h4 className="text-lg font-bold text-white mb-2">Foco em Resultados Reais</h4>
+              <p className="text-neutral-400 text-xs leading-relaxed text-justify">
+                Métricas de vaidade não geram faturamento. Trabalhamos com foco em leads qualificados, aumento de conversões, contactos e vendas mensuráveis.
               </p>
             </div>
             <div className="bg-[#121212] p-8 rounded-2xl border border-white/5 hover:border-green-600/25 transition-all">
               <div className="text-green-400 mb-4"><Shield size={24} /></div>
-              <h4 className="text-lg font-bold text-white mb-2">Design + Performance juntos</h4>
-              <p className="text-neutral-400 text-xs leading-relaxed">
-                Sites rápidos com design elegante. A beleza atrai, mas a velocidade e a clareza do site convertem o usuário.
+              <h4 className="text-lg font-bold text-white mb-2">Design e Performance Integrados</h4>
+              <p className="text-neutral-400 text-xs leading-relaxed text-justify">
+                Criamos websites rápidos, intuitivos e visualmente sofisticados. Um design atrativo chama atenção, mas é a performance e a clareza que transformam visitantes em clientes.
               </p>
             </div>
             <div className="bg-[#121212] p-8 rounded-2xl border border-white/5 hover:border-green-600/25 transition-all">
               <div className="text-green-400 mb-4"><Star size={24} /></div>
-              <h4 className="text-lg font-bold text-white mb-2">Atendimento Próximo</h4>
-              <p className="text-neutral-400 text-xs leading-relaxed">
-                Você fala diretamente com quem planeja e executa seu projeto, com relatórios transparentes e acompanhamento ágil.
+              <h4 className="text-lg font-bold text-white mb-2">Atendimento Próximo e Transparente</h4>
+              <p className="text-neutral-400 text-xs leading-relaxed text-justify">
+                Você fala diretamente com quem planeja e executa o seu projeto. Garantimos comunicação ágil, relatórios claros e acompanhamento contínuo em cada etapa.
               </p>
             </div>
           </div>
@@ -325,38 +519,16 @@ export function HomePage() {
                 <h4 className="text-xl font-bold">Projeção de Performance em SEO</h4>
                 <p className="text-neutral-400 text-xs mt-1">Comparação de visitas orgânicas após reestruturação técnica e conteúdo UmbuLab.</p>
               </div>
-              <div className="flex gap-4 text-xs font-semibold">
+              <div className="flex flex-wrap gap-4 text-xs font-semibold">
                 <span className="flex items-center gap-2"><span className="h-3.5 w-3.5 rounded-full bg-green-500" /> UmbuLab</span>
-                <span className="flex items-center gap-2"><span className="h-3.5 w-3.5 rounded-full bg-neutral-600" /> Sem Otimização</span>
+                <span className="flex items-center gap-2"><span className="h-3.5 w-3.5 rounded-full bg-sky-550 bg-sky-500" /> Média do Mercado</span>
+                <span className="flex items-center gap-2"><span className="h-3.5 w-3.5 rounded-full bg-neutral-500" /> Sem Otimização</span>
               </div>
             </div>
             
             {/* SVG Visual Graph */}
             <div className="relative h-60 w-full z-10 flex items-end">
-              <svg className="w-full h-full" viewBox="0 0 1000 300" preserveAspectRatio="none">
-                {/* Grid lines */}
-                <line x1="0" y1="75" x2="1000" y2="75" stroke="#222" strokeWidth="1" strokeDasharray="5,5" />
-                <line x1="0" y1="150" x2="1000" y2="150" stroke="#222" strokeWidth="1" strokeDasharray="5,5" />
-                <line x1="0" y1="225" x2="1000" y2="225" stroke="#222" strokeWidth="1" strokeDasharray="5,5" />
-
-                {/* Base curve (without SEO) */}
-                <path d="M 0 250 Q 250 240 500 230 T 1000 220" fill="none" stroke="#555" strokeWidth="2.5" />
-                
-                {/* Growth curve (with UmbuLab SEO) */}
-                <path d="M 0 250 Q 250 180 500 120 T 1000 40" fill="none" stroke="#2E7D32" strokeWidth="5.5" strokeLinecap="round" />
-                <path d="M 0 250 Q 250 180 500 120 T 1000 40 L 1000 300 L 0 300 Z" fill="url(#gradient-chart)" opacity="0.1" />
-
-                <defs>
-                  <linearGradient id="gradient-chart" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#66BB6A" />
-                    <stop offset="100%" stopColor="#66BB6A" stopOpacity="0" />
-                  </linearGradient>
-                </defs>
-
-                {/* Node Points */}
-                <circle cx="500" cy="120" r="6" fill="#FFB300" />
-                <circle cx="1000" cy="40" r="7" fill="#66BB6A" />
-              </svg>
+              <AnimatedGraph />
 
               {/* Labels */}
               <span className="absolute bottom-2 left-2 text-[10px] text-neutral-500 font-bold">Mês 1</span>

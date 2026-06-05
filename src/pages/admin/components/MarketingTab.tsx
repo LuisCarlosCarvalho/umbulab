@@ -8,6 +8,8 @@ type MarketingTabProps = {
   onEditProduct: (product: MarketingProduct) => void;
   onDeleteProduct: (id: string) => void;
   onCopyLink: (code: string) => void;
+  isSeoGestaoActive?: boolean;
+  onToggleSeoGestaoActive?: () => void;
 };
 
 export function MarketingTab({
@@ -16,20 +18,36 @@ export function MarketingTab({
   onEditProduct,
   onDeleteProduct,
   onCopyLink,
+  isSeoGestaoActive = true,
+  onToggleSeoGestaoActive
 }: MarketingTabProps) {
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
 
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold">Produtos de Marketing</h2>
-        <button
-          onClick={onNewProduct}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700"
-        >
-          <Plus size={18} />
-          Novo Produto
-        </button>
+        <h2 className="text-2xl font-bold text-gray-900 border-l-4 border-blue-600 pl-4">Produtos de Marketing (SEO de Gestão)</h2>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={onToggleSeoGestaoActive}
+            className={`px-4 py-2 rounded-lg flex items-center gap-2 font-bold text-sm transition-all duration-300 ${
+              isSeoGestaoActive 
+                ? 'bg-green-50 text-green-700 border border-green-200 hover:bg-green-100/70' 
+                : 'bg-gray-100 text-gray-500 border border-gray-200 hover:bg-gray-200/70'
+            }`}
+          >
+            <span className={`w-2.5 h-2.5 rounded-full ${isSeoGestaoActive ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}`} />
+            {isSeoGestaoActive ? 'Página Ativa' : 'Página Inativa'}
+          </button>
+          
+          <button
+            onClick={onNewProduct}
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition-colors shadow-sm"
+          >
+            <Plus size={18} />
+            Novo Produto
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

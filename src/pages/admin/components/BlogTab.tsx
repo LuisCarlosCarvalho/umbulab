@@ -7,20 +7,44 @@ type BlogTabProps = {
   onEditPost: (post: BlogPost) => void;
   onDeletePost: (id: string) => void;
   onToggleStatus: (post: BlogPost) => void;
+  isBlogActive?: boolean;
+  onToggleBlogActive?: () => void;
 };
 
-export function BlogTab({ posts, onNewPost, onEditPost, onDeletePost, onToggleStatus }: BlogTabProps) {
+export function BlogTab({ 
+  posts, 
+  onNewPost, 
+  onEditPost, 
+  onDeletePost, 
+  onToggleStatus,
+  isBlogActive = true,
+  onToggleBlogActive
+}: BlogTabProps) {
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gray-900 border-l-4 border-blue-600 pl-4">Blog & Artigos</h2>
-        <button
-          onClick={onNewPost}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition-colors shadow-sm"
-        >
-          <Plus size={18} />
-          Novo Artigo
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={onToggleBlogActive}
+            className={`px-4 py-2 rounded-lg flex items-center gap-2 font-bold text-sm transition-all duration-300 ${
+              isBlogActive 
+                ? 'bg-green-50 text-green-700 border border-green-200 hover:bg-green-100/70' 
+                : 'bg-gray-100 text-gray-500 border border-gray-200 hover:bg-gray-200/70'
+            }`}
+          >
+            <span className={`w-2.5 h-2.5 rounded-full ${isBlogActive ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}`} />
+            {isBlogActive ? 'Blog Ativo' : 'Blog Desativado'}
+          </button>
+          
+          <button
+            onClick={onNewPost}
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition-colors shadow-sm"
+          >
+            <Plus size={18} />
+            Novo Artigo
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

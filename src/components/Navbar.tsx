@@ -1,12 +1,40 @@
 import { Link } from './Link';
 import { useAuth } from '../contexts/AuthContext';
 import { Menu, X, LogOut, LayoutDashboard } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Logo } from './Logo';
+import { supabase } from '../lib/supabase';
 
 export function Navbar() {
   const { user, profile, signOut } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isBlogActive, setIsBlogActive] = useState<boolean>(true);
+  const [isSeoGestaoActive, setIsSeoGestaoActive] = useState<boolean>(true);
+
+  useEffect(() => {
+    async function loadSettings() {
+      try {
+        const { data } = await supabase
+          .from('configuracoes')
+          .select('chave, valor')
+          .in('chave', ['blog_settings', 'seo_gestao_settings']);
+        if (data) {
+          const blog = data.find(c => c.chave === 'blog_settings')?.valor;
+          const seo = data.find(c => c.chave === 'seo_gestao_settings')?.valor;
+          
+          if (blog && typeof blog === 'object' && 'is_active' in blog) {
+            setIsBlogActive(!!blog.is_active);
+          }
+          if (seo && typeof seo === 'object' && 'is_active' in seo) {
+            setIsSeoGestaoActive(!!seo.is_active);
+          }
+        }
+      } catch (e) {
+        console.error('Error loading settings in Navbar:', e);
+      }
+    }
+    loadSettings();
+  }, []);
 
   return (
     <nav className="fixed w-full top-0 z-[9999] px-4 pt-4 pointer-events-none">
@@ -22,8 +50,12 @@ export function Navbar() {
             <Link href="/" className="text-neutral-300 hover:text-green-400 transition-colors font-medium text-sm">Inicio</Link>
             <Link href="/services" className="text-neutral-300 hover:text-green-400 transition-colors font-medium text-sm">Serviços</Link>
             <Link href="/portfolio" className="text-neutral-300 hover:text-green-400 transition-colors font-medium text-sm">Portfolio</Link>
-            <Link href="/blog" className="text-neutral-300 hover:text-green-400 transition-colors font-medium text-sm">Blog</Link>
-            <Link href="/infoproducts" className="text-neutral-300 hover:text-green-400 transition-colors font-medium text-sm">SEO de Gestão</Link>
+            {isBlogActive && (
+              <Link href="/blog" className="text-neutral-300 hover:text-green-400 transition-colors font-medium text-sm">Blog</Link>
+            )}
+            {isSeoGestaoActive && (
+              <Link href="/infoproducts" className="text-neutral-300 hover:text-green-400 transition-colors font-medium text-sm">SEO de Gestão</Link>
+            )}
             <Link href="/contact" className="text-neutral-300 hover:text-green-400 transition-colors font-medium text-sm">Contato</Link>
 
             {user ? (
@@ -81,12 +113,16 @@ export function Navbar() {
             <Link href="/portfolio" className="flex items-center gap-3 px-4 py-3 text-neutral-200 hover:bg-white/5 hover:text-green-400 rounded-xl transition-all font-bold" onClick={() => setMobileMenuOpen(false)}>
               Portfolio
             </Link>
-            <Link href="/blog" className="flex items-center gap-3 px-4 py-3 text-neutral-200 hover:bg-white/5 hover:text-green-400 rounded-xl transition-all font-bold" onClick={() => setMobileMenuOpen(false)}>
-              Blog
-            </Link>
-            <Link href="/infoproducts" className="flex items-center gap-3 px-4 py-3 text-neutral-200 hover:bg-white/5 hover:text-green-400 rounded-xl transition-all font-bold" onClick={() => setMobileMenuOpen(false)}>
-              SEO de Gestão
-            </Link>
+            {isBlogActive && (
+              <Link href="/blog" className="flex items-center gap-3 px-4 py-3 text-neutral-200 hover:bg-white/5 hover:text-green-400 rounded-xl transition-all font-bold" onClick={() => setMobileMenuOpen(false)}>
+                Blog
+              </Link>
+            )}
+            {isSeoGestaoActive && (
+              <Link href="/infoproducts" className="flex items-center gap-3 px-4 py-3 text-neutral-200 hover:bg-white/5 hover:text-green-400 rounded-xl transition-all font-bold" onClick={() => setMobileMenuOpen(false)}>
+                SEO de Gestão
+              </Link>
+            )}
             <Link href="/contact" className="flex items-center gap-3 px-4 py-3 text-neutral-200 hover:bg-white/5 hover:text-green-400 rounded-xl transition-all font-bold" onClick={() => setMobileMenuOpen(false)}>
               Contato
             </Link>

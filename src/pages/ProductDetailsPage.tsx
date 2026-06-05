@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { supabase, MarketingProduct } from '../lib/supabase';
-import { ExternalLink, ArrowLeft, ShoppingCart } from 'lucide-react';
+import { ExternalLink, ArrowLeft, ShoppingCart, AlertTriangle } from 'lucide-react';
 import { ProductGallery } from '../components/ProductGallery';
 
 export function ProductDetailsPage() {
@@ -10,12 +10,30 @@ export function ProductDetailsPage() {
   const [product, setProduct] = useState<MarketingProduct | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [isSeoGestaoActive, setIsSeoGestaoActive] = useState<boolean | null>(null);
 
   useEffect(() => {
     async function loadProduct() {
       if (!public_code) return;
 
       try {
+        const { data: settingsData } = await supabase
+          .from('configuracoes')
+          .select('valor')
+          .eq('chave', 'seo_gestao_settings')
+          .single();
+        
+        const active = settingsData?.valor && typeof settingsData.valor === 'object' && 'is_active' in settingsData.valor
+          ? !!settingsData.valor.is_active
+          : true;
+        
+        setIsSeoGestaoActive(active);
+
+        if (!active) {
+          setLoading(false);
+          return;
+        }
+
         const { data, error } = await supabase
           .from('marketing_products')
           .select('*')
@@ -40,6 +58,25 @@ export function ProductDetailsPage() {
 
     loadProduct();
   }, [public_code]);
+
+  if (isSeoGestaoActive === false) {
+    return (
+      <div className="pt-32 pb-24 min-h-screen bg-[#0d0d0d] flex flex-col justify-center items-center text-center px-4 dot-pattern">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,_rgba(46,125,50,0.1),_transparent_50%)] pointer-events-none" />
+        <div className="max-w-md bg-[#121212] p-10 rounded-3xl border border-white/5 relative z-10 shadow-2xl animate-in fade-in slide-in-from-bottom-4 duration-700">
+          <AlertTriangle className="mx-auto text-amber-500 mb-6" size={56} />
+          <h3 className="text-2xl font-bold text-white mb-2">SEO de Gestão Temporariamente Inativo</h3>
+          <p className="text-neutral-400 mb-8">Esta funcionalidade está temporariamente indisponível. Volte mais tarde!</p>
+          <Link 
+            to="/"
+            className="btn btn-primary w-full justify-center"
+          >
+            Voltar para o Início
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   if (loading) {
     return (

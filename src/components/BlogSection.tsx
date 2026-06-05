@@ -8,18 +8,33 @@ export function BlogSection() {
   const navigate = useNavigate();
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isBlogActive, setIsBlogActive] = useState(true);
 
   useEffect(() => {
     async function loadLatestPosts() {
       try {
-        const { data } = await supabase
-          .from('blog_posts')
-          .select('*')
-          .eq('status', 'published')
-          .order('published_at', { ascending: false })
-          .limit(3);
+        const { data: settingsData } = await supabase
+          .from('configuracoes')
+          .select('valor')
+          .eq('chave', 'blog_settings')
+          .single();
         
-        setPosts(data || []);
+        const active = settingsData?.valor && typeof settingsData.valor === 'object' && 'is_active' in settingsData.valor
+          ? !!settingsData.valor.is_active
+          : true;
+        
+        setIsBlogActive(active);
+
+        if (active) {
+          const { data } = await supabase
+            .from('blog_posts')
+            .select('*')
+            .eq('status', 'published')
+            .order('published_at', { ascending: false })
+            .limit(3);
+          
+          setPosts(data || []);
+        }
       } catch (error) {
         console.error('Error loading blog posts:', error);
       } finally {
@@ -48,7 +63,7 @@ export function BlogSection() {
     );
   }
 
-  if (posts.length === 0) return null;
+  if (!isBlogActive || posts.length === 0) return null;
 
   return (
     <section className="py-24 bg-white relative overflow-hidden">

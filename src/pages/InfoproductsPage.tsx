@@ -12,6 +12,7 @@ export function InfoproductsPage() {
   const [products, setProducts] = useState<MarketingProduct[]>(globalInfoproductsCache || []);
   const [loading, setLoading] = useState(!globalInfoproductsCache);
   const [errorStatus, setErrorStatus] = useState(false);
+  const [isSeoGestaoActive, setIsSeoGestaoActive] = useState<boolean | null>(null);
 
   useEffect(() => {
     let mounted = true;
@@ -24,6 +25,25 @@ export function InfoproductsPage() {
 
     const loadProducts = async () => {
       try {
+        const { data: settingsData } = await supabase
+          .from('configuracoes')
+          .select('valor')
+          .eq('chave', 'seo_gestao_settings')
+          .single();
+        
+        const active = settingsData?.valor && typeof settingsData.valor === 'object' && 'is_active' in settingsData.valor
+          ? !!settingsData.valor.is_active
+          : true;
+        
+        if (mounted) {
+          setIsSeoGestaoActive(active);
+        }
+
+        if (!active) {
+          if (mounted) setLoading(false);
+          return;
+        }
+
         const { data, error } = await supabase
           .from('marketing_products')
           .select('*')
@@ -72,6 +92,25 @@ export function InfoproductsPage() {
     navigator.clipboard.writeText(url);
     showToast('Link copiado com sucesso!', 'success');
   };
+
+  if (isSeoGestaoActive === false) {
+    return (
+      <div className="pt-32 pb-24 min-h-screen bg-[#0d0d0d] flex flex-col justify-center items-center text-center px-4 dot-pattern">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,_rgba(46,125,50,0.1),_transparent_50%)] pointer-events-none" />
+        <div className="max-w-md bg-[#121212] p-10 rounded-3xl border border-white/5 relative z-10 shadow-2xl animate-in fade-in slide-in-from-bottom-4 duration-700">
+          <AlertTriangle className="mx-auto text-amber-500 mb-6" size={56} />
+          <h3 className="text-2xl font-bold text-white mb-2">SEO de Gestão Temporariamente Inativo</h3>
+          <p className="text-neutral-400 mb-8">Esta funcionalidade está temporariamente indisponível. Volte mais tarde!</p>
+          <Link 
+            to="/"
+            className="btn btn-primary w-full justify-center"
+          >
+            Voltar para o Início
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen py-20 px-4 sm:px-6 lg:px-8 bg-[#0d0d0d] dot-pattern">
