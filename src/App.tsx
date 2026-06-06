@@ -89,7 +89,6 @@ function Layout() {
   const { profile, user, reloadProfile } = useAuth();
   const location = useLocation();
   
-  // Maintenance Mode Logic
   const isDev = import.meta.env.DEV;
   const isMaintenanceMode = true; // Set to false to disable maintenance
   const isExemptRoute = 
