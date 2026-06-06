@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useState, useEffect } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
@@ -7,6 +7,7 @@ import { Footer } from './components/Footer';
 import { InstallPWA } from './components/InstallPWA';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { Loader2 } from 'lucide-react';
+import { supabase } from './lib/supabase';
 
 // Lazy loading pages
 const HomePage = lazy(() => import('./pages/HomePage').then(m => ({ default: m.HomePage })));
@@ -28,6 +29,7 @@ const VisualDemoPage = lazy(() => import('./pages/VisualDemoPage').then(m => ({ 
 const PortfolioDetailsPage = lazy(() => import('./pages/PortfolioDetailsPage').then(m => ({ default: m.PortfolioDetailsPage })));
 const CulturaDataDriven = lazy(() => import('./pages/hub/analytics/CulturaDataDriven'));
 const PasswordChangeModal = lazy(() => import('./components/auth/PasswordChangeModal').then(m => ({ default: m.PasswordChangeModal })));
+const AtivarPage = lazy(() => import('./pages/AtivarPage').then(m => ({ default: m.AtivarPage })));
 import { MaintenancePage } from './pages/MaintenancePage';
 // Loading Fallback
 function PageLoader() {
@@ -90,14 +92,52 @@ function Layout() {
   const location = useLocation();
   
   const isDev = import.meta.env.DEV;
-  const isMaintenanceMode = true; // Set to false to disable maintenance
   const isExemptRoute = 
     location.pathname.startsWith('/login') || 
     location.pathname.startsWith('/admin') ||
     location.pathname.startsWith('/dashboard') ||
     location.pathname.startsWith('/approvals') ||
     location.pathname.startsWith('/portfolio/') ||
-    location.pathname.startsWith('/register');
+    location.pathname.startsWith('/register') ||
+    location.pathname.startsWith('/ativar');
+
+  const [isMaintenanceMode, setIsMaintenanceMode] = useState<boolean | null>(isDev || isExemptRoute ? false : null);
+
+  useEffect(() => {
+    if (isDev || isExemptRoute) return;
+
+    let isMounted = true;
+    async function checkMaintenance() {
+      try {
+        const { data } = await supabase
+          .from('configuracoes')
+          .select('valor')
+          .eq('chave', 'maintenance_settings')
+          .maybeSingle();
+        
+        if (isMounted) {
+          if (data?.valor && typeof data.valor === 'object' && 'is_active' in data.valor) {
+            setIsMaintenanceMode(!!data.valor.is_active);
+          } else {
+            setIsMaintenanceMode(false);
+          }
+        }
+      } catch (err) {
+        console.error('Error loading maintenance config:', err);
+        if (isMounted) setIsMaintenanceMode(false);
+      }
+    }
+    checkMaintenance();
+    return () => { isMounted = false; };
+  }, [location.pathname]);
+
+  if (isMaintenanceMode === null) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#090d16]">
+        <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-green-500"></div>
+      </div>
+    );
+  }
 
   // Maintenance redirect: Skip for dev environment OR if route is exempt
   if (isMaintenanceMode && !isDev && !isExemptRoute) {
@@ -133,6 +173,7 @@ function Layout() {
           <Route path="/blog/:slug" element={<BlogPostPage />} />
           <Route path="/hub/analytics/cultura-data-driven-guia-definitivo" element={<CulturaDataDriven />} />
           <Route path="/admin-setup" element={<AdminSetupPage />} />
+          <Route path="/ativar" element={<AtivarPage />} />
 
           {/* Auth Routes */}
           <Route path="/login" element={<LoginPage />} />
