@@ -553,7 +553,7 @@ export function HomePage() {
               O **Umbu** é conhecido como a árvore sagrada do sertão brasileiro. Suas raízes são incrivelmente profundas e possuem reservatórios naturais que armazenam energia e água para florescer mesmo nos períodos mais difíceis.
             </p>
             <p className="text-neutral-400 text-base leading-relaxed">
-              Inspirados por essa resiliência e solidez, fundamos a **UmbuLab**. Nosso papel é estruturar a base tecnológica e estratégica de empresas na internet, criando canais de atração orgânica que resistem às mudanças de mercado e algoritmos do Google, gerando crescimento seguro, consistente e perene.
+              Inspirados por essa resiliência e solidez, fundamos a **UmbuLab**. Nosso papel é estruturar a base tecnológica e estratégica de empresas na internet, criando canais de atração orgânica que resistem às mudanças de mercado e algoritmos do Google, gerando crescimento seguro e consistente.
             </p>
           </div>
           <div className="lg:col-span-6 flex justify-center lg:justify-end animate-fade-in-up">
