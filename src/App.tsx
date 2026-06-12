@@ -27,6 +27,7 @@ const ProductDetailsPage = lazy(() => import('./pages/ProductDetailsPage').then(
 const TemplateDemoPage = lazy(() => import('./pages/TemplateDemoPage').then(m => ({ default: m.TemplateDemoPage })));
 const VisualDemoPage = lazy(() => import('./pages/VisualDemoPage').then(m => ({ default: m.VisualDemoPage })));
 const PortfolioDetailsPage = lazy(() => import('./pages/PortfolioDetailsPage').then(m => ({ default: m.PortfolioDetailsPage })));
+const ProposalViewer = lazy(() => import('./pages/ProposalViewer').then(m => ({ default: m.ProposalViewer })));
 const CulturaDataDriven = lazy(() => import('./pages/hub/analytics/CulturaDataDriven'));
 const PasswordChangeModal = lazy(() => import('./components/auth/PasswordChangeModal').then(m => ({ default: m.PasswordChangeModal })));
 const AtivarPage = lazy(() => import('./pages/AtivarPage').then(m => ({ default: m.AtivarPage })));
@@ -99,6 +100,7 @@ function Layout() {
     location.pathname.startsWith('/approvals') ||
     location.pathname.startsWith('/portfolio/') ||
     location.pathname.startsWith('/register') ||
+    location.pathname.startsWith('/proposta/') ||
     location.pathname.startsWith('/ativar');
 
   const [isMaintenanceMode, setIsMaintenanceMode] = useState<boolean | null>(isDev || isExemptRoute ? false : null);
@@ -172,6 +174,7 @@ function Layout() {
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/blog/:slug" element={<BlogPostPage />} />
           <Route path="/hub/analytics/cultura-data-driven-guia-definitivo" element={<CulturaDataDriven />} />
+          <Route path="/proposta/:codigo" element={<ProposalViewer />} />
           <Route path="/admin-setup" element={<AdminSetupPage />} />
           <Route path="/ativar" element={<AtivarPage />} />
 

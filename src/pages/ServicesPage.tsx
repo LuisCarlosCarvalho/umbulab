@@ -1,19 +1,52 @@
+import { useState } from 'react';
 import { 
   Globe, 
   Palette, 
   TrendingUp, 
   Package, 
-  ArrowRight
+  ArrowRight,
+  Search
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export function ServicesPage() {
+  const [propostaCode, setPropostaCode] = useState('');
+  const navigate = useNavigate();
+
+  const handlePropostaSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (propostaCode.trim()) {
+      navigate(`/proposta/${propostaCode.trim().toLowerCase()}`);
+    }
+  };
+
   return (
     <div className="min-h-screen py-20 px-4 sm:px-6 lg:px-8 bg-[#0d0d0d] dot-pattern">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,_rgba(46,125,50,0.1),_transparent_50%)] pointer-events-none" />
       
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="text-center mb-16 animate-in fade-in slide-in-from-top-4 duration-700">
+        <div className="relative text-center mb-16 animate-in fade-in slide-in-from-top-4 duration-700">
+          
+          {/* Campo de Proposta no Topo Direito */}
+          <div className="absolute top-0 right-0 hidden md:block">
+            <form onSubmit={handlePropostaSubmit} className="flex flex-col items-start">
+              <label htmlFor="proposta" className="text-neutral-300 text-sm font-medium mb-1">Proposta:</label>
+              <div className="relative">
+                <input
+                  id="proposta"
+                  type="text"
+                  placeholder="Digite seu código"
+                  value={propostaCode}
+                  onChange={(e) => setPropostaCode(e.target.value)}
+                  className="bg-green-500 text-white placeholder:text-green-100 font-medium px-4 py-2 pr-10 rounded-lg outline-none focus:ring-2 focus:ring-green-400 border border-green-400 w-56 shadow-lg shadow-green-500/20"
+                />
+                <button type="submit" className="absolute right-3 top-1/2 -translate-y-1/2 text-white hover:text-green-200">
+                  <Search size={16} />
+                </button>
+              </div>
+            </form>
+          </div>
+
           <span className="text-xs font-extrabold uppercase tracking-widest text-green-400 bg-green-500/10 px-3 py-1.5 rounded-lg border border-green-500/20">
             NOSSAS SOLUÇÕES
           </span>
@@ -21,6 +54,26 @@ export function ServicesPage() {
           <p className="text-xl text-neutral-400 max-w-3xl mx-auto leading-relaxed">
             Oferecemos soluções digitais completas para estruturar a presença online e acelerar o crescimento do seu negócio.
           </p>
+
+          {/* Campo de Proposta versão Mobile */}
+          <div className="md:hidden mt-8 max-w-xs mx-auto">
+            <form onSubmit={handlePropostaSubmit} className="flex flex-col items-center">
+              <label htmlFor="proposta-mobile" className="text-neutral-300 text-sm font-medium mb-2">Proposta do Cliente</label>
+              <div className="relative w-full">
+                <input
+                  id="proposta-mobile"
+                  type="text"
+                  placeholder="Digite seu código"
+                  value={propostaCode}
+                  onChange={(e) => setPropostaCode(e.target.value)}
+                  className="bg-green-500 text-white placeholder:text-green-100 font-medium px-4 py-3 pr-10 rounded-xl outline-none focus:ring-2 focus:ring-green-400 border border-green-400 w-full shadow-lg shadow-green-500/20 text-center"
+                />
+                <button type="submit" className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:text-green-200">
+                  <Search size={18} />
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20">
