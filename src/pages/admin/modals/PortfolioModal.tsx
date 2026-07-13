@@ -75,13 +75,14 @@ export function PortfolioModal({
                   onChange={(e) => setPortfolioForm({ ...portfolioForm, category: e.target.value })}
                   className="w-full px-5 py-3 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none font-bold text-gray-900 appearance-none cursor-pointer"
                 >
-                  <option value="Design Gráfico">Design Gráfico</option>
-                  <option value="Easy Colour">Easy Colour</option>
-                  <option value="Loja Online">Loja Online</option>
-                  <option value="Manutenção">Manutenção</option>
-                  <option value="Marketing Digital">Marketing Digital</option>
-                  <option value="Modelos de Página">Modelos de Página</option>
-                  <option value="Site à Medida">Site à Medida</option>
+                  <option value="Criação de Website">Criação de Website</option>
+                  <option value="Designer de logo">Designer de logo</option>
+                  <option value="Blog">Blog</option>
+                  <option value="Designer Grafico">Designer Grafico</option>
+                  <option value="Branding">Branding</option>
+                  <option value="EmailMarketing">EmailMarketing</option>
+                  <option value="landing page">landing page</option>
+                  <option value="Paginas Convite">Paginas Convite</option>
                 </select>
               </div>
               <div>

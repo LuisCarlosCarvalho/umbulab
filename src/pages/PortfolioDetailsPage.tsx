@@ -16,6 +16,126 @@ import { supabase } from '../lib/supabase';
 import { Portfolio } from '../types';
 import { LazyImage } from '../components/ui/LazyImage';
 
+interface DeviceScreenProps {
+  src?: string | null;
+  alt: string;
+  type: 'monitor' | 'laptop' | 'tablet' | 'mobile';
+}
+
+function DeviceScreen({ src, alt, type }: DeviceScreenProps) {
+  const [hasError, setHasError] = useState(false);
+
+  if (hasError || !src) {
+    if (type === 'monitor' || type === 'laptop') {
+      return (
+        <div className="w-full h-full bg-[#0d0e15] p-6 flex flex-col justify-between text-white font-sans select-none border border-white/5 relative overflow-hidden">
+          {/* Subtle light effect */}
+          <div className="absolute top-0 right-0 w-24 h-24 bg-blue-500/10 rounded-full blur-xl pointer-events-none" />
+          
+          {/* Header */}
+          <div className="flex justify-between items-center pb-2 border-b border-white/5">
+            <div className="flex items-center gap-1.5">
+              <div className="w-3.5 h-3.5 rounded bg-green-500" />
+              <div className="w-12 h-1.5 bg-white/20 rounded" />
+            </div>
+            <div className="flex gap-2">
+              <div className="w-6 h-1 bg-white/10 rounded" />
+              <div className="w-6 h-1 bg-white/10 rounded" />
+              <div className="w-6 h-1 bg-white/10 rounded" />
+            </div>
+          </div>
+          {/* Hero */}
+          <div className="my-auto py-2 space-y-2 text-left">
+            <div className="w-3/4 h-3 bg-gradient-to-r from-blue-500 to-green-500 rounded animate-pulse" />
+            <div className="w-full h-1 bg-white/10 rounded" />
+            <div className="w-5/6 h-1 bg-white/10 rounded" />
+            <div className="w-12 h-3.5 bg-blue-600 rounded mt-1" />
+          </div>
+          {/* Cards */}
+          <div className="grid grid-cols-3 gap-1.5 pt-2 border-t border-white/5">
+            <div className="h-5 bg-white/5 rounded p-1 space-y-1">
+              <div className="w-1/2 h-0.5 bg-white/20 rounded" />
+              <div className="w-full h-0.5 bg-white/10 rounded" />
+            </div>
+            <div className="h-5 bg-white/5 rounded p-1 space-y-1">
+              <div className="w-1/2 h-0.5 bg-white/20 rounded" />
+              <div className="w-full h-0.5 bg-white/10 rounded" />
+            </div>
+            <div className="h-5 bg-white/5 rounded p-1 space-y-1">
+              <div className="w-1/2 h-0.5 bg-white/20 rounded" />
+              <div className="w-full h-0.5 bg-white/10 rounded" />
+            </div>
+          </div>
+        </div>
+      );
+    } else if (type === 'tablet') {
+      return (
+        <div className="w-full h-full bg-[#0d0e15] p-3 flex flex-col justify-between text-white font-sans select-none border border-white/5 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-16 h-16 bg-blue-500/5 rounded-full blur-lg pointer-events-none" />
+          
+          {/* Header */}
+          <div className="flex justify-between items-center pb-2 border-b border-white/5">
+            <div className="flex items-center gap-1">
+              <div className="w-2.5 h-2.5 rounded bg-green-500" />
+            </div>
+            <div className="w-4 h-1.5 bg-white/10 rounded" />
+          </div>
+          {/* Hero */}
+          <div className="my-auto py-1 space-y-1.5 text-left">
+            <div className="w-4/5 h-2 bg-gradient-to-r from-blue-500 to-green-500 rounded" />
+            <div className="w-full h-0.5 bg-white/10 rounded" />
+            <div className="w-full h-0.5 bg-white/10 rounded" />
+            <div className="w-10 h-3 bg-blue-600 rounded mt-0.5" />
+          </div>
+          {/* Grid */}
+          <div className="grid grid-cols-2 gap-1 pt-2 border-t border-white/5">
+            <div className="h-4 bg-white/5 rounded p-0.5">
+              <div className="w-1/2 h-0.5 bg-white/20 rounded" />
+            </div>
+            <div className="h-4 bg-white/5 rounded p-0.5">
+              <div className="w-1/2 h-0.5 bg-white/20 rounded" />
+            </div>
+          </div>
+        </div>
+      );
+    } else { // mobile
+      return (
+        <div className="w-full h-full bg-[#0d0e15] p-2 flex flex-col justify-between text-white font-sans select-none border border-white/5 relative overflow-hidden">
+          {/* Header */}
+          <div className="flex justify-between items-center pb-1.5 border-b border-white/5">
+            <div className="w-2 h-2 rounded bg-green-500" />
+            <div className="w-3 h-1 bg-white/10 rounded" />
+          </div>
+          {/* Hero */}
+          <div className="my-auto py-1 space-y-1 text-left">
+            <div className="w-5/6 h-1.5 bg-gradient-to-r from-blue-500 to-green-500 rounded" />
+            <div className="w-full h-0.5 bg-white/10 rounded" />
+            <div className="w-8 h-2.5 bg-blue-600 rounded mt-0.5" />
+          </div>
+          {/* List */}
+          <div className="space-y-0.5 pt-1.5 border-t border-white/5">
+            <div className="h-2 bg-white/5 rounded flex items-center px-1">
+              <div className="w-1/3 h-0.5 bg-white/20 rounded" />
+            </div>
+            <div className="h-2 bg-white/5 rounded flex items-center px-1">
+              <div className="w-1/3 h-0.5 bg-white/20 rounded" />
+            </div>
+          </div>
+        </div>
+      );
+    }
+  }
+
+  return (
+    <img 
+      src={src} 
+      alt={alt} 
+      className="w-full h-full object-cover object-top"
+      onError={() => setHasError(true)}
+    />
+  );
+}
+
 export function PortfolioDetailsPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -135,13 +255,60 @@ export function PortfolioDetailsPage() {
 
             </div>
 
-            <div className="hidden lg:block relative group">
-              <div className="absolute -inset-4 bg-blue-600/20 rounded-[40px] blur-2xl group-hover:bg-blue-600/30 transition-all duration-700" />
-              <img 
-                src={item.image_url} 
-                alt={item.title} 
-                className="relative rounded-[32px] shadow-2xl border border-white/10 ring-1 ring-white/20 transform group-hover:scale-[1.02] transition-transform duration-700"
-              />
+            {/* Multi-Device Mockup Composition (Monitor, Laptop, Phone, Tablet) */}
+            <div className="hidden lg:block relative w-full h-[450px]">
+              {/* Glow background effect */}
+              <div className="absolute -inset-4 bg-blue-600/10 rounded-[50px] blur-3xl pointer-events-none" />
+              
+              {/* 1. Center Monitor (iMac-like) */}
+              <div className="absolute left-[15%] top-[5%] w-[58%] z-10 transition-all duration-500 hover:z-40 hover:scale-[1.02]">
+                {/* Screen frame */}
+                <div className="bg-[#1e1e24] p-2 rounded-2xl shadow-2xl border border-gray-700">
+                  <div className="aspect-[16/10] bg-gray-900 rounded-lg overflow-hidden border border-white/5 relative">
+                    <DeviceScreen src={item.image_url} alt="Monitor Layout" type="monitor" />
+                  </div>
+                </div>
+                {/* Stand */}
+                <div className="w-16 h-12 bg-gray-700 mx-auto -mt-0.5 rounded-b-xl" style={{ clipPath: 'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)' }} />
+                {/* Base */}
+                <div className="w-28 h-1.5 bg-gray-600 mx-auto rounded-full" />
+              </div>
+
+              {/* 2. Tablet Mockup (Top Right) */}
+              <div className="absolute right-[2%] top-[10%] w-[26%] z-10 transition-all duration-500 hover:z-40 hover:scale-[1.03] rotate-1">
+                <div className="bg-gray-950 p-2 rounded-[20px] shadow-2xl border border-gray-800">
+                  <div className="aspect-[3/4] bg-gray-900 rounded-[14px] overflow-hidden border border-white/5 relative">
+                    <DeviceScreen src={item.tablet_image_url || item.image_url} alt="Tablet Layout" type="tablet" />
+                  </div>
+                </div>
+              </div>
+
+              {/* 3. Laptop Mockup (Bottom Right / Overlapping iMac base) */}
+              <div className="absolute right-[10%] bottom-[8%] w-[48%] z-20 transition-all duration-500 hover:z-40 hover:scale-[1.02]">
+                {/* Screen */}
+                <div className="bg-gray-900 p-1.5 rounded-t-xl shadow-2xl border-t border-x border-gray-700">
+                  <div className="aspect-[16/10] bg-gray-900 rounded-lg overflow-hidden border border-white/5 relative">
+                    <DeviceScreen src={item.laptop_image_url || item.image_url} alt="Laptop Layout" type="laptop" />
+                  </div>
+                </div>
+                {/* Base keyboard part */}
+                <div className="h-2 bg-[#2d2e38] rounded-b-xl border-b border-x border-gray-600 shadow-md relative">
+                  {/* Indentation for lid */}
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-1 bg-[#121318] rounded-b-sm" />
+                </div>
+              </div>
+
+              {/* 4. Mobile Mockup (Bottom Left / Frontmost) */}
+              <div className="absolute left-[6%] bottom-[8%] w-[20%] z-30 transition-all duration-500 hover:z-45 hover:scale-[1.05] -rotate-1">
+                <div className="bg-gray-950 p-1 rounded-[24px] shadow-2xl border-2 border-gray-800 relative">
+                  {/* Notch */}
+                  <div className="absolute top-0.5 left-1/2 -translate-x-1/2 w-10 h-2.5 bg-gray-950 rounded-b-md z-10" />
+                  
+                  <div className="aspect-[9/19] bg-gray-900 rounded-[20px] overflow-hidden border border-white/5 relative">
+                    <DeviceScreen src={item.mobile_image_url || item.image_url} alt="Mobile Layout" type="mobile" />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -214,79 +381,206 @@ export function PortfolioDetailsPage() {
         </section>
       )}
 
-      {/* Showcase / Perspective Layout */}
-      <section className="py-32 bg-white overflow-hidden border-t border-gray-50">
-        <div className="max-w-7xl mx-auto px-4">
-          <header className="text-center mb-24 animate-in fade-in slide-in-from-bottom-8 duration-1000">
-            <h2 className="text-5xl font-black text-gray-900 tracking-tighter mb-4">
-              Showcase <span className="text-blue-600">Multiplas Telas</span>
+      {/* Showcase / Desktop + Mobile Side-by-Side Mockup Layout */}
+      <section className="py-24 bg-gray-50 overflow-hidden border-t border-gray-150 relative">
+        {/* Subtle grid background for tech agency look */}
+        <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:24px_24px] opacity-60 pointer-events-none" />
+        
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
+          <header className="text-center mb-16 animate-in fade-in slide-in-from-bottom-8 duration-1000">
+            <h2 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tighter mb-4">
+              Apresentação <span className="text-blue-600">Responsiva</span>
             </h2>
             <p className="text-gray-500 font-medium max-w-2xl mx-auto">
-              Cada detalhe foi refinado para uma experiência impecável em todos os dispositivos.
+              Visualização simulada do projeto em ambiente Desktop e Mobile lado a lado.
             </p>
           </header>
 
-          <div className="relative w-full max-w-5xl mx-auto pt-10 pb-20 animate-in fade-in slide-in-from-bottom-12 duration-1000 fill-mode-both">
-            {/* 1. Laptop (Base) */}
-            <div className="relative z-10 w-full rounded-[2.5rem] bg-gray-900 p-2 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.3)] border border-gray-800">
-               <div className="relative overflow-hidden rounded-[2rem] bg-gray-800 aspect-[16/10] border border-white/5">
-                  <img 
-                    src={item.laptop_image_url || item.image_url} 
-                    className="w-full h-full object-cover object-top" 
-                    alt="Laptop View"
-                    onError={(e) => {
-                      const target = e.currentTarget;
-                      if (!target.src.includes('placehold.co')) {
-                        target.src = 'https://placehold.co/1200x800/e2e8f0/1e293b?text=Laptop+Design';
-                      }
-                    }}
-                  />
-               </div>
-               {/* Laptop Base Stand Detail */}
-               <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-32 h-2 bg-gray-800 rounded-b-xl" />
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start max-w-6xl mx-auto">
+            {/* Left: Desktop Mockup (lg:col-span-8) */}
+            <div className="lg:col-span-8 w-full group">
+              <span className="block text-center text-xs font-black uppercase tracking-widest text-gray-400 mb-3 font-mono">DESKTOP VIEW</span>
+              
+              {/* Browser Window mockup */}
+              <div className="bg-[#f3f4f6] rounded-[24px] border border-gray-200 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] overflow-hidden transition-all duration-500 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)] hover:border-gray-300">
+                {/* Browser top bar */}
+                <div className="flex items-center justify-between px-6 py-4 bg-[#e5e7eb] border-b border-gray-200">
+                  <div className="flex gap-2">
+                    <span className="w-3.5 h-3.5 rounded-full bg-red-400 block" />
+                    <span className="w-3.5 h-3.5 rounded-full bg-yellow-400 block" />
+                    <span className="w-3.5 h-3.5 rounded-full bg-green-400 block" />
+                  </div>
+                  {/* Simulated URL bar */}
+                  <div className="bg-white rounded-lg px-4 py-1 text-xs text-gray-500 font-medium w-1/2 text-center truncate border border-gray-300/40 select-all cursor-pointer">
+                    {item.project_url ? item.project_url.replace(/^https?:\/\//, '') : 'umbulab.com/projeto'}
+                  </div>
+                  <div className="w-12" /> {/* spacer */}
+                </div>
+                
+                {/* Browser content area - simulating client's website */}
+                <div className="bg-[#fafafa] p-8 md:p-12 text-left relative overflow-hidden min-h-[480px] flex flex-col justify-between">
+                  {/* Simulated inner website layout */}
+                  <div>
+                    {/* Simulated website header */}
+                    <div className="flex justify-between items-center mb-10 pb-4 border-b border-gray-100">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-black text-sm">
+                          {item.title.charAt(0)}
+                        </div>
+                        <span className="font-black text-gray-900 tracking-tight text-sm uppercase">{item.client_name || 'Projeto'}</span>
+                      </div>
+                      <div className="hidden sm:flex gap-6 text-xs font-bold text-gray-500">
+                        <span className="hover:text-blue-600 cursor-pointer transition-colors">HOME</span>
+                        <span className="hover:text-blue-600 cursor-pointer transition-colors">SOBRE</span>
+                        <span className="hover:text-blue-600 cursor-pointer transition-colors">SERVIÇOS</span>
+                        <span className="hover:text-blue-600 cursor-pointer transition-colors">PORTFÓLIO</span>
+                      </div>
+                      <button className="bg-gray-900 text-white font-extrabold uppercase tracking-widest text-[9px] px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                        Contato
+                      </button>
+                    </div>
+
+                    {/* Simulated Hero */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mt-6">
+                      <div className="space-y-4">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-blue-600 bg-blue-50 px-2.5 py-1 rounded-md border border-blue-100">
+                          {item.project_type || item.category}
+                        </span>
+                        <h3 className="text-3xl sm:text-4xl font-black text-gray-900 leading-tight tracking-tight">
+                          {item.title}
+                        </h3>
+                        <p className="text-sm text-gray-500 leading-relaxed font-medium line-clamp-3">
+                          {item.description}
+                        </p>
+                        
+                        <div className="pt-2">
+                          <a 
+                            href={item.project_url || '#'} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-extrabold uppercase tracking-widest text-xs px-6 py-3.5 rounded-xl transition-all shadow-lg shadow-blue-500/20 active:scale-95"
+                          >
+                            Ver Site Oficial
+                            <ChevronRight size={16} />
+                          </a>
+                        </div>
+                      </div>
+
+                      {/* Laptop Screen mockup in Desktop Browser */}
+                      <div className="relative rounded-2xl overflow-hidden bg-gray-950 p-1 border border-gray-800 shadow-xl aspect-[16/10]">
+                        <DeviceScreen src={item.laptop_image_url || item.image_url} alt="Layout Desktop" type="laptop" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Simulated lower feature list ("Nossos Serviços") */}
+                  <div className="mt-12 pt-8 border-t border-gray-100">
+                    <span className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-4 text-center sm:text-left">Destaques do Desenvolvimento</span>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                      {[
+                        { title: 'Design Moderno', desc: 'Interface exclusiva e polida' },
+                        { title: 'Experiência do Usuário', desc: 'Navegação fluida e intuitiva' },
+                        { title: 'SEO e Performance', desc: 'Otimização Lighthouse 90+' },
+                        { title: 'Suporte & Manutenção', desc: 'Monitoramento contínuo' }
+                      ].map((svc, i) => (
+                        <div key={i} className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm transition-all duration-300 hover:border-blue-100 hover:shadow-md">
+                          <h4 className="font-extrabold text-xs text-gray-900 uppercase tracking-tight mb-1">{svc.title}</h4>
+                          <p className="text-[10px] text-gray-400 font-medium leading-tight">{svc.desc}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* 2. Tablet (Overlapping) */}
-            <div className="absolute -bottom-10 -right-12 md:-right-20 z-20 w-[45%] rounded-[2rem] bg-gray-950 p-1.5 shadow-[0_30px_60px_-12px_rgba(0,0,0,0.5)] border border-gray-800 transform rotate-1">
-               <div className="relative overflow-hidden rounded-[1.5rem] aspect-[3/4] bg-gray-800 border border-white/5">
-                  <img 
-                    src={item.tablet_image_url || item.image_url} 
-                    className="w-full h-full object-cover object-top" 
-                    alt="Tablet View"
-                    onError={(e) => {
-                      const target = e.currentTarget;
-                      if (!target.src.includes('placehold.co')) {
-                        target.src = 'https://placehold.co/600x800/e2e8f0/1e293b?text=Tablet';
-                      }
-                    }}
-                  />
-               </div>
-               {/* Tablet Button Detail */}
-               <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-white/10" />
-            </div>
+            {/* Right: Mobile Mockup (lg:col-span-4) */}
+            <div className="lg:col-span-4 w-full max-w-sm mx-auto group">
+              <span className="block text-center text-xs font-black uppercase tracking-widest text-gray-400 mb-3 font-mono">MOBILE VIEW</span>
+              
+              {/* Phone Frame */}
+              <div className="bg-[#121318] rounded-[48px] p-3.5 border-4 border-[#2d2e38] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.35)] relative transition-all duration-500 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.45)] hover:border-[#383a46]">
+                {/* Notch */}
+                <div className="absolute top-6 left-1/2 -translate-x-1/2 w-32 h-6 bg-[#121318] rounded-b-2xl z-20 flex items-center justify-center">
+                  <span className="w-12 h-1 bg-white/10 rounded-full mb-1.5" />
+                </div>
+                
+                {/* Phone Inner Container */}
+                <div className="bg-[#fafafa] rounded-[36px] overflow-hidden aspect-[9/19] relative flex flex-col justify-between pt-6 border border-white/5">
+                  {/* Phone Screen Header */}
+                  <div className="px-5 py-3 flex justify-between items-center border-b border-gray-100">
+                    <span className="font-black text-xs text-gray-900 tracking-tight uppercase">{item.client_name ? item.client_name.split(' ')[0] : 'Projeto'}</span>
+                    <div className="flex flex-col gap-1 w-5 items-end">
+                      <span className="w-4 h-0.5 bg-gray-600 rounded-full" />
+                      <span className="w-3 h-0.5 bg-gray-600 rounded-full" />
+                      <span className="w-4 h-0.5 bg-gray-600 rounded-full" />
+                    </div>
+                  </div>
 
-            {/* 3. Mobile (Overlapping Topmost) */}
-            <div className="absolute -bottom-20 right-4 md:right-12 z-30 w-[22%] rounded-[2.5rem] bg-gray-950 p-1 shadow-[0_20px_40px_-10px_rgba(0,0,0,0.6)] border border-gray-800 transform -rotate-2">
-               <div className="relative overflow-hidden rounded-[2.2rem] aspect-[9/19] bg-gray-800 border border-white/5">
-                  {/* Notch */}
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-4 bg-gray-950 rounded-b-lg z-10" />
-                  
-                  <img 
-                    src={item.mobile_image_url || item.image_url} 
-                    className="w-full h-full object-cover object-top" 
-                    alt="Mobile View"
-                    onError={(e) => {
-                      const target = e.currentTarget;
-                      if (!target.src.includes('placehold.co')) {
-                        target.src = 'https://placehold.co/300x600/e2e8f0/1e293b?text=Mobile';
-                      }
-                    }}
-                  />
-               </div>
-            </div>
+                  {/* Phone Body */}
+                  <div className="flex-grow p-5 space-y-5 overflow-y-auto scrollbar-hide text-left flex flex-col justify-between">
+                    <div>
+                      {/* Hero Title & Description */}
+                      <div className="space-y-3">
+                        <h4 className="text-xl font-black text-gray-900 leading-tight">
+                          {item.title}
+                        </h4>
+                        <p className="text-xs text-gray-500 leading-relaxed font-medium line-clamp-3">
+                          {item.description}
+                        </p>
+                      </div>
 
-            {/* Subtle Reflection */}
-            <div className="absolute -bottom-32 inset-x-0 h-40 bg-gradient-to-t from-transparent via-blue-500/5 to-transparent blur-3xl pointer-events-none -z-10" />
+                      {/* Screen Image mockup */}
+                      <div className="mt-5 rounded-2xl overflow-hidden bg-[#0d0e15] border border-gray-200/80 shadow-md aspect-[9/12]">
+                        <DeviceScreen src={item.mobile_image_url || item.image_url} alt="Layout Mobile" type="mobile" />
+                      </div>
+                    </div>
+
+                    {/* Features in 2x2 grid */}
+                    <div className="grid grid-cols-2 gap-2 mt-4">
+                      {[
+                        { title: 'Design', desc: 'Interface moderna' },
+                        { title: 'UX', desc: 'Foco no usuário' },
+                        { title: 'SEO', desc: 'Otimizado p/ Google' },
+                        { title: 'Suporte', desc: 'Monitoramento 24h' }
+                      ].map((feat, i) => (
+                        <div key={i} className="bg-white p-2.5 rounded-xl border border-gray-100 shadow-sm">
+                          <h5 className="font-extrabold text-[10px] text-gray-950 uppercase tracking-tight mb-0.5">{feat.title}</h5>
+                          <p className="text-[8px] text-gray-400 font-medium leading-none">{feat.desc}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Phone Screen Footer Button */}
+                  <div className="p-4 bg-white border-t border-gray-100 flex items-center justify-center">
+                    <a 
+                      href={item.project_url || '#'} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="w-full bg-gray-950 hover:bg-blue-600 text-white font-extrabold uppercase tracking-widest text-[9px] py-3.5 rounded-xl text-center transition-all block shadow-md"
+                    >
+                      Acessar Site Completo
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Trust/Qualities bar */}
+          <div className="mt-16 flex flex-wrap justify-center gap-y-4 gap-x-8 max-w-4xl mx-auto pt-8 border-t border-gray-200/60 text-gray-500 font-extrabold uppercase tracking-widest text-xs">
+            {[
+              'Design Moderno',
+              'Experiência do Usuário',
+              'SEO e Performance',
+              'Suporte e Manutenção'
+            ].map((item, idx) => (
+              <div key={idx} className="flex items-center gap-2 bg-white px-5 py-2.5 rounded-full border border-gray-150 shadow-sm transition-all duration-300 hover:scale-105 hover:border-blue-200">
+                <CheckCircle2 size={16} className="text-green-500 flex-shrink-0" />
+                <span className="text-gray-700">{item}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>

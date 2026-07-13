@@ -18,13 +18,14 @@ interface PortfolioItem {
 
 const categories = [
   "Todos",
-  "Criação de Sites",
-  "Design de Logo",
-  "Design Gráfico",
-  "Sistemas Web",
-  "Marketing Digital",
+  "Criação de Website",
+  "Designer de logo",
+  "Blog",
+  "Designer Grafico",
   "Branding",
-  "Modelos de Página",
+  "EmailMarketing",
+  "landing page",
+  "Paginas Convite",
 ];
 
 export function PortfolioPage() {
