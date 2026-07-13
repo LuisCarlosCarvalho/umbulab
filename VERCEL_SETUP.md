@@ -18,14 +18,14 @@ Para que o site funcione corretamente no Vercel, você precisa configurar as seg
 #### Variável 1: VITE_SUPABASE_URL
 ```
 Name: VITE_SUPABASE_URL
-Value: https://hlxamcoomqjqgrclspma.supabase.co
+Value: https://nelntzdujdydstvgbzsy.supabase.co
 ```
 - Environment: Production, Preview, Development (marque todas)
 
 #### Variável 2: VITE_SUPABASE_ANON_KEY
 ```
 Name: VITE_SUPABASE_ANON_KEY
-Value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhseGFtY29vbXFqcWdyY2xzcG1hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUzMDQxNzQsImV4cCI6MjA4MDg4MDE3NH0.rY2Pv5xWY11VqzzFKETQYUq2oaZ7Hergii-03N3rMZU
+Value: sb_publishable_evymT7ToR7udpBOWOFsWgw_Zrftq9B-
 ```
 - Environment: Production, Preview, Development (marque todas)
 
