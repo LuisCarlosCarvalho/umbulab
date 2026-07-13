@@ -11,7 +11,7 @@ type AuthContextType = {
   user: User | null;
   profile: Profile | null;
   loading: boolean;
-  signUp: (email: string, password: string, fullName: string, phone?: string) => Promise<AuthResponse>;
+  signUp: (email: string, password: string, fullName: string, phone?: string, metadata?: Record<string, any>) => Promise<AuthResponse>;
   signIn: (email: string, password: string) => Promise<AuthResponse>;
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<AuthResponse>;
@@ -77,8 +77,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                return;
             }
             if (mounted && data) {
-              setProfile(data);
-              localStorage.setItem('__umbulab_auth_profile', JSON.stringify(data));
+              const isAdmin = data.role === 'admin';
+              
+              if (!isAdmin) {
+                supabase
+                  .from('user_approvals')
+                  .select('status')
+                  .eq('user_id', sessionUser.id)
+                  .maybeSingle()
+                  .then(({ data: approvalData }) => {
+                    if (approvalData && approvalData.status !== 'approved') {
+                      supabase.auth.signOut().then(() => {
+                        if (mounted) {
+                          setUser(null);
+                          setProfile(null);
+                          localStorage.removeItem('__umbulab_auth_profile');
+                          window.location.href = '/login?error=pending_approval';
+                        }
+                      });
+                    } else {
+                      setProfile(data);
+                      localStorage.setItem('__umbulab_auth_profile', JSON.stringify(data));
+                    }
+                  });
+              } else {
+                setProfile(data);
+                localStorage.setItem('__umbulab_auth_profile', JSON.stringify(data));
+              }
             }
           });
       } else {
@@ -95,24 +120,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
-  const signUp = async (email: string, password: string, fullName: string, phone?: string): Promise<AuthResponse> => {
+  const signUp = async (
+    email: string, 
+    password: string, 
+    fullName: string, 
+    phone?: string,
+    metadata?: Record<string, any>
+  ): Promise<AuthResponse> => {
     try {
-      const { data, error } = await supabase.auth.signUp({ email, password });
+      const { data, error } = await supabase.auth.signUp({ 
+        email, 
+        password,
+        options: {
+          data: {
+            full_name: fullName,
+            phone: phone || '',
+            ...metadata
+          }
+        }
+      });
       if (error) return { error };
 
       if (data.user) {
-        const { error: profileError } = await supabase
-          .from('profiles')
-          .insert({
-            id: data.user.id,
-            full_name: fullName,
-            phone: phone || null,
-            role: 'client',
-          });
-
-        if (profileError) return { error: profileError };
-
-        // Async email notification
+        // Enviar email de aprovação de forma assíncrona
         fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-approval-email`, {
           method: 'POST',
           headers: {

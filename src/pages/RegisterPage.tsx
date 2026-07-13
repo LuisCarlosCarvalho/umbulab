@@ -119,16 +119,8 @@ export function RegisterPage() {
         formData.email,
         formData.password,
         fullName,
-        formData.phone
-      );
-
-      if (signUpError) throw signUpError;
-      if (!user) throw new Error('Erro ao criar usuário');
-
-      // 2. Update Profile with extra fields
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .update({
+        formData.phone,
+        {
           surname: formData.surname,
           nickname: formData.nickname,
           nationality,
@@ -140,15 +132,12 @@ export function RegisterPage() {
           city: formData.city,
           state: formData.state,
           country: formData.country || (nationality === 'BR' ? 'Brasil' : 'Portugal')
-        })
-        .eq('id', user.id);
+        }
+      );
 
-      if (profileError) {
-        console.error('Error updating profile:', profileError);
-        // Continue anyway as auth succeeded
-      }
+      if (signUpError) throw signUpError;
+      if (!user) throw new Error('Erro ao criar usuário');
 
-      navigate('/dashboard');
       navigate('/dashboard');
     } catch (err: any) {
       console.error('Registration full error:', err);
