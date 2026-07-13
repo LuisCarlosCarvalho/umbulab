@@ -21,7 +21,6 @@ const categories = [
   "Criação de Website",
   "Designer de logo",
   "Blog",
-  "Designer Grafico",
   "Branding",
   "EmailMarketing",
   "landing page",

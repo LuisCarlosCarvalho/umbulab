@@ -78,7 +78,6 @@ export function PortfolioModal({
                   <option value="Criação de Website">Criação de Website</option>
                   <option value="Designer de logo">Designer de logo</option>
                   <option value="Blog">Blog</option>
-                  <option value="Designer Grafico">Designer Grafico</option>
                   <option value="Branding">Branding</option>
                   <option value="EmailMarketing">EmailMarketing</option>
                   <option value="landing page">landing page</option>
