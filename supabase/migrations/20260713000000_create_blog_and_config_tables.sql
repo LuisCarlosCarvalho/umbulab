@@ -1,4 +1,4 @@
--- 1. Criar tabela de configurações
+-- 1. Criar tabela de configurações se não existir
 CREATE TABLE IF NOT EXISTS public.configuracoes (
     chave text PRIMARY KEY,
     valor jsonb NOT NULL,
@@ -9,12 +9,16 @@ CREATE TABLE IF NOT EXISTS public.configuracoes (
 -- Habilitar RLS
 ALTER TABLE public.configuracoes ENABLE ROW LEVEL SECURITY;
 
--- Política de Leitura Pública
+-- Remover políticas antigas se existirem para evitar erros na reexecução
+DROP POLICY IF EXISTS "Allow public read-only access to configuracoes" ON public.configuracoes;
+DROP POLICY IF EXISTS "Allow admins full access to configuracoes" ON public.configuracoes;
+
+-- Recriar política de Leitura Pública
 CREATE POLICY "Allow public read-only access to configuracoes" 
     ON public.configuracoes FOR SELECT 
     USING (true);
 
--- Política de Gerenciamento para Admins
+-- Recriar política de Gerenciamento para Admins
 CREATE POLICY "Allow admins full access to configuracoes" 
     ON public.configuracoes FOR ALL 
     USING ((auth.jwt() -> 'app_metadata' ->> 'role') = 'admin');
@@ -25,10 +29,10 @@ INSERT INTO public.configuracoes (chave, valor) VALUES
 ('blog_settings', '{"is_active": true}'),
 ('infoproducts_settings', '{"is_active": true}'),
 ('global_payment_settings', '{"default_currency_br": "BRL", "default_currency_pt": "EUR", "payment_timeout_minutes": 30, "manual_approval_enabled": false, "mode": "test", "webhook_status": "online"}')
-ON CONFLICT (chave) DO NOTHING;
+ON CONFLICT (chave) DO UPDATE SET valor = EXCLUDED.valor;
 
 
--- 2. Criar tabela de posts do blog
+-- 2. Criar tabela de posts do blog se não existir
 CREATE TABLE IF NOT EXISTS public.blog_posts (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
     title text NOT NULL,
@@ -45,12 +49,16 @@ CREATE TABLE IF NOT EXISTS public.blog_posts (
 -- Habilitar RLS
 ALTER TABLE public.blog_posts ENABLE ROW LEVEL SECURITY;
 
--- Política de Leitura Pública para Posts Publicados
+-- Remover políticas antigas se existirem para evitar erros na reexecução
+DROP POLICY IF EXISTS "Allow public read access to published posts" ON public.blog_posts;
+DROP POLICY IF EXISTS "Allow admins full access to blog_posts" ON public.blog_posts;
+
+-- Recriar política de Leitura Pública para Posts Publicados
 CREATE POLICY "Allow public read access to published posts" 
     ON public.blog_posts FOR SELECT 
     USING (status = 'published');
 
--- Política de Gerenciamento para Admins
+-- Recriar política de Gerenciamento para Admins
 CREATE POLICY "Allow admins full access to blog_posts" 
     ON public.blog_posts FOR ALL 
     USING ((auth.jwt() -> 'app_metadata' ->> 'role') = 'admin');
