@@ -88,128 +88,176 @@ export function useAdminData(activeTab: string) {
 
       // Check current tab
       if (activeTab === 'projects') {
-        const { data: projectsData, error: projectsError } = await supabase
-          .from('projects')
-          .select(`
-            *,
-            client:profiles!client_id(*),
-            service:services(*)
-          `)
-          .order('created_at', { ascending: false })
-          .abortSignal(signal);
-        
-        if (projectsError) throw projectsError;
-        setProjects(projectsData || []);
-        currentTabUpdates.projects = projectsData || [];
-
-        const { data: servicesData } = await supabase
-          .from('services')
-          .select('*')
-          .order('name')
-          .abortSignal(signal);
-        setServices(servicesData || []);
-        currentTabUpdates.services = servicesData || [];
-
-        const { data: clientsData } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('role', 'client')
-          .order('full_name')
-          .abortSignal(signal);
-        setClients(clientsData || []);
-        currentTabUpdates.clients = clientsData || [];
-      } else if (activeTab === 'clients') {
-        const { data: clientsData, error: clientsError } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('role', 'client')
-          .order('created_at', { ascending: false })
-          .abortSignal(signal);
-        
-        if (clientsError) throw clientsError;
-        setClients(clientsData || []);
-        currentTabUpdates.clients = clientsData || [];
-
-        // Fetch projects to check which clients have them
-        const { data: projectsData } = await supabase
-          .from('projects')
-          .select(`
-            *,
-            client:profiles!client_id(*),
-            service:services(*)
-          `)
-          .order('created_at', { ascending: false })
-          .abortSignal(signal);
-        setProjects(projectsData || []);
-        currentTabUpdates.projects = projectsData || [];
-      } else if (activeTab === 'quotes' || activeTab === 'messages') {
-        const { data: quotesData, error: quotesError } = await supabase
-          .from('quote_requests')
-          .select('*')
-          .order('created_at', { ascending: false })
-          .abortSignal(signal);
+        try {
+          const { data: projectsData, error: projectsError } = await supabase
+            .from('projects')
+            .select(`
+              *,
+              client:profiles!client_id(*),
+              service:services(*)
+            `)
+            .order('created_at', { ascending: false })
+            .abortSignal(signal);
           
-        if (quotesError) throw quotesError;
-        
-        // Fetch messages for these quotes separately to avoid relationship cache issues
-        const quoteIds = (quotesData || []).map(q => q.id);
-        if (quoteIds.length > 0) {
-          const { data: messagesData } = await supabase
-            .from('quote_messages')
-            .select('*')
-            .in('quote_id', quoteIds)
-            .order('created_at', { ascending: true });
-          
-          if (messagesData) {
-            quotesData.forEach(q => {
-              q.messages = messagesData.filter(m => m.quote_id === q.id);
-            });
-          }
+          if (projectsError) throw projectsError;
+          setProjects(projectsData || []);
+          currentTabUpdates.projects = projectsData || [];
+        } catch (err) {
+          console.error('[Admin Data] Projects fetch error:', err);
         }
-        
-        setQuotes(quotesData || []);
-        currentTabUpdates.quotes = quotesData || [];
+
+        try {
+          const { data: servicesData } = await supabase
+            .from('services')
+            .select('*')
+            .order('name')
+            .abortSignal(signal);
+          setServices(servicesData || []);
+          currentTabUpdates.services = servicesData || [];
+        } catch (err) {
+          console.error('[Admin Data] Services fetch error under projects:', err);
+        }
+
+        try {
+          const { data: clientsData } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('role', 'client')
+            .order('full_name')
+            .abortSignal(signal);
+          setClients(clientsData || []);
+          currentTabUpdates.clients = clientsData || [];
+        } catch (err) {
+          console.error('[Admin Data] Clients fetch error under projects:', err);
+        }
+      } else if (activeTab === 'clients') {
+        try {
+          const { data: clientsData, error: clientsError } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('role', 'client')
+            .order('created_at', { ascending: false })
+            .abortSignal(signal);
+          
+          if (clientsError) throw clientsError;
+          setClients(clientsData || []);
+          currentTabUpdates.clients = clientsData || [];
+        } catch (err) {
+          console.error('[Admin Data] Clients fetch error:', err);
+        }
+
+        try {
+          const { data: projectsData } = await supabase
+            .from('projects')
+            .select(`
+              *,
+              client:profiles!client_id(*),
+              service:services(*)
+            `)
+            .order('created_at', { ascending: false })
+            .abortSignal(signal);
+          setProjects(projectsData || []);
+          currentTabUpdates.projects = projectsData || [];
+        } catch (err) {
+          console.error('[Admin Data] Projects fetch error under clients:', err);
+        }
+      } else if (activeTab === 'quotes' || activeTab === 'messages') {
+        try {
+          const { data: quotesData, error: quotesError } = await supabase
+            .from('quote_requests')
+            .select('*')
+            .order('created_at', { ascending: false })
+            .abortSignal(signal);
+            
+          if (quotesError) throw quotesError;
+          
+          const quoteIds = (quotesData || []).map(q => q.id);
+          if (quoteIds.length > 0) {
+            const { data: messagesData } = await supabase
+              .from('quote_messages')
+              .select('*')
+              .in('quote_id', quoteIds)
+              .order('created_at', { ascending: true });
+            
+            if (messagesData) {
+              quotesData.forEach(q => {
+                q.messages = messagesData.filter(m => m.quote_id === q.id);
+              });
+            }
+          }
+          
+          setQuotes(quotesData || []);
+          currentTabUpdates.quotes = quotesData || [];
+        } catch (err) {
+          console.error('[Admin Data] Quotes/Messages fetch error:', err);
+        }
       } else if (activeTab === 'infoproducts') {
-        const { data: productsData } = await supabase
-          .from('marketing_products')
-          .select('*')
-          .order('created_at', { ascending: false })
-          .abortSignal(signal);
-        setMarketingProducts(productsData || []);
-        currentTabUpdates.marketingProducts = productsData || [];
+        try {
+          const { data: productsData, error } = await supabase
+            .from('marketing_products')
+            .select('*')
+            .order('created_at', { ascending: false })
+            .abortSignal(signal);
+          if (error) throw error;
+          setMarketingProducts(productsData || []);
+          currentTabUpdates.marketingProducts = productsData || [];
+        } catch (err) {
+          console.error('[Admin Data] InfoProducts fetch error:', err);
+        }
       } else if (activeTab === 'portfolio') {
-        const { data: portfolioData } = await supabase
-          .from('portfolio')
-          .select('*')
-          .order('created_at', { ascending: false })
-          .abortSignal(signal);
-        setPortfolioItems(portfolioData || []);
-        currentTabUpdates.portfolioItems = portfolioData || [];
+        try {
+          const { data: portfolioData, error } = await supabase
+            .from('portfolio')
+            .select('*')
+            .order('created_at', { ascending: false })
+            .abortSignal(signal);
+          if (error) throw error;
+          setPortfolioItems(portfolioData || []);
+          currentTabUpdates.portfolioItems = portfolioData || [];
+        } catch (err) {
+          console.error('[Admin Data] Portfolio fetch error:', err);
+        }
       } else if (activeTab === 'services') {
-        const { data: servicesData } = await supabase
-          .from('services')
-          .select('*')
-          .order('name')
-          .abortSignal(signal);
-        setServices(servicesData || []);
-        currentTabUpdates.services = servicesData || [];
+        try {
+          const { data: servicesData, error } = await supabase
+            .from('services')
+            .select('*')
+            .order('name')
+            .abortSignal(signal);
+          if (error) throw error;
+          setServices(servicesData || []);
+          currentTabUpdates.services = servicesData || [];
+        } catch (err) {
+          console.error('[Admin Data] Services fetch error:', err);
+        }
       } else if (activeTab === 'blog') {
-        const { data: blogData } = await supabase
-          .from('blog_posts')
-          .select('*')
-          .order('created_at', { ascending: false })
-          .abortSignal(signal);
-        setBlogPosts(blogData || []);
-        currentTabUpdates.blogPosts = blogData || [];
+        try {
+          const { data: blogData, error } = await supabase
+            .from('blog_posts')
+            .select('*')
+            .order('created_at', { ascending: false })
+            .abortSignal(signal);
+          if (error) throw error;
+          setBlogPosts(blogData || []);
+          currentTabUpdates.blogPosts = blogData || [];
+        } catch (err) {
+          console.error('[Admin Data] Blog fetch error:', err);
+        }
       } else if (activeTab === 'logos') {
-        const { data: logosData } = await supabase
-          .from('client_logos')
-          .select('*')
-          .order('order_index', { ascending: true })
-          .abortSignal(signal);
-        setClientLogos(logosData || []);
-        currentTabUpdates.clientLogos = logosData || [];
+        try {
+          const { data: logosData, error } = await supabase
+            .from('client_logos')
+            .select('*')
+            .order('order_index', { ascending: true })
+            .abortSignal(signal);
+          if (error) throw error;
+          setClientLogos(logosData || []);
+          currentTabUpdates.clientLogos = logosData || [];
+        } catch (err) {
+          console.error('[Admin Data] Logos fetch error:', err);
+        }
       } else if (activeTab === 'overview') {
+
         // Fetch each stat independently to prevent one failure from blocking the others
         const fetchCount = async (table: string, filter?: { col: string, val: string }) => {
           try {
