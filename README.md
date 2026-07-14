@@ -137,3 +137,25 @@ Para problemas ou dúvidas, verifique:
 - Logs do console do navegador
 - Logs do Supabase Dashboard
 - Variáveis de ambiente configuradas corretamente
+
+## Automação de Blog (RSS Sync)
+
+O projeto possui um "Robô" (Serverless Function da Vercel) que roda diariamente para puxar artigos de outros blogs (Medium, WordPress, Sapo, etc) via Feed RSS e inserir automaticamente no seu painel.
+
+### Como funciona
+- **Leitura Automática**: O sistema tenta ler a URL fornecida e adivinha os caminhos comuns de RSS (como `/feed`, `/rss`) se você inserir uma URL HTML comum.
+- **Prevenção de Duplicatas**: O sistema verifica o "slug" (URL amigável) de cada artigo. Se já existir no banco (mesmo que como rascunho), ele não importa de novo.
+
+### Como ocultar artigos indesejados
+**NÃO EXCLUA** um artigo indesejado vindo do RSS clicando na Lixeira! 
+Se você apagar o artigo do banco de dados, o robô vai achar que é um artigo novo na próxima sincronização e vai importá-lo de novo.
+- **A Solução:** Para ocultar o artigo, vá no Painel Admin > Blog e clique no ícone de "Olho" para mudar o status de "Publicado" para **"Rascunho"**. Assim, ele some do site público mas continua no banco, dizendo ao robô "não importe isso de novo".
+
+### Requisitos Obrigatórios na Vercel
+Para o robô ter permissão de gravar novos artigos no Supabase ignorando as políticas de RLS, ele precisa da Chave Mestra (Service Role Key). Sem ela, a sincronização dá erro no servidor.
+1. Vá no Supabase > Project Settings > API e copie a `service_role` (Secret).
+2. Vá na Vercel > Settings > Environments > Environment Variables.
+3. Adicione a chave:
+   - Key: `SUPABASE_SERVICE_ROLE_KEY`
+   - Value: *(sua chave)*
+4. Faça um "Redeploy" na Vercel para aplicar a chave.
