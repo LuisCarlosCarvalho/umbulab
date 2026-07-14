@@ -24,17 +24,48 @@ export default async function handler(req, res) {
       .eq('chave', 'blog_rss_sync')
       .single();
 
-    if (configError || !configData?.valor) {
-      return res.status(200).json({ message: 'No RSS config found or disabled. Sync skipped.' });
+    if (configError) {
+      return res.status(200).json({ error: `Erro no Banco (configuracoes): ${configError.message}` });
+    }
+    if (!configData || !configData.valor) {
+      return res.status(200).json({ error: 'Nenhuma configuração de RSS encontrada no banco.' });
     }
 
     const rssConfig = configData.valor;
     if (!rssConfig.enabled || !rssConfig.url) {
-      return res.status(200).json({ message: 'RSS sync is disabled or URL is missing.' });
+      return res.status(200).json({ error: 'A automação está desligada ou a URL está vazia. Salve as configurações e marque "Automação Ligada".' });
     }
 
     // 2. Fetch and parse the RSS feed
-    const feed = await parser.parseURL(rssConfig.url);
+    let feed;
+    try {
+      feed = await parser.parseURL(rssConfig.url);
+    } catch (initialError) {
+      console.log('Failed to parse original URL as RSS, trying fallbacks...');
+      const baseUrl = rssConfig.url.replace(/\/$/, ''); // Remove trailing slash
+      const fallbacks = [
+        `${baseUrl}/feed`,
+        `${baseUrl}/rss`,
+        `${baseUrl}/feed.xml`
+      ];
+
+      let success = false;
+      for (const fallbackUrl of fallbacks) {
+        try {
+          feed = await parser.parseURL(fallbackUrl);
+          success = true;
+          console.log(`Successfully parsed fallback URL: ${fallbackUrl}`);
+          break;
+        } catch (e) {
+          // ignore
+        }
+      }
+
+      if (!success) {
+        throw new Error('A URL fornecida não é um Feed RSS válido. Tente adicionar /feed no final do link (Ex: https://blog.meo.pt/feed)');
+      }
+    }
+
     if (!feed.items || feed.items.length === 0) {
       return res.status(200).json({ message: 'No items found in RSS feed.' });
     }
