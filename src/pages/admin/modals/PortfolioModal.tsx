@@ -37,8 +37,8 @@ export function PortfolioModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[100] p-4">
-      <div className="bg-white rounded-[32px] p-8 md:p-10 max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-gray-100 animate-in fade-in zoom-in duration-300">
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[99999] p-4 sm:p-6 ">
+      <div className="bg-white rounded-[32px] p-8 md:p-10 max-w-4xl w-full max-h-[85vh] overflow-y-auto shadow-2xl border border-gray-100 animate-in fade-in zoom-in duration-300">
         <div className="flex justify-between items-center mb-10">
           <div>
             <h2 className="text-3xl font-black text-gray-900 tracking-tight">

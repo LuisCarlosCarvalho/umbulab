@@ -27,8 +27,8 @@ export function ServiceModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-xl p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto shadow-2xl">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[99999] p-4 sm:p-6">
+      <div className="bg-white rounded-xl p-8 max-w-2xl w-full mx-4 max-h-[85vh] overflow-y-auto shadow-2xl">
         <h2 className="text-2xl font-bold mb-6">
           {editingService ? 'Editar Serviço' : 'Novo Serviço'}
         </h2>

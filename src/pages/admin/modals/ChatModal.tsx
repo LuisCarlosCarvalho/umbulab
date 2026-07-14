@@ -29,7 +29,7 @@ export function ChatModal({
   if (!isOpen || !selectedProject) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[99999] p-4 sm:p-6">
       <div className="bg-white rounded-2xl p-8 max-w-2xl w-full mx-4 shadow-2xl h-[80vh] flex flex-col">
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center gap-3">

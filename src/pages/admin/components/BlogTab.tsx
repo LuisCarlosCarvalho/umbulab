@@ -11,6 +11,8 @@ type BlogTabProps = {
   onToggleBlogActive?: () => void;
 };
 
+import { AdminRssSettings } from './AdminRssSettings';
+
 export function BlogTab({ 
   posts, 
   onNewPost, 
@@ -22,6 +24,7 @@ export function BlogTab({
 }: BlogTabProps) {
   return (
     <div>
+      <AdminRssSettings />
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gray-900 border-l-4 border-blue-600 pl-4">Blog & Artigos</h2>
         <div className="flex items-center gap-3">
