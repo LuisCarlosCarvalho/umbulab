@@ -76,7 +76,7 @@ export function AdminRssSettings() {
         throw new Error('A API não retornou dados válidos. O site precisa estar publicado na Vercel para testar manualmente.');
       }
       
-      if (response.ok) {
+      if (response.ok && !data.error) {
         setMessage({ text: data.message || 'Sincronização concluída!', type: 'success' });
         fetchConfig(); // Atualiza a data de última sincronização
       } else {
