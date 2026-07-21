@@ -8,6 +8,7 @@ import { InstallPWA } from './components/InstallPWA';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { Loader2 } from 'lucide-react';
 import { supabase } from './lib/supabase';
+import { MaintenancePage } from './pages/MaintenancePage';
 
 // Lazy loading pages
 const HomePage = lazy(() => import('./pages/HomePage').then(m => ({ default: m.HomePage })));
@@ -31,7 +32,7 @@ const ProposalViewer = lazy(() => import('./pages/ProposalViewer').then(m => ({ 
 const CulturaDataDriven = lazy(() => import('./pages/hub/analytics/CulturaDataDriven'));
 const PasswordChangeModal = lazy(() => import('./components/auth/PasswordChangeModal').then(m => ({ default: m.PasswordChangeModal })));
 const AtivarPage = lazy(() => import('./pages/AtivarPage').then(m => ({ default: m.AtivarPage })));
-import { MaintenancePage } from './pages/MaintenancePage';
+const DesenharSitePage = lazy(() => import('./pages/DesenharSitePage').then(m => ({ default: m.DesenharSitePage })));
 // Loading Fallback
 function PageLoader() {
   return (
@@ -92,7 +93,7 @@ function Layout() {
   const { profile, user, reloadProfile } = useAuth();
   const location = useLocation();
   
-  const isDev = import.meta.env.DEV;
+  const isDev = import.meta.env.DEV || window.location.hostname === 'localhost';
   const isExemptRoute = 
     location.pathname.startsWith('/login') || 
     location.pathname.startsWith('/admin') ||
@@ -109,14 +110,19 @@ function Layout() {
     if (isDev || isExemptRoute) return;
 
     let isMounted = true;
+    const controller = new AbortController();
+
     async function checkMaintenance() {
       try {
-        const { data } = await supabase
+        const { data, error } = await supabase
           .from('configuracoes')
           .select('valor')
           .eq('chave', 'maintenance_settings')
+          .abortSignal(controller.signal)
           .maybeSingle();
         
+        if (error && error.name !== 'AbortError') throw error;
+
         if (isMounted) {
           if (data?.valor && typeof data.valor === 'object' && 'is_active' in data.valor) {
             setIsMaintenanceMode(!!data.valor.is_active);
@@ -124,14 +130,19 @@ function Layout() {
             setIsMaintenanceMode(false);
           }
         }
-      } catch (err) {
-        console.error('Error loading maintenance config:', err);
+      } catch (err: any) {
+        if (err.name !== 'AbortError') {
+          console.error('Error loading maintenance config:', err);
+        }
         if (isMounted) setIsMaintenanceMode(false);
       }
     }
     checkMaintenance();
-    return () => { isMounted = false; };
-  }, [location.pathname]);
+    return () => { 
+      isMounted = false; 
+      controller.abort();
+    };
+  }, [location.pathname, isDev, isExemptRoute]);
 
   if (isMaintenanceMode === null) {
     return (
@@ -177,6 +188,7 @@ function Layout() {
           <Route path="/proposta/:codigo" element={<ProposalViewer />} />
           <Route path="/admin-setup" element={<AdminSetupPage />} />
           <Route path="/ativar" element={<AtivarPage />} />
+          <Route path="/desenhar-site" element={<DesenharSitePage />} />
 
           {/* Auth Routes */}
           <Route path="/login" element={<LoginPage />} />

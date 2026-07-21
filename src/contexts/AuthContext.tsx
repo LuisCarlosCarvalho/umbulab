@@ -35,6 +35,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     let mounted = true;
+    const controller = new AbortController();
+
+    // Safety Timeout para garantir liberação da UI
+    const safetyTimeout = setTimeout(() => {
+      if (mounted) setLoading(false);
+    }, 5000);
 
     // Robust Session Init Check
     supabase.auth.getSession().then(({ data, error }) => {
@@ -61,7 +67,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       
       // Regra de Ouro: Liberamos o carregamento IMEDIATAMENTE após detectar o usuário/sessão.
       // Não esperamos o Perfil ser buscado do banco para mostrar o site.
-      if (mounted) setLoading(false);
+      if (mounted) {
+        setLoading(false);
+        clearTimeout(safetyTimeout);
+      }
       
       // 2. Refresh profile silently in background if we have a user
       if (sessionUser) {
@@ -70,6 +79,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           .from('profiles')
           .select('*')
           .eq('id', sessionUser.id)
+          .abortSignal(controller.signal)
           .maybeSingle()
           .then(({ data, error }) => {
             if (error) {
@@ -84,6 +94,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                   .from('user_approvals')
                   .select('status')
                   .eq('user_id', sessionUser.id)
+                  .abortSignal(controller.signal)
                   .maybeSingle()
                   .then(({ data: approvalData }) => {
                     if (approvalData && approvalData.status !== 'approved') {
@@ -105,6 +116,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 localStorage.setItem('__umbulab_auth_profile', JSON.stringify(data));
               }
             }
+          }, (err) => {
+            if (err.name !== 'AbortError') console.error(err);
           });
       } else {
         if (mounted) {
@@ -116,6 +129,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     return () => {
       mounted = false;
+      clearTimeout(safetyTimeout);
+      controller.abort();
       subscription.unsubscribe();
     };
   }, []);

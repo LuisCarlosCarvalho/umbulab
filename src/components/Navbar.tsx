@@ -50,6 +50,7 @@ export function Navbar() {
             <Link href="/" className="text-neutral-300 hover:text-green-400 transition-colors font-medium text-sm">Inicio</Link>
             <Link href="/services" className="text-neutral-300 hover:text-green-400 transition-colors font-medium text-sm">Serviços</Link>
             <Link href="/portfolio" className="text-neutral-300 hover:text-green-400 transition-colors font-medium text-sm">Portfolio</Link>
+            <Link href="/desenhar-site" className="flex items-center gap-1 text-emerald-400 hover:text-emerald-300 transition-colors font-bold text-sm bg-emerald-950/30 px-3 py-1 rounded-full border border-emerald-900/50">Desenhar Site (IA)</Link>
             {isBlogActive && (
               <Link href="/blog" className="text-neutral-300 hover:text-green-400 transition-colors font-medium text-sm">Blog</Link>
             )}
@@ -112,6 +113,9 @@ export function Navbar() {
             </Link>
             <Link href="/portfolio" className="flex items-center gap-3 px-4 py-3 text-neutral-200 hover:bg-white/5 hover:text-green-400 rounded-xl transition-all font-bold" onClick={() => setMobileMenuOpen(false)}>
               Portfolio
+            </Link>
+            <Link href="/desenhar-site" className="flex items-center gap-3 px-4 py-3 text-emerald-400 bg-emerald-950/20 border border-emerald-900/30 hover:bg-emerald-950/40 rounded-xl transition-all font-bold" onClick={() => setMobileMenuOpen(false)}>
+              Desenhar Site (IA)
             </Link>
             {isBlogActive && (
               <Link href="/blog" className="flex items-center gap-3 px-4 py-3 text-neutral-200 hover:bg-white/5 hover:text-green-400 rounded-xl transition-all font-bold" onClick={() => setMobileMenuOpen(false)}>
