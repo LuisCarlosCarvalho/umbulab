@@ -23,15 +23,15 @@ export default async function handler(req: Request) {
       });
     }
 
-    const apiKey = process.env.OPENAI_API_KEY || process.env.OPENAI_KEY;
+    const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      return new Response(JSON.stringify({ error: 'OPENAI_API_KEY is not configured' }), {
+      return new Response(JSON.stringify({ error: 'GEMINI_API_KEY is not configured' }), {
         status: 500,
         headers: { 'Content-Type': 'application/json' },
       });
     }
 
-    // Contexto de Sistema para garantir validação e saída estruturada no ChatGPT
+    // Contexto de Sistema para garantir validação e saída estruturada no Gemini
     const systemPrompt = `You are an AI editor for a JSON-structured website.
 Your job is to interpret the user's natural language instruction and convert it into a strictly formatted JSON array of actions.
 
@@ -59,31 +59,34 @@ RULES:
 - Do NOT include markdown blocks (\`\`\`json). Output RAW JSON.
 - Infer the section and field based on common sense if the user is slightly vague (e.g. "change the main title" -> section: "hero", field: "title").`;
 
-    // Chamada à OpenAI para converter a instrução em JSON estruturado
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model: 'gpt-4o-mini',
-        response_format: { type: 'json_object' }, // Garante que a OpenAI devolve JSON
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: instruction }
-        ],
-        temperature: 0, // Determinístico para obter ações exatas
-      }),
-    });
+    const fullPrompt = `${systemPrompt}\n\nUSER INSTRUCTION:\n${instruction}`;
+
+    // Chamada à API Gemini para converter a instrução em JSON estruturado
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents: [
+            {
+              parts: [{ text: fullPrompt }]
+            }
+          ]
+        }),
+      }
+    );
 
     if (!response.ok) {
       const err = await response.json();
-      throw new Error(err.error?.message || 'Failed to fetch from OpenAI');
+      console.error("Gemini API Error:", err);
+      throw new Error(err.error?.message || 'Failed to fetch from Gemini');
     }
 
     const data = await response.json();
-    let rawContent = data.choices[0]?.message?.content || '{}';
+    let rawContent = data.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
     
     // Parse the JSON
     let parsedData: { actions: AgentAction[] };
