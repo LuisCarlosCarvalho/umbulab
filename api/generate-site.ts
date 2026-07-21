@@ -41,38 +41,38 @@ REQUIREMENTS:
 
 Please output ONLY the final HTML code.`;
 
-    const apiKey = process.env.OPENAI_API_KEY;
+    const apiKey = process.env.GEMINI_API_KEY;
     
     if (!apiKey) {
-      return new Response(JSON.stringify({ error: 'OPENAI_API_KEY is not configured' }), {
+      return new Response(JSON.stringify({ error: 'GEMINI_API_KEY is not configured' }), {
         status: 500,
         headers: { 'Content-Type': 'application/json' },
       });
     }
 
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=${apiKey}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: 'gpt-4o',
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: userPrompt }
+        system_instruction: { parts: [{ text: systemPrompt }] },
+        contents: [
+          { role: 'user', parts: [{ text: userPrompt }] }
         ],
-        temperature: 0.7,
+        generationConfig: {
+          temperature: 0.7,
+        }
       }),
     });
 
     if (!response.ok) {
       const err = await response.json();
-      throw new Error(err.error?.message || 'Failed to fetch from OpenAI');
+      throw new Error(err.error?.message || 'Failed to fetch from Gemini');
     }
 
     const data = await response.json();
-    let generatedHtml = data.choices[0]?.message?.content || '';
+    let generatedHtml = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
 
     // Remove markdown code blocks if the model included them despite instructions
     generatedHtml = generatedHtml.replace(/^```html\n?/, '').replace(/\n?```$/, '').trim();
