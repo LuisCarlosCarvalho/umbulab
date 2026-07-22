@@ -83,5 +83,25 @@ export async function sendApproval({ email, name, business_type, data, prompt, p
     console.warn('Não foi possível gravar na tabela mensagens (opcional):', msgError);
   }
 
+  // 4. Notificar via E-mail
+  try {
+    await fetch('/api/emails/notify-lead', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        business_type,
+        description: data?.description || '',
+        pdf_url: pdfUrl
+      })
+    });
+  } catch (emailError) {
+    console.error('Erro ao chamar API de e-mail:', emailError);
+    // Não falhamos a geração do lead por falha de e-mail
+  }
+
   return { success: true };
 }

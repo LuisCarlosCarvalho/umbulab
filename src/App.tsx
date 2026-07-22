@@ -35,6 +35,7 @@ const AtivarPage = lazy(() => import('./pages/AtivarPage').then(m => ({ default:
 
 const GeneratePage = lazy(() => import('./pages/GeneratePage').then(m => ({ default: m.GeneratePage })));
 const PreviewPage = lazy(() => import('./pages/PreviewPage').then(m => ({ default: m.PreviewPage })));
+const LeadAdminPage = lazy(() => import('./pages/LeadAdminPage').then(m => ({ default: m.LeadAdminPage })));
 // Loading Fallback
 function PageLoader() {
   return (
@@ -85,6 +86,25 @@ function RequireAdmin({ children }: { children: JSX.Element }) {
     if (!loading) {
       return <Navigate to="/" replace />;
     }
+  }
+
+  return children;
+}
+
+// Protected Route for Lead Admin only
+function RequireLeadAdmin({ children }: { children: JSX.Element }) {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
+
+  if (!user || user.email !== 'seuemail@umbulab.com') {
+    return <Navigate to="/" replace />;
   }
 
   return children;
@@ -222,6 +242,14 @@ function Layout() {
               <RequireAdmin>
                 <ApprovalsPage />
               </RequireAdmin>
+            }
+          />
+          <Route
+            path="/admin/leads"
+            element={
+              <RequireLeadAdmin>
+                <LeadAdminPage />
+              </RequireLeadAdmin>
             }
           />
 
