@@ -21,6 +21,7 @@ CRITICAL REQUIREMENTS:
 - You MUST include a modern Google Font (like 'Inter' or 'Roboto') and apply it to the body.
 - You MUST include FontAwesome via CDN for icons: <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 - The design MUST be highly professional, modern, clean, conversion-focused, and fully responsive.
+- VERY IMPORTANT: This is a NON-FUNCTIONAL visual mockup. ALL links, buttons, and form submissions MUST be disabled or have href="#". The user should not be able to navigate away from this single page.
 - Do NOT output basic or unstyled HTML. Every element must be styled with Tailwind utility classes (e.g., flex, grid, shadow-lg, rounded-xl, bg-gradient-to-r).
 - Use generous spacing (padding/margins), hover effects, and transitions to make it feel like a premium, state-of-the-art website.
 - Include the following sections:
