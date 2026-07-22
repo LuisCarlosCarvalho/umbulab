@@ -37,6 +37,9 @@ export function DesenharSitePage() {
     setLoading(true);
     setGeneratedHtml(null);
     setIsFinished(false);
+    setProgress(0);
+
+    let progressInterval: ReturnType<typeof setInterval>;
 
     try {
       // 1. Check usage limit
@@ -49,6 +52,14 @@ export function DesenharSitePage() {
       if (count && count >= 2) {
         throw new Error('Limite excedido. Já gerou o máximo de 2 modelos gratuitos com este email. Por favor, contacte a UmbuLab.');
       }
+
+      // Start progress simulation
+      let simProgress = 0;
+      progressInterval = setInterval(() => {
+        simProgress += Math.random() * 8;
+        if (simProgress > 95) simProgress = 95;
+        setProgress(simProgress);
+      }, 500);
 
       // 2. Start streaming request
       const response = await fetch('/api/generate-site', {
@@ -89,11 +100,13 @@ export function DesenharSitePage() {
         }
       }
 
+      clearInterval(progressInterval);
+      setProgress(100);
       setIsFinished(true);
       showToast('Modelo desenhado com sucesso!', 'success');
 
       // 3. Auto-save the lead to Supabase
-      const finalHtml = htmlAcc.replace(/^```html\n?/, '').replace(/\n?```$/, '').trim();
+      const finalHtml = cleanHtml(htmlAcc);
       await supabase
         .from('ai_generated_sites')
         .insert([{
@@ -106,6 +119,7 @@ export function DesenharSitePage() {
     } catch (error: any) {
       console.error(error);
       showToast(error.message || 'Ocorreu um erro ao desenhar o modelo.', 'error');
+      if (progressInterval!) clearInterval(progressInterval);
       setIsFinished(true); // Stop loading state even on error
     } finally {
       setLoading(false);
@@ -116,8 +130,13 @@ export function DesenharSitePage() {
     navigate('/contact?service=Projeto de Site IA&email=' + encodeURIComponent(formData.email));
   };
 
+  const [progress, setProgress] = useState(0);
+
   const cleanHtml = (raw: string) => {
-    return raw.replace(/^```html\n?/, '').replace(/\n?```$/, '').trim();
+    const match = raw.match(/```html\s*([\s\S]*?)\s*```/i);
+    if (match) return match[1].trim();
+    // Fallback if no markdown block
+    return raw.replace(/^```html\n?/i, '').replace(/\n?```$/i, '').trim();
   };
 
   return (
@@ -294,10 +313,19 @@ export function DesenharSitePage() {
 
             {/* Iframe Area */}
             <div className="flex-grow bg-neutral-950 relative flex items-center justify-center p-4">
-              {loading && !generatedHtml && (
-                <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-neutral-950/80 backdrop-blur-sm">
-                  <div className="w-16 h-16 border-4 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin mb-4" />
-                  <p className="text-lg font-medium text-emerald-400 animate-pulse">A preparar o seu modelo...</p>
+              {loading && !isFinished && (
+                <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-neutral-950 px-6 text-center">
+                  <div className="w-16 h-16 border-4 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin mb-6" />
+                  <p className="text-xl font-bold text-emerald-400 mb-2">A desenhar o seu modelo...</p>
+                  <p className="text-sm text-neutral-400 mb-8 max-w-md">A nossa Inteligência Artificial está a programar a página, a estruturar o layout e a aplicar o design. Por favor, não feche a página.</p>
+                  
+                  <div className="w-full max-w-md bg-neutral-800 rounded-full h-3 mb-3 overflow-hidden border border-neutral-700 relative">
+                    <div 
+                      className="absolute left-0 top-0 bg-gradient-to-r from-emerald-500 to-green-400 h-full rounded-full transition-all duration-300 ease-out shadow-[0_0_10px_rgba(16,185,129,0.5)]"
+                      style={{ width: `${progress}%` }}
+                    />
+                  </div>
+                  <span className="text-sm font-medium text-emerald-500 animate-pulse">{Math.round(progress)}% Concluído</span>
                 </div>
               )}
 
@@ -308,9 +336,9 @@ export function DesenharSitePage() {
                 </div>
               )}
 
-              {generatedHtml && (
+              {isFinished && generatedHtml && (
                 <div 
-                  className={`transition-all duration-300 ease-in-out mx-auto bg-white overflow-hidden rounded-md border border-neutral-800 shadow-2xl ${
+                  className={`transition-all duration-500 ease-in-out mx-auto bg-white overflow-hidden rounded-md border border-neutral-800 shadow-2xl animate-in fade-in zoom-in-95 ${
                     previewMode === 'mobile' ? 'w-[375px] h-[812px]' : 'w-full h-full'
                   }`}
                 >
