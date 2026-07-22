@@ -263,7 +263,7 @@ export function DesenharSitePage() {
               {loading && (
                 <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-neutral-950/80 backdrop-blur-sm">
                   <div className="w-16 h-16 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin mb-4" />
-                  <p className="text-lg font-medium text-blue-400 animate-pulse">A Inteligência Artificial está a desenhar o seu site...</p>
+                  <p className="text-lg font-medium text-blue-400 animate-pulse">Agora só aguarda, a Umbulab está a desenhar o seu modelo.</p>
                   <p className="text-sm text-neutral-500 mt-2">Isto pode demorar alguns segundos.</p>
                 </div>
               )}
