@@ -78,27 +78,22 @@ Nome: ${params.name}
 Tipo de Negócio: ${params.business_type}
 Descrição: ${params.description}
 
-Responda APENAS com o JSON final, sem formatação markdown extra.`;
+  const modelsToTry = [
+    'gemini-2.0-flash-lite',
+    'gemini-2.0-flash-lite-001',
+    'gemini-2.5-flash',
+    'gemini-2.0-flash',
+    'gemini-1.5-flash',
+    'gemini-pro'
+  ];
 
-  try {
-    // Tentativa 1: gemini-2.5-flash na v1beta
-    let response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: `${systemPrompt}\n\n${userPrompt}` }] }],
-          generationConfig: { response_mime_type: "application/json" }
-        }),
-      }
-    );
+  let lastResponse: Response | null = null;
+  let lastErrorMsg = '';
 
-    // Tentativa 2: Fallback para gemini-2.0-flash se o 2.5 falhar
-    if (!response.ok) {
-      console.warn("gemini-2.5-flash falhou. Tentando gemini-2.0-flash...");
-      response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+  for (const modelName of modelsToTry) {
+    try {
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -108,37 +103,47 @@ Responda APENAS com o JSON final, sem formatação markdown extra.`;
           }),
         }
       );
-    }
 
-    if (!response.ok) {
-      // Se falhar novamente, vamos procurar quais modelos estão disponíveis
+      if (response.ok) {
+        lastResponse = response;
+        break; // Sucesso! Sai do loop.
+      } else {
+        const errData = await response.json().catch(() => ({}));
+        lastErrorMsg = errData.error?.message || response.statusText;
+        console.warn(`${modelName} falhou:`, lastErrorMsg);
+      }
+    } catch (e: any) {
+      lastErrorMsg = e.message;
+      console.warn(`${modelName} falhou com excepção:`, lastErrorMsg);
+    }
+  }
+
+  if (!lastResponse || !lastResponse.ok) {
+    // Todos falharam. Buscar os modelos disponíveis para ajudar no debug
+    let availableModels = 'Desconhecido';
+    try {
       const modelsRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`);
       const modelsData = await modelsRes.json();
-      const availableModels = modelsData.models?.map((m: any) => m.name).join(', ') || 'Nenhum';
-      
-      const err: any = await response.json().catch(() => ({}));
-      console.error("Gemini API Error:", err);
-      throw new Error(`Falha Gemini. Modelos disponíveis na sua chave: ${availableModels}. Erro original: ${err.error?.message || response.statusText}`);
-    }
+      availableModels = modelsData.models?.map((m: any) => m.name).join(', ') || 'Nenhum';
+    } catch (e) {}
+    
+    throw new Error(`Falha Gemini em TODOS os modelos testados. Último erro: ${lastErrorMsg}. O seu plano pode estar sem quota (limit: 0) ou requer associar um cartão de crédito em Google AI Studio. Modelos disponíveis na chave: ${availableModels}`);
+  }
 
-    const data: any = await response.json();
+  try {
+    const data: any = await lastResponse.json();
     let rawContent = data.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
     
-    // Limpar o JSON (às vezes o gemini-pro devolve com markdown ```json)
+    // Limpar o JSON
     rawContent = rawContent.replace(/```json/g, '').replace(/```/g, '').trim();
     
-    try {
-      const parsedJson = JSON.parse(rawContent);
-      return {
-        siteData: parsedJson,
-        prompt: `${systemPrompt}\n\n${userPrompt}`
-      };
-    } catch (parseError) {
-      console.error("Failed to parse Gemini JSON:", rawContent);
-      throw new Error('A IA não retornou um formato de dados válido.');
-    }
-  } catch (apiError: any) {
-    console.error("Gemini API Error:", apiError);
-    throw new Error(`${apiError.message || 'Erro desconhecido'}`);
+    const parsedJson = JSON.parse(rawContent);
+    return {
+      siteData: parsedJson,
+      prompt: `${systemPrompt}\n\n${userPrompt}`
+    };
+  } catch (error: any) {
+    console.error("Failed to parse Gemini JSON:", error);
+    throw new Error('A IA não retornou um formato de dados válido.');
   }
 }
