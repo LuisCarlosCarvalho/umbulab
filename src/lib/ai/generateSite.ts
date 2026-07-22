@@ -103,7 +103,7 @@ Responda APENAS com o JSON final, sem formatação markdown extra.`;
   if (!response.ok) {
     const err: any = await response.json();
     console.error("Gemini API Error:", err);
-    throw new Error('Falha ao comunicar com a Inteligência Artificial.');
+    throw new Error(`Falha Gemini: ${err.error?.message || response.statusText || 'Erro desconhecido'}`);
   }
 
   const data: any = await response.json();

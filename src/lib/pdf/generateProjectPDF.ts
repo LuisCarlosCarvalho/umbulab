@@ -1,4 +1,5 @@
-import jsPDF from 'jspdf';
+// @ts-ignore
+import { jsPDF } from 'jspdf';
 
 interface PDFParams {
   name: string;
