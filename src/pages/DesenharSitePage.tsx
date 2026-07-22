@@ -317,7 +317,7 @@ export function DesenharSitePage() {
                 <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-neutral-950 px-6 text-center">
                   <div className="w-16 h-16 border-4 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin mb-6" />
                   <p className="text-xl font-bold text-emerald-400 mb-2">A desenhar o seu modelo...</p>
-                  <p className="text-sm text-neutral-400 mb-8 max-w-md">A nossa Inteligência Artificial está a programar a página, a estruturar o layout e a aplicar o design. Por favor, não feche a página.</p>
+                  <p className="text-sm text-neutral-400 mb-8 max-w-md">A Umbulab está a desenvolver a página, a estruturar o layout e a aplicar o design. Por favor, não feche a página.</p>
                   
                   <div className="w-full max-w-md bg-neutral-800 rounded-full h-3 mb-3 overflow-hidden border border-neutral-700 relative">
                     <div 
