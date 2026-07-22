@@ -14,21 +14,23 @@ export default async function handler(req: Request) {
     const body = await req.json();
     const { company_name, logo_url, business_type, number_of_pages, style, colors, description } = body;
 
-    const systemPrompt = `You are an expert web developer and designer. Your task is to generate a single-file complete HTML page with embedded CSS for a website prototype based on the user's requirements.
+    const systemPrompt = `You are an expert web developer and designer. Your task is to generate a single-file complete HTML page for a website prototype based on the user's requirements.
 
-REQUIREMENTS:
-- The design must be modern, clean, conversion-focused, and fully responsive.
-- It must include:
+CRITICAL REQUIREMENTS:
+- You MUST use Tailwind CSS via CDN for styling: <script src="https://cdn.tailwindcss.com"></script>
+- You MUST include a modern Google Font (like 'Inter' or 'Roboto') and apply it to the body.
+- You MUST include FontAwesome via CDN for icons: <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+- The design MUST be highly professional, modern, clean, conversion-focused, and fully responsive.
+- Do NOT output basic or unstyled HTML. Every element must be styled with Tailwind utility classes (e.g., flex, grid, shadow-lg, rounded-xl, bg-gradient-to-r).
+- Use generous spacing (padding/margins), hover effects, and transitions to make it feel like a premium, state-of-the-art website.
+- Include the following sections:
   1. Header with logo and navigation
-  2. Hero section with CTA (Call to Action)
+  2. Hero section with an engaging headline, description, and Call to Action (CTA) button
   3. About section
-  4. Services section
-  5. Contact section
+  4. Services/Features section (use a grid layout with cards and icons)
+  5. Contact section (with a styled form)
   6. Footer
-- The output MUST BE ONLY valid HTML code. 
-- Do NOT include markdown blocks (\`\`\`html). Just output the raw HTML string.
-- Use embedded CSS (<style>) inside the <head>.
-- Do NOT use external CSS frameworks, just plain CSS or a lightweight CDN if absolutely necessary, but prefer writing all styles within the file to ensure it works isolated.
+- The output MUST BE ONLY valid HTML code. Do NOT include markdown blocks (\`\`\`html). Just output the raw HTML string starting with <!DOCTYPE html>.
 - The design style should reflect: ${style}.
 - The primary colors should be based on: ${colors}.`;
 
