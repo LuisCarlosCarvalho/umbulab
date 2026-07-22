@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { generateSiteJson } from '../src/lib/ai/generateSite';
+import { generateSiteJson } from '../../src/lib/ai/generateSite';
 
 export const config = {
   runtime: 'edge', // or nodej depending on requirements, edge is faster
