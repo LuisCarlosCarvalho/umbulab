@@ -338,11 +338,17 @@ export function DesenharSitePage() {
 
               {isFinished && generatedHtml && (
                 <div 
-                  className={`transition-all duration-500 ease-in-out mx-auto bg-white overflow-y-auto overflow-x-hidden rounded-md border border-neutral-800 shadow-2xl animate-in fade-in zoom-in-95 ${
+                  className={`transition-all duration-500 ease-in-out mx-auto bg-white overflow-hidden rounded-md border border-neutral-800 shadow-2xl animate-in fade-in zoom-in-95 ${
                     previewMode === 'mobile' ? 'w-[375px] h-[812px]' : 'w-full h-full'
                   }`}
-                  dangerouslySetInnerHTML={{ __html: cleanHtml(generatedHtml) }}
-                />
+                >
+                  <iframe
+                    title="Website Preview"
+                    srcDoc={cleanHtml(generatedHtml)}
+                    sandbox="allow-scripts allow-popups"
+                    className="w-full h-full border-none bg-white"
+                  />
+                </div>
               )}
             </div>
           </div>
