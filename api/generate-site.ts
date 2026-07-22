@@ -14,85 +14,81 @@ export default async function handler(req: Request) {
     const body = await req.json();
     const { company_name, logo_url, business_type, number_of_pages, style, colors, description } = body;
 
-    const fullPrompt = `You are an AI Website Builder similar to Lovable, Framer AI, or Webflow AI.
+    const fullPrompt = `You are a professional AI website builder.
 
-IMPORTANT:
-- You MUST generate a complete, visually structured landing page in HTML
-- The output MUST be clean HTML (no explanations)
-- The design must look modern, premium, and ready for a real business
-- Use sections, spacing, colors, and hierarchy like a professional designer
+CRITICAL RULES:
+- You MUST generate a COMPLETE and VALID HTML document
+- The output MUST start with <!DOCTYPE html>
+- The output MUST include <html>, <head>, and <body>
+- You MUST include Tailwind via CDN in the <head>
+- You MUST NOT return broken or partial HTML
+- You MUST NOT return plain text
 
 ---
 
 GOAL:
-Generate a full landing page preview based on the user input.
+Generate a full landing page preview for a business.
 
 ---
 
-INPUT DATA:
+INPUT:
 Business Name: ${company_name}
 Business Type: ${business_type}
 Style: ${style}
 Description: ${description}
-Number of Pages / Sections desired: ${number_of_pages}
-Logo URL: ${logo_url || 'Use a text-based logo using the company name'}
-Primary Colors: ${colors}
 
 ---
 
-INSTRUCTIONS:
+REQUIREMENTS:
 
-1. Build a COMPLETE landing page including:
-
-- Hero section (title, subtitle, CTA button)
+1. STRUCTURE:
+- Hero section
 - About section
-- Services or Products section (3–6 items)
-- Testimonials section (fake but realistic)
-- Call to Action section
+- Services section (3–6 items)
+- Testimonials
+- CTA section
 - Footer
 
 ---
 
-2. DESIGN RULES:
-
-- Use modern UI/UX design
-- Use TailwindCSS classes for styling (include <script src="https://cdn.tailwindcss.com"></script>)
-- Add FontAwesome for icons (<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">)
-- Include a modern Google Font (like 'Inter' or 'Roboto')
-- Add spacing, padding, and good typography
-- Use a clean color palette based on the business type
-- Make it visually appealing like a real startup website
-- VERY IMPORTANT: This is a NON-FUNCTIONAL visual mockup. ALL links, buttons, and form submissions MUST be disabled or have href="#".
+2. DESIGN:
+- Use TailwindCSS
+- Make it modern and clean
+- Proper spacing and layout
+- Responsive layout
 
 ---
 
-3. CONTENT RULES:
+3. HTML RULES:
 
-- Generate realistic and persuasive text
-- Adapt tone based on business type (e.g. corporate, creative, tech)
-- DO NOT use placeholders like "lorem ipsum"
+- Start with:
+<!DOCTYPE html>
+
+- Include in <head>:
+<script src="https://cdn.tailwindcss.com"></script>
+
+- Wrap everything properly inside <body>
 
 ---
 
-4. OUTPUT FORMAT:
+4. OUTPUT RULES:
 
 - Return ONLY HTML
-- Do NOT explain anything
-- Do NOT use markdown
-- Do NOT wrap in \`\`\`html
+- No explanations
+- No markdown
+- No broken tags
+- No escaped code
 
 ---
 
-5. EXTRA:
+5. IMPORTANT:
 
-- Add hover effects on buttons
-- Add simple animations (optional Tailwind)
-- Make it feel like a real product demo
+If the HTML is not complete and valid, the task is considered FAILED.
 
 ---
 
-FINAL RULE:
-The result must impress a client visually.`;
+FINAL INSTRUCTION:
+Respond ONLY in Portuguese (Portugal).`;
 
     const apiKey = process.env.GEMINI_API_KEY;
     
