@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { Loader2, Monitor, Smartphone, ArrowLeft, Send, XCircle } from 'lucide-react';
 import { showToast } from '../components/ui/Toast';
-import DOMPurify from 'dompurify';
 
 export function DesenharSitePage() {
   const navigate = useNavigate();
@@ -317,9 +316,9 @@ export function DesenharSitePage() {
                 >
                   <iframe
                     title="Website Preview"
-                    srcDoc={DOMPurify.sanitize(cleanHtml(generatedHtml), { ADD_TAGS: ['style'] })}
-                    sandbox="allow-scripts"
-                    className="w-full h-full border-none"
+                    srcDoc={cleanHtml(generatedHtml)}
+                    sandbox="allow-scripts allow-popups"
+                    className="w-full h-full border-none bg-white"
                   />
                 </div>
               )}
