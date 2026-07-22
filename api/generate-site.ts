@@ -14,20 +14,61 @@ export default async function handler(req: Request) {
     const body: any = await req.json();
     const { company_name, logo_url, business_type, number_of_pages, style, colors, description } = body;
 
-    const fullPrompt = `You are a professional AI website builder.
+    const fullPrompt = `You are a strict HTML generator.
 
 CRITICAL RULES:
-- You MUST generate a COMPLETE and VALID HTML document
-- The output MUST start with <!DOCTYPE html>
-- The output MUST include <html>, <head>, and <body>
-- You MUST include Tailwind via CDN in the <head>
-- You MUST NOT return broken or partial HTML
-- You MUST NOT return plain text
+- Output MUST be 100% valid HTML5
+- ALL tags must be properly opened and closed
+- NEVER output broken attributes (e.g. href without <a>)
+- NEVER output partial elements
+- ALWAYS validate structure before finishing
 
 ---
 
-GOAL:
-Generate a full landing page preview for a business.
+REQUIRED STRUCTURE:
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generated Site</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+  <!-- FULL PAGE CONTENT -->
+</body>
+</html>
+
+---
+
+PAGE REQUIREMENTS:
+
+- Hero section
+- About section
+- Services (3+ items)
+- Testimonials
+- CTA
+- Footer
+
+---
+
+STRICT HTML RULES:
+
+- All <a> tags must be complete
+- All <div> must be closed
+- No orphan attributes
+- No text outside tags
+- No malformed Tailwind classes
+
+---
+
+OUTPUT RULES:
+
+- Return ONLY HTML
+- No markdown
+- No explanations
+- No comments outside HTML
 
 ---
 
@@ -36,59 +77,19 @@ Business Name: ${company_name}
 Business Type: ${business_type}
 Style: ${style}
 Description: ${description}
+Number of Pages / Sections desired: ${number_of_pages}
+Logo URL: ${logo_url || 'Use a text-based logo using the company name'}
+Primary Colors: ${colors}
 
 ---
 
-REQUIREMENTS:
-
-1. STRUCTURE:
-- Hero section
-- About section
-- Services section (3–6 items)
-- Testimonials
-- CTA section
-- Footer
+FINAL CHECK:
+If the HTML is not valid, DO NOT return it. Fix it before responding.
+VERY IMPORTANT: This is a NON-FUNCTIONAL visual mockup. ALL links, buttons, and form submissions MUST be disabled or have href="#".
 
 ---
 
-2. DESIGN:
-- Use TailwindCSS
-- Make it modern and clean
-- Proper spacing and layout
-- Responsive layout
-
----
-
-3. HTML RULES:
-
-- Start with:
-<!DOCTYPE html>
-
-- Include in <head>:
-<script src="https://cdn.tailwindcss.com"></script>
-
-- Wrap everything properly inside <body>
-
----
-
-4. OUTPUT RULES:
-
-- Return ONLY HTML
-- No explanations
-- No markdown
-- No broken tags
-- No escaped code
-
----
-
-5. IMPORTANT:
-
-If the HTML is not complete and valid, the task is considered FAILED.
-
----
-
-FINAL INSTRUCTION:
-Respond ONLY in Portuguese (Portugal).`;
+Respond ONLY in Portuguese (Portugal e Brasil).`;
 
     const apiKey = process.env.GEMINI_API_KEY;
     

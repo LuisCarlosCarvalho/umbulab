@@ -337,18 +337,30 @@ export function DesenharSitePage() {
               )}
 
               {isFinished && generatedHtml && (
-                <div 
-                  className={`transition-all duration-500 ease-in-out mx-auto bg-white overflow-hidden rounded-md border border-neutral-800 shadow-2xl animate-in fade-in zoom-in-95 ${
-                    previewMode === 'mobile' ? 'w-[375px] h-[812px]' : 'w-full h-full'
-                  }`}
-                >
-                  <iframe
-                    title="Website Preview"
-                    srcDoc={cleanHtml(generatedHtml)}
-                    sandbox="allow-scripts allow-popups"
-                    className="w-full h-full border-none bg-white"
-                  />
-                </div>
+                generatedHtml.includes("<html") && generatedHtml.includes("</html>") && generatedHtml.length > 500 ? (
+                  <div 
+                    className={`transition-all duration-500 ease-in-out mx-auto bg-white overflow-hidden rounded-md border border-neutral-800 shadow-2xl animate-in fade-in zoom-in-95 ${
+                      previewMode === 'mobile' ? 'w-[375px] h-[812px]' : 'w-full h-full'
+                    }`}
+                  >
+                    <iframe
+                      title="Website Preview"
+                      srcDoc={cleanHtml(generatedHtml)}
+                      sandbox="allow-scripts allow-popups"
+                      className="w-full h-full border-none bg-white"
+                    />
+                  </div>
+                ) : (
+                  <div className="w-full h-full flex flex-col items-center justify-center bg-neutral-900 border border-red-500/30 rounded-md p-8 text-center">
+                    <div className="w-16 h-16 bg-red-500/20 text-red-400 rounded-full flex items-center justify-center mb-4">
+                      <i className="fas fa-exclamation-triangle text-2xl"></i>
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">Falha ao gerar site válido</h3>
+                    <p className="text-neutral-400 max-w-md">
+                      A Inteligência Artificial não conseguiu gerar um código estruturado a 100%. Por favor, tente gerar novamente.
+                    </p>
+                  </div>
+                )
               )}
             </div>
           </div>
