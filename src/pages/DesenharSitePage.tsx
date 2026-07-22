@@ -78,23 +78,30 @@ export function DesenharSitePage() {
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
       let htmlAcc = '';
+      let buffer = '';
 
       while (true) {
         const { value, done } = await reader.read();
         if (done) break;
         
-        const chunk = decoder.decode(value, { stream: true });
-        const lines = chunk.split('\n');
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        
+        // Mantém a última linha incompleta no buffer
+        buffer = lines.pop() || '';
         
         for (const line of lines) {
-          if (line.startsWith('data: ') && line !== 'data: [DONE]') {
+          if (line.trim().startsWith('data: ') && line.trim() !== 'data: [DONE]') {
             try {
-              const data = JSON.parse(line.slice(6));
+              // Limpa o prefixo 'data: ' e faz parse
+              const jsonStr = line.replace(/^data:\s*/, '');
+              const data = JSON.parse(jsonStr);
               const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
               htmlAcc += text;
               setGeneratedHtml(htmlAcc);
             } catch (err) {
-              // Ignore parse errors for incomplete chunks
+              // Se falhar o parse (por exemplo, JSON dividido em múltiplas linhas data:), ignorar até a próxima.
+              // O Google Gemini geralmente manda o JSON numa só linha com data:
             }
           }
         }
