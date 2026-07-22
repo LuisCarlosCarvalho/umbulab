@@ -33,6 +33,8 @@ const CulturaDataDriven = lazy(() => import('./pages/hub/analytics/CulturaDataDr
 const PasswordChangeModal = lazy(() => import('./components/auth/PasswordChangeModal').then(m => ({ default: m.PasswordChangeModal })));
 const AtivarPage = lazy(() => import('./pages/AtivarPage').then(m => ({ default: m.AtivarPage })));
 const DesenharSitePage = lazy(() => import('./pages/DesenharSitePage').then(m => ({ default: m.DesenharSitePage })));
+const GeneratePage = lazy(() => import('./pages/GeneratePage').then(m => ({ default: m.GeneratePage })));
+const PreviewPage = lazy(() => import('./pages/PreviewPage').then(m => ({ default: m.PreviewPage })));
 // Loading Fallback
 function PageLoader() {
   return (
@@ -189,6 +191,8 @@ function Layout() {
           <Route path="/admin-setup" element={<AdminSetupPage />} />
           <Route path="/ativar" element={<AtivarPage />} />
           <Route path="/desenhar-site" element={<DesenharSitePage />} />
+          <Route path="/generate" element={<GeneratePage />} />
+          <Route path="/preview" element={<PreviewPage />} />
 
           {/* Auth Routes */}
           <Route path="/login" element={<LoginPage />} />
