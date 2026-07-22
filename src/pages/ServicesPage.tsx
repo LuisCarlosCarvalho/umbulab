@@ -102,7 +102,7 @@ export function ServicesPage() {
               </ul>
               <div className="flex flex-col md:flex-row gap-4">
                 <Link
-                  to="/desenhar-site"
+                  to="/generate"
                   className="btn btn-primary w-full md:w-auto justify-center shadow-lg shadow-green-500/20 border border-green-400"
                 >
                   Gerar sua ideia
