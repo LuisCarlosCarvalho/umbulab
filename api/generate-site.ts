@@ -11,7 +11,7 @@ export default async function handler(req: Request) {
   }
 
   try {
-    const body = await req.json();
+    const body: any = await req.json();
     const { company_name, logo_url, business_type, number_of_pages, style, colors, description } = body;
 
     const fullPrompt = `You are a professional AI website builder.

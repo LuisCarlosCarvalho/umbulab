@@ -11,7 +11,7 @@ export default async function handler(req: Request) {
   }
 
   try {
-    const body = await req.json();
+    const body: any = await req.json();
     const { instruction, page_id } = body;
 
     if (!instruction || !page_id) {
@@ -78,12 +78,12 @@ RULES:
     );
 
     if (!response.ok) {
-      const err = await response.json();
+      const err: any = await response.json();
       console.error("Gemini API Error:", err);
       throw new Error(err.error?.message || 'Failed to fetch from Gemini');
     }
 
-    const data = await response.json();
+    const data: any = await response.json();
     let rawContent = data.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
     
     // Parse the JSON
