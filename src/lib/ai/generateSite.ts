@@ -81,34 +81,51 @@ Descrição: ${params.description}
 Responda APENAS com o JSON final, sem formatação markdown extra.`;
 
   try {
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+    // Tentativa 1: gemini-1.5-flash na v1beta
+    let response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
       {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          contents: [
-            {
-              parts: [{ text: `${systemPrompt}\n\n${userPrompt}` }]
-            }
-          ],
-          generationConfig: {
-            response_mime_type: "application/json",
-          }
+          contents: [{ parts: [{ text: `${systemPrompt}\n\n${userPrompt}` }] }],
+          generationConfig: { response_mime_type: "application/json" }
         }),
       }
     );
 
+    // Tentativa 2: Fallback para gemini-pro (Gemini 1.0) se o 1.5 falhar
     if (!response.ok) {
-      const err: any = await response.json();
+      console.warn("gemini-1.5-flash falhou. Tentando gemini-pro...");
+      response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: `${systemPrompt}\n\n${userPrompt}` }] }],
+            // gemini-pro não suporta response_mime_type em algumas versões, omitimos para segurança
+          }),
+        }
+      );
+    }
+
+    if (!response.ok) {
+      // Se falhar novamente, vamos procurar quais modelos estão disponíveis
+      const modelsRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`);
+      const modelsData = await modelsRes.json();
+      const availableModels = modelsData.models?.map((m: any) => m.name).join(', ') || 'Nenhum';
+      
+      const err: any = await response.json().catch(() => ({}));
       console.error("Gemini API Error:", err);
-      throw new Error(`Falha Gemini: ${err.error?.message || response.statusText || 'Erro desconhecido'}`);
+      throw new Error(`Falha Gemini. Modelos disponíveis na sua chave: ${availableModels}. Erro original: ${err.error?.message || response.statusText}`);
     }
 
     const data: any = await response.json();
-    const rawContent = data.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
+    let rawContent = data.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
+    
+    // Limpar o JSON (às vezes o gemini-pro devolve com markdown ```json)
+    rawContent = rawContent.replace(/```json/g, '').replace(/```/g, '').trim();
     
     try {
       const parsedJson = JSON.parse(rawContent);
@@ -122,7 +139,6 @@ Responda APENAS com o JSON final, sem formatação markdown extra.`;
     }
   } catch (apiError: any) {
     console.error("Gemini API Error:", apiError);
-    console.log("Debug: If this fails continuously, check if your API key has access to 'gemini-1.5-flash' via Google AI Studio.");
-    throw new Error(`Falha Gemini: ${apiError.message || 'Erro desconhecido'}`);
+    throw new Error(`${apiError.message || 'Erro desconhecido'}`);
   }
 }
