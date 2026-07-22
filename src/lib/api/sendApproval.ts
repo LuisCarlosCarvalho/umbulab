@@ -3,14 +3,15 @@ import { supabase } from '../supabase';
 export interface ApprovalData {
   email: string;
   name: string;
+  phone: string;
   business_type: string;
   data: any; // O JSON gerado
   prompt: string;
   pdfBlob: Blob;
 }
 
-export async function sendApproval({ email, name, business_type, data, prompt, pdfBlob }: ApprovalData) {
-  if (!email || !name || !data) {
+export async function sendApproval({ email, name, phone, business_type, data, prompt, pdfBlob }: ApprovalData) {
+  if (!email || !name || !phone || !data) {
     throw new Error('Faltam dados obrigatórios para enviar a aprovação.');
   }
 
@@ -52,17 +53,20 @@ export async function sendApproval({ email, name, business_type, data, prompt, p
   }
 
   // 3. Inserir a aprovação (Lead)
-  const { error: insertError } = await supabase
+  const { error: insertError, data: insertedData } = await supabase
     .from('aprovacoes_usuario')
     .insert([{
       email,
       name,
+      phone,
       business_type,
       data,
       status: 'novo',
       prompt,
       pdf_url: pdfUrl
-    }]);
+    }])
+    .select('id')
+    .single();
 
   if (insertError) {
     console.error('Erro ao gravar aprovação:', insertError);
@@ -101,6 +105,25 @@ export async function sendApproval({ email, name, business_type, data, prompt, p
   } catch (emailError) {
     console.error('Erro ao chamar API de e-mail:', emailError);
     // Não falhamos a geração do lead por falha de e-mail
+  }
+
+  // 5. Iniciar fluxo de automação de WhatsApp
+  if (insertedData?.id) {
+    try {
+      await fetch('/api/whatsapp/on-lead-created', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          leadId: insertedData.id,
+          name,
+          phone,
+        })
+      });
+    } catch (whatsappError) {
+      console.error('Erro ao iniciar automação de WhatsApp:', whatsappError);
+    }
   }
 
   return { success: true };

@@ -16,6 +16,7 @@ export function PreviewPage() {
   // Dados passados do gerador
   const email = location.state?.email || '';
   const name = location.state?.name || '';
+  const phone = location.state?.phone || '';
   const businessType = location.state?.business_type || '';
   const prompt = location.state?.prompt || '';
 
@@ -27,7 +28,7 @@ export function PreviewPage() {
   }, [location]);
 
   const handleApprove = async () => {
-    if (!email || !name || !siteData || !prompt) {
+    if (!email || !name || !phone || !siteData || !prompt) {
       showToast('Dados insuficientes para aprovação.', 'error');
       return;
     }
@@ -48,6 +49,7 @@ export function PreviewPage() {
       await sendApproval({
         email,
         name,
+        phone,
         business_type: businessType,
         data: siteData,
         prompt,

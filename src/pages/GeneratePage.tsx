@@ -9,6 +9,7 @@ export function GeneratePage() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
     business_type: 'service',
     description: ''
   });
@@ -20,7 +21,7 @@ export function GeneratePage() {
 
   const handleGenerate = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.email || !formData.name || !formData.description) {
+    if (!formData.email || !formData.name || !formData.description || !formData.phone) {
       showToast('Por favor, preencha todos os campos obrigatórios.', 'error');
       return;
     }
@@ -48,6 +49,7 @@ export function GeneratePage() {
           siteData: data.site, 
           email: formData.email,
           name: formData.name,
+          phone: formData.phone,
           business_type: formData.business_type,
           prompt: data.prompt
         } 
@@ -96,6 +98,19 @@ export function GeneratePage() {
                   onChange={handleInputChange}
                   className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition-all"
                   placeholder="seu@email.com"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-neutral-300 mb-1">WhatsApp (para receber seu site pronto) 📲 *</label>
+                <input
+                  type="tel"
+                  name="phone"
+                  required
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition-all"
+                  placeholder="+351 912 345 678"
                 />
               </div>
 
