@@ -100,13 +100,22 @@ export function ServicesPage() {
                   </li>
                 ))}
               </ul>
-              <Link
-                to="/contact?service=Criação de Sites"
-                className="btn btn-outline w-full md:w-auto justify-center"
-              >
-                Solicitar Orçamento
-                <ArrowRight size={18} />
-              </Link>
+              <div className="flex flex-col md:flex-row gap-4">
+                <Link
+                  to="/desenhar-site"
+                  className="btn btn-primary w-full md:w-auto justify-center shadow-lg shadow-green-500/20 border border-green-400"
+                >
+                  Gerar sua ideia
+                  <ArrowRight size={18} />
+                </Link>
+                <Link
+                  to="/contact?service=Criação de Sites"
+                  className="btn btn-outline w-full md:w-auto justify-center"
+                >
+                  Solicitar Orçamento
+                  <ArrowRight size={18} />
+                </Link>
+              </div>
             </div>
           </div>
 

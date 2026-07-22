@@ -1,4 +1,6 @@
-export const maxDuration = 60;
+export const config = {
+  runtime: 'edge',
+};
 
 export default async function handler(req: Request) {
   if (req.method !== 'POST') {
@@ -51,18 +53,14 @@ Please output ONLY the final HTML code.`;
     const fullPrompt = `${systemPrompt}\n\n${userPrompt}`;
 
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:streamGenerateContent?alt=sse&key=${apiKey}`,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          contents: [
-            {
-              parts: [{ text: fullPrompt }]
-            }
-          ]
+          contents: [{ parts: [{ text: fullPrompt }] }]
         }),
       }
     );
@@ -70,18 +68,19 @@ Please output ONLY the final HTML code.`;
     if (!response.ok) {
       const err = await response.json();
       console.error("Gemini API Error:", err);
-      throw new Error(err.error?.message || 'Failed to fetch from Gemini API');
+      return new Response(JSON.stringify({ error: err.error?.message || 'Failed to fetch from Gemini API' }), {
+        status: response.status,
+        headers: { 'Content-Type': 'application/json' },
+      });
     }
 
-    const data = await response.json();
-    let generatedHtml = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-
-    // Remove markdown code blocks if the model included them despite instructions
-    generatedHtml = generatedHtml.replace(/^```html\n?/, '').replace(/\n?```$/, '').trim();
-
-    return new Response(JSON.stringify({ html: generatedHtml, prompt: userPrompt }), {
+    return new Response(response.body, {
       status: 200,
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache, no-transform',
+        'Connection': 'keep-alive',
+      },
     });
 
   } catch (error: any) {

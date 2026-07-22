@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import { Loader2, Monitor, Smartphone, CheckCircle, Save, ArrowLeft } from 'lucide-react';
+import { Loader2, Monitor, Smartphone, ArrowLeft, Send, XCircle } from 'lucide-react';
 import { showToast } from '../components/ui/Toast';
 import DOMPurify from 'dompurify';
 
@@ -9,11 +9,11 @@ export function DesenharSitePage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [generatedHtml, setGeneratedHtml] = useState<string | null>(null);
-  const [promptUsed, setPromptUsed] = useState<string | null>(null);
+  const [isFinished, setIsFinished] = useState(false);
   const [previewMode, setPreviewMode] = useState<'desktop' | 'mobile'>('desktop');
-  const [isSaving, setIsSaving] = useState(false);
 
   const [formData, setFormData] = useState({
+    email: '',
     company_name: '',
     logo_url: '',
     business_type: 'service',
@@ -30,64 +30,95 @@ export function DesenharSitePage() {
 
   const handleGenerate = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.email) {
+      showToast('Por favor, insira o seu email.', 'error');
+      return;
+    }
+
     setLoading(true);
     setGeneratedHtml(null);
+    setIsFinished(false);
 
     try {
+      // 1. Check usage limit
+      const { count, error: countError } = await supabase
+        .from('ai_generated_sites')
+        .select('*', { count: 'exact', head: true })
+        .eq('form_data->>email', formData.email);
+
+      if (countError) throw new Error('Erro ao verificar limite de uso.');
+      if (count && count >= 2) {
+        throw new Error('Limite excedido. Já gerou o máximo de 2 modelos gratuitos com este email. Por favor, contacte a UmbuLab.');
+      }
+
+      // 2. Start streaming request
       const response = await fetch('/api/generate-site', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
       });
 
-      const textData = await response.text();
-      let data;
-      
-      try {
-        data = textData ? JSON.parse(textData) : {};
-      } catch (e) {
-        throw new Error('A rota /api/generate-site não retornou JSON. Se está a testar localmente, precisa de usar "npx vercel dev" em vez de "npm run dev" para que as Serverless Functions funcionem.');
-      }
-
       if (!response.ok) {
-        throw new Error(data?.error || 'Erro ao gerar o site.');
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Erro ao comunicar com a IA.');
       }
 
-      setGeneratedHtml(data.html);
-      setPromptUsed(data.prompt);
-      showToast('Protótipo gerado com sucesso!', 'success');
+      if (!response.body) throw new Error('Sem resposta da IA.');
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let htmlAcc = '';
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        
+        const chunk = decoder.decode(value, { stream: true });
+        const lines = chunk.split('\n');
+        
+        for (const line of lines) {
+          if (line.startsWith('data: ') && line !== 'data: [DONE]') {
+            try {
+              const data = JSON.parse(line.slice(6));
+              const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+              htmlAcc += text;
+              setGeneratedHtml(htmlAcc);
+            } catch (err) {
+              // Ignore parse errors for incomplete chunks
+            }
+          }
+        }
+      }
+
+      setIsFinished(true);
+      showToast('Modelo desenhado com sucesso!', 'success');
+
+      // 3. Auto-save the lead to Supabase
+      const finalHtml = htmlAcc.replace(/^```html\n?/, '').replace(/\n?```$/, '').trim();
+      await supabase
+        .from('ai_generated_sites')
+        .insert([{
+          company_name: formData.company_name,
+          form_data: formData,
+          generated_html: finalHtml,
+          prompt_used: 'Streaming Prompt',
+        }]);
+
     } catch (error: any) {
       console.error(error);
-      showToast(error.message || 'Ocorreu um erro ao gerar o site.', 'error');
+      showToast(error.message || 'Ocorreu um erro ao desenhar o modelo.', 'error');
+      setIsFinished(true); // Stop loading state even on error
     } finally {
       setLoading(false);
     }
   };
 
-  const handleSaveProject = async () => {
-    if (!generatedHtml || !formData.company_name) return;
-    
-    setIsSaving(true);
-    try {
-      const { error } = await supabase
-        .from('ai_generated_sites')
-        .insert([{
-          company_name: formData.company_name,
-          form_data: formData,
-          generated_html: generatedHtml,
-          prompt_used: promptUsed || '',
-        }]);
+  const handleSendIdea = () => {
+    navigate('/contact?service=Projeto de Site IA&email=' + encodeURIComponent(formData.email));
+  };
 
-      if (error) throw error;
-
-      showToast('Projeto guardado com sucesso!', 'success');
-      navigate('/dashboard'); // ou para uma rota onde listam estes projetos
-    } catch (error: any) {
-      console.error('Error saving project:', error);
-      showToast('Erro ao guardar projeto: ' + error.message, 'error');
-    } finally {
-      setIsSaving(false);
-    }
+  const cleanHtml = (raw: string) => {
+    return raw.replace(/^```html\n?/, '').replace(/\n?```$/, '').trim();
   };
 
   return (
@@ -102,127 +133,142 @@ export function DesenharSitePage() {
           </button>
           <div>
             <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">
-              Desenhar Site com IA
+              Gerar Ideia de Site
             </h1>
-            <p className="text-neutral-400 mt-2">Crie protótipos de alta conversão em segundos.</p>
+            <p className="text-neutral-400 mt-2">Veja o seu modelo a ser desenhado em tempo real (Máximo: 2 por email).</p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Formulário (Esquerda) */}
-          <div className="lg:col-span-4 bg-neutral-900 border border-neutral-800 rounded-2xl p-6">
-            <form onSubmit={handleGenerate} className="space-y-5">
-              <div>
-                <label className="block text-sm font-medium text-neutral-300 mb-1">Nome da Empresa *</label>
-                <input
-                  type="text"
-                  name="company_name"
-                  required
-                  value={formData.company_name}
-                  onChange={handleInputChange}
-                  className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-2.5 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
-                  placeholder="Ex: UmbuLab"
-                />
-              </div>
+          <div className="lg:col-span-4 bg-neutral-900 border border-neutral-800 rounded-2xl p-6 h-fit">
+            {!isFinished ? (
+              <form onSubmit={handleGenerate} className="space-y-5">
+                <div>
+                  <label className="block text-sm font-medium text-neutral-300 mb-1">Seu Email *</label>
+                  <input
+                    type="email"
+                    name="email"
+                    required
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-2.5 text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition-all"
+                    placeholder="seu@email.com"
+                  />
+                </div>
 
-              <div>
-                <label className="block text-sm font-medium text-neutral-300 mb-1">URL do Logotipo</label>
-                <input
-                  type="url"
-                  name="logo_url"
-                  value={formData.logo_url}
-                  onChange={handleInputChange}
-                  className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-2.5 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
-                  placeholder="https://exemplo.com/logo.png"
-                />
-              </div>
+                <div>
+                  <label className="block text-sm font-medium text-neutral-300 mb-1">Nome da Empresa *</label>
+                  <input
+                    type="text"
+                    name="company_name"
+                    required
+                    value={formData.company_name}
+                    onChange={handleInputChange}
+                    className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-2.5 text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition-all"
+                    placeholder="Ex: UmbuLab"
+                  />
+                </div>
 
-              <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-neutral-300 mb-1">Tipo de Negócio</label>
                   <select
                     name="business_type"
                     value={formData.business_type}
                     onChange={handleInputChange}
-                    className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-2.5 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                    className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-2.5 text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition-all"
                   >
                     <option value="service">Serviços</option>
                     <option value="ecommerce">E-commerce</option>
                     <option value="portfolio">Portfólio</option>
-                    <option value="blog">Blog</option>
                     <option value="landing_page">Landing Page</option>
                   </select>
                 </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-neutral-300 mb-1">Estilo Visual</label>
+                    <select
+                      name="style"
+                      value={formData.style}
+                      onChange={handleInputChange}
+                      className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-2.5 text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition-all"
+                    >
+                      <option value="modern">Moderno</option>
+                      <option value="minimalist">Minimalista</option>
+                      <option value="classic">Clássico</option>
+                      <option value="bold">Ousado / Dark</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-neutral-300 mb-1">Cores</label>
+                    <input
+                      type="text"
+                      name="colors"
+                      value={formData.colors}
+                      onChange={handleInputChange}
+                      className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-2.5 text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition-all"
+                      placeholder="Ex: #000, Azul"
+                    />
+                  </div>
+                </div>
+
                 <div>
-                  <label className="block text-sm font-medium text-neutral-300 mb-1">Secções</label>
-                  <input
-                    type="number"
-                    name="number_of_pages"
-                    min="1"
-                    max="10"
-                    value={formData.number_of_pages}
+                  <label className="block text-sm font-medium text-neutral-300 mb-1">Descrição Breve *</label>
+                  <textarea
+                    name="description"
+                    required
+                    rows={4}
+                    value={formData.description}
                     onChange={handleInputChange}
-                    className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-2.5 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                    className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-2.5 text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition-all resize-none"
+                    placeholder="Descreva o que a empresa faz..."
                   />
                 </div>
-              </div>
 
-              <div className="grid grid-cols-2 gap-4">
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-lg shadow-emerald-900/20 disabled:opacity-70 disabled:cursor-not-allowed"
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      A Desenhar...
+                    </>
+                  ) : (
+                    'Desenhar o meu Modelo'
+                  )}
+                </button>
+              </form>
+            ) : (
+              <div className="flex flex-col items-center justify-center h-full space-y-6 py-12 text-center animate-in fade-in zoom-in duration-500">
+                <div className="bg-emerald-500/10 p-4 rounded-full">
+                  <Monitor className="w-12 h-12 text-emerald-400" />
+                </div>
                 <div>
-                  <label className="block text-sm font-medium text-neutral-300 mb-1">Estilo Visual</label>
-                  <select
-                    name="style"
-                    value={formData.style}
-                    onChange={handleInputChange}
-                    className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-2.5 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                  <h3 className="text-xl font-bold text-white mb-2">Modelo Concluído</h3>
+                  <p className="text-neutral-400 text-sm">Este é apenas um modelo visual não-funcional para ter uma ideia do nosso trabalho.</p>
+                </div>
+                
+                <div className="w-full space-y-3 pt-4 border-t border-neutral-800">
+                  <button
+                    onClick={handleSendIdea}
+                    className="w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-lg shadow-emerald-900/20"
                   >
-                    <option value="modern">Moderno</option>
-                    <option value="minimalist">Minimalista</option>
-                    <option value="classic">Clássico</option>
-                    <option value="bold">Ousado / Dark</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-neutral-300 mb-1">Cores (Hex/Nomes)</label>
-                  <input
-                    type="text"
-                    name="colors"
-                    value={formData.colors}
-                    onChange={handleInputChange}
-                    className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-2.5 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
-                    placeholder="Ex: #000000, #3B82F6"
-                  />
+                    <Send className="w-5 h-5" />
+                    Enviar ideia para o time UmbuLab
+                  </button>
+                  <button
+                    onClick={() => navigate('/')}
+                    className="w-full flex items-center justify-center gap-2 bg-neutral-800 hover:bg-neutral-700 text-white font-bold py-3 px-4 rounded-xl transition-all"
+                  >
+                    <XCircle className="w-5 h-5" />
+                    Sair da página
+                  </button>
                 </div>
               </div>
-
-              <div>
-                <label className="block text-sm font-medium text-neutral-300 mb-1">Descrição do Projeto *</label>
-                <textarea
-                  name="description"
-                  required
-                  rows={4}
-                  value={formData.description}
-                  onChange={handleInputChange}
-                  className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-2.5 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all resize-none"
-                  placeholder="Descreva o que a empresa faz, quais os serviços principais e o objetivo do site..."
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-emerald-600 hover:from-blue-500 hover:to-emerald-500 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-lg shadow-blue-900/20 disabled:opacity-70 disabled:cursor-not-allowed"
-              >
-                {loading ? (
-                  <>
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                    A Gerar Protótipo...
-                  </>
-                ) : (
-                  'Gerar Site com IA'
-                )}
-              </button>
-            </form>
+            )}
           </div>
 
           {/* Preview Area (Direita) */}
@@ -232,46 +278,34 @@ export function DesenharSitePage() {
               <div className="flex items-center gap-2 bg-neutral-900 p-1 rounded-lg border border-neutral-800">
                 <button
                   onClick={() => setPreviewMode('desktop')}
-                  className={`p-2 rounded-md transition-colors ${previewMode === 'desktop' ? 'bg-neutral-800 text-blue-400' : 'text-neutral-500 hover:text-white'}`}
+                  className={`p-2 rounded-md transition-colors ${previewMode === 'desktop' ? 'bg-neutral-800 text-emerald-400' : 'text-neutral-500 hover:text-white'}`}
                   title="Visualização Desktop"
                 >
                   <Monitor className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => setPreviewMode('mobile')}
-                  className={`p-2 rounded-md transition-colors ${previewMode === 'mobile' ? 'bg-neutral-800 text-blue-400' : 'text-neutral-500 hover:text-white'}`}
+                  className={`p-2 rounded-md transition-colors ${previewMode === 'mobile' ? 'bg-neutral-800 text-emerald-400' : 'text-neutral-500 hover:text-white'}`}
                   title="Visualização Mobile"
                 >
                   <Smartphone className="w-4 h-4" />
                 </button>
               </div>
-
-              {generatedHtml && (
-                <button
-                  onClick={handleSaveProject}
-                  disabled={isSaving}
-                  className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors disabled:opacity-70"
-                >
-                  {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                  Guardar Projeto
-                </button>
-              )}
             </div>
 
             {/* Iframe Area */}
             <div className="flex-grow bg-neutral-950 relative flex items-center justify-center p-4">
-              {loading && (
+              {loading && !generatedHtml && (
                 <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-neutral-950/80 backdrop-blur-sm">
-                  <div className="w-16 h-16 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin mb-4" />
-                  <p className="text-lg font-medium text-blue-400 animate-pulse">Agora só aguarda, a Umbulab está a desenhar o seu modelo.</p>
-                  <p className="text-sm text-neutral-500 mt-2">Isto pode demorar alguns segundos.</p>
+                  <div className="w-16 h-16 border-4 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin mb-4" />
+                  <p className="text-lg font-medium text-emerald-400 animate-pulse">A preparar o seu modelo...</p>
                 </div>
               )}
 
-              {!generatedHtml && !loading && (
+              {!generatedHtml && !loading && !isFinished && (
                 <div className="text-center text-neutral-600">
                   <Monitor className="w-16 h-16 mx-auto mb-4 opacity-50" />
-                  <p>Preencha o formulário e clique em "Gerar Site"<br/> para ver a magia acontecer.</p>
+                  <p>Preencha o formulário e clique em "Desenhar o meu Modelo"<br/> para ver a magia acontecer.</p>
                 </div>
               )}
 
@@ -283,7 +317,7 @@ export function DesenharSitePage() {
                 >
                   <iframe
                     title="Website Preview"
-                    srcDoc={DOMPurify.sanitize(generatedHtml, { ADD_TAGS: ['style'] })}
+                    srcDoc={DOMPurify.sanitize(cleanHtml(generatedHtml), { ADD_TAGS: ['style'] })}
                     sandbox="allow-scripts"
                     className="w-full h-full border-none"
                   />
