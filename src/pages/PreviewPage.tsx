@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Renderer, SiteData } from '../components/site/Renderer';
-import { LayoutTemplate, AlertTriangle, Loader2 } from 'lucide-react';
+import { LayoutTemplate, AlertTriangle, Loader2, MessageCircle } from 'lucide-react';
 import { sendApproval } from '../lib/api/sendApproval';
 import { generateProjectPDF } from '../lib/pdf/generateProjectPDF';
 import { showToast } from '../components/ui/Toast';
@@ -110,8 +110,20 @@ export function PreviewPage() {
           )}
           
           {isSuccess ? (
-            <div className="bg-emerald-500/20 text-emerald-400 border border-emerald-500/50 font-bold px-4 py-2 rounded-lg text-sm flex items-center gap-2">
-              ✅ Recebemos sua solicitação! Nossa equipe entrará em contato.
+            <div className="flex items-center gap-3">
+              <div className="hidden lg:flex bg-emerald-500/20 text-emerald-400 border border-emerald-500/50 font-bold px-4 py-2 rounded-lg text-sm items-center gap-2">
+                ✅ Recebemos sua solicitação!
+              </div>
+              <a 
+                href={`https://wa.me/351928485483?text=${encodeURIComponent(`Olá UmbuLab, vi a versão IA do meu site e quero finalizar o projeto para a empresa ${name}!`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20b958] text-white font-bold px-4 sm:px-6 py-2 rounded-lg text-sm transition-all shadow-lg shadow-[#25D366]/30 animate-pulse"
+              >
+                <MessageCircle size={18} />
+                <span className="hidden sm:inline">Quero meu site pronto agora</span>
+                <span className="sm:hidden">WhatsApp</span>
+              </a>
             </div>
           ) : (
             <button 

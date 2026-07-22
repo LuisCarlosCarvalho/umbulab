@@ -57,10 +57,15 @@ export default async function handler(req: Request) {
       body: JSON.stringify({
         from: `Umbulab <${senderEmail}>`,
         to: [email],
-        subject: 'Recebemos seu projeto 🚀',
+        subject: 'Seu site está pronto 🚀',
         html: `
-          <p>Olá, ${name}, recebemos sua solicitação e nossa equipe entrará em contato em breve.</p>
-          <p>Atenciosamente,<br>Equipe Umbulab</p>
+          <p>Olá, ${name}!</p>
+          <p>Recebemos seu pedido e já analisamos o seu projeto.</p>
+          <p>Nosso time vai entrar em contato com você nas próximas horas para finalizar seu site profissional.</p>
+          <p>Se quiser agilizar, pode falar diretamente conosco no WhatsApp:</p>
+          <p>👉 <a href="https://wa.me/351928485483?text=${encodeURIComponent(`Olá, quero finalizar meu site IA para a empresa ${name}`)}">Falar no WhatsApp agora</a></p>
+          <br>
+          <p>Abraço,<br>Equipe Umbulab</p>
         `
       })
     });
