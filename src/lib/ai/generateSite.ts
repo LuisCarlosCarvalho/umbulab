@@ -81,9 +81,9 @@ Descrição: ${params.description}
 Responda APENAS com o JSON final, sem formatação markdown extra.`;
 
   try {
-    // Tentativa 1: gemini-1.5-flash na v1beta
+    // Tentativa 1: gemini-2.5-flash na v1beta
     let response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -94,17 +94,17 @@ Responda APENAS com o JSON final, sem formatação markdown extra.`;
       }
     );
 
-    // Tentativa 2: Fallback para gemini-pro (Gemini 1.0) se o 1.5 falhar
+    // Tentativa 2: Fallback para gemini-2.0-flash se o 2.5 falhar
     if (!response.ok) {
-      console.warn("gemini-1.5-flash falhou. Tentando gemini-pro...");
+      console.warn("gemini-2.5-flash falhou. Tentando gemini-2.0-flash...");
       response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             contents: [{ parts: [{ text: `${systemPrompt}\n\n${userPrompt}` }] }],
-            // gemini-pro não suporta response_mime_type em algumas versões, omitimos para segurança
+            generationConfig: { response_mime_type: "application/json" }
           }),
         }
       );
