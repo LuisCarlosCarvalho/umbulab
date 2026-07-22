@@ -14,35 +14,85 @@ export default async function handler(req: Request) {
     const body = await req.json();
     const { company_name, logo_url, business_type, number_of_pages, style, colors, description } = body;
 
-    const systemPrompt = `You are an expert web developer and designer. Your task is to generate a single-file complete HTML page for a website prototype based on the user's requirements.
+    const fullPrompt = `You are an AI Website Builder similar to Lovable, Framer AI, or Webflow AI.
 
-CRITICAL REQUIREMENTS:
-- You MUST use Tailwind CSS via CDN for styling: <script src="https://cdn.tailwindcss.com"></script>
-- You MUST include a modern Google Font (like 'Inter' or 'Roboto') and apply it to the body.
-- You MUST include FontAwesome via CDN for icons: <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-- The design MUST be highly professional, modern, clean, conversion-focused, and fully responsive.
-- VERY IMPORTANT: This is a NON-FUNCTIONAL visual mockup. ALL links, buttons, and form submissions MUST be disabled or have href="#". The user should not be able to navigate away from this single page.
-- Do NOT output basic or unstyled HTML. Every element must be styled with Tailwind utility classes (e.g., flex, grid, shadow-lg, rounded-xl, bg-gradient-to-r).
-- Use generous spacing (padding/margins), hover effects, and transitions to make it feel like a premium, state-of-the-art website.
-- Include the following sections:
-  1. Header with logo and navigation
-  2. Hero section with an engaging headline, description, and Call to Action (CTA) button
-  3. About section
-  4. Services/Features section (use a grid layout with cards and icons)
-  5. Contact section (with a styled form)
-  6. Footer
-- The output MUST BE ONLY valid HTML code. Do NOT include markdown blocks (\`\`\`html). Just output the raw HTML string starting with <!DOCTYPE html>.
-- The design style should reflect: ${style}.
-- The primary colors should be based on: ${colors}.`;
+IMPORTANT:
+- You MUST generate a complete, visually structured landing page in HTML
+- The output MUST be clean HTML (no explanations)
+- The design must look modern, premium, and ready for a real business
+- Use sections, spacing, colors, and hierarchy like a professional designer
 
-    const userPrompt = `Create a prototype for my business:
-- Company Name: ${company_name}
-- Logo URL: ${logo_url || 'Use a text-based logo using the company name'}
-- Business Type: ${business_type}
-- Number of Pages / Sections desired: ${number_of_pages}
-- Description: ${description}
+---
 
-Please output ONLY the final HTML code.`;
+GOAL:
+Generate a full landing page preview based on the user input.
+
+---
+
+INPUT DATA:
+Business Name: ${company_name}
+Business Type: ${business_type}
+Style: ${style}
+Description: ${description}
+Number of Pages / Sections desired: ${number_of_pages}
+Logo URL: ${logo_url || 'Use a text-based logo using the company name'}
+Primary Colors: ${colors}
+
+---
+
+INSTRUCTIONS:
+
+1. Build a COMPLETE landing page including:
+
+- Hero section (title, subtitle, CTA button)
+- About section
+- Services or Products section (3–6 items)
+- Testimonials section (fake but realistic)
+- Call to Action section
+- Footer
+
+---
+
+2. DESIGN RULES:
+
+- Use modern UI/UX design
+- Use TailwindCSS classes for styling (include <script src="https://cdn.tailwindcss.com"></script>)
+- Add FontAwesome for icons (<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">)
+- Include a modern Google Font (like 'Inter' or 'Roboto')
+- Add spacing, padding, and good typography
+- Use a clean color palette based on the business type
+- Make it visually appealing like a real startup website
+- VERY IMPORTANT: This is a NON-FUNCTIONAL visual mockup. ALL links, buttons, and form submissions MUST be disabled or have href="#".
+
+---
+
+3. CONTENT RULES:
+
+- Generate realistic and persuasive text
+- Adapt tone based on business type (e.g. corporate, creative, tech)
+- DO NOT use placeholders like "lorem ipsum"
+
+---
+
+4. OUTPUT FORMAT:
+
+- Return ONLY HTML
+- Do NOT explain anything
+- Do NOT use markdown
+- Do NOT wrap in \`\`\`html
+
+---
+
+5. EXTRA:
+
+- Add hover effects on buttons
+- Add simple animations (optional Tailwind)
+- Make it feel like a real product demo
+
+---
+
+FINAL RULE:
+The result must impress a client visually.`;
 
     const apiKey = process.env.GEMINI_API_KEY;
     
@@ -52,8 +102,6 @@ Please output ONLY the final HTML code.`;
         headers: { 'Content-Type': 'application/json' },
       });
     }
-
-    const fullPrompt = `${systemPrompt}\n\n${userPrompt}`;
 
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:streamGenerateContent?alt=sse&key=${apiKey}`,
