@@ -48,7 +48,8 @@ export function GeneratePage() {
           siteData: data.site, 
           email: formData.email,
           name: formData.name,
-          business_type: formData.business_type
+          business_type: formData.business_type,
+          prompt: data.prompt
         } 
       });
 

@@ -31,7 +31,7 @@ export default async function handler(req: Request) {
 
     // 1. Verificar limite de emails
     const { count, error: countError } = await supabase
-      .from('sites_gerados_por_IA')
+      .from('ai_generation_logs')
       .select('*', { count: 'exact', head: true })
       .eq('email', email);
 
@@ -51,33 +51,27 @@ export default async function handler(req: Request) {
     }
 
     // 2. Gerar JSON usando a Inteligência Artificial
-    const generatedJson = await generateSiteJson({
+    const result = await generateSiteJson({
       name,
       business_type: business_type || 'service',
       description,
     });
 
-    // 3. Salvar no Supabase
+    // 3. Salvar Log (sem os dados do site)
     const { error: insertError } = await supabase
-      .from('sites_gerados_por_IA')
-      .insert([{
-        email,
-        name,
-        business_type: business_type || 'service',
-        description,
-        generated_json: generatedJson,
-        // created_at is usually handled by Supabase default now()
-      }]);
+      .from('ai_generation_logs')
+      .insert([{ email }]);
 
     if (insertError) {
-      console.error("Supabase Insert Error:", insertError);
-      // Não bloqueamos o utilizador se apenas a gravação falhar, mas logamos
+      console.error("Supabase Insert Log Error:", insertError);
+      // Não bloqueamos o utilizador se apenas a gravação do log falhar
     }
 
     // 4. Retornar Sucesso
     return new Response(JSON.stringify({ 
       success: true, 
-      site: generatedJson 
+      site: result.siteData,
+      prompt: result.prompt
     }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },

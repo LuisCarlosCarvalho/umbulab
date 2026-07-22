@@ -5,9 +5,11 @@ export interface ApprovalData {
   name: string;
   business_type: string;
   data: any; // O JSON gerado
+  prompt: string;
+  pdfBlob: Blob;
 }
 
-export async function sendApproval({ email, name, business_type, data }: ApprovalData) {
+export async function sendApproval({ email, name, business_type, data, prompt, pdfBlob }: ApprovalData) {
   if (!email || !name || !data) {
     throw new Error('Faltam dados obrigatórios para enviar a aprovação.');
   }
@@ -27,7 +29,29 @@ export async function sendApproval({ email, name, business_type, data }: Approva
     throw new Error('Você já enviou uma solicitação');
   }
 
-  // 2. Inserir a aprovação (Lead)
+  // 2. Fazer Upload do PDF para Storage
+  const fileName = `${email.replace(/[^a-zA-Z0-9]/g, '_')}_${Date.now()}.pdf`;
+  const { data: uploadData, error: uploadError } = await supabase.storage
+    .from('projetos')
+    .upload(fileName, pdfBlob, {
+      contentType: 'application/pdf',
+      upsert: true
+    });
+    
+  if (uploadError) {
+    console.error('Erro ao fazer upload do PDF:', uploadError);
+    // Podemos falhar ou apenas logar e continuar sem o PDF
+  }
+  
+  let pdfUrl = null;
+  if (uploadData?.path) {
+    const { data: publicUrlData } = supabase.storage
+      .from('projetos')
+      .getPublicUrl(uploadData.path);
+    pdfUrl = publicUrlData?.publicUrl;
+  }
+
+  // 3. Inserir a aprovação (Lead)
   const { error: insertError } = await supabase
     .from('aprovacoes_usuario')
     .insert([{
@@ -36,6 +60,8 @@ export async function sendApproval({ email, name, business_type, data }: Approva
       business_type,
       data,
       status: 'novo',
+      prompt,
+      pdf_url: pdfUrl
     }]);
 
   if (insertError) {

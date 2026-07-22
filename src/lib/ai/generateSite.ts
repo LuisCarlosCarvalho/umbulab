@@ -111,7 +111,10 @@ Responda APENAS com o JSON final, sem formatação markdown extra.`;
   
   try {
     const parsedJson = JSON.parse(rawContent);
-    return parsedJson;
+    return {
+      siteData: parsedJson,
+      prompt: `${systemPrompt}\n\n${userPrompt}`
+    };
   } catch (error) {
     console.error("Failed to parse Gemini JSON:", rawContent);
     throw new Error('A IA não retornou um formato de dados válido.');

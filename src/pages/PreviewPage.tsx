@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Renderer, SiteData } from '../components/site/Renderer';
 import { LayoutTemplate, AlertTriangle, Loader2 } from 'lucide-react';
 import { sendApproval } from '../lib/api/sendApproval';
+import { generateProjectPDF } from '../lib/pdf/generateProjectPDF';
 import { showToast } from '../components/ui/Toast';
 
 export function PreviewPage() {
@@ -16,6 +17,7 @@ export function PreviewPage() {
   const email = location.state?.email || '';
   const name = location.state?.name || '';
   const businessType = location.state?.business_type || '';
+  const prompt = location.state?.prompt || '';
 
   useEffect(() => {
     // Carrega o JSON recebido da rota /generate através do state
@@ -25,18 +27,31 @@ export function PreviewPage() {
   }, [location]);
 
   const handleApprove = async () => {
-    if (!email || !name || !siteData) {
+    if (!email || !name || !siteData || !prompt) {
       showToast('Dados insuficientes para aprovação.', 'error');
       return;
     }
 
     setIsSubmitting(true);
     try {
+      // 1. Gerar o PDF
+      const pdfBlob = generateProjectPDF({
+        name,
+        email,
+        business_type: businessType,
+        description: siteData.title, // or any description if we passed it
+        siteData,
+        prompt
+      });
+
+      // 2. Enviar a aprovação
       await sendApproval({
         email,
         name,
         business_type: businessType,
-        data: siteData
+        data: siteData,
+        prompt,
+        pdfBlob
       });
       
       setIsSuccess(true);
