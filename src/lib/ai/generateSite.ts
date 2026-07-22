@@ -1,5 +1,3 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
-
 export interface GenerateSiteParams {
   name: string;
   business_type: string;
@@ -83,20 +81,34 @@ Descrição: ${params.description}
 Responda APENAS com o JSON final, sem formatação markdown extra.`;
 
   try {
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-flash"
-    });
-
-    const result = await model.generateContent({
-      contents: [{ role: "user", parts: [{ text: `${systemPrompt}\n\n${userPrompt}` }] }],
-      generationConfig: {
-        responseMimeType: "application/json",
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents: [
+            {
+              parts: [{ text: `${systemPrompt}\n\n${userPrompt}` }]
+            }
+          ],
+          generationConfig: {
+            response_mime_type: "application/json",
+          }
+        }),
       }
-    });
+    );
 
-    const response = await result.response;
-    const rawContent = response.text() || '{}';
+    if (!response.ok) {
+      const err: any = await response.json();
+      console.error("Gemini API Error:", err);
+      throw new Error(`Falha Gemini: ${err.error?.message || response.statusText || 'Erro desconhecido'}`);
+    }
+
+    const data: any = await response.json();
+    const rawContent = data.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
     
     try {
       const parsedJson = JSON.parse(rawContent);
@@ -110,7 +122,6 @@ Responda APENAS com o JSON final, sem formatação markdown extra.`;
     }
   } catch (apiError: any) {
     console.error("Gemini API Error:", apiError);
-    // Optional debug log for available models as requested
     console.log("Debug: If this fails continuously, check if your API key has access to 'gemini-1.5-flash' via Google AI Studio.");
     throw new Error(`Falha Gemini: ${apiError.message || 'Erro desconhecido'}`);
   }
