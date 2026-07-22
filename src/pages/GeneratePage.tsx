@@ -42,8 +42,15 @@ export function GeneratePage() {
 
       showToast('Site desenhado com sucesso!', 'success');
       
-      // Redireciona para /preview e passa o JSON de forma segura através do state da rota
-      navigate('/preview', { state: { siteData: data.site, email: formData.email } });
+      // Redireciona para /preview e passa o JSON e dados base de forma segura através do state da rota
+      navigate('/preview', { 
+        state: { 
+          siteData: data.site, 
+          email: formData.email,
+          name: formData.name,
+          business_type: formData.business_type
+        } 
+      });
 
     } catch (error: any) {
       console.error(error);

@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Renderer, SiteData } from '../components/site/Renderer';
-import { LayoutTemplate, AlertTriangle } from 'lucide-react';
+import { LayoutTemplate, AlertTriangle, Loader2 } from 'lucide-react';
+import { sendApproval } from '../lib/api/sendApproval';
+import { showToast } from '../components/ui/Toast';
 
 export function PreviewPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const [siteData, setSiteData] = useState<SiteData | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   
-  // No caso real de um utilizador querer mesmo o projeto
+  // Dados passados do gerador
   const email = location.state?.email || '';
+  const name = location.state?.name || '';
+  const businessType = location.state?.business_type || '';
 
   useEffect(() => {
     // Carrega o JSON recebido da rota /generate através do state
@@ -17,6 +23,29 @@ export function PreviewPage() {
       setSiteData(location.state.siteData);
     }
   }, [location]);
+
+  const handleApprove = async () => {
+    if (!email || !name || !siteData) {
+      showToast('Dados insuficientes para aprovação.', 'error');
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      await sendApproval({
+        email,
+        name,
+        business_type: businessType,
+        data: siteData
+      });
+      
+      setIsSuccess(true);
+    } catch (error: any) {
+      showToast(error.message || 'Erro ao processar a solicitação.', 'error');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   if (!siteData) {
     return (
@@ -51,23 +80,40 @@ export function PreviewPage() {
         </div>
         
         <div className="flex items-center gap-4">
-          <button 
-            onClick={() => navigate('/generate')}
-            className="text-neutral-400 hover:text-white text-sm hidden sm:block transition-colors"
-          >
-            Gerar outro
-          </button>
+          <span className="hidden md:inline-block text-emerald-500/80 text-sm font-medium mr-2">
+            Gostou? Envie para nossa equipe e transformamos isso em um site real.
+          </span>
           
-          <button 
-            onClick={() => {
-              // Botão inativo como pedido: "Button does NOTHING for now"
-              // Apenas damos um feedback visual
-              alert('Funcionalidade de contacto em desenvolvimento!');
-            }}
-            className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-2 rounded-lg text-sm transition-all shadow-lg shadow-emerald-600/20"
-          >
-            Quero esse site
-          </button>
+          {!isSuccess && (
+            <button 
+              onClick={() => navigate('/generate')}
+              className="text-neutral-400 hover:text-white text-sm hidden sm:block transition-colors"
+              disabled={isSubmitting}
+            >
+              Gerar outro
+            </button>
+          )}
+          
+          {isSuccess ? (
+            <div className="bg-emerald-500/20 text-emerald-400 border border-emerald-500/50 font-bold px-4 py-2 rounded-lg text-sm flex items-center gap-2">
+              ✅ Recebemos sua solicitação! Nossa equipe entrará em contato.
+            </div>
+          ) : (
+            <button 
+              onClick={handleApprove}
+              disabled={isSubmitting}
+              className="flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-6 py-2 rounded-lg text-sm transition-all shadow-lg shadow-emerald-600/20 disabled:opacity-50 min-w-[160px]"
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  A enviar...
+                </>
+              ) : (
+                'Quero esse site'
+              )}
+            </button>
+          )}
         </div>
       </div>
 
