@@ -17,26 +17,44 @@ export function Features({ title = "Nossas Features", subtitle, items, primaryCo
   if (!items || items.length === 0) return null;
 
   return (
-    <section className="w-full py-24 bg-white text-neutral-900 px-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16 space-y-4">
-          <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight">{title}</h2>
-          {subtitle && <p className="text-xl text-neutral-500 max-w-2xl mx-auto">{subtitle}</p>}
+    <section className="w-full py-32 bg-transparent px-6 relative overflow-hidden">
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="text-center mb-20 space-y-6">
+          <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-white drop-shadow-md">{title}</h2>
+          {subtitle && <p className="text-2xl text-neutral-400 max-w-3xl mx-auto font-light">{subtitle}</p>}
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {items.map((item, i) => (
-            <div key={i} className="p-8 rounded-3xl bg-neutral-50 border border-neutral-100 hover:shadow-xl hover:shadow-neutral-200/50 transition-all duration-300 group">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-fr">
+          {items.map((item, i) => {
+            // Lógica de Bento Box: O primeiro e o quarto item ocupam 2 colunas se houver espaço
+            const isWide = (i === 0 || i === 3) && items.length > 2;
+            
+            return (
               <div 
-                className="w-12 h-12 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"
-                style={{ backgroundColor: `${primaryColor}20`, color: primaryColor }}
+                key={i} 
+                className={`p-10 rounded-[2rem] bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 transition-all duration-500 group relative overflow-hidden ${isWide ? 'md:col-span-2' : 'md:col-span-1'}`}
               >
-                <CheckCircle2 className="w-6 h-6" />
+                {/* Subtle Glow on Hover */}
+                <div 
+                  className="absolute -inset-px opacity-0 group-hover:opacity-20 transition-opacity duration-700 blur-xl rounded-[2rem]"
+                  style={{ backgroundColor: primaryColor }}
+                />
+                
+                <div className="relative z-10 flex flex-col h-full justify-between">
+                  <div>
+                    <div 
+                      className="w-14 h-14 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:rotate-6 transition-transform shadow-2xl"
+                      style={{ backgroundColor: `${primaryColor}30`, color: primaryColor }}
+                    >
+                      <CheckCircle2 className="w-8 h-8" />
+                    </div>
+                    <h3 className={`font-bold mb-4 text-white ${isWide ? 'text-4xl' : 'text-2xl'}`}>{item.title}</h3>
+                  </div>
+                  <p className="text-neutral-400 leading-relaxed font-light text-lg">{item.desc}</p>
+                </div>
               </div>
-              <h3 className="text-2xl font-bold mb-3">{item.title}</h3>
-              <p className="text-neutral-600 leading-relaxed">{item.desc}</p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

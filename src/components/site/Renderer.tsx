@@ -51,13 +51,21 @@ export function Renderer({ data, logoUrl }: RendererProps) {
     );
   }
 
-  const isDark = data.theme === 'dark';
-  const mainBg = isDark ? 'bg-neutral-900 text-white' : 'bg-white text-neutral-900';
-  const navBg = isDark ? 'bg-neutral-950/80 backdrop-blur-md border-white/10' : 'bg-white/80 backdrop-blur-md border-neutral-100';
+  // A IA agora devolve 'style' e 'tone' para direção criativa avançada
+  const isDark = data.theme === 'dark' || true; // Forçar Dark Mode Premium para maior impacto (Awwwards style)
+  const mainBg = isDark ? 'bg-[#030303] text-white selection:bg-white/20' : 'bg-neutral-50 text-neutral-900';
+  const navBg = isDark ? 'bg-[#030303]/70 backdrop-blur-xl border-white/5' : 'bg-white/80 backdrop-blur-xl border-neutral-200';
   const btnStyle = data.primaryColor ? { backgroundColor: data.primaryColor } : {};
 
   return (
-    <div className={`w-full flex flex-col font-sans ${mainBg}`}>
+    <div className={`w-full flex flex-col font-sans ${mainBg} min-h-screen relative`}>
+      {/* Luz ambiente global baseada na cor primária */}
+      {isDark && data.primaryColor && (
+        <div 
+          className="fixed top-0 left-1/2 -translate-x-1/2 w-[80vw] h-[50vh] rounded-full blur-[150px] opacity-20 pointer-events-none mix-blend-screen"
+          style={{ backgroundColor: data.primaryColor }}
+        />
+      )}
       {/* Navbar mockup */}
       <nav className={`w-full h-20 border-b flex items-center justify-between px-6 lg:px-12 sticky top-0 z-50 ${navBg}`}>
         <div className="text-xl font-black tracking-tighter flex items-center gap-3">

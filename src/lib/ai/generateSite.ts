@@ -16,35 +16,39 @@ export async function generateSiteJson(params: GenerateSiteParams) {
 Sua tarefa é gerar um JSON estruturado para montar um site REALISTA e altamente relevante com base no contexto fornecido.
 
 ========================================
-⚠️ REGRA PRINCIPAL (CRÍTICA)
+⚠️ 1. INTENÇÃO DO PROJETO (CRÍTICO)
 ========================================
-O conteúdo VISUAL e TEXTUAL deve refletir EXATAMENTE o que foi descrito pelo usuário.
-- Se o usuário menciona "arte detalhada", o design DEVE parecer artístico e focar em portfólio.
-- Adapte a linguagem ao nicho. NÃO USE linguagem corporativa genérica se for um portfólio.
+A IA deve interpretar profundamente a descrição do usuário e NÃO criar algo genérico.
+- Se for arte/desenho: Deve parecer artístico, impactante, foco 100% visual.
+- Se for Micro SaaS: Tech, startup, limpo.
+- Se for Landing Page: Conversão bruta, CTAs fortes, copywriting persuasivo.
+NÃO use textos corporativos genéricos. O preview tem de causar DESEJO imediato.
 
 ========================================
-🧠 INTERPRETAÇÃO INTELIGENTE
+🎨 2. ESTILO VISUAL FORÇADO E TEMA
 ========================================
-1. Identifique o nicho e o estilo (artístico, corporativo, tech, minimalista).
-2. Adapte TODAS as seções. O HERO é a parte MAIS importante e deve refletir fielmente o nicho.
-3. Para "portfolio", o Hero DEVE ter linguagem visual/emocional e DEVE existir a seção "Projects".
+- O estilo DEVE refletir o tipo de projeto (ex: "artistic", "tech", "corporate", "minimal").
+- O tom ("tone") DEVE refletir a emoção (ex: "premium", "creative", "bold").
+- CORES: Defina a cor primária (primaryColor) em HEX. **MUITO IMPORTANTE:** Se o usuário fornecer "Cores Preferidas", a primaryColor DEVE OBRIGATORIAMENTE ser a conversão exata da cor principal solicitada para HEX.
+- TEMA: Defina "theme" ("light" ou "dark"). **DICA:** Em 99% das vezes, use "dark" para garantir um aspeto Premium.
+- COPYWRITING: Português do Brasil (pt-BR). Os CTAs devem incentivar o contato com a UmbuLab.
 
 ========================================
-🎨 REGRAS DE ESTRUTURA VISUAL (OBRIGATÓRIO)
+🚀 3. HERO COM EFEITO "WOW" (PRIORIDADE MÁXIMA)
 ========================================
-1. ESCOLHA UM LAYOUT GLOBAL: "centered-minimal", "split-left-text-right-image", "full-image-background", ou "asymmetric-modern".
-2. VARIAÇÃO DO HERO: O "Hero" DEVE ter a propriedade "variant" ("centered", "split", ou "full-image") de acordo com o layout.
-3. CORES: Defina a cor primária (primaryColor) em HEX. **MUITO IMPORTANTE:** Se o usuário fornecer "Cores Preferidas", a primaryColor DEVE OBRIGATORIAMENTE ser a conversão exata da cor principal solicitada para HEX.
-4. TEMA: Defina "theme" ("light" ou "dark"). Se o usuário pedir cores escuras, use "dark".
-5. COPYWRITING: Português do Brasil (pt-BR). Os CTAs devem incentivar o contato com a UmbuLab.
+O Hero precisa vender o projeto sozinho.
+- Título forte, direto e extremamente específico (NUNCA genérico).
+- Subtítulo que reforça o diferencial brutal da ideia.
+- O layout do Hero DEVE ter a propriedade "variant" ("centered", "split", ou "full-image").
+Se o Hero for genérico, o projeto falhou.
 
 ========================================
-📦 COMPONENTES DISPONÍVEIS
+📦 4. COMPONENTES DISPONÍVEIS
 ========================================
-Use apenas: Hero, About, Projects, Gallery, Features, Pricing, Testimonials, Contact, Event
+Use APENAS: Hero, About, Projects, Gallery, Features, Pricing, Testimonials, Contact, Event
 
 ========================================
-🖼️ IMAGENS REAIS E IMPACTANTES (MUITO IMPORTANTE)
+🖼️ 5. IMAGENS REAIS E IMPACTANTES
 ========================================
 Para componentes como Hero e Projects, gere imagens REAIS e relevantes usando a API do Pollinations.ai.
 - Adicione a propriedade "imageUrl" nos "props" desses componentes.
@@ -53,7 +57,7 @@ Para componentes como Hero e Projects, gere imagens REAIS e relevantes usando a 
 - NUNCA use URLs aleatórias inventadas (como imgur ou unsplash hashes falsos).
 
 ========================================
-📤 FORMATO DE SAÍDA
+📤 6. FORMATO DE SAÍDA ESTRUTURADO
 ========================================
 Retorne APENAS JSON válido, sem markdown extra.
 
@@ -62,6 +66,7 @@ ESTRUTURA ESPERADA:
   "title": "Nome da Empresa",
   "layout": "split-left-text-right-image",
   "style": "artistic",
+  "tone": "premium",
   "primaryColor": "#2563eb",
   "theme": "dark",
   "type": "portfolio",
