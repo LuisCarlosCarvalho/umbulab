@@ -86,10 +86,7 @@ export function ContactPage() {
         email: formData.email,
         phone: fullPhone,
         service_type: serviceName,
-        message: `Solicitação de contato rápido para: ${serviceName}`,
-        service_details: {},
-        attachments: [],
-        contact_method: submitType,
+        message: `Via ${submitType}. ` + (formData.message || 'Sem mensagem adicional'),
       }]);
 
       if (error) throw error;
