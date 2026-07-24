@@ -34,8 +34,9 @@ O conteúdo VISUAL e TEXTUAL deve refletir EXATAMENTE o que foi descrito pelo us
 ========================================
 1. ESCOLHA UM LAYOUT GLOBAL: "centered-minimal", "split-left-text-right-image", "full-image-background", ou "asymmetric-modern".
 2. VARIAÇÃO DO HERO: O "Hero" DEVE ter a propriedade "variant" ("centered", "split", ou "full-image") de acordo com o layout.
-3. CORES: Defina a cor primária (primaryColor) em HEX e o "theme" ("light" ou "dark").
-4. COPYWRITING: Português do Brasil (pt-BR). Os CTAs devem incentivar o contato com a UmbuLab.
+3. CORES: Defina a cor primária (primaryColor) em HEX. **MUITO IMPORTANTE:** Se o usuário fornecer "Cores Preferidas", a primaryColor DEVE OBRIGATORIAMENTE ser a conversão exata da cor principal solicitada para HEX.
+4. TEMA: Defina "theme" ("light" ou "dark"). Se o usuário pedir cores escuras, use "dark".
+5. COPYWRITING: Português do Brasil (pt-BR). Os CTAs devem incentivar o contato com a UmbuLab.
 
 ========================================
 📦 COMPONENTES DISPONÍVEIS

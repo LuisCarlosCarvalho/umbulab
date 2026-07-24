@@ -62,7 +62,16 @@ export function Renderer({ data, logoUrl }: RendererProps) {
       <nav className={`w-full h-20 border-b flex items-center justify-between px-6 lg:px-12 sticky top-0 z-50 ${navBg}`}>
         <div className="text-xl font-black tracking-tighter flex items-center gap-3">
           {logoUrl ? (
-            <img src={logoUrl} alt="Logo da Empresa" className="h-8 max-w-[150px] object-contain" />
+            <img 
+              src={logoUrl.includes('imgur.com/a/') ? logoUrl.replace('imgur.com/a/', 'i.imgur.com/') + '.png' : (logoUrl.includes('imgur.com/') && !logoUrl.match(/\.(jpeg|jpg|gif|png)$/) ? logoUrl.replace('imgur.com/', 'i.imgur.com/') + '.png' : logoUrl)} 
+              alt="Logo da Empresa" 
+              className="h-8 max-w-[150px] object-contain" 
+              onError={(e) => {
+                // Se a imagem falhar ao carregar, esconde e mostra o texto
+                (e.target as HTMLImageElement).style.display = 'none';
+                (e.target as HTMLImageElement).parentElement!.innerHTML += `<span>${data.title}</span>`;
+              }}
+            />
           ) : (
             data.title
           )}
