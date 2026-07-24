@@ -32,7 +32,7 @@ export function Testimonials({ title = 'O que dizem sobre nós', items }: Testim
               </p>
               <div className="flex items-center gap-4 border-t border-neutral-700 pt-6">
                 <div className="w-12 h-12 bg-neutral-700 rounded-full flex items-center justify-center font-bold text-xl text-neutral-400">
-                  {item.name.charAt(0)}
+                  {item.name ? item.name.charAt(0).toUpperCase() : 'U'}
                 </div>
                 <div>
                   <h4 className="font-bold text-white">{item.name}</h4>
