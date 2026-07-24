@@ -69,7 +69,7 @@ export function Renderer({ data, logoUrl }: RendererProps) {
         
         switch (section.type) {
           case 'hero':
-            return <Hero key={key} title={section.title} subtitle={section.subtitle} cta_text={section.cta_text} />;
+            return <Hero key={key} title={section.title || section.headline} subtitle={section.subtitle || section.subheadline} cta_text={section.cta_text || section.cta} variant={section.variant} />;
           case 'about':
             return <About key={key} title={section.title} content={section.content} />;
           case 'services':

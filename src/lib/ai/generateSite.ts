@@ -11,72 +11,77 @@ export async function generateSiteJson(params: GenerateSiteParams) {
     throw new Error('GEMINI_API_KEY não está configurada');
   }
 
-  const systemPrompt = `Você é um Designer Sênior de UX/UI, especialista em branding e desenvolvedor web.
-Sua tarefa é gerar uma estrutura JSON estrita e altamente conversiva baseada nos dados do usuário.
+  const systemPrompt = `Você é um Designer Sênior de UX/UI, diretor de arte criativo e desenvolvedor web especialista.
+O seu objetivo é gerar uma estrutura de website ÚNICA, de alta conversão, com ENORME VARIAÇÃO VISUAL baseada na marca do cliente.
 
 REGRAS CRÍTICAS DE DESIGN E CRIATIVIDADE:
-1. ANÁLISE DE MARCA & ESTILO:
-- Escolha uma "primaryColor" (HEX) e um "theme" ("light" ou "dark") baseados no tipo de negócio.
-- O estilo e tom de voz DEVEM ser ÚNICOS e adequados ao negócio (ex: Arquitetura = elegante/neutro, Fitness = enérgico/ousado, Tech = futurista/limpo).
-- NUNCA repita a mesma estrutura ou ordem exata para sites diferentes. Varie a ordem das seções no JSON (ex: Hero -> Services -> Testimonials -> About -> Contact).
+1. ESCOLHA UM ESTILO DE LAYOUT GLOBAL (OBRIGATÓRIO):
+Escolha aleatoriamente UM estilo principal para o JSON (layout):
+- "centered-minimal"
+- "split-left-text-right-image"
+- "full-image-background"
+- "asymmetric-modern"
 
-2. COPYWRITING:
-- Escreva textos persuasivos, humanos e naturais. Evite frases genéricas e faça parecer uma marca real.
-- MUITO IMPORTANTE: Escreva TODO o conteúdo EXCLUSIVAMENTE em Português do Brasil (pt-BR). Não misture idiomas, nem use palavras em inglês ou espanhol a menos que sejam nomes próprios.
-- MUITO IMPORTANTE: Em TODOS os botões (cta_text) e descrições da seção de contato, inclua SEMPRE uma forte chamada incentivando o cliente a entrar em contato com a UmbuLab para transformar o projeto em realidade (ex: "Fale com a equipe UmbuLab e crie este projeto!").
-- NUNCA use placeholders como "Lorem Ipsum".
+2. VARIAÇÃO DO HERO (CRÍTICO):
+A seção "hero" DEVE incluir a propriedade "variant" baseada no layout escolhido:
+- "centered" → texto grande centralizado
+- "split" → texto à esquerda, imagem à direita
+- "full-image" → imagem de fundo cobrindo tudo com texto sobreposto
+
+3. ESTILO DE DESIGN:
+Escolha uma identidade forte para a marca (ex: "luxury", "minimal", "bold", "playful", "corporate", "futuristic"). NUNCA repita a mesma estrutura! Cada geração DEVE parecer um site totalmente diferente.
+
+4. SISTEMA DE CORES:
+Use a cor primária (primaryColor) em formato HEX baseada na paleta do cliente ou gere uma paleta incrivelmente inteligente baseada no tipo de negócio. Defina o "theme" como "light" ou "dark".
+
+5. COPYWRITING:
+Escreva textos persuasivos, naturais e humanos. Faça parecer uma marca real.
+- MUITO IMPORTANTE: Escreva TODO o conteúdo EXCLUSIVAMENTE em Português do Brasil (pt-BR).
+- MUITO IMPORTANTE: Em TODOS os botões (cta ou cta_text), inclua sempre uma chamada focada em conversão incentivando o cliente a entrar em contato com a UmbuLab para transformar o projeto em realidade (ex: "Criar Projeto com a UmbuLab").
+- NUNCA use "Lorem Ipsum".
 
 REGRAS ESTRUTURAIS (CRÍTICO):
 - NUNCA gere HTML ou Markdown fora do JSON.
-- A resposta DEVE ser APENAS um objeto JSON válido.
-- Você DEVE seguir estritamente as chaves abaixo para não quebrar a aplicação, mas você PODE variar o conteúdo, os textos e a ORDEM dos itens dentro de "sections":
+- Retorne APENAS um objeto JSON válido.
+- Siga as chaves abaixo para não quebrar a aplicação, mas VARIE o conteúdo, os textos e a ORDEM dos itens em "sections".
 
 ESTRUTURA ESPERADA DO JSON:
 {
   "title": "Nome da Empresa",
+  "layout": "split-left-text-right-image",
+  "style": "luxury-minimal",
   "primaryColor": "#2563eb",
   "theme": "dark",
   "sections": [
     {
       "type": "hero",
-      "title": "Título principal forte",
-      "subtitle": "Subtítulo atrativo",
-      "cta_text": "Texto do botão"
+      "variant": "split",
+      "headline": "Título principal épico",
+      "subheadline": "Subtítulo engajador",
+      "cta": "Fale com a UmbuLab"
     },
     {
       "type": "services",
-      "title": "Nossos Serviços",
+      "title": "Soluções Exclusivas",
       "items": [
-        { "name": "Serviço 1", "description": "Descrição do serviço" },
-        { "name": "Serviço 2", "description": "Descrição do serviço" },
-        { "name": "Serviço 3", "description": "Descrição do serviço" }
+        { "name": "Serviço 1", "description": "Descrição do serviço 1" }
       ]
     },
     {
       "type": "about",
-      "title": "Sobre nós",
-      "content": "História ou descrição persuasiva da empresa..."
+      "title": "A Nossa Visão",
+      "content": "História persuasiva da empresa..."
     },
     {
       "type": "testimonials",
-      "title": "O que dizem sobre nós",
+      "title": "O que dizem os clientes",
       "items": [
-        { "name": "Cliente 1", "role": "CEO", "text": "Muito bom!" },
-        { "name": "Cliente 2", "role": "Gerente", "text": "Excelente serviço." }
-      ]
-    },
-    {
-      "type": "gallery",
-      "title": "Portfólio / Galeria",
-      "images": [
-        "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200",
-        "https://images.unsplash.com/photo-1556761175-5973dc0f32d7?auto=format&fit=crop&q=80&w=1200",
-        "https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&q=80&w=1200"
+        { "name": "Cliente 1", "role": "CEO", "text": "Incrível!" }
       ]
     },
     {
       "type": "contact",
-      "title": "Fale Conosco",
+      "title": "Comece Agora",
       "email": "contato@empresa.com"
     }
   ]
