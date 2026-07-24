@@ -5,9 +5,26 @@ import { Services } from './Services';
 import { Gallery } from './Gallery';
 import { Testimonials } from './Testimonials';
 import { Contact } from './Contact';
+import { Features } from './Features';
+import { Pricing } from './Pricing';
+import { Event } from './Event';
+
+const componentMap: Record<string, React.ElementType> = {
+  Hero,
+  About,
+  Services,
+  Gallery,
+  Testimonials,
+  Contact,
+  Features,
+  Pricing,
+  Event
+};
 
 export interface SiteSection {
-  type: string;
+  component?: string;
+  type?: string;
+  props?: any;
   [key: string]: any;
 }
 
@@ -63,27 +80,26 @@ export function Renderer({ data, logoUrl }: RendererProps) {
         </button>
       </nav>
 
-      {/* Renderização dinâmica das secções baseada no tipo (JSON) */}
+      {/* Renderização dinâmica das secções */}
       {data.sections.map((section, index) => {
-        const key = `${section.type}-${index}`;
+        const key = `${section.component || section.type}-${index}`;
         
-        switch (section.type) {
-          case 'hero':
-            return <Hero key={key} title={section.title || section.headline} subtitle={section.subtitle || section.subheadline} cta_text={section.cta_text || section.cta} variant={section.variant} />;
-          case 'about':
-            return <About key={key} title={section.title} content={section.content} />;
-          case 'services':
-            return <Services key={key} title={section.title} items={section.items} />;
-          case 'gallery':
-            return <Gallery key={key} title={section.title} images={section.images} />;
-          case 'testimonials':
-            return <Testimonials key={key} title={section.title} items={section.items} />;
-          case 'contact':
-            return <Contact key={key} title={section.title} email={section.email} />;
-          default:
-            console.warn(`Tipo de secção desconhecido: ${section.type}`);
-            return null;
+        // Mapeia tanto o formato novo (component: "Hero") como o antigo (type: "hero")
+        let componentName = section.component;
+        if (!componentName && section.type) {
+          componentName = section.type.charAt(0).toUpperCase() + section.type.slice(1);
         }
+        
+        const Component = componentMap[componentName as string];
+        
+        if (Component) {
+          // Suporta tanto o formato { component, props } quanto o antigo { type, title, ... }
+          const props = section.props || { ...section, title: section.title || section.headline, subtitle: section.subtitle || section.subheadline, cta_text: section.cta_text || section.cta };
+          return <Component key={key} {...props} />;
+        }
+        
+        console.warn(`Tipo de secção desconhecido: ${componentName}`);
+        return null;
       })}
 
       {/* Footer mockup */}
