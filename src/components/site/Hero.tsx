@@ -5,9 +5,10 @@ export interface HeroProps {
   subtitle?: string;
   cta_text?: string;
   variant?: 'centered' | 'split' | 'full-image';
+  imageUrl?: string;
 }
 
-export function Hero({ title, subtitle, cta_text, variant = 'centered' }: HeroProps) {
+export function Hero({ title, subtitle, cta_text, variant = 'centered', imageUrl }: HeroProps) {
   
   // Render based on the chosen variant from AI
   if (variant === 'split') {
@@ -35,10 +36,13 @@ export function Hero({ title, subtitle, cta_text, variant = 'centered' }: HeroPr
             )}
           </div>
           <div className="w-full h-64 sm:h-96 lg:h-full min-h-[400px] bg-neutral-100 rounded-3xl overflow-hidden relative border border-neutral-200">
-            {/* Placeholder for an image in split layout */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-neutral-200 to-neutral-50 flex items-center justify-center">
-              <span className="text-neutral-400 font-medium">Imagem do Projeto</span>
-            </div>
+            {imageUrl ? (
+              <img src={imageUrl} alt="Hero" className="absolute inset-0 w-full h-full object-cover" />
+            ) : (
+              <div className="absolute inset-0 bg-gradient-to-tr from-neutral-200 to-neutral-50 flex items-center justify-center">
+                <span className="text-neutral-400 font-medium">Imagem do Projeto</span>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -51,7 +55,7 @@ export function Hero({ title, subtitle, cta_text, variant = 'centered' }: HeroPr
         {/* Background Image Placeholder */}
         <div className="absolute inset-0 z-0 bg-neutral-900">
           <img 
-            src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=2000" 
+            src={imageUrl || "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=2000"} 
             alt="Background" 
             className="w-full h-full object-cover opacity-40 mix-blend-overlay"
           />

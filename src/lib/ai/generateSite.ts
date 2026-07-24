@@ -43,6 +43,15 @@ O conteúdo VISUAL e TEXTUAL deve refletir EXATAMENTE o que foi descrito pelo us
 Use apenas: Hero, About, Projects, Gallery, Features, Pricing, Testimonials, Contact, Event
 
 ========================================
+🖼️ IMAGENS REAIS E IMPACTANTES (MUITO IMPORTANTE)
+========================================
+Para componentes como Hero e Projects, gere imagens REAIS e relevantes usando a API do Pollinations.ai.
+- Adicione a propriedade "imageUrl" nos "props" desses componentes.
+- A URL DEVE seguir este formato exato: "https://image.pollinations.ai/prompt/{termo_em_ingles_bem_descritivo}?width=1200&height=800&nologo=true"
+- Exemplo para um retrato hiper-realista: "https://image.pollinations.ai/prompt/hyper%20realistic%20pencil%20drawing%20portrait%20masterpiece?width=1200&height=800&nologo=true"
+- NUNCA use URLs aleatórias inventadas (como imgur ou unsplash hashes falsos).
+
+========================================
 📤 FORMATO DE SAÍDA
 ========================================
 Retorne APENAS JSON válido, sem markdown extra.
@@ -59,10 +68,11 @@ ESTRUTURA ESPERADA:
     {
       "component": "Hero",
       "props": {
-        "title": "Ilustrações hiper-realistas com precisão nos detalhes",
+        "title": "Ilustrações hiper-realistas",
         "subtitle": "Transformando ideias em arte viva",
-        "cta_text": "Criar Projeto com a UmbuLab",
-        "variant": "full-image"
+        "cta_text": "Criar Projeto",
+        "variant": "split",
+        "imageUrl": "https://image.pollinations.ai/prompt/hyper%20realistic%20pencil%20drawing%20portrait?width=1200&height=800&nologo=true"
       }
     },
     {
@@ -70,7 +80,12 @@ ESTRUTURA ESPERADA:
       "props": {
         "title": "Trabalhos Recentes",
         "items": [
-          { "title": "Retrato Realista", "category": "Ilustração", "description": "Lápis sobre papel." }
+          { 
+            "title": "Retrato Realista", 
+            "category": "Ilustração", 
+            "description": "Lápis sobre papel.",
+            "imageUrl": "https://image.pollinations.ai/prompt/pencil%20sketch%20of%20a%20human%20eye%20macro%20realistic?width=800&height=600&nologo=true"
+          }
         ]
       }
     }
