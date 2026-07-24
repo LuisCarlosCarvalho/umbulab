@@ -6,6 +6,8 @@ import { sendApproval } from '../lib/api/sendApproval';
 import { generateProjectPDF } from '../lib/pdf/generateProjectPDF';
 import { showToast } from '../components/ui/Toast';
 
+import { Logo } from '../components/Logo';
+
 export function PreviewPage() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -156,11 +158,11 @@ export function PreviewPage() {
       </div>
 
       {/* Marca d'água UmbuLab */}
-      <div className="pointer-events-none fixed bottom-6 right-6 z-[90] flex flex-col items-end gap-2 opacity-60">
-        <div className="bg-black/40 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10 flex items-center gap-3 shadow-2xl">
-          <img src="/logo.png" alt="UmbuLab Logo" className="h-6 w-auto" />
+      <div className="pointer-events-none fixed bottom-6 right-6 z-[90] flex flex-col items-end gap-2 opacity-80 scale-90 sm:scale-100 origin-bottom-right">
+        <div className="bg-black/60 backdrop-blur-xl px-4 py-2.5 rounded-2xl border border-white/20 flex items-center gap-3 shadow-2xl">
+          <Logo showText={true} iconSize={24} textColor="text-white" />
           <div className="w-px h-6 bg-white/20"></div>
-          <span className="text-white font-medium text-xs tracking-wider uppercase">Gerado por IA</span>
+          <span className="text-white font-bold text-xs tracking-wider uppercase">Gerado por IA</span>
         </div>
       </div>
     </div>

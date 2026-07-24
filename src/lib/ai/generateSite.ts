@@ -70,6 +70,7 @@ ESTRUTURA ESPERADA DO JSON:
 }
 
 Seja criativo, porém mantenha os textos mais genéricos e adaptáveis para que sirvam como um excelente rascunho.
+MUITO IMPORTANTE: Escreva TODO o conteúdo EXCLUSIVAMENTE em Português do Brasil (pt-BR). Não misture idiomas, nem use palavras em inglês ou espanhol a menos que sejam nomes próprios.
 Crie textos realistas baseados nos dados fornecidos.
 MUITO IMPORTANTE: Nas chamadas para ação (CTAs), seção de contato ou descrições, inclua SEMPRE uma mensagem incentivando o cliente a entrar em contato com a UmbuLab para transformar o seu projeto em realidade (ex: "Entre em contato com a UmbuLab e transforme o seu projeto em realidade!").
 NÃO use placeholders como "Lorem Ipsum".`;
