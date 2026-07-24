@@ -6,9 +6,10 @@ export interface HeroProps {
   cta_text?: string;
   variant?: 'centered' | 'split' | 'full-image';
   imageUrl?: string;
+  primaryColor?: string;
 }
 
-export function Hero({ title, subtitle, cta_text, variant = 'centered', imageUrl }: HeroProps) {
+export function Hero({ title, subtitle, cta_text, variant = 'centered', imageUrl, primaryColor }: HeroProps) {
   
   // Render based on the chosen variant from AI
   if (variant === 'split') {
@@ -27,7 +28,8 @@ export function Hero({ title, subtitle, cta_text, variant = 'centered', imageUrl
             {cta_text && (
               <div className="pt-4">
                 <button 
-                  className="px-8 py-4 text-lg font-bold text-white bg-neutral-900 rounded-full hover:bg-neutral-800 transition-all hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                  style={{ backgroundColor: primaryColor || '#171717' }}
+                  className="px-8 py-4 text-lg font-bold text-white rounded-full hover:opacity-90 transition-all hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                   disabled
                 >
                   {cta_text}
@@ -74,7 +76,8 @@ export function Hero({ title, subtitle, cta_text, variant = 'centered', imageUrl
           {cta_text && (
             <div className="pt-8">
               <button 
-                className="px-10 py-5 text-lg font-bold text-neutral-900 bg-white rounded-full hover:bg-neutral-100 transition-all hover:scale-105 shadow-2xl hover:shadow-white/20 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{ color: primaryColor || '#171717' }}
+                className="px-10 py-5 text-lg font-bold bg-white rounded-full hover:bg-neutral-100 transition-all hover:scale-105 shadow-2xl hover:shadow-white/20 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled
               >
                 {cta_text}
@@ -108,7 +111,8 @@ export function Hero({ title, subtitle, cta_text, variant = 'centered', imageUrl
         {cta_text && (
           <div className="pt-8">
             <button 
-              className="px-8 py-4 text-lg font-bold text-white bg-neutral-900 rounded-full hover:bg-neutral-800 transition-all hover:scale-105 shadow-xl hover:shadow-neutral-900/20 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{ backgroundColor: primaryColor || '#171717' }}
+              className="px-8 py-4 text-lg font-bold text-white rounded-full hover:opacity-90 transition-all hover:scale-105 shadow-xl hover:shadow-neutral-900/20 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
               disabled
             >
               {cta_text}

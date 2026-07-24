@@ -10,9 +10,10 @@ export interface FeaturesProps {
   title?: string;
   subtitle?: string;
   items: FeatureItem[];
+  primaryColor?: string;
 }
 
-export function Features({ title = "Nossas Features", subtitle, items }: FeaturesProps) {
+export function Features({ title = "Nossas Features", subtitle, items, primaryColor = "#059669" }: FeaturesProps) {
   if (!items || items.length === 0) return null;
 
   return (
@@ -26,7 +27,10 @@ export function Features({ title = "Nossas Features", subtitle, items }: Feature
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {items.map((item, i) => (
             <div key={i} className="p-8 rounded-3xl bg-neutral-50 border border-neutral-100 hover:shadow-xl hover:shadow-neutral-200/50 transition-all duration-300 group">
-              <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <div 
+                className="w-12 h-12 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"
+                style={{ backgroundColor: `${primaryColor}20`, color: primaryColor }}
+              >
                 <CheckCircle2 className="w-6 h-6" />
               </div>
               <h3 className="text-2xl font-bold mb-3">{item.title}</h3>

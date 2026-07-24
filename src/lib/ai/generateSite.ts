@@ -47,8 +47,8 @@ Use apenas: Hero, About, Projects, Gallery, Features, Pricing, Testimonials, Con
 ========================================
 Para componentes como Hero e Projects, gere imagens REAIS e relevantes usando a API do Pollinations.ai.
 - Adicione a propriedade "imageUrl" nos "props" desses componentes.
-- A URL DEVE seguir este formato exato: "https://image.pollinations.ai/prompt/{termo_em_ingles_bem_descritivo}?width=1200&height=800&nologo=true"
-- Exemplo para um retrato hiper-realista: "https://image.pollinations.ai/prompt/hyper%20realistic%20pencil%20drawing%20portrait%20masterpiece?width=1200&height=800&nologo=true"
+- A URL DEVE seguir este formato exato: "https://image.pollinations.ai/prompt/{termo_em_ingles_bem_descritivo}?width=1200&height=800&nologo=true&enhance=true"
+- Exemplo para um retrato hiper-realista: "https://image.pollinations.ai/prompt/hyper%20realistic%20pencil%20drawing%20portrait%20masterpiece?width=1200&height=800&nologo=true&enhance=true"
 - NUNCA use URLs aleatórias inventadas (como imgur ou unsplash hashes falsos).
 
 ========================================

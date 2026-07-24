@@ -13,9 +13,10 @@ export interface ProjectsProps {
   title?: string;
   subtitle?: string;
   items: ProjectItem[];
+  primaryColor?: string;
 }
 
-export function Projects({ title = "Nossos Projetos", subtitle, items }: ProjectsProps) {
+export function Projects({ title = "Nossos Projetos", subtitle, items, primaryColor = "#059669" }: ProjectsProps) {
   if (!items || items.length === 0) return null;
 
   return (
@@ -43,7 +44,10 @@ export function Projects({ title = "Nossos Projetos", subtitle, items }: Project
               
               <div className="relative z-10 p-8 transform transition-transform duration-500 translate-y-4 group-hover:translate-y-0">
                 {item.category && (
-                  <span className="inline-block px-3 py-1 mb-3 text-xs font-bold uppercase tracking-wider text-white bg-white/20 backdrop-blur-md rounded-full">
+                  <span 
+                    className="inline-block px-3 py-1 mb-3 text-xs font-bold uppercase tracking-wider text-white backdrop-blur-md rounded-full"
+                    style={{ backgroundColor: `${primaryColor}80` }}
+                  >
                     {item.category}
                   </span>
                 )}

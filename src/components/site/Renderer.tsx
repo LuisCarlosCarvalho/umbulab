@@ -97,7 +97,11 @@ export function Renderer({ data, logoUrl }: RendererProps) {
         if (Component) {
           // Suporta tanto o formato { component, props } quanto o antigo { type, title, ... }
           const props = section.props || { ...section, title: section.title || section.headline, subtitle: section.subtitle || section.subheadline, cta_text: section.cta_text || section.cta };
-          return <Component key={key} {...props} />;
+          
+          // Injeta a cor primária para que o componente possa usá-la em botões e destaques
+          const componentProps = { ...props, primaryColor: data.primaryColor };
+          
+          return <Component key={key} {...componentProps} />;
         }
         
         console.warn(`Tipo de secção desconhecido: ${componentName}`);
