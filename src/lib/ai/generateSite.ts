@@ -76,7 +76,7 @@ NÃO use placeholders como "Lorem Ipsum".`;
   const userPrompt = `Gere a estrutura JSON do site para a seguinte empresa:
 Nome: ${params.name}
 Tipo de Negócio: ${params.business_type}
-Descrição: ${params.description}
+Descrição: ${params.description}`;
 
   const modelsToTry = [
     'gemini-2.0-flash-lite',
