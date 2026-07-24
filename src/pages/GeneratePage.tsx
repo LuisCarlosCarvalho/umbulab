@@ -28,6 +28,21 @@ export function GeneratePage() {
       return;
     }
 
+    // Validação de formato de E-mail
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(formData.email)) {
+      showToast('Por favor, insira um formato de e-mail válido.', 'error');
+      return;
+    }
+
+    // Bloqueio de e-mails falsos comuns
+    const fakeDomains = ['email.com', 'teste.com', 'test.com', 'exemplo.com', 'example.com'];
+    const domain = formData.email.split('@')[1]?.toLowerCase();
+    if (fakeDomains.includes(domain)) {
+      showToast('Por favor, insira um e-mail verdadeiro.', 'error');
+      return;
+    }
+
     setLoading(true);
 
     try {
