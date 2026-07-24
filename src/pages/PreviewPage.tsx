@@ -158,6 +158,25 @@ export function PreviewPage() {
         <Renderer data={siteData} logoUrl={logoUrl} />
       </div>
 
+      {/* Floating CTA - Pedido do Cliente */}
+      <div className="fixed bottom-6 left-6 z-[100] animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-700 hidden sm:block">
+        <div className="bg-white rounded-2xl p-6 shadow-2xl border border-neutral-100 max-w-sm ring-1 ring-black/5">
+          <h3 className="font-bold text-neutral-900 text-lg mb-2">Gostou do projeto? 🚀</h3>
+          <p className="text-neutral-600 text-sm mb-5 leading-relaxed">
+            Agora dê mais um passo, entre em contato e vamos colocar sua ideia além do papel.
+          </p>
+          <a
+            href={`https://wa.me/351928485483?text=${encodeURIComponent(`Olá UmbuLab, acabei de gerar um preview de site (para ${name || 'meu negócio'}) pela IA e quero tirar minha ideia do papel!`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20b958] text-white font-bold px-4 py-3 rounded-xl text-sm transition-all shadow-lg shadow-[#25D366]/30 hover:-translate-y-0.5"
+          >
+            <MessageCircle size={18} />
+            Falar com a Equipe no WhatsApp
+          </a>
+        </div>
+      </div>
+
       {/* Marca d'água UmbuLab */}
       <div className="pointer-events-none fixed bottom-6 right-6 z-[90] flex flex-col items-end gap-2 opacity-80 scale-90 sm:scale-100 origin-bottom-right">
         <div className="bg-black/60 backdrop-blur-xl px-4 py-2.5 rounded-2xl border border-white/20 flex items-center gap-3 shadow-2xl">
