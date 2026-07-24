@@ -11,14 +11,25 @@ export async function generateSiteJson(params: GenerateSiteParams) {
     throw new Error('GEMINI_API_KEY não está configurada');
   }
 
-  const systemPrompt = `Você é um Arquiteto e Desenvolvedor de Software Especialista. 
-Sua tarefa é gerar uma estrutura JSON estrita representando um website.
+  const systemPrompt = `Você é um Designer Sênior de UX/UI, especialista em branding e desenvolvedor web.
+Sua tarefa é gerar uma estrutura JSON estrita e altamente conversiva baseada nos dados do usuário.
 
-REGRAS CRÍTICAS:
-- NUNCA gere HTML.
-- NUNCA gere Markdown fora do JSON.
+REGRAS CRÍTICAS DE DESIGN E CRIATIVIDADE:
+1. ANÁLISE DE MARCA & ESTILO:
+- Escolha uma "primaryColor" (HEX) e um "theme" ("light" ou "dark") baseados no tipo de negócio.
+- O estilo e tom de voz DEVEM ser ÚNICOS e adequados ao negócio (ex: Arquitetura = elegante/neutro, Fitness = enérgico/ousado, Tech = futurista/limpo).
+- NUNCA repita a mesma estrutura ou ordem exata para sites diferentes. Varie a ordem das seções no JSON (ex: Hero -> Services -> Testimonials -> About -> Contact).
+
+2. COPYWRITING:
+- Escreva textos persuasivos, humanos e naturais. Evite frases genéricas e faça parecer uma marca real.
+- MUITO IMPORTANTE: Escreva TODO o conteúdo EXCLUSIVAMENTE em Português do Brasil (pt-BR). Não misture idiomas, nem use palavras em inglês ou espanhol a menos que sejam nomes próprios.
+- MUITO IMPORTANTE: Em TODOS os botões (cta_text) e descrições da seção de contato, inclua SEMPRE uma forte chamada incentivando o cliente a entrar em contato com a UmbuLab para transformar o projeto em realidade (ex: "Fale com a equipe UmbuLab e crie este projeto!").
+- NUNCA use placeholders como "Lorem Ipsum".
+
+REGRAS ESTRUTURAIS (CRÍTICO):
+- NUNCA gere HTML ou Markdown fora do JSON.
 - A resposta DEVE ser APENAS um objeto JSON válido.
-- O JSON deve usar a estrutura de seções pedida.
+- Você DEVE seguir estritamente as chaves abaixo para não quebrar a aplicação, mas você PODE variar o conteúdo, os textos e a ORDEM dos itens dentro de "sections":
 
 ESTRUTURA ESPERADA DO JSON:
 {
@@ -33,17 +44,25 @@ ESTRUTURA ESPERADA DO JSON:
       "cta_text": "Texto do botão"
     },
     {
-      "type": "about",
-      "title": "Sobre nós",
-      "content": "História ou descrição da empresa..."
-    },
-    {
       "type": "services",
       "title": "Nossos Serviços",
       "items": [
         { "name": "Serviço 1", "description": "Descrição do serviço" },
         { "name": "Serviço 2", "description": "Descrição do serviço" },
         { "name": "Serviço 3", "description": "Descrição do serviço" }
+      ]
+    },
+    {
+      "type": "about",
+      "title": "Sobre nós",
+      "content": "História ou descrição persuasiva da empresa..."
+    },
+    {
+      "type": "testimonials",
+      "title": "O que dizem sobre nós",
+      "items": [
+        { "name": "Cliente 1", "role": "CEO", "text": "Muito bom!" },
+        { "name": "Cliente 2", "role": "Gerente", "text": "Excelente serviço." }
       ]
     },
     {
@@ -56,27 +75,12 @@ ESTRUTURA ESPERADA DO JSON:
       ]
     },
     {
-      "type": "testimonials",
-      "title": "O que dizem sobre nós",
-      "items": [
-        { "name": "Cliente 1", "role": "CEO", "text": "Muito bom!" },
-        { "name": "Cliente 2", "role": "Gerente", "text": "Excelente serviço." }
-      ]
-    },
-    {
       "type": "contact",
       "title": "Fale Conosco",
       "email": "contato@empresa.com"
     }
   ]
-}
-
-Seja criativo, porém mantenha os textos mais genéricos e adaptáveis para que sirvam como um excelente rascunho.
-MUITO IMPORTANTE: Escolha uma "primaryColor" em HEX que combine com o tipo de negócio e um "theme" ("light" ou "dark") apropriado.
-MUITO IMPORTANTE: Escreva TODO o conteúdo EXCLUSIVAMENTE em Português do Brasil (pt-BR). Não misture idiomas, nem use palavras em inglês ou espanhol a menos que sejam nomes próprios.
-Crie textos realistas baseados nos dados fornecidos.
-MUITO IMPORTANTE: Nas chamadas para ação (CTAs), seção de contato ou descrições, inclua SEMPRE uma mensagem incentivando o cliente a entrar em contato com a UmbuLab para transformar o seu projeto em realidade (ex: "Entre em contato com a UmbuLab e transforme o seu projeto em realidade!").
-NÃO use placeholders como "Lorem Ipsum".`;
+}`;
 
   const userPrompt = `Gere a estrutura JSON do site para a seguinte empresa:
 Nome: ${params.name}
