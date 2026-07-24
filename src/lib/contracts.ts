@@ -12,7 +12,7 @@ const UMBULAB_INFO = {
   name: 'UmbuLab',
   cnpj: '00.000.000/0001-00', // Placeholder
   address: 'Rua das Inovações, 1000 - São Paulo, SP',
-  email: 'contato@umbulab.com',
+  email: 'info@umbulab.com',
   phone: '+55 (11) 99999-9999'
 };
 

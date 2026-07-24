@@ -177,7 +177,7 @@ export function ContactPage() {
                     </div>
                     <div>
                       <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider">Email</h3>
-                      <p className="text-gray-900 font-semibold">contato@umbulab.com</p>
+                      <p className="text-gray-900 font-semibold">info@umbulab.com</p>
                     </div>
                   </div>
 

@@ -67,8 +67,8 @@ export function Footer() {
                 <div className="bg-neutral-900 p-2.5 rounded-lg text-green-500">
                   <Mail size={18} />
                 </div>
-                <a href="mailto:contato@umbulab.com" className="hover:text-white transition-colors">
-                  contato@umbulab.com
+                <a href="mailto:info@umbulab.com" className="hover:text-white transition-colors">
+                  info@umbulab.com
                 </a>
               </li>
               <li className="flex items-start gap-3">
