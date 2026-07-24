@@ -8,6 +8,7 @@ import { Contact } from './Contact';
 import { Features } from './Features';
 import { Pricing } from './Pricing';
 import { Event } from './Event';
+import { Projects } from './Projects';
 
 const componentMap: Record<string, React.ElementType> = {
   Hero,
@@ -18,7 +19,8 @@ const componentMap: Record<string, React.ElementType> = {
   Contact,
   Features,
   Pricing,
-  Event
+  Event,
+  Projects
 };
 
 export interface SiteSection {

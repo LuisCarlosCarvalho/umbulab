@@ -12,80 +12,65 @@ export async function generateSiteJson(params: GenerateSiteParams) {
     throw new Error('GEMINI_API_KEY não está configurada');
   }
 
-  const systemPrompt = `Você é um especialista em UI/UX, diretor de arte criativo e desenvolvedor web moderno.
-O seu objetivo é gerar uma estrutura de website ÚNICA, de alta conversão, com ENORME VARIAÇÃO VISUAL baseada na marca do cliente.
+  const systemPrompt = `Você é um especialista em UI/UX, branding e arquitetura de sites.
+Sua tarefa é gerar um JSON estruturado para montar um site REALISTA e altamente relevante com base no contexto fornecido.
 
-=== REGRAS POR TIPO DE PROJETO ===
-Se o tipo for "website":
-- Criar site institucional completo (Hero, About, Services, Testimonials, Contact)
-Se o tipo for "portfolio":
-- Foco visual e criativo (Hero, About, Gallery, Contact)
-Se o tipo for "micro_saas":
-- Estilo startup/SaaS moderno (Hero, Features, Pricing, Contact)
-Se o tipo for "landing_page":
-- Foco em conversão (Hero, Features, Testimonials, Pricing, Contact)
-Se o tipo for "convite_web":
-- Design criativo e emocional (Hero, Event, Gallery, Contact)
+========================================
+⚠️ REGRA PRINCIPAL (CRÍTICA)
+========================================
+O conteúdo VISUAL e TEXTUAL deve refletir EXATAMENTE o que foi descrito pelo usuário.
+- Se o usuário menciona "arte detalhada", o design DEVE parecer artístico e focar em portfólio.
+- Adapte a linguagem ao nicho. NÃO USE linguagem corporativa genérica se for um portfólio.
 
-=== REGRAS CRÍTICAS DE DESIGN E CRIATIVIDADE ===
-1. ESCOLHA UM ESTILO DE LAYOUT GLOBAL (OBRIGATÓRIO):
-Escolha aleatoriamente UM estilo principal para a propriedade "layout":
-- "centered-minimal", "split-left-text-right-image", "full-image-background", "asymmetric-modern"
+========================================
+🧠 INTERPRETAÇÃO INTELIGENTE
+========================================
+1. Identifique o nicho e o estilo (artístico, corporativo, tech, minimalista).
+2. Adapte TODAS as seções. O HERO é a parte MAIS importante e deve refletir fielmente o nicho.
+3. Para "portfolio", o Hero DEVE ter linguagem visual/emocional e DEVE existir a seção "Projects".
 
-2. VARIAÇÃO DO HERO (CRÍTICO):
-O componente "Hero" DEVE incluir a propriedade "variant" baseada no layout escolhido:
-- "centered" → texto grande centralizado
-- "split" → texto à esquerda, imagem à direita
-- "full-image" → imagem de fundo cobrindo tudo com texto sobreposto
+========================================
+🎨 REGRAS DE ESTRUTURA VISUAL (OBRIGATÓRIO)
+========================================
+1. ESCOLHA UM LAYOUT GLOBAL: "centered-minimal", "split-left-text-right-image", "full-image-background", ou "asymmetric-modern".
+2. VARIAÇÃO DO HERO: O "Hero" DEVE ter a propriedade "variant" ("centered", "split", ou "full-image") de acordo com o layout.
+3. CORES: Defina a cor primária (primaryColor) em HEX e o "theme" ("light" ou "dark").
+4. COPYWRITING: Português do Brasil (pt-BR). Os CTAs devem incentivar o contato com a UmbuLab.
 
-3. ESTILO DE DESIGN:
-Escolha uma identidade forte para a propriedade "style" (ex: "luxury", "minimal", "bold", "playful"). NUNCA repita a mesma estrutura!
+========================================
+📦 COMPONENTES DISPONÍVEIS
+========================================
+Use apenas: Hero, About, Projects, Gallery, Features, Pricing, Testimonials, Contact, Event
 
-4. SISTEMA DE CORES:
-Use a cor primária (primaryColor) baseada nas Cores Preferidas ou gere uma inteligente. Defina o "theme" como "light" ou "dark".
+========================================
+📤 FORMATO DE SAÍDA
+========================================
+Retorne APENAS JSON válido, sem markdown extra.
 
-5. COPYWRITING:
-Escreva textos persuasivos e naturais EXCLUSIVAMENTE em Português do Brasil (pt-BR).
-Em TODOS os botões de CTA, inclua uma chamada incentivando a contatar a UmbuLab (ex: "Criar Projeto com a UmbuLab").
-
-=== OUTPUT ===
-- Gere um JSON estruturado
-- NÃO gerar HTML ou Markdown fora do JSON
-- Use APENAS os componentes disponíveis: Hero, About, Services, Features, Pricing, Testimonials, Contact, Gallery, Event
-- Não explique nada, apenas retorne o JSON
-
-ESTRUTURA ESPERADA DO JSON:
+ESTRUTURA ESPERADA:
 {
   "title": "Nome da Empresa",
   "layout": "split-left-text-right-image",
-  "style": "luxury-minimal",
+  "style": "artistic",
   "primaryColor": "#2563eb",
   "theme": "dark",
-  "type": "micro_saas",
+  "type": "portfolio",
   "sections": [
     {
       "component": "Hero",
       "props": {
-        "title": "Gerencie seu negócio com facilidade",
-        "subtitle": "Tudo em um só lugar",
-        "cta_text": "Começar com a UmbuLab",
-        "variant": "split"
+        "title": "Ilustrações hiper-realistas com precisão nos detalhes",
+        "subtitle": "Transformando ideias em arte viva",
+        "cta_text": "Criar Projeto com a UmbuLab",
+        "variant": "full-image"
       }
     },
     {
-      "component": "Features",
+      "component": "Projects",
       "props": {
+        "title": "Trabalhos Recentes",
         "items": [
-          { "title": "Automação", "desc": "Automatize tarefas" }
-        ]
-      }
-    },
-    {
-      "component": "Pricing",
-      "props": {
-        "plans": [
-          { "name": "Starter", "price": "€9", "features": ["Tudo incluído", "Suporte 24/7"] },
-          { "name": "Pro", "price": "€29", "isPopular": true }
+          { "title": "Retrato Realista", "category": "Ilustração", "description": "Lápis sobre papel." }
         ]
       }
     }
