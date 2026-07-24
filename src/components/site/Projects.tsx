@@ -27,21 +27,17 @@ export function Projects({ title = "Nossos Projetos", subtitle, items, primaryCo
           {subtitle && <p className="text-xl text-neutral-500 max-w-2xl mx-auto">{subtitle}</p>}
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {items.map((item, i) => (
-            <div key={i} className="group relative overflow-hidden rounded-[2rem] bg-neutral-100 aspect-[4/3] flex flex-col justify-end">
-              {item.imageUrl ? (
-                <img 
-                  src={item.imageUrl} 
-                  alt={item.title} 
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-              ) : (
-                <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-neutral-200 to-neutral-300" />
-              )}
-              
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80" />
-              
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {items.map((item, i) => {
+            // Garante uma imagem gerada por IA caso a IA se esqueça de fornecer no JSON
+            const finalImageUrl = item.imageUrl || `https://image.pollinations.ai/prompt/${encodeURIComponent((item.category || 'creative') + ' ' + item.title + ' portfolio project professional high quality')}?width=800&height=600&nologo=true&enhance=true`;
+            
+            return (
+            <div key={i} className="group relative rounded-3xl overflow-hidden bg-white shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer">
+              <div className="w-full h-72 bg-neutral-200 relative overflow-hidden">
+                <img src={finalImageUrl} alt={item.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                <div className="absolute inset-0 bg-neutral-900/0 group-hover:bg-neutral-900/40 transition-colors duration-500" />
+              </div>
               <div className="relative z-10 p-8 transform transition-transform duration-500 translate-y-4 group-hover:translate-y-0">
                 {item.category && (
                   <span 
@@ -65,7 +61,8 @@ export function Projects({ title = "Nossos Projetos", subtitle, items, primaryCo
                 )}
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
