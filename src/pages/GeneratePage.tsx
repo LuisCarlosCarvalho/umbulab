@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Loader2, ArrowLeft, Wand2 } from 'lucide-react';
+import { Loader2, Wand2, Check } from 'lucide-react';
 import { showToast } from '../components/ui/Toast';
 
 export function GeneratePage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
     email: '',
     phone: '',
-    business_type: 'service',
+    name: '',
+    project: '',
+    logo_url: '',
     description: ''
   });
 
@@ -32,7 +33,10 @@ export function GeneratePage() {
       const response = await fetch('/api/ai/generate-site', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({
+          ...formData,
+          business_type: formData.project // Mapear project para compatibilidade caso a API espere business_type
+        })
       });
 
       const data = await response.json();
@@ -50,7 +54,7 @@ export function GeneratePage() {
           email: formData.email,
           name: formData.name,
           phone: formData.phone,
-          business_type: formData.business_type,
+          business_type: formData.project,
           prompt: data.prompt
         } 
       });
@@ -64,117 +68,163 @@ export function GeneratePage() {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-white flex items-center justify-center p-4">
-      <div className="max-w-xl w-full">
-        <button 
-          onClick={() => navigate('/')}
-          className="flex items-center gap-2 text-neutral-400 hover:text-white mb-8 transition-colors"
-        >
-          <ArrowLeft className="w-5 h-5" /> Voltar ao início
-        </button>
+    <div className="min-h-screen bg-[#050505] flex font-sans text-white pt-24 relative overflow-hidden">
+      {/* Efeitos de Luz no Fundo */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-green-500/10 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-lime-500/10 rounded-full blur-[100px] pointer-events-none" />
 
-        <div className="bg-neutral-900 border border-neutral-800 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
-          {/* Elementos decorativos de fundo */}
-          <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl" />
+      <div className="max-w-7xl mx-auto w-full flex flex-col lg:flex-row relative z-10 px-4 sm:px-6 lg:px-8 pb-12 gap-12 lg:gap-24">
+        
+        {/* Lado Esquerdo: Textos e Proposta de Valor */}
+        <div className="w-full lg:w-[45%] flex flex-col justify-center pt-8 lg:pt-16">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-neutral-300 text-sm font-medium w-fit mb-8 backdrop-blur-sm">
+            <Wand2 size={16} className="text-green-400" /> Powered by UmbuLab IA
+          </div>
+
+          <h1 className="text-5xl lg:text-6xl font-bold text-white leading-[1.1] mb-6 tracking-tight">
+            O seu Preview <br/>
+            <span className="block mt-2 text-3xl lg:text-4xl text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-lime-300 whitespace-nowrap">
+              pronto em 1 minuto.
+            </span>
+          </h1>
           
-          <div className="relative z-10 space-y-8">
-            <div>
-              <h1 className="text-3xl md:text-4xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-400">
-                Criar Site com IA
-              </h1>
-              <p className="text-neutral-400">
-                Preencha os dados e a nossa IA vai desenhar a estrutura visual perfeita para a sua empresa (Máximo de 2 testes por email).
-              </p>
+          <p className="text-neutral-400 text-lg leading-relaxed mb-6">
+            Com a Umbulab IA, você visualiza rapidamente a estrutura do seu projeto, criando um preview real da sua ideia antes mesmo de começar.
+          </p>
+          <p className="text-neutral-400 text-lg leading-relaxed mb-10">
+            Transformamos o seu conceito em uma base estratégica e visual, para que você possa validar, ajustar e crescer com segurança no digital.
+          </p>
+
+          <ul className="space-y-5">
+            {[
+              'Visualização imediata do projeto',
+              'Rapidez no desenvolvimento',
+              'Redução de custos e riscos',
+              'Direção estratégica para crescer'
+            ].map((item, i) => (
+              <li key={i} className="flex items-center gap-4 text-neutral-200 font-medium text-base">
+                <div className="flex-shrink-0 w-6 h-6 rounded-full bg-green-500/10 flex items-center justify-center">
+                  <Check size={14} className="text-green-400 stroke-[3]" />
+                </div>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Lado Direito: Formulário */}
+        <div className="w-full lg:w-[55%] flex flex-col justify-center">
+          <div className="bg-[#0a0a0a] rounded-3xl p-8 lg:p-10 border border-white/5 shadow-2xl relative overflow-hidden backdrop-blur-xl">
+            {/* Brilho suave dentro do card */}
+            <div className="absolute -top-24 -right-24 w-48 h-48 bg-green-500/20 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="relative z-10 mb-8">
+              <h2 className="text-2xl font-semibold text-white mb-2">Descreva sua ideia</h2>
+              <p className="text-neutral-500 text-sm">Preencha os campos abaixo e deixe a mágica com a nossa IA.</p>
             </div>
 
-            <form onSubmit={handleGenerate} className="space-y-5">
+            <form onSubmit={handleGenerate} className="relative z-10 space-y-5">
               <div>
-                <label className="block text-sm font-medium text-neutral-300 mb-1">O seu Email *</label>
+                <label className="block text-sm font-medium text-neutral-400 mb-2">E-mail corporativo</label>
                 <input
                   type="email"
                   name="email"
                   required
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition-all"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:bg-white/10 focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 outline-none transition-all placeholder:text-neutral-600 text-sm"
                   placeholder="seu@email.com"
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-neutral-300 mb-1">WhatsApp (para receber seu site pronto) 📲 *</label>
-                <input
-                  type="tel"
-                  name="phone"
-                  required
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition-all"
-                  placeholder="+351 912 345 678"
-                />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div>
+                  <label className="block text-sm font-medium text-neutral-400 mb-2">WhatsApp</label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    required
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:bg-white/10 focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 outline-none transition-all placeholder:text-neutral-600 text-sm"
+                    placeholder="+351 912 345 678"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-neutral-400 mb-2">Nome da Empresa</label>
+                  <input
+                    type="text"
+                    name="name"
+                    required
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:bg-white/10 focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 outline-none transition-all placeholder:text-neutral-600 text-sm"
+                    placeholder="Ex: UmbuLab Tech"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div>
+                  <label className="block text-sm font-medium text-neutral-400 mb-2">Seu Projeto</label>
+                  <input
+                    type="text"
+                    name="project"
+                    value={formData.project}
+                    onChange={handleInputChange}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:bg-white/10 focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 outline-none transition-all placeholder:text-neutral-600 text-sm"
+                    placeholder="Website, Landing Page..."
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-neutral-400 mb-2">URL da sua Logo</label>
+                  <input
+                    type="url"
+                    name="logo_url"
+                    value={formData.logo_url}
+                    onChange={handleInputChange}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:bg-white/10 focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 outline-none transition-all placeholder:text-neutral-600 text-sm"
+                    placeholder="https://site.com/logo.png"
+                  />
+                </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-neutral-300 mb-1">Nome do Negócio *</label>
-                <input
-                  type="text"
-                  name="name"
-                  required
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition-all"
-                  placeholder="Ex: UmbuLab Tech"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-neutral-300 mb-1">Tipo de Negócio</label>
-                <select
-                  name="business_type"
-                  value={formData.business_type}
-                  onChange={handleInputChange}
-                  className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition-all"
-                >
-                  <option value="service">Serviços</option>
-                  <option value="ecommerce">E-commerce</option>
-                  <option value="portfolio">Portfólio</option>
-                  <option value="landing_page">Landing Page</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-neutral-300 mb-1">Descrição Breve *</label>
+                <label className="block text-sm font-medium text-neutral-400 mb-2">Descreva sua IDEIA</label>
                 <textarea
                   name="description"
                   required
-                  rows={3}
+                  rows={4}
                   value={formData.description}
                   onChange={handleInputChange}
-                  className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition-all resize-none"
-                  placeholder="Descreva o que a sua empresa faz e qual o seu público..."
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:bg-white/10 focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 outline-none transition-all resize-none placeholder:text-neutral-600 text-sm"
+                  placeholder="Descreva o que a sua empresa faz, o seu público-alvo, cores preferidas..."
                 />
               </div>
 
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-bold py-4 px-4 rounded-xl transition-all shadow-lg shadow-emerald-900/20 disabled:opacity-50 mt-4"
-              >
-                {loading ? (
-                  <>
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                    A processar o design com IA (aprox. 15s)...
-                  </>
-                ) : (
-                  <>
-                    <Wand2 className="w-5 h-5" />
-                    Gerar Preview do Site
-                  </>
-                )}
-              </button>
+              <div className="pt-2">
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-gradient-to-r from-green-600 to-lime-500 hover:from-green-500 hover:to-lime-400 text-white font-bold py-4 px-8 rounded-xl transition-all disabled:opacity-70 flex items-center justify-center gap-3 shadow-lg shadow-green-500/25 hover:shadow-green-500/40 hover:-translate-y-0.5"
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      A processar a sua ideia...
+                    </>
+                  ) : (
+                    <>
+                      <Wand2 className="w-5 h-5" />
+                      Gerar Preview do Site
+                    </>
+                  )}
+                </button>
+              </div>
             </form>
           </div>
         </div>
+
       </div>
     </div>
   );
