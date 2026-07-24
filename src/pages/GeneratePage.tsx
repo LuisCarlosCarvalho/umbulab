@@ -55,7 +55,8 @@ export function GeneratePage() {
           name: formData.name,
           phone: formData.phone,
           business_type: formData.project,
-          prompt: data.prompt
+          prompt: data.prompt,
+          logo_url: formData.logo_url
         } 
       });
 

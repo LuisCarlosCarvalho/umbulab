@@ -21,6 +21,7 @@ export function PreviewPage() {
   const phone = location.state?.phone || '';
   const businessType = location.state?.business_type || '';
   const prompt = location.state?.prompt || '';
+  const logoUrl = location.state?.logo_url || '';
 
   useEffect(() => {
     // Carrega o JSON recebido da rota /generate através do state
@@ -154,7 +155,7 @@ export function PreviewPage() {
       */}
       <div className="pt-16 w-full relative">
         {/* Renderizador Mestre dinâmico que percorre o JSON */}
-        <Renderer data={siteData} />
+        <Renderer data={siteData} logoUrl={logoUrl} />
       </div>
 
       {/* Marca d'água UmbuLab */}

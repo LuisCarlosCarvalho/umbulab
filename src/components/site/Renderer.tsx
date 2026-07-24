@@ -13,14 +13,17 @@ export interface SiteSection {
 
 export interface SiteData {
   title: string;
+  primaryColor?: string;
+  theme?: string;
   sections: SiteSection[];
 }
 
 interface RendererProps {
   data: SiteData;
+  logoUrl?: string;
 }
 
-export function Renderer({ data }: RendererProps) {
+export function Renderer({ data, logoUrl }: RendererProps) {
   if (!data || !data.sections || !Array.isArray(data.sections)) {
     return (
       <div className="p-8 text-center text-red-500">
@@ -29,18 +32,33 @@ export function Renderer({ data }: RendererProps) {
     );
   }
 
+  const isDark = data.theme === 'dark';
+  const mainBg = isDark ? 'bg-neutral-900 text-white' : 'bg-white text-neutral-900';
+  const navBg = isDark ? 'bg-neutral-950/80 backdrop-blur-md border-white/10' : 'bg-white/80 backdrop-blur-md border-neutral-100';
+  const btnStyle = data.primaryColor ? { backgroundColor: data.primaryColor } : {};
+
   return (
-    <div className="w-full flex flex-col font-sans bg-white text-neutral-900">
+    <div className={`w-full flex flex-col font-sans ${mainBg}`}>
       {/* Navbar mockup */}
-      <nav className="w-full h-20 bg-white border-b border-neutral-100 flex items-center justify-between px-6 lg:px-12 sticky top-0 z-50">
-        <div className="text-xl font-black tracking-tighter">{data.title}</div>
-        <div className="hidden md:flex gap-8 text-sm font-medium text-neutral-500">
-          <span className="cursor-not-allowed hover:text-neutral-900 transition-colors">Início</span>
-          <span className="cursor-not-allowed hover:text-neutral-900 transition-colors">Serviços</span>
-          <span className="cursor-not-allowed hover:text-neutral-900 transition-colors">Sobre</span>
-          <span className="cursor-not-allowed hover:text-neutral-900 transition-colors">Contacto</span>
+      <nav className={`w-full h-20 border-b flex items-center justify-between px-6 lg:px-12 sticky top-0 z-50 ${navBg}`}>
+        <div className="text-xl font-black tracking-tighter flex items-center gap-3">
+          {logoUrl ? (
+            <img src={logoUrl} alt="Logo da Empresa" className="h-8 max-w-[150px] object-contain" />
+          ) : (
+            data.title
+          )}
         </div>
-        <button disabled className="bg-neutral-900 text-white px-6 py-2.5 rounded-full text-sm font-bold cursor-not-allowed">
+        <div className={`hidden md:flex gap-8 text-sm font-medium ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>
+          <span className={`cursor-not-allowed transition-colors ${isDark ? 'hover:text-white' : 'hover:text-neutral-900'}`}>Início</span>
+          <span className={`cursor-not-allowed transition-colors ${isDark ? 'hover:text-white' : 'hover:text-neutral-900'}`}>Serviços</span>
+          <span className={`cursor-not-allowed transition-colors ${isDark ? 'hover:text-white' : 'hover:text-neutral-900'}`}>Sobre</span>
+          <span className={`cursor-not-allowed transition-colors ${isDark ? 'hover:text-white' : 'hover:text-neutral-900'}`}>Contacto</span>
+        </div>
+        <button 
+          disabled 
+          style={btnStyle}
+          className={`px-6 py-2.5 rounded-full text-sm font-bold cursor-not-allowed ${data.primaryColor ? 'text-white' : (isDark ? 'bg-white text-neutral-900' : 'bg-neutral-900 text-white')}`}
+        >
           Começar
         </button>
       </nav>
