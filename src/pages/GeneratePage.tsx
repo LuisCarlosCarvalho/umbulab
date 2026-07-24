@@ -59,9 +59,9 @@ export function GeneratePage() {
         } 
       });
 
-    } catch (error: any) {
-      console.error(error);
-      showToast(error.message || 'Ocorreu um erro ao gerar o modelo.', 'error');
+    } catch (error: unknown) {
+      console.error('API Error:', error);
+      showToast('Ocorreu um erro ao gerar o site. Tente novamente.', 'error');
     } finally {
       setLoading(false);
     }
