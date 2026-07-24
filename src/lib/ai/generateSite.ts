@@ -80,15 +80,12 @@ Descrição: ${params.description}`;
 
   const modelsToTry = [
     'gemini-2.0-flash-lite',
-    'gemini-2.0-flash-lite-001',
     'gemini-2.5-flash',
-    'gemini-2.0-flash',
-    'gemini-1.5-flash',
-    'gemini-pro'
+    'gemini-1.5-flash'
   ];
 
   let lastResponse: Response | null = null;
-  let lastErrorMsg = '';
+  let allErrors: string[] = [];
 
   for (const modelName of modelsToTry) {
     try {
@@ -109,12 +106,13 @@ Descrição: ${params.description}`;
         break; // Sucesso! Sai do loop.
       } else {
         const errData = await response.json().catch(() => ({}));
-        lastErrorMsg = errData.error?.message || response.statusText;
-        console.warn(`${modelName} falhou:`, lastErrorMsg);
+        const errorMsg = errData.error?.message || response.statusText;
+        allErrors.push(`${modelName}: ${errorMsg}`);
+        console.warn(`${modelName} falhou:`, errorMsg);
       }
     } catch (e: any) {
-      lastErrorMsg = e.message;
-      console.warn(`${modelName} falhou com excepção:`, lastErrorMsg);
+      allErrors.push(`${modelName} Exception: ${e.message}`);
+      console.warn(`${modelName} falhou com excepção:`, e.message);
     }
   }
 
@@ -127,7 +125,7 @@ Descrição: ${params.description}`;
       availableModels = modelsData.models?.map((m: any) => m.name).join(', ') || 'Nenhum';
     } catch (e) {}
     
-    throw new Error(`Falha Gemini em TODOS os modelos testados. Último erro: ${lastErrorMsg}. O seu plano pode estar sem quota (limit: 0) ou requer associar um cartão de crédito em Google AI Studio. Modelos disponíveis na chave: ${availableModels}`);
+    throw new Error(`Falha Gemini em TODOS os modelos testados. Erros: ${allErrors.join(' | ')}. O seu plano pode estar sem quota ou a chave não é válida. Modelos: ${availableModels}`);
   }
 
   try {
