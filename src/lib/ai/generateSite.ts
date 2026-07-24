@@ -2,6 +2,7 @@ export interface GenerateSiteParams {
   name: string;
   business_type: string;
   description: string;
+  color_palette?: string;
 }
 
 export async function generateSiteJson(params: GenerateSiteParams) {
@@ -32,7 +33,7 @@ A seção "hero" DEVE incluir a propriedade "variant" baseada no layout escolhid
 Escolha uma identidade forte para a marca (ex: "luxury", "minimal", "bold", "playful", "corporate", "futuristic"). NUNCA repita a mesma estrutura! Cada geração DEVE parecer um site totalmente diferente.
 
 4. SISTEMA DE CORES:
-Use a cor primária (primaryColor) em formato HEX baseada na paleta do cliente ou gere uma paleta incrivelmente inteligente baseada no tipo de negócio. Defina o "theme" como "light" ou "dark".
+Use a cor primária (primaryColor) em formato HEX baseada na paleta do cliente (Cores Preferidas) ou gere uma paleta incrivelmente inteligente baseada no tipo de negócio. Defina o "theme" como "light" ou "dark".
 
 5. COPYWRITING:
 Escreva textos persuasivos, naturais e humanos. Faça parecer uma marca real.
@@ -87,9 +88,11 @@ ESTRUTURA ESPERADA DO JSON:
   ]
 }`;
 
+  const colorInfo = params.color_palette ? `\nCores Preferidas: ${params.color_palette}` : '';
+
   const userPrompt = `Gere a estrutura JSON do site para a seguinte empresa:
 Nome: ${params.name}
-Tipo de Negócio: ${params.business_type}
+Tipo de Negócio: ${params.business_type}${colorInfo}
 Descrição: ${params.description}`;
 
   const modelsToTry = [

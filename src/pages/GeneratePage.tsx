@@ -12,6 +12,7 @@ export function GeneratePage() {
     name: '',
     project: '',
     logo_url: '',
+    color_palette: '',
     description: ''
   });
 
@@ -56,7 +57,8 @@ export function GeneratePage() {
           phone: formData.phone,
           business_type: formData.project,
           prompt: data.prompt,
-          logo_url: formData.logo_url
+          logo_url: formData.logo_url,
+          color_palette: formData.color_palette
         } 
       });
 
@@ -165,7 +167,7 @@ export function GeneratePage() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                 <div>
                   <label className="block text-sm font-medium text-neutral-400 mb-2">Seu Projeto</label>
                   <input
@@ -186,6 +188,17 @@ export function GeneratePage() {
                     onChange={handleInputChange}
                     className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:bg-white/10 focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 outline-none transition-all placeholder:text-neutral-600 text-sm"
                     placeholder="https://site.com/logo.png"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-neutral-400 mb-2">Cores (Opcional)</label>
+                  <input
+                    type="text"
+                    name="color_palette"
+                    value={formData.color_palette}
+                    onChange={handleInputChange}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:bg-white/10 focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 outline-none transition-all placeholder:text-neutral-600 text-sm"
+                    placeholder="Ex: Azul e Dourado"
                   />
                 </div>
               </div>
