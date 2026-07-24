@@ -170,14 +170,20 @@ export function GeneratePage() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                 <div>
                   <label className="block text-sm font-medium text-neutral-400 mb-2">Seu Projeto</label>
-                  <input
-                    type="text"
+                  <select
                     name="project"
                     value={formData.project}
                     onChange={handleInputChange}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:bg-white/10 focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 outline-none transition-all placeholder:text-neutral-600 text-sm"
-                    placeholder="Website, Landing Page..."
-                  />
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:bg-white/10 focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 outline-none transition-all text-sm appearance-none"
+                    style={{ backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%239ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`, backgroundPosition: 'right 1rem center', backgroundRepeat: 'no-repeat', backgroundSize: '1.5em 1.5em', paddingRight: '2.5rem' }}
+                  >
+                    <option value="" disabled className="text-neutral-500 bg-neutral-900">Selecione o tipo...</option>
+                    <option value="website" className="bg-neutral-900 text-white">Website Institucional</option>
+                    <option value="portfolio" className="bg-neutral-900 text-white">Portfolio Criativo</option>
+                    <option value="micro_saas" className="bg-neutral-900 text-white">Micro SaaS / Startup</option>
+                    <option value="landing_page" className="bg-neutral-900 text-white">Landing Page (Conversão)</option>
+                    <option value="convite_web" className="bg-neutral-900 text-white">Convite Web (Evento)</option>
+                  </select>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-neutral-400 mb-2">URL da sua Logo</label>
