@@ -9,6 +9,8 @@ import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { Loader2 } from 'lucide-react';
 import { supabase } from './lib/supabase';
 import { MaintenancePage } from './pages/MaintenancePage';
+import { usePageViews } from './hooks/usePageViews';
+import { NewsletterModal } from './components/NewsletterModal';
 
 // Lazy loading pages
 const HomePage = lazy(() => import('./pages/HomePage').then(m => ({ default: m.HomePage })));
@@ -115,6 +117,8 @@ function Layout() {
   const { profile, user, reloadProfile } = useAuth();
   const location = useLocation();
   
+  usePageViews();
+
   const isDev = import.meta.env.DEV || window.location.hostname === 'localhost';
   const isExemptRoute = 
     location.pathname.startsWith('/login') || 
@@ -192,6 +196,7 @@ function Layout() {
       <Navbar />
       <FloatingWhatsApp />
       <InstallPWA />
+      <NewsletterModal />
       <main className="flex-grow pt-16">
         <Suspense fallback={<PageLoader />}>
           <Routes>

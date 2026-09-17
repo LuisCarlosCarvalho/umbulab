@@ -144,6 +144,7 @@ export function AdminDashboard() {
   const [isSeoGestaoActive, setIsSeoGestaoActive] = useState<boolean>(true);
   const [paymentConfigs, setPaymentConfigs] = useState<PaymentMethodsState | null>(null);
   const [paymentGlobalSettings, setPaymentGlobalSettings] = useState<GlobalPaymentSettings | null>(null);
+  const [siteViews, setSiteViews] = useState<number | null>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -166,6 +167,16 @@ export function AdminDashboard() {
         }
         if (seoGestaoSettings && typeof seoGestaoSettings === 'object' && 'is_active' in seoGestaoSettings) {
           setIsSeoGestaoActive(!!seoGestaoSettings.is_active);
+        }
+
+        const { data: analyticsData } = await supabase
+          .from('site_analytics')
+          .select('value')
+          .eq('metric_name', 'total_views')
+          .maybeSingle();
+        
+        if (analyticsData && isMounted) {
+          setSiteViews(analyticsData.value);
         }
       }
     };
@@ -923,6 +934,18 @@ export function AdminDashboard() {
                 Admin
               </span>
             </h1>
+
+            {siteViews !== null && (
+              <div className="mt-4 flex items-center justify-between text-sm text-gray-600 bg-gray-50 px-3 py-2 rounded-lg border border-gray-100 shadow-sm">
+                <div className="flex items-center gap-2">
+                  <div className="p-1.5 bg-blue-100 text-blue-700 rounded-md">
+                    <Activity size={14} />
+                  </div>
+                  <span className="font-semibold text-gray-800">Visitas</span>
+                </div>
+                <span className="font-bold text-blue-700">{siteViews.toLocaleString('pt-BR')}</span>
+              </div>
+            )}
           </div>
           
           <nav className="flex-1 p-4 space-y-1">
