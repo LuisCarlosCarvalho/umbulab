@@ -9,9 +9,7 @@ export default function VisitCounter() {
   useEffect(() => {
     const trackVisit = async () => {
       try {
-        const { error } = await supabase.rpc('increment_visit_count', {
-          page_name: 'home'
-        });
+        const { error } = await supabase.rpc('increment_site_views');
 
         if (error) {
           // Silent log for public noise reduction
@@ -19,14 +17,14 @@ export default function VisitCounter() {
         }
 
         const { data, error: fetchError } = await supabase
-          .from('site_visits')
-          .select('visit_count')
-          .eq('page', 'home')
+          .from('site_analytics')
+          .select('value')
+          .eq('metric_name', 'total_views')
           .maybeSingle();
 
         if (fetchError) return; // Silent
         else if (data) {
-          setVisitCount(data.visit_count);
+          setVisitCount(Number(data.value));
         }
         if (error) return; // Silent for noise reduction
       } catch (error) {
