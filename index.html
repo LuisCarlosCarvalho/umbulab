@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      content="width=device-width, initial-scale=1.0, maximum-scale=5.0"
     />
     <meta
       name="google-site-verification"
@@ -54,11 +54,24 @@
       "description": "Agência de Crescimento Digital especializada em SEO, Websites de Alta Performance e Branding Estratégico."
     }
     </script>
-    <script type="module" crossorigin src="/assets/index-DV-tnH5Q-1789639493503.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-OsE-aC4W-1789639493503.css">
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('umbulab_theme_preference') || 'system';
+          var isDark = saved === 'dark' || (saved === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          if (isDark) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index-D7_YUc6_-1789649292515.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-AxgoNXCI-1789649292515.css">
   </head>
-  <body translate="no" class="notranslate">
-    <div id="root"></div>
+  <body translate="no" class="notranslate overflow-x-hidden">
+    <div id="root" class="overflow-x-hidden"></div>
     <script>
       // Forçar unregistration do Service Worker para evitar cache de PWA durante manutenção
       if ('serviceWorker' in navigator) {
