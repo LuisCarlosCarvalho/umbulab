@@ -61,7 +61,7 @@
   h5,
   h6 {
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-    @apply font-extrabold tracking-tight text-white;
+    @apply font-extrabold tracking-tight text-zinc-900 dark:text-white;
   }
 
   h1 {
@@ -222,18 +222,16 @@ main > section::before {
   @apply text-white hover:-translate-y-0.5 hover:brightness-110 active:scale-95;
 }
 
-.btn-ghost {
-  border: 1px solid var(--line-strong);
-  color: var(--paper);
-  @apply hover:border-white hover:bg-white/5 active:scale-95;
-}
+  .btn-ghost {
+    border: 1px solid var(--line-strong);
+    @apply text-zinc-900 dark:text-[var(--paper)] hover:border-green-500 hover:bg-green-500/5 active:scale-95;
+  }
 
-.btn-outline {
-  border: 1.5px solid var(--primary-green-light);
-  color: var(--paper);
-  background: rgba(102, 187, 106, 0.06);
-  @apply hover:bg-green-500/10 hover:-translate-y-0.5 active:scale-95;
-}
+  .btn-outline {
+    border: 1.5px solid var(--primary-green-light);
+    background: rgba(102, 187, 106, 0.06);
+    @apply text-green-700 dark:text-[var(--paper)] hover:bg-green-500/10 hover:-translate-y-0.5 active:scale-95;
+  }
 
 /* Mascot float animation */
 @keyframes mascot-float {

@@ -386,7 +386,7 @@ export function ContactPage() {
                           type="submit"
                           disabled={loading}
                           onClick={() => setSubmitType('email')}
-                          className="bg-black text-zinc-900 dark:text-white px-8 py-5 rounded-2xl font-black hover:bg-gray-900 transition-all flex items-center justify-center gap-3 shadow-lg shadow-gray-200 disabled:opacity-50"
+                          className="bg-black text-white px-8 py-5 rounded-2xl font-black hover:bg-gray-900 transition-all flex items-center justify-center gap-3 shadow-lg shadow-gray-200 disabled:opacity-50"
                         >
                           {loading && submitType === 'email' ? 'Registrando Lead...' : (
                             <>

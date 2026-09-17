@@ -29,28 +29,40 @@ export function Logo({
     );
   }
 
-  // Selected logo URL based on variant or background light/dark context
-  const selectedLogoUrl = variant === 'light'
-    ? 'https://i.imgur.com/iDzNCWJ.png'
-    : variant === 'dark'
-    ? 'https://i.imgur.com/OX24qjP.png'
-    : isDarkBg
-    ? 'https://i.imgur.com/OX24qjP.png'
-    : 'https://i.imgur.com/iDzNCWJ.png';
+  const lightLogoUrl = 'https://i.imgur.com/iDzNCWJ.png'; // Logo with dark text for light mode
+  const darkLogoUrl = 'https://i.imgur.com/OX24qjP.png'; // Logo with white text for dark mode
 
-  // The full logo images already include the icon + "UmbuLab" text.
-  // We scale the height of the image based on iconSize (e.g. 36px in navbar or 80px in maintenance).
-  // The dark logo has more internal padding in the PNG, so we scale it up to visually match the light logo.
-  const isDarkLogo = selectedLogoUrl === 'https://i.imgur.com/OX24qjP.png';
-  const logoHeight = isDarkLogo ? iconSize * 1.25 : iconSize;
-  
+  // If a specific variant is forced, render only that variant
+  if (variant === 'light' || variant === 'dark') {
+    const url = variant === 'light' ? lightLogoUrl : darkLogoUrl;
+    return (
+      <div className={`flex items-center ${className}`}>
+        <img
+          src={url}
+          alt="UmbuLab Logo"
+          style={{ height: variant === 'dark' ? iconSize * 1.25 : iconSize }}
+          className="object-contain max-w-full"
+        />
+      </div>
+    );
+  }
+
+  // Otherwise, use CSS to switch between light and dark logos automatically
   return (
     <div className={`flex items-center ${className}`}>
+      {/* Light mode logo (hidden in dark mode) */}
       <img
-        src={selectedLogoUrl}
+        src={lightLogoUrl}
         alt="UmbuLab Logo"
-        style={{ height: logoHeight }}
-        className="object-contain max-w-full"
+        style={{ height: iconSize }}
+        className="object-contain max-w-full block dark:hidden"
+      />
+      {/* Dark mode logo (hidden in light mode) */}
+      <img
+        src={darkLogoUrl}
+        alt="UmbuLab Logo"
+        style={{ height: iconSize * 1.25 }}
+        className="object-contain max-w-full hidden dark:block"
       />
     </div>
   );
