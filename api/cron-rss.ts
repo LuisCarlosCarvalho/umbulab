@@ -44,7 +44,7 @@ export default async function handler(req: Request) {
       .single();
 
     if (configError) {
-      return new Response(JSON.stringify({ error: \`Erro no Banco (configuracoes): \${configError.message}\` }), { status: 200 });
+      return new Response(JSON.stringify({ error: `Erro no Banco (configuracoes): ${configError.message}` }), { status: 200 });
     }
     if (!configData || !configData.valor) {
       return new Response(JSON.stringify({ error: 'Nenhuma configuração de RSS encontrada no banco.' }), { status: 200 });
@@ -61,11 +61,11 @@ export default async function handler(req: Request) {
       feed = await parser.parseURL(rssConfig.url);
     } catch (initialError) {
       console.log('Failed to parse original URL as RSS, trying fallbacks...');
-      const baseUrl = rssConfig.url.replace(/\\/$/, ''); // Remove trailing slash
+      const baseUrl = rssConfig.url.replace(/\/$/, ''); // Remove trailing slash
       const fallbacks = [
-        \`\${baseUrl}/feed\`,
-        \`\${baseUrl}/rss\`,
-        \`\${baseUrl}/feed.xml\`
+        `${baseUrl}/feed`,
+        `${baseUrl}/rss`,
+        `${baseUrl}/feed.xml`
       ];
 
       let success = false;
@@ -73,7 +73,7 @@ export default async function handler(req: Request) {
         try {
           feed = await parser.parseURL(fallbackUrl);
           success = true;
-          console.log(\`Successfully parsed fallback URL: \${fallbackUrl}\`);
+          console.log(`Successfully parsed fallback URL: ${fallbackUrl}`);
           break;
         } catch (e) {
           // ignore
@@ -133,7 +133,7 @@ export default async function handler(req: Request) {
       }
 
       // Fallbacks
-      if (!content) content = \`<p>\${excerpt}</p>\`;
+      if (!content) content = `<p>${excerpt}</p>`;
 
       const postData = {
         title: title,
@@ -166,7 +166,7 @@ export default async function handler(req: Request) {
 
     return new Response(JSON.stringify({
       success: true,
-      message: \`RSS Sync complete. Inserted \${insertedCount} new posts.\`,
+      message: `RSS Sync complete. Inserted ${insertedCount} new posts.`,
       feedTitle: feed.title
     }), { status: 200 });
 

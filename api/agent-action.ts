@@ -1,4 +1,4 @@
-import { executeAgentActions, AgentAction } from './lib/executor';
+import { executeAgentActions, AgentAction } from './lib/executor.js';
 import { createClient } from '@supabase/supabase-js';
 
 export const maxDuration = 60;
@@ -170,7 +170,7 @@ RULES:
     const allowedActions = ['replace_image', 'update_text', 'delete_element', 'add_element'];
     for (const action of parsedData.actions) {
        if (!allowedActions.includes(action.type)) {
-           return new Response(JSON.stringify({ error: \`Invalid action type returned by AI: \${action.type}\` }), { status: 500 });
+           return new Response(JSON.stringify({ error: `Invalid action type returned by AI: ${action.type}` }), { status: 500 });
        }
        if (!action.section || typeof action.section !== 'string') {
            return new Response(JSON.stringify({ error: 'Invalid or missing section in AI output' }), { status: 500 });

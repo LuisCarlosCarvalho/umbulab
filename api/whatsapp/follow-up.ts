@@ -1,5 +1,5 @@
-import { supabaseAdmin } from '../_utils/supabase';
-import { sendZApiMessage } from '../_utils/zapi';
+import { supabaseAdmin } from '../_utils/supabase.js';
+import { sendZApiMessage } from '../_utils/zapi.js';
 
 export default async function handler(req: Request) {
   if (req.method !== 'POST') {
