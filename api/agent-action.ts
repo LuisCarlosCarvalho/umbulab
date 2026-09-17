@@ -1,29 +1,8 @@
 import { executeAgentActions, AgentAction } from './lib/executor.js';
 import { createClient } from '@supabase/supabase-js';
+import { checkRateLimit } from './_utils/rate-limit.js';
 
 export const maxDuration = 60;
-
-// Rate limiting simples em memória
-const RATE_LIMIT_WINDOW = 60000;
-const MAX_REQUESTS = 10;
-const ipRequests = new Map<string, { count: number; timestamp: number }>();
-
-function isRateLimited(ip: string): boolean {
-  const now = Date.now();
-  const record = ipRequests.get(ip);
-
-  if (!record || (now - record.timestamp > RATE_LIMIT_WINDOW)) {
-    ipRequests.set(ip, { count: 1, timestamp: now });
-    return false;
-  }
-
-  if (record.count >= MAX_REQUESTS) {
-    return true;
-  }
-
-  record.count += 1;
-  return false;
-}
 
 export default async function handler(req: Request) {
   if (req.method !== 'POST') {
@@ -35,7 +14,10 @@ export default async function handler(req: Request) {
 
   // 1. Rate Limiting
   const ip = req.headers.get('x-forwarded-for') || 'unknown';
-  if (isRateLimited(ip)) {
+  // 10 requests per 60 seconds
+  const isAllowed = await checkRateLimit(ip, 'agent-action', 10, 60);
+  
+  if (!isAllowed) {
     return new Response(JSON.stringify({ error: 'Too many requests, please try again later.' }), {
       status: 429,
       headers: { 'Content-Type': 'application/json' },
@@ -153,7 +135,7 @@ RULES:
     }
 
     const data: any = await response.json();
-    let rawContent = data.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
+    const rawContent = data.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
     
     let parsedData: { actions: AgentAction[] };
     try {

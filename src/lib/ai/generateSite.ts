@@ -112,7 +112,7 @@ Descrição: ${params.description}`;
   ];
 
   let lastResponse: Response | null = null;
-  let allErrors: string[] = [];
+  const allErrors: string[] = [];
 
   for (const modelName of modelsToTry) {
     try {

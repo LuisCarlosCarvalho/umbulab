@@ -51,7 +51,7 @@ export async function executeAgentActions(pageId: string, actions: AgentAction[]
     }
 
     // Clone profundo para não mutar diretamente a referência original acidentalmente
-    let content = JSON.parse(JSON.stringify(pageRecord.content));
+    const content = JSON.parse(JSON.stringify(pageRecord.content));
 
     // 2. Processar cada ação sequencialmente
     for (const action of actions) {
