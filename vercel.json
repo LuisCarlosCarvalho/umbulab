@@ -40,11 +40,5 @@
       "source": "/(.*)",
       "destination": "/index.html"
     }
-  ],
-  "crons": [
-    {
-      "path": "/api/cron-rss",
-      "schedule": "0 8 * * *"
-    }
   ]
 }
