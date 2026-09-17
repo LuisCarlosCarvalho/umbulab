@@ -16,7 +16,7 @@ export function Logo({
   variant
 }: LogoProps) {
   // Check if we are on a dark background based on text color class
-  const isDarkBg = textColor.includes('text-white') || textColor.includes('text-neutral-100') || textColor.includes('text-neutral-400');
+  const isDarkBg = textColor.includes('text-zinc-900 dark:text-white') || textColor.includes('text-neutral-100') || textColor.includes('text-zinc-600 dark:text-neutral-400');
   
   if (!showText || variant === 'icon') {
     return (
@@ -40,8 +40,9 @@ export function Logo({
 
   // The full logo images already include the icon + "UmbuLab" text.
   // We scale the height of the image based on iconSize (e.g. 36px in navbar or 80px in maintenance).
-  // The width adjusts automatically to maintain the correct aspect ratio.
-  const logoHeight = iconSize;
+  // The dark logo has more internal padding in the PNG, so we scale it up to visually match the light logo.
+  const isDarkLogo = selectedLogoUrl === 'https://i.imgur.com/OX24qjP.png';
+  const logoHeight = isDarkLogo ? iconSize * 1.25 : iconSize;
   
   return (
     <div className={`flex items-center ${className}`}>

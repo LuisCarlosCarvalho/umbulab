@@ -86,7 +86,7 @@ export function GeneratePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#050505] flex font-sans text-white pt-24 relative overflow-hidden">
+    <div className="min-h-screen bg-[#050505] flex font-sans text-zinc-900 dark:text-white pt-24 relative overflow-hidden">
       {/* Efeitos de Luz no Fundo */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-green-500/10 rounded-full blur-[100px] pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-lime-500/10 rounded-full blur-[100px] pointer-events-none" />
@@ -95,21 +95,21 @@ export function GeneratePage() {
         
         {/* Lado Esquerdo: Textos e Proposta de Valor */}
         <div className="w-full lg:w-[45%] flex flex-col justify-center pt-8 lg:pt-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-neutral-300 text-sm font-medium w-fit mb-8 backdrop-blur-sm">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-zinc-700 dark:text-neutral-300 text-sm font-medium w-fit mb-8 backdrop-blur-sm">
             <Wand2 size={16} className="text-green-400" /> Powered by UmbuLab IA
           </div>
 
-          <h1 className="text-5xl lg:text-6xl font-bold text-white leading-[1.1] mb-6 tracking-tight">
+          <h1 className="text-5xl lg:text-6xl font-bold text-zinc-900 dark:text-white leading-[1.1] mb-6 tracking-tight">
             O seu Preview <br/>
             <span className="block mt-2 text-3xl lg:text-4xl text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-lime-300 whitespace-nowrap">
               pronto em 1 minuto.
             </span>
           </h1>
           
-          <p className="text-neutral-400 text-lg leading-relaxed mb-6">
+          <p className="text-zinc-600 dark:text-neutral-400 text-lg leading-relaxed mb-6">
             Com a Umbulab IA, você visualiza rapidamente a estrutura do seu projeto, criando um preview real da sua ideia antes mesmo de começar.
           </p>
-          <p className="text-neutral-400 text-lg leading-relaxed mb-10">
+          <p className="text-zinc-600 dark:text-neutral-400 text-lg leading-relaxed mb-10">
             Transformamos o seu conceito em uma base estratégica e visual, para que você possa validar, ajustar e crescer com segurança no digital.
           </p>
 
@@ -132,51 +132,51 @@ export function GeneratePage() {
 
         {/* Lado Direito: Formulário */}
         <div className="w-full lg:w-[55%] flex flex-col justify-center">
-          <div className="bg-[#0a0a0a] rounded-3xl p-8 lg:p-10 border border-white/5 shadow-2xl relative overflow-hidden backdrop-blur-xl">
+          <div className="bg-[#0a0a0a] rounded-3xl p-8 lg:p-10 border border-black/5 dark:border-white/5 shadow-2xl relative overflow-hidden backdrop-blur-xl">
             {/* Brilho suave dentro do card */}
             <div className="absolute -top-24 -right-24 w-48 h-48 bg-green-500/20 rounded-full blur-3xl pointer-events-none" />
 
             <div className="relative z-10 mb-8">
-              <h2 className="text-2xl font-semibold text-white mb-2">Descreva sua ideia</h2>
+              <h2 className="text-2xl font-semibold text-zinc-900 dark:text-white mb-2">Descreva sua ideia</h2>
               <p className="text-neutral-500 text-sm">Preencha os campos abaixo e deixe a mágica com a nossa IA.</p>
             </div>
 
             <form onSubmit={handleGenerate} className="relative z-10 space-y-5">
               <div>
-                <label className="block text-sm font-medium text-neutral-400 mb-2">E-mail corporativo</label>
+                <label className="block text-sm font-medium text-zinc-600 dark:text-neutral-400 mb-2">E-mail corporativo</label>
                 <input
                   type="email"
                   name="email"
                   required
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:bg-white/10 focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 outline-none transition-all placeholder:text-neutral-600 text-sm"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-zinc-900 dark:text-white focus:bg-white/10 focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 outline-none transition-all placeholder:text-neutral-600 text-sm"
                   placeholder="seu@email.com"
                 />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-medium text-neutral-400 mb-2">WhatsApp</label>
+                  <label className="block text-sm font-medium text-zinc-600 dark:text-neutral-400 mb-2">WhatsApp</label>
                   <input
                     type="tel"
                     name="phone"
                     required
                     value={formData.phone}
                     onChange={handleInputChange}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:bg-white/10 focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 outline-none transition-all placeholder:text-neutral-600 text-sm"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-zinc-900 dark:text-white focus:bg-white/10 focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 outline-none transition-all placeholder:text-neutral-600 text-sm"
                     placeholder="+351 912 345 678"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-neutral-400 mb-2">Nome da Empresa</label>
+                  <label className="block text-sm font-medium text-zinc-600 dark:text-neutral-400 mb-2">Nome da Empresa</label>
                   <input
                     type="text"
                     name="name"
                     required
                     value={formData.name}
                     onChange={handleInputChange}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:bg-white/10 focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 outline-none transition-all placeholder:text-neutral-600 text-sm"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-zinc-900 dark:text-white focus:bg-white/10 focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 outline-none transition-all placeholder:text-neutral-600 text-sm"
                     placeholder="Ex: UmbuLab Tech"
                   />
                 </div>
@@ -184,55 +184,55 @@ export function GeneratePage() {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                 <div>
-                  <label className="block text-sm font-medium text-neutral-400 mb-2">Seu Projeto</label>
+                  <label className="block text-sm font-medium text-zinc-600 dark:text-neutral-400 mb-2">Seu Projeto</label>
                   <select
                     name="project"
                     value={formData.project}
                     onChange={handleInputChange}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:bg-white/10 focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 outline-none transition-all text-sm appearance-none"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-zinc-900 dark:text-white focus:bg-white/10 focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 outline-none transition-all text-sm appearance-none"
                     style={{ backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%239ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`, backgroundPosition: 'right 1rem center', backgroundRepeat: 'no-repeat', backgroundSize: '1.5em 1.5em', paddingRight: '2.5rem' }}
                   >
                     <option value="" disabled className="text-neutral-500 bg-neutral-900">Selecione o tipo...</option>
-                    <option value="website" className="bg-neutral-900 text-white">Website Institucional</option>
-                    <option value="portfolio" className="bg-neutral-900 text-white">Portfolio Criativo</option>
-                    <option value="micro_saas" className="bg-neutral-900 text-white">Micro SaaS / Startup</option>
-                    <option value="landing_page" className="bg-neutral-900 text-white">Landing Page (Conversão)</option>
-                    <option value="convite_web" className="bg-neutral-900 text-white">Convite Web (Evento)</option>
+                    <option value="website" className="bg-neutral-900 text-zinc-900 dark:text-white">Website Institucional</option>
+                    <option value="portfolio" className="bg-neutral-900 text-zinc-900 dark:text-white">Portfolio Criativo</option>
+                    <option value="micro_saas" className="bg-neutral-900 text-zinc-900 dark:text-white">Micro SaaS / Startup</option>
+                    <option value="landing_page" className="bg-neutral-900 text-zinc-900 dark:text-white">Landing Page (Conversão)</option>
+                    <option value="convite_web" className="bg-neutral-900 text-zinc-900 dark:text-white">Convite Web (Evento)</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-neutral-400 mb-2">URL da sua Logo</label>
+                  <label className="block text-sm font-medium text-zinc-600 dark:text-neutral-400 mb-2">URL da sua Logo</label>
                   <input
                     type="url"
                     name="logo_url"
                     value={formData.logo_url}
                     onChange={handleInputChange}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:bg-white/10 focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 outline-none transition-all placeholder:text-neutral-600 text-sm"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-zinc-900 dark:text-white focus:bg-white/10 focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 outline-none transition-all placeholder:text-neutral-600 text-sm"
                     placeholder="https://site.com/logo.png"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-neutral-400 mb-2">Cores (Opcional)</label>
+                  <label className="block text-sm font-medium text-zinc-600 dark:text-neutral-400 mb-2">Cores (Opcional)</label>
                   <input
                     type="text"
                     name="color_palette"
                     value={formData.color_palette}
                     onChange={handleInputChange}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:bg-white/10 focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 outline-none transition-all placeholder:text-neutral-600 text-sm"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-zinc-900 dark:text-white focus:bg-white/10 focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 outline-none transition-all placeholder:text-neutral-600 text-sm"
                     placeholder="Ex: Azul e Dourado"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-neutral-400 mb-2">Descreva sua IDEIA</label>
+                <label className="block text-sm font-medium text-zinc-600 dark:text-neutral-400 mb-2">Descreva sua IDEIA</label>
                 <textarea
                   name="description"
                   required
                   rows={4}
                   value={formData.description}
                   onChange={handleInputChange}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-white focus:bg-white/10 focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 outline-none transition-all resize-none placeholder:text-neutral-600 text-sm"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-zinc-900 dark:text-white focus:bg-white/10 focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 outline-none transition-all resize-none placeholder:text-neutral-600 text-sm"
                   placeholder="Descreva o que a sua empresa faz, o seu público-alvo, cores preferidas..."
                 />
               </div>
@@ -241,7 +241,7 @@ export function GeneratePage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-gradient-to-r from-green-600 to-lime-500 hover:from-green-500 hover:to-lime-400 text-white font-bold py-4 px-8 rounded-xl transition-all disabled:opacity-70 flex items-center justify-center gap-3 shadow-lg shadow-green-500/25 hover:shadow-green-500/40 hover:-translate-y-0.5"
+                  className="w-full bg-gradient-to-r from-green-600 to-lime-500 hover:from-green-500 hover:to-lime-400 text-zinc-900 dark:text-white font-bold py-4 px-8 rounded-xl transition-all disabled:opacity-70 flex items-center justify-center gap-3 shadow-lg shadow-green-500/25 hover:shadow-green-500/40 hover:-translate-y-0.5"
                 >
                   {loading ? (
                     <>

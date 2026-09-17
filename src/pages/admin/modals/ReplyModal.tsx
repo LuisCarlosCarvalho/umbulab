@@ -78,7 +78,7 @@ export function ReplyModal({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
             <div className="relative group">
               {(selectedMessage as any).contact_method !== 'email' && (
-                <span className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] bg-green-500 text-white px-2 py-0.5 rounded-full font-bold animate-bounce whitespace-nowrap">
+                <span className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] bg-green-500 text-zinc-900 dark:text-white px-2 py-0.5 rounded-full font-bold animate-bounce whitespace-nowrap">
                   Canal Sugerido
                 </span>
               )}
@@ -86,7 +86,7 @@ export function ReplyModal({
                 onClick={handleReplyWhatsApp}
                 className={`w-full flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-bold transition-all ${
                   (selectedMessage as any).contact_method !== 'email'
-                    ? 'bg-green-500 text-white hover:bg-green-600 shadow-lg shadow-green-200 scale-105'
+                    ? 'bg-green-500 text-zinc-900 dark:text-white hover:bg-green-600 shadow-lg shadow-green-200 scale-105'
                     : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                 }`}
               >
@@ -97,7 +97,7 @@ export function ReplyModal({
 
             <div className="relative group">
               {(selectedMessage as any).contact_method === 'email' && (
-                <span className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] bg-blue-600 text-white px-2 py-0.5 rounded-full font-bold animate-bounce whitespace-nowrap">
+                <span className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] bg-blue-600 text-zinc-900 dark:text-white px-2 py-0.5 rounded-full font-bold animate-bounce whitespace-nowrap">
                   Canal Sugerido
                 </span>
               )}
@@ -105,7 +105,7 @@ export function ReplyModal({
                 onClick={handleReplyEmail}
                 className={`w-full flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-bold transition-all ${
                   (selectedMessage as any).contact_method === 'email'
-                    ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-lg shadow-blue-200 scale-105'
+                    ? 'bg-blue-600 text-zinc-900 dark:text-white hover:bg-blue-700 shadow-lg shadow-blue-200 scale-105'
                     : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                 }`}
               >

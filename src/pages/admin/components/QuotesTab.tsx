@@ -129,7 +129,7 @@ export function QuotesTab({ quotes, onUpdateStatus, onUpdateNotes }: QuotesTabPr
               <div className="flex-1 space-y-4">
                 <div className="flex flex-wrap items-center gap-3">
                   {quote.os_number && (
-                    <span className="bg-blue-600 text-white px-3 py-1 rounded-lg font-mono text-sm font-black shadow-lg shadow-blue-100">
+                    <span className="bg-blue-600 text-zinc-900 dark:text-white px-3 py-1 rounded-lg font-mono text-sm font-black shadow-lg shadow-blue-100">
                       #{quote.os_number}
                     </span>
                   )}
@@ -239,7 +239,7 @@ export function QuotesTab({ quotes, onUpdateStatus, onUpdateNotes }: QuotesTabPr
                   </h4>
                   <button
                     onClick={() => onUpdateNotes(quote.id, editingNotes[quote.id] ?? quote.internal_notes ?? '')}
-                    className="flex items-center gap-2 px-4 py-1.5 bg-blue-600 text-white rounded-lg text-xs font-black hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/20 active:scale-95"
+                    className="flex items-center gap-2 px-4 py-1.5 bg-blue-600 text-zinc-900 dark:text-white rounded-lg text-xs font-black hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/20 active:scale-95"
                   >
                     <Save size={14} />
                     Salvar

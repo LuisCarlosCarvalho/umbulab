@@ -53,8 +53,8 @@ export function Renderer({ data, logoUrl }: RendererProps) {
 
   // A IA agora devolve 'style' e 'tone' para direção criativa avançada
   const isDark = data.theme === 'dark' || true; // Forçar Dark Mode Premium para maior impacto (Awwwards style)
-  const mainBg = isDark ? 'bg-[#030303] text-white selection:bg-white/20' : 'bg-neutral-50 text-neutral-900';
-  const navBg = isDark ? 'bg-[#030303]/70 backdrop-blur-xl border-white/5' : 'bg-white/80 backdrop-blur-xl border-neutral-200';
+  const mainBg = isDark ? 'bg-[#030303] text-zinc-900 dark:text-zinc-900 dark:text-white selection:bg-white/20' : 'bg-neutral-50 text-neutral-900';
+  const navBg = isDark ? 'bg-[#030303]/70 backdrop-blur-xl border-black/5 dark:border-black/5 dark:border-white/5' : 'bg-white/80 backdrop-blur-xl border-neutral-200';
   const btnStyle = data.primaryColor ? { backgroundColor: data.primaryColor } : {};
 
   return (
@@ -84,16 +84,16 @@ export function Renderer({ data, logoUrl }: RendererProps) {
             data.title
           )}
         </div>
-        <div className={`hidden md:flex gap-8 text-sm font-medium ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>
-          <span className={`cursor-not-allowed transition-colors ${isDark ? 'hover:text-white' : 'hover:text-neutral-900'}`}>Início</span>
-          <span className={`cursor-not-allowed transition-colors ${isDark ? 'hover:text-white' : 'hover:text-neutral-900'}`}>Serviços</span>
-          <span className={`cursor-not-allowed transition-colors ${isDark ? 'hover:text-white' : 'hover:text-neutral-900'}`}>Sobre</span>
-          <span className={`cursor-not-allowed transition-colors ${isDark ? 'hover:text-white' : 'hover:text-neutral-900'}`}>Contacto</span>
+        <div className={`hidden md:flex gap-8 text-sm font-medium ${isDark ? 'text-zinc-600 dark:text-zinc-600 dark:text-neutral-400' : 'text-neutral-500'}`}>
+          <span className={`cursor-not-allowed transition-colors ${isDark ? 'hover:text-zinc-900 dark:text-zinc-900 dark:text-white' : 'hover:text-neutral-900'}`}>Início</span>
+          <span className={`cursor-not-allowed transition-colors ${isDark ? 'hover:text-zinc-900 dark:text-zinc-900 dark:text-white' : 'hover:text-neutral-900'}`}>Serviços</span>
+          <span className={`cursor-not-allowed transition-colors ${isDark ? 'hover:text-zinc-900 dark:text-zinc-900 dark:text-white' : 'hover:text-neutral-900'}`}>Sobre</span>
+          <span className={`cursor-not-allowed transition-colors ${isDark ? 'hover:text-zinc-900 dark:text-zinc-900 dark:text-white' : 'hover:text-neutral-900'}`}>Contacto</span>
         </div>
         <button 
           disabled 
           style={btnStyle}
-          className={`px-6 py-2.5 rounded-full text-sm font-bold cursor-not-allowed ${data.primaryColor ? 'text-white' : (isDark ? 'bg-white text-neutral-900' : 'bg-neutral-900 text-white')}`}
+          className={`px-6 py-2.5 rounded-full text-sm font-bold cursor-not-allowed ${data.primaryColor ? 'text-zinc-900 dark:text-zinc-900 dark:text-white' : (isDark ? 'bg-white text-neutral-900' : 'bg-neutral-900 text-zinc-900 dark:text-zinc-900 dark:text-white')}`}
         >
           Começar
         </button>
@@ -126,7 +126,7 @@ export function Renderer({ data, logoUrl }: RendererProps) {
       })}
 
       {/* Footer mockup */}
-      <footer className="bg-neutral-950 text-neutral-400 py-12 text-center text-sm w-full">
+      <footer className="bg-transparent text-zinc-600 dark:text-zinc-600 dark:text-neutral-400 py-12 text-center text-sm w-full">
         <p>&copy; {new Date().getFullYear()} {data.title}. Todos os direitos reservados.</p>
       </footer>
     </div>

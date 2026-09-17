@@ -103,7 +103,7 @@ export function MessagesTab({ messages, onReply }: MessagesTabProps) {
             <div className="flex justify-end gap-2">
               <button
                 onClick={() => onReply(msg)}
-                className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-bold shadow-sm"
+                className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-zinc-900 dark:text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-bold shadow-sm"
               >
                 <Reply size={16} />
                 Nova Resposta

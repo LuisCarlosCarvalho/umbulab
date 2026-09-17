@@ -46,7 +46,7 @@ export function FloatingWhatsApp() {
         rel="noopener noreferrer"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className="group relative flex items-center justify-center w-14 h-14 bg-[#25D366] text-white rounded-full shadow-lg shadow-[#25D366]/30 hover:shadow-2xl hover:shadow-[#25D366]/40 hover:-translate-y-1 transition-all duration-300"
+        className="group relative flex items-center justify-center w-14 h-14 bg-[#25D366] text-zinc-900 dark:text-white rounded-full shadow-lg shadow-[#25D366]/30 hover:shadow-2xl hover:shadow-[#25D366]/40 hover:-translate-y-1 transition-all duration-300"
       >
         <MessageCircle size={28} className="group-hover:scale-110 transition-transform duration-300" />
         

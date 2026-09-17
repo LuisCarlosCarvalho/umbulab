@@ -171,7 +171,7 @@ const MetricCard = ({ title, value, change, isPositive, icon }: { title: string,
       </div>
     </div>
     <div className="mt-6 relative z-10">
-      <div className="text-3xl font-bold tracking-tight text-white mb-2">{value}</div>
+      <div className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white mb-2">{value}</div>
       <div className={`flex items-center text-sm font-semibold ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
         {isPositive ? <TrendingUp className="w-4 h-4 mr-1" /> : <TrendingDown className="w-4 h-4 mr-1" />}
         {change} <span className="text-slate-500 ml-2 font-normal">vs último mês</span>

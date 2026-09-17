@@ -123,14 +123,14 @@ export function NewsletterModal() {
       >
         <button 
           onClick={dismissModal}
-          className="absolute top-4 right-4 text-zinc-400 hover:text-white transition-colors"
+          className="absolute top-4 right-4 text-zinc-400 hover:text-zinc-900 dark:text-white transition-colors"
           aria-label="Fechar"
         >
           <X className="w-5 h-5" />
         </button>
 
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-white mb-2 tracking-tight">
+          <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-2 tracking-tight">
             Acelere seu <span className="text-[#7ED321]">crescimento</span>
           </h2>
           <p className="text-zinc-400 mb-6 text-sm">
@@ -151,7 +151,7 @@ export function NewsletterModal() {
                   setEmail(e.target.value);
                   if (status === 'error') setStatus('idle');
                 }}
-                className="w-full px-4 py-3 bg-zinc-900/50 border border-zinc-800 rounded-lg text-white placeholder-zinc-500 focus:outline-none focus:border-[#7ED321] focus:ring-1 focus:ring-[#7ED321] transition-all"
+                className="w-full px-4 py-3 bg-zinc-900/50 border border-zinc-800 rounded-lg text-zinc-900 dark:text-white placeholder-zinc-500 focus:outline-none focus:border-[#7ED321] focus:ring-1 focus:ring-[#7ED321] transition-all"
                 disabled={status === 'loading'}
               />
               {status === 'error' && (

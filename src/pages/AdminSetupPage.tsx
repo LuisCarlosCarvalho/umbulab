@@ -52,7 +52,7 @@ export default function AdminSetupPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
       <div className="max-w-md w-full bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl p-8">
-        <h1 className="text-3xl font-bold text-white mb-2">Setup Admin</h1>
+        <h1 className="text-3xl font-bold text-zinc-900 dark:text-white mb-2">Setup Admin</h1>
         <p className="text-slate-300 mb-6">Criar primeira conta de administrador</p>
 
         {success ? (
@@ -77,7 +77,7 @@ export default function AdminSetupPage() {
                 type="text"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                className="w-full px-4 py-3 bg-white/5 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-3 bg-white/5 border border-slate-600 rounded-lg text-zinc-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
               />
             </div>
@@ -90,7 +90,7 @@ export default function AdminSetupPage() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 bg-white/5 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-3 bg-white/5 border border-slate-600 rounded-lg text-zinc-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
               />
             </div>
@@ -103,7 +103,7 @@ export default function AdminSetupPage() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 bg-white/5 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-3 bg-white/5 border border-slate-600 rounded-lg text-zinc-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
                 minLength={6}
               />
@@ -113,7 +113,7 @@ export default function AdminSetupPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-slate-600 text-white font-semibold py-3 rounded-lg transition-colors duration-200"
+              className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-slate-600 text-zinc-900 dark:text-white font-semibold py-3 rounded-lg transition-colors duration-200"
             >
               {loading ? 'Criando...' : 'Criar Admin'}
             </button>

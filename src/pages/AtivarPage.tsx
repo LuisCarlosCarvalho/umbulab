@@ -98,7 +98,7 @@ export function AtivarPage() {
 
       <div className="w-full max-w-md relative z-10">
         <div className="flex justify-center mb-8">
-          <Logo showText={true} textColor="text-white" iconSize={64} />
+          <Logo showText={true} textColor="text-zinc-900 dark:text-white" iconSize={64} />
         </div>
 
         <div className="glass-card bg-slate-900/80 border border-white/10 rounded-3xl p-8 shadow-2xl backdrop-blur-xl">
@@ -107,7 +107,7 @@ export function AtivarPage() {
               <Shield size={24} />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-white font-sans">Controle de Status</h1>
+              <h1 className="text-xl font-bold text-zinc-900 dark:text-white font-sans">Controle de Status</h1>
               <p className="text-xs text-gray-400">Altere o estado global do site da UmbuLab</p>
             </div>
           </div>
@@ -122,7 +122,7 @@ export function AtivarPage() {
               <div className={`w-3 h-3 rounded-full animate-ping ${isActive ? 'bg-green-500' : 'bg-amber-500'}`}></div>
               <div>
                 <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider">Status Atual</p>
-                <h2 className="text-lg font-black text-white font-sans mt-0.5">
+                <h2 className="text-lg font-black text-zinc-900 dark:text-white font-sans mt-0.5">
                   {isActive ? 'SITE ONLINE' : 'MODO MANUTENÇÃO'}
                 </h2>
               </div>
@@ -144,12 +144,12 @@ export function AtivarPage() {
                   value={secretKey}
                   onChange={(e) => setSecretKey(e.target.value)}
                   placeholder="Digite a chave autorizadora..."
-                  className="w-full bg-slate-950/60 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 transition-all font-mono"
+                  className="w-full bg-slate-950/60 border border-white/10 rounded-xl px-4 py-3 text-zinc-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 transition-all font-mono"
                 />
                 <button
                   type="button"
                   onClick={() => setShowKey(!showKey)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-zinc-900 dark:text-white transition-colors"
                 >
                   {showKey ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
@@ -162,8 +162,8 @@ export function AtivarPage() {
               disabled={actionLoading}
               className={`w-full py-4 px-6 rounded-xl font-bold flex items-center justify-center gap-2 transition-all duration-300 ${
                 isActive 
-                  ? 'bg-amber-600 hover:bg-amber-700 text-white shadow-lg shadow-amber-600/20 hover:shadow-amber-600/30' 
-                  : 'bg-green-600 hover:bg-green-700 text-white shadow-lg shadow-green-600/20 hover:shadow-green-600/30'
+                  ? 'bg-amber-600 hover:bg-amber-700 text-zinc-900 dark:text-white shadow-lg shadow-amber-600/20 hover:shadow-amber-600/30' 
+                  : 'bg-green-600 hover:bg-green-700 text-zinc-900 dark:text-white shadow-lg shadow-green-600/20 hover:shadow-green-600/30'
               } disabled:opacity-50`}
             >
               {actionLoading ? (

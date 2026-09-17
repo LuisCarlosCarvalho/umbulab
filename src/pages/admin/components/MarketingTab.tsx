@@ -42,7 +42,7 @@ export function MarketingTab({
           
           <button
             onClick={onNewProduct}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition-colors shadow-sm"
+            className="bg-blue-600 text-zinc-900 dark:text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition-colors shadow-sm"
           >
             <Plus size={18} />
             Novo Produto
@@ -93,7 +93,7 @@ export function MarketingTab({
                         onDeleteProduct(product.id);
                         setConfirmDeleteId(null);
                       }}
-                      className="p-1.5 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+                      className="p-1.5 bg-red-600 text-zinc-900 dark:text-white rounded hover:bg-red-700 transition-colors"
                       title="Confirmar Exclusão"
                     >
                       <Check size={14} />
@@ -168,7 +168,7 @@ export function MarketingTab({
             </p>
             <button
               onClick={onNewProduct}
-              className="bg-gray-900 text-white px-8 py-4 rounded-2xl font-bold flex items-center gap-3 hover:bg-blue-600 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-200 transition-all active:scale-95"
+              className="bg-gray-900 text-zinc-900 dark:text-white px-8 py-4 rounded-2xl font-bold flex items-center gap-3 hover:bg-blue-600 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-200 transition-all active:scale-95"
             >
               <Plus size={20} />
               Criar Primeiro Produto

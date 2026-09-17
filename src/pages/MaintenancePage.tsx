@@ -30,10 +30,10 @@ export function MaintenancePage() {
       <div className="relative z-10 text-center max-w-3xl mx-auto flex flex-col items-center">
         <div className="mb-12">
           {/* Logo component rendering */}
-          <Logo showText={true} textColor="text-white" iconSize={80} />
+          <Logo showText={true} textColor="text-zinc-900 dark:text-white" iconSize={80} />
         </div>
 
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-white mb-6 tracking-tight leading-[1.15] font-sans">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-zinc-900 dark:text-white mb-6 tracking-tight leading-[1.15] font-sans">
           Estamos reformulando nossa marca<br className="hidden md:block"/> para melhor atendê-lo.
         </h1>
         

@@ -43,7 +43,7 @@ export function ProjectsTab({
           
           <button
             onClick={onNewProject}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 shrink-0"
+            className="bg-blue-600 text-zinc-900 dark:text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 shrink-0"
           >
             <Plus size={18} />
             Novo Projeto

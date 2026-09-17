@@ -96,7 +96,7 @@ export function LogoModal({
         <div className="flex gap-4 mt-8">
           <button
             onClick={handleSaveLogo}
-            className="flex-1 bg-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-700 transition-all active:scale-95"
+            className="flex-1 bg-blue-600 text-zinc-900 dark:text-white px-6 py-3 rounded-xl font-bold hover:bg-blue-700 transition-all active:scale-95"
           >
             {editingLogo ? 'Atualizar Logo' : 'Salvar Logo'}
           </button>

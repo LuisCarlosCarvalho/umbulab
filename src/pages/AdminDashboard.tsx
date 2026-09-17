@@ -1113,7 +1113,7 @@ export function AdminDashboard() {
           <div className="p-4 border-t border-gray-100">
              <Link
               to="/approvals"
-              className="w-full flex items-center justify-center gap-2 bg-gray-900 text-white px-5 py-3 rounded-xl hover:bg-blue-600 transition-all text-sm font-bold shadow-lg shadow-gray-200 hover:shadow-blue-200 active:scale-95"
+              className="w-full flex items-center justify-center gap-2 bg-gray-900 text-zinc-900 dark:text-white px-5 py-3 rounded-xl hover:bg-blue-600 transition-all text-sm font-bold shadow-lg shadow-gray-200 hover:shadow-blue-200 active:scale-95"
             >
               <CheckSquare size={18} />
               Aprovações
@@ -1139,7 +1139,7 @@ export function AdminDashboard() {
                       setErrorStatus(false);
                       loadData();
                     }}
-                    className="inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-3 rounded-xl font-black hover:bg-blue-700 transition-all shadow-lg shadow-blue-100 hover:scale-[1.02] active:scale-[0.98]"
+                    className="inline-flex items-center gap-2 bg-blue-600 text-zinc-900 dark:text-white px-8 py-3 rounded-xl font-black hover:bg-blue-700 transition-all shadow-lg shadow-blue-100 hover:scale-[1.02] active:scale-[0.98]"
                   >
                     Recarregar Dados
                   </button>
@@ -1167,6 +1167,7 @@ export function AdminDashboard() {
                   <OverviewTab 
                     stats={stats} 
                     loading={loading}
+                    siteViews={siteViews}
                     onNewProject={() => {
                         setEditingProject(null);
                         setProjectForm({

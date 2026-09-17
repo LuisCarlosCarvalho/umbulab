@@ -203,7 +203,7 @@ export function ClientModal({
           <div className="md:col-span-2 space-y-6 pt-6 border-t border-gray-100">
             <div className="bg-gray-50/50 p-6 rounded-[24px] border border-gray-100">
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 bg-gray-900 text-white rounded-xl flex items-center justify-center shadow-lg shadow-gray-200">
+                <div className="w-12 h-12 bg-gray-900 text-zinc-900 dark:text-white rounded-xl flex items-center justify-center shadow-lg shadow-gray-200">
                   <ShoppingCart size={24} />
                 </div>
                 <div>
@@ -239,7 +239,7 @@ export function ClientModal({
                       }}
                       className={`px-3 py-2 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${
                         isSelected 
-                          ? 'border-blue-600 bg-blue-600 text-white' 
+                          ? 'border-blue-600 bg-blue-600 text-zinc-900 dark:text-white' 
                           : 'border-gray-200 bg-white text-gray-400 hover:border-gray-300'
                       }`}
                     >
@@ -267,7 +267,7 @@ export function ClientModal({
 
             <div className="flex items-center justify-between bg-blue-50/50 p-6 rounded-[24px] border border-blue-100">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-blue-600 text-white rounded-xl flex items-center justify-center shadow-lg shadow-blue-200">
+                <div className="w-12 h-12 bg-blue-600 text-zinc-900 dark:text-white rounded-xl flex items-center justify-center shadow-lg shadow-blue-200">
                   <Shield size={24} />
                 </div>
                 <div>
@@ -318,7 +318,7 @@ export function ClientModal({
         <div className="flex gap-4 mt-10">
           <button
             onClick={() => handleSaveClient()}
-            className="flex-1 bg-blue-600 text-white px-8 py-4 rounded-xl font-bold hover:bg-blue-700 shadow-lg shadow-blue-200 transition-all active:scale-95"
+            className="flex-1 bg-blue-600 text-zinc-900 dark:text-white px-8 py-4 rounded-xl font-bold hover:bg-blue-700 shadow-lg shadow-blue-200 transition-all active:scale-95"
           >
             {editingClient ? 'Atualizar Cliente' : 'Finalizar Cadastro'}
           </button>

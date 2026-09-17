@@ -99,7 +99,7 @@ export function StepModal({
               <div className="flex gap-2 pt-4">
                 <button
                   onClick={handleSaveStep}
-                  className="flex-1 bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 shadow-lg shadow-blue-100 transition-all flex items-center justify-center gap-2"
+                  className="flex-1 bg-blue-600 text-zinc-900 dark:text-white py-3 rounded-xl font-bold hover:bg-blue-700 shadow-lg shadow-blue-100 transition-all flex items-center justify-center gap-2"
                 >
                   <Plus size={16} />
                   {editingStep ? 'Atualizar' : 'Adicionar'}
@@ -171,7 +171,7 @@ export function StepModal({
         <div className="mt-12 pt-8 border-t border-gray-100 flex justify-end">
            <button 
             onClick={onClose}
-            className="px-8 py-3 bg-gray-900 text-white rounded-xl font-bold hover:bg-blue-600 transition-all"
+            className="px-8 py-3 bg-gray-900 text-zinc-900 dark:text-white rounded-xl font-bold hover:bg-blue-600 transition-all"
            >
              Concluir Edição
            </button>

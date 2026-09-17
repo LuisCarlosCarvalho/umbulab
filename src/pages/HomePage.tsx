@@ -26,7 +26,7 @@ const adsTools = [
   {
     name: 'TikTok Ads',
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-5 h-5 text-white opacity-60 group-hover/item:opacity-100 transition-opacity">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-5 h-5 text-zinc-900 dark:text-white opacity-60 group-hover/item:opacity-100 transition-opacity">
         <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" strokeLinecap="round" strokeLinejoin="round"/>
       </svg>
     )
@@ -158,35 +158,35 @@ export function HomePage() {
   const faqItems = [
     {
       q: "Quanto custa a criação de um site profissional?",
-      a: "A criação de sites profissionais na UmbuLab começa em R$ 2.500 para sites institucionais completos. Landing pages de alta conversão a partir de R$ 1.500, e lojas online (e-commerce) completas a partir de R$ 6.000. O valor final é fechado e garantido em orçamento antes do início do projeto, sem surpresas ou taxas ocultas."
+      a: "Cada projeto é único. O investimento é definido após uma breve reunião de diagnóstico, onde analisamos objetivos, funcionalidades, dimensão do projeto, integrações e necessidades do negócio. A partir dessa análise, apresentamos uma proposta clara e personalizada, sem compromisso."
     },
     {
       q: "Qual é o prazo de entrega?",
-      a: "O prazo exato de entrega é definido na proposta comercial e fixado em contrato. Uma landing page costuma ser entregue em até 10 dias úteis, enquanto sites institucionais levam entre 20 a 30 dias úteis. Cumprimos o cronograma rigorosamente. Se atrasarmos, reduzimos o valor do projeto proporcionalmente por dia de atraso."
+      a: "O prazo depende da dimensão, complexidade e funcionalidades do projeto. Após a reunião inicial e análise do briefing, apresentamos um cronograma com as principais etapas de desenvolvimento e uma previsão realista de entrega."
     },
     {
       q: "Preciso fornecer todo o conteúdo (textos e imagens)?",
-      a: "Não necessariamente. Trabalhamos de forma flexível: (1) você nos envia seus textos brutos e fotos e nós refinamos e aplicamos design profissional, ou (2) nossa equipe de copywriters profissionais desenvolve a escrita persuasiva com base em um briefing estratégico sobre seu negócio. Cuidamos do design e da otimização de imagens para velocidade máxima."
+      a: "Não. Se já tiver textos, fotografias e materiais da sua marca, podemos utilizá-los e adaptá-los ao projeto. Caso ainda não tenha todo o conteúdo preparado, a UmbuLab pode apoiar na estruturação dos textos, organização das informações e seleção ou tratamento das imagens necessárias."
     },
     {
       q: "Quais tecnologias vocês utilizam?",
-      a: "Utilizamos tecnologias modernas focadas em performance e flexibilidade, como React/Next.js, Tailwind CSS e headless CMS (Sanity/Strapi) para projetos de alta velocidade e customização. Para clientes que exigem total independência na edição posterior de conteúdo, desenvolvemos projetos otimizados em WordPress de código limpo. Escolhemos a tecnologia ideal junto com você no início."
+      a: "Trabalhamos com tecnologias modernas como React, Next.js, Tailwind CSS, WordPress e outras soluções adequadas a cada projeto. A tecnologia não é escolhida apenas por preferência técnica: analisamos desempenho, segurança, escalabilidade, facilidade de gestão e objetivos do negócio para definir a solução mais indicada."
     },
     {
       q: "O site já vem otimizado para o Google (SEO)?",
-      a: "Sim, 100% otimizado técnica e estruturalmente. Entregamos seu site com tags de SEO corretas (heading tags estruturadas), sitemap XML automático, dados estruturados (schema markup), otimização de velocidade de carregamento extrema e redirecionamentos corretos se você já possuía um site antigo. A estrutura correta é metade do caminho para rankear no Google."
+      a: "Os nossos projetos são desenvolvidos seguindo boas práticas de SEO técnico e estrutural, incluindo organização de títulos e conteúdos, metadados, sitemap, responsividade, desempenho e preparação para indexação. O posicionamento nos resultados de pesquisa, no entanto, depende também da concorrência, conteúdo, autoridade do domínio e estratégia contínua de SEO."
     },
     {
       q: "Como funciona a performance para celulares (Mobile)?",
-      a: "Desenvolvemos com a filosofia mobile-first, já que a maioria das visitas a sites de empresas atualmente vem de celulares. Garantimos por contrato que a pontuação de performance no Google Lighthouse no mobile estará na zona verde (acima de 90). Isso não é promessa, é cláusula de contrato."
+      a: "Os projetos são desenvolvidos com abordagem responsiva e atenção especial à experiência mobile. Layout, navegação, imagens e componentes são preparados para diferentes tamanhos de ecrã, procurando oferecer uma experiência rápida, intuitiva e consistente em smartphones, tablets e computadores."
     },
     {
       q: "Vocês fazem lojas online integradas com meios de pagamento?",
-      a: "Sim, desenvolvemos e-commerces completos utilizando Shopify ou WooCommerce de alta velocidade. O site já sai funcionando com integração total para Pix (com QR Code dinâmico), cartões de crédito (com checkout transparente) e boleto. Também integramos emissão automática de nota fiscal e cálculo automático de frete pelos Correios ou transportadoras."
+      a: "Sim. Desenvolvemos lojas online e podemos integrar diferentes soluções de pagamento, gestão de produtos, encomendas, entregas e outras funcionalidades. Os meios de pagamento e integrações disponíveis são definidos de acordo com o país, plataforma escolhida e necessidades específicas de cada negócio."
     },
     {
       q: "Como funciona o suporte pós-lançamento?",
-      a: "Fornecemos 30 dias de garantia e suporte completo gratuito para qualquer ajuste técnico pós-lançamento. Após esse período, oferecemos planos opcionais de manutenção preventiva a partir de R$ 190/mês, cobrindo backups em nuvem diários, atualizações críticas de segurança, monitoramento de instabilidade 24/7 e pequenas alterações mensais de conteúdo."
+      a: "Após a publicação, acompanhamos o projeto para verificar o funcionamento da solução entregue e tratar eventuais ajustes técnicos relacionados com o desenvolvimento. Para necessidades contínuas, também podemos disponibilizar soluções de manutenção, atualização e suporte, definidas de acordo com as necessidades de cada cliente."
     }
   ];
 
@@ -261,8 +261,8 @@ export function HomePage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#0d0d0d] overflow-hidden">
-      <section className="relative min-h-[95vh] flex items-center bg-[#0d0d0d] py-32 px-6 sm:px-8 lg:px-12 overflow-hidden dot-pattern">
+    <div className="min-h-screen bg-transparent overflow-hidden">
+      <section className="relative min-h-[95vh] flex items-center bg-transparent py-32 px-6 sm:px-8 lg:px-12 overflow-hidden dot-pattern">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,_rgba(46,125,50,0.15),_transparent_55%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_70%,_rgba(255,179,0,0.06),_transparent_50%)]" />
         <canvas ref={canvasRef} className="absolute inset-0 w-full h-full opacity-60 pointer-events-none" />
@@ -272,13 +272,13 @@ export function HomePage() {
               <span className="flex h-2 w-2 rounded-full bg-green-400 animate-pulse" />
               SEO, SITES E BRANDING DE ALTA PERFORMANCE
             </div>
-            <h1 className="text-white text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[1.08] tracking-tight">
+            <h1 className="text-zinc-900 dark:text-white text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-[1.08] tracking-tight">
               Criação de sites <br/>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-green-500 to-amber-400">
                 que pagam o investimento.
               </span>
             </h1>
-            <p className="text-lg md:text-xl text-neutral-400 max-w-2xl font-light leading-relaxed">
+            <p className="text-lg md:text-xl text-zinc-600 dark:text-neutral-400 max-w-2xl font-light leading-relaxed">
               Criação de sites institucionais, lojas online e landing pages focados em conversão e retorno. Preço fixo, prazo garantido em contrato e performance Lighthouse 90+ em mobile.
             </p>
             <div className="flex flex-col sm:flex-row gap-5 pt-4">
@@ -288,33 +288,33 @@ export function HomePage() {
               </Link>
               <Link href="/portfolio" className="btn btn-outline justify-center text-center">
                 Ver Casos de Sucesso
-                <ArrowUpRight size={18} className="text-neutral-300" />
+                <ArrowUpRight size={18} className="text-zinc-700 dark:text-neutral-300" />
               </Link>
             </div>
           </div>
           <div className="lg:col-span-5 flex justify-center lg:justify-end animate-fade-in-up delay-150">
-            <div className="relative w-80 h-80 sm:w-[400px] sm:h-[400px] rounded-full border border-green-950/40 flex items-center justify-center bg-gradient-to-tr from-neutral-950 to-neutral-900 shadow-2xl">
-              <div className="absolute inset-4 rounded-full border border-dashed border-green-900/30 animate-[spin_40s_linear_infinite]" />
-              <div className="absolute inset-10 rounded-full border border-neutral-800/80 animate-[spin_25s_linear_infinite_reverse]" />
+            <div className="relative w-80 h-80 sm:w-[400px] sm:h-[400px] rounded-full border border-zinc-200 dark:border-green-950/40 flex items-center justify-center bg-gradient-to-tr from-zinc-50 dark:from-neutral-950 to-zinc-100 dark:to-neutral-900 shadow-[0_15px_40px_rgba(0,0,0,0.06)] dark:shadow-2xl">
+              <div className="absolute inset-4 rounded-full border border-dashed border-zinc-300 dark:border-green-900/30 animate-[spin_40s_linear_infinite]" />
+              <div className="absolute inset-10 rounded-full border border-zinc-200 dark:border-neutral-800/80 animate-[spin_25s_linear_infinite_reverse]" />
               <div className="z-10 flex flex-col items-center gap-4 text-center">
                 <Logo showText={false} iconSize={120} variant="dark" />
-                <h3 className="text-white text-3xl font-extrabold tracking-tight">Umbu<span className="text-green-500">Lab</span></h3>
-                <p className="text-xs text-neutral-500 uppercase tracking-widest font-bold">Digital Growth Agency</p>
+                <h3 className="text-zinc-900 dark:text-white text-3xl font-extrabold tracking-tight">Umbu<span className="text-green-500">Lab</span></h3>
+                <p className="text-xs text-zinc-500 dark:text-neutral-500 uppercase tracking-widest font-bold">Digital Growth Agency</p>
               </div>
-              <div className="absolute top-10 left-0 bg-neutral-900/90 border border-green-900/30 px-4 py-2 rounded-2xl flex items-center gap-2 shadow-lg backdrop-blur-md animate-bounce duration-1000">
-                <Search size={14} className="text-green-400" />
-                <span className="text-xs text-neutral-300 font-bold">SEO Rank #1</span>
+              <div className="absolute top-10 left-0 bg-white/95 dark:bg-neutral-900/90 border border-zinc-200 dark:border-green-900/30 px-4 py-2 rounded-2xl flex items-center gap-2 shadow-[0_8px_30px_rgba(0,0,0,0.08)] dark:shadow-lg backdrop-blur-md animate-bounce duration-1000">
+                <Search size={14} className="text-green-600 dark:text-green-400" />
+                <span className="text-xs text-zinc-800 dark:text-neutral-300 font-bold">SEO Rank #1</span>
               </div>
-              <div className="absolute bottom-16 right-0 bg-neutral-900/90 border border-amber-900/30 px-4 py-2 rounded-2xl flex items-center gap-2 shadow-lg backdrop-blur-md animate-bounce [animation-delay:0.5s] duration-1000">
-                <TrendingUp size={14} className="text-amber-400" />
-                <span className="text-xs text-neutral-300 font-bold">+280% ROI</span>
+              <div className="absolute bottom-16 right-0 bg-white/95 dark:bg-neutral-900/90 border border-zinc-200 dark:border-amber-900/30 px-4 py-2 rounded-2xl flex items-center gap-2 shadow-[0_8px_30px_rgba(0,0,0,0.08)] dark:shadow-lg backdrop-blur-md animate-bounce [animation-delay:0.5s] duration-1000">
+                <TrendingUp size={14} className="text-amber-500 dark:text-amber-400" />
+                <span className="text-xs text-zinc-800 dark:text-neutral-300 font-bold">+280% ROI</span>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="section-padding !pb-12 md:!pb-16 bg-[#0d0d0d] relative z-10 px-6 sm:px-8 lg:px-12 border-t border-white/5">
+      <section className="section-padding !pb-12 md:!pb-16 bg-transparent relative z-10 px-6 sm:px-8 lg:px-12 border-t border-black/5 dark:border-white/5">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,_rgba(46,125,50,0.05),_transparent_60%)] pointer-events-none" />
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-24">
@@ -322,10 +322,10 @@ export function HomePage() {
               <span className="text-xs font-extrabold uppercase tracking-widest text-green-400 bg-green-500/10 px-3 py-1.5 rounded-lg border border-green-500/20 inline-block">
                 O QUE FAZEMOS
               </span>
-              <h2 className="text-white text-4xl sm:text-5xl leading-tight font-extrabold">
+              <h2 className="text-zinc-900 dark:text-white text-4xl sm:text-5xl leading-tight font-extrabold">
                 Soluções integradas de design, desenvolvimento e marketing digital para marcas que querem liderar.
               </h2>
-              <p className="text-neutral-400 text-lg font-light leading-relaxed text-justify">
+              <p className="text-zinc-600 dark:text-neutral-400 text-lg font-light leading-relaxed text-justify">
                 Criamos estratégias completas que combinam design premium, desenvolvimento web de alto desempenho e aquisição de tráfego qualificado, ajudando o seu negócio a crescer de forma estruturada, aumentar a visibilidade online e gerar mais resultados.
               </p>
             </div>
@@ -342,13 +342,13 @@ export function HomePage() {
           </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="group border border-white/5 bg-[#121212] hover:bg-[#151515] rounded-3xl p-10 hover:border-green-600/35 hover:shadow-[0_0_30px_rgba(46,125,50,0.15)] transition-all duration-500 flex flex-col justify-between min-h-[380px]">
+            <div className="group border border-black/5 dark:border-white/5 bg-white dark:bg-[#121212] hover:bg-zinc-50 dark:bg-[#151515] rounded-3xl p-10 hover:border-green-600/35 hover:shadow-[0_0_30px_rgba(46,125,50,0.15)] transition-all duration-500 flex flex-col justify-between min-h-[380px]">
               <div>
                 <div className="bg-green-500/10 text-green-400 w-16 h-16 rounded-2xl flex items-center justify-center mb-10 group-hover:scale-110 transition-transform duration-300 border border-green-500/20">
                   <Laptop size={28} />
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-4">CRIAÇÃO DE SITES</h3>
-                <p className="text-neutral-400 text-sm leading-relaxed text-justify">
+                <h3 className="text-2xl font-bold text-zinc-900 dark:text-white mb-4">CRIAÇÃO DE SITES</h3>
+                <p className="text-zinc-600 dark:text-neutral-400 text-sm leading-relaxed text-justify">
                   Desenvolvimento de websites, landing pages e e-commerces rápidos, responsivos e otimizados para conversão. Criamos experiências digitais sob medida, com design exclusivo e foco total em transformar visitantes em clientes.
                 </p>
               </div>
@@ -358,13 +358,13 @@ export function HomePage() {
                 </Link>
               </div>
             </div>
-            <div className="group border border-white/5 bg-[#121212] hover:bg-[#151515] rounded-3xl p-10 hover:border-green-600/35 hover:shadow-[0_0_30px_rgba(46,125,50,0.15)] transition-all duration-500 flex flex-col justify-between min-h-[380px]">
+            <div className="group border border-black/5 dark:border-white/5 bg-white dark:bg-[#121212] hover:bg-zinc-50 dark:bg-[#151515] rounded-3xl p-10 hover:border-green-600/35 hover:shadow-[0_0_30px_rgba(46,125,50,0.15)] transition-all duration-500 flex flex-col justify-between min-h-[380px]">
               <div>
                 <div className="bg-amber-500/10 text-amber-400 w-16 h-16 rounded-2xl flex items-center justify-center mb-10 group-hover:scale-110 transition-transform duration-300 border border-amber-500/20">
                   <Search size={28} />
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-4">SEO PROFISSIONAL</h3>
-                <p className="text-neutral-400 text-sm leading-relaxed text-justify">
+                <h3 className="text-2xl font-bold text-zinc-900 dark:text-white mb-4">SEO PROFISSIONAL</h3>
+                <p className="text-zinc-600 dark:text-neutral-400 text-sm leading-relaxed text-justify">
                   Posicionamos o seu site nas primeiras páginas do Google com estratégias avançadas de SEO. Realizamos otimização on-page, produção de conteúdo orientado por intenção de busca e link building para aumentar autoridade, tráfego e resultados consistentes.
                 </p>
               </div>
@@ -374,13 +374,13 @@ export function HomePage() {
                 </Link>
               </div>
             </div>
-            <div className="group border border-white/5 bg-[#121212] hover:bg-[#151515] rounded-3xl p-10 hover:border-green-600/35 hover:shadow-[0_0_30px_rgba(46,125,50,0.15)] transition-all duration-500 flex flex-col justify-between min-h-[380px]">
+            <div className="group border border-black/5 dark:border-white/5 bg-white dark:bg-[#121212] hover:bg-zinc-50 dark:bg-[#151515] rounded-3xl p-10 hover:border-green-600/35 hover:shadow-[0_0_30px_rgba(46,125,50,0.15)] transition-all duration-500 flex flex-col justify-between min-h-[380px]">
               <div>
                 <div className="bg-green-500/10 text-green-400 w-16 h-16 rounded-2xl flex items-center justify-center mb-10 group-hover:scale-110 transition-transform duration-300 border border-green-500/20">
                   <Palette size={28} />
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-4">BRANDING</h3>
-                <p className="text-neutral-400 text-sm leading-relaxed text-justify">
+                <h3 className="text-2xl font-bold text-zinc-900 dark:text-white mb-4">BRANDING</h3>
+                <p className="text-zinc-600 dark:text-neutral-400 text-sm leading-relaxed text-justify">
                   Criamos identidades visuais estratégicas que destacam a sua marca no mercado. Desenvolvemos logotipos, paletas de cores, tipografia e manuais de marca completos para transmitir profissionalismo, consistência e credibilidade desde o primeiro contato.
                 </p>
               </div>
@@ -393,7 +393,7 @@ export function HomePage() {
           </div>
 
           {/* Ads Tools Carousel */}
-          <div className="mt-20 border-t border-white/5 pt-12 relative overflow-hidden">
+          <div className="mt-20 border-t border-black/5 dark:border-white/5 pt-12 relative overflow-hidden">
             <div className="text-center mb-8">
               <h4 className="text-xs font-black text-neutral-500 uppercase tracking-[0.2em]">
                 Integração e Gestão de Campanhas nas Principais Plataformas de Anúncios
@@ -402,17 +402,17 @@ export function HomePage() {
             
             <div className="relative w-full overflow-hidden py-4">
               {/* Fade Overlays */}
-              <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#0d0d0d] to-transparent z-10 pointer-events-none" />
-              <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#0d0d0d] to-transparent z-10 pointer-events-none" />
+              <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-green-50 dark:from-[#0d0d0d] to-transparent z-10 pointer-events-none" />
+              <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-green-50 dark:from-[#0d0d0d] to-transparent z-10 pointer-events-none" />
               
               <div className="flex w-fit animate-scroll-ads hover:[animation-play-state:paused]">
                 {displayAdsTools.map((tool, idx) => (
                   <div 
                     key={`${tool.name}-${idx}`} 
-                    className="flex-shrink-0 mx-4 bg-[#121212] hover:bg-[#161616] border border-white/5 hover:border-green-500/20 px-6 py-4 rounded-2xl flex items-center gap-3 transition-all duration-300 hover:scale-105 group/item cursor-pointer"
+                    className="flex-shrink-0 mx-4 bg-white dark:bg-[#121212] hover:bg-zinc-50 dark:hover:bg-[#161616] border border-black/5 dark:border-white/5 hover:border-green-500/20 px-6 py-4 rounded-2xl flex items-center gap-3 transition-all duration-300 hover:scale-105 group/item cursor-pointer"
                   >
                     {tool.icon}
-                    <span className="text-sm font-bold text-neutral-400 group-hover/item:text-white transition-colors">
+                    <span className="text-sm font-bold text-zinc-600 dark:text-neutral-400 group-hover/item:text-zinc-900 dark:text-white transition-colors">
                       {tool.name}
                     </span>
                   </div>
@@ -433,16 +433,16 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="section-padding bg-[#0d0d0d] relative z-10 px-6 sm:px-8 lg:px-12 border-t border-white/5">
+      <section className="section-padding bg-transparent relative z-10 px-6 sm:px-8 lg:px-12 border-t border-black/5 dark:border-white/5">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
           <div className="lg:col-span-5 space-y-6 animate-fade-in-up">
             <span className="text-xs font-extrabold uppercase tracking-widest text-green-400 bg-green-500/10 px-3 py-1.5 rounded-lg border border-green-500/20">
               NOSSA FILOSOFIA
             </span>
-            <h2 className="text-white text-4xl sm:text-5xl font-extrabold leading-tight">
+            <h2 className="text-zinc-900 dark:text-white text-4xl sm:text-5xl font-extrabold leading-tight">
               Por que escolher a UmbuLab?
             </h2>
-            <p className="text-neutral-400 text-lg font-light leading-relaxed text-justify">
+            <p className="text-zinc-600 dark:text-neutral-400 text-lg font-light leading-relaxed text-justify">
               Não acreditamos em soluções genéricas nem em “hacks” de marketing de curto prazo. Nosso foco é construir uma base digital sólida, com estratégia, tecnologia e consistência para gerar resultados reais e sustentáveis ao longo do tempo.
             </p>
             <div className="pt-4">
@@ -453,31 +453,31 @@ export function HomePage() {
             </div>
           </div>
           <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-8">
-            <div className="bg-[#121212] p-8 rounded-2xl border border-white/5 hover:border-green-600/25 transition-all">
+            <div className="bg-white dark:bg-[#121212] p-8 rounded-2xl border border-black/5 dark:border-white/5 hover:border-green-600/25 transition-all">
               <div className="text-green-400 mb-4"><Target size={24} /></div>
-              <h4 className="text-lg font-bold text-white mb-2">Estratégia antes da Execução</h4>
-              <p className="text-neutral-400 text-xs leading-relaxed text-justify">
+              <h4 className="text-lg font-bold text-zinc-900 dark:text-white mb-2">Estratégia antes da Execução</h4>
+              <p className="text-zinc-600 dark:text-neutral-400 text-xs leading-relaxed text-justify">
                 Antes de qualquer ação, analisamos profundamente o seu mercado, concorrência e comportamento do cliente. Cada decisão é orientada por dados, intenção de busca e oportunidades reais de crescimento.
               </p>
             </div>
-            <div className="bg-[#121212] p-8 rounded-2xl border border-white/5 hover:border-green-600/25 transition-all">
+            <div className="bg-white dark:bg-[#121212] p-8 rounded-2xl border border-black/5 dark:border-white/5 hover:border-green-600/25 transition-all">
               <div className="text-green-400 mb-4"><Zap size={24} /></div>
-              <h4 className="text-lg font-bold text-white mb-2">Foco em Resultados Reais</h4>
-              <p className="text-neutral-400 text-xs leading-relaxed text-justify">
+              <h4 className="text-lg font-bold text-zinc-900 dark:text-white mb-2">Foco em Resultados Reais</h4>
+              <p className="text-zinc-600 dark:text-neutral-400 text-xs leading-relaxed text-justify">
                 Métricas de vaidade não geram faturamento. Trabalhamos com foco em leads qualificados, aumento de conversões, contactos e vendas mensuráveis.
               </p>
             </div>
-            <div className="bg-[#121212] p-8 rounded-2xl border border-white/5 hover:border-green-600/25 transition-all">
+            <div className="bg-white dark:bg-[#121212] p-8 rounded-2xl border border-black/5 dark:border-white/5 hover:border-green-600/25 transition-all">
               <div className="text-green-400 mb-4"><Shield size={24} /></div>
-              <h4 className="text-lg font-bold text-white mb-2">Design e Performance Integrados</h4>
-              <p className="text-neutral-400 text-xs leading-relaxed text-justify">
+              <h4 className="text-lg font-bold text-zinc-900 dark:text-white mb-2">Design e Performance Integrados</h4>
+              <p className="text-zinc-600 dark:text-neutral-400 text-xs leading-relaxed text-justify">
                 Criamos websites rápidos, intuitivos e visualmente sofisticados. Um design atrativo chama atenção, mas é a performance e a clareza que transformam visitantes em clientes.
               </p>
             </div>
-            <div className="bg-[#121212] p-8 rounded-2xl border border-white/5 hover:border-green-600/25 transition-all">
+            <div className="bg-white dark:bg-[#121212] p-8 rounded-2xl border border-black/5 dark:border-white/5 hover:border-green-600/25 transition-all">
               <div className="text-green-400 mb-4"><Star size={24} /></div>
-              <h4 className="text-lg font-bold text-white mb-2">Atendimento Próximo e Transparente</h4>
-              <p className="text-neutral-400 text-xs leading-relaxed text-justify">
+              <h4 className="text-lg font-bold text-zinc-900 dark:text-white mb-2">Atendimento Próximo e Transparente</h4>
+              <p className="text-zinc-600 dark:text-neutral-400 text-xs leading-relaxed text-justify">
                 Você fala diretamente com quem planeja e executa o seu projeto. Garantimos comunicação ágil, relatórios claros e acompanhamento contínuo em cada etapa.
               </p>
             </div>
@@ -485,39 +485,39 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="section-padding bg-[#0d0d0d] relative z-10 px-6 sm:px-8 lg:px-12 border-t border-white/5">
+      <section className="section-padding bg-transparent relative z-10 px-6 sm:px-8 lg:px-12 border-t border-black/5 dark:border-white/5">
         <div className="max-w-7xl mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-20">
             <span className="text-xs font-extrabold uppercase tracking-widest text-green-400 bg-green-500/10 px-3 py-1.5 rounded-lg border border-green-500/20">
               NOSSAS MÉTRICAS
             </span>
-            <h2 className="text-white text-4xl sm:text-5xl mt-6 font-extrabold">
+            <h2 className="text-zinc-900 dark:text-white text-4xl sm:text-5xl mt-6 font-extrabold">
               Crescimento medido em números reais
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center mb-16">
-            <div className="bg-[#121212] p-10 rounded-3xl border border-white/5">
+            <div className="bg-white dark:bg-[#121212] p-10 rounded-3xl border border-black/5 dark:border-white/5">
               <h3 className="text-5xl lg:text-6xl font-extrabold text-green-400 mb-2">+180%</h3>
-              <p className="text-sm font-bold text-white uppercase tracking-widest">Tráfego Orgânico</p>
-              <p className="text-neutral-400 text-xs mt-3">Média de crescimento de acessos do Google no primeiro ano dos clientes.</p>
+              <p className="text-sm font-bold text-zinc-900 dark:text-white uppercase tracking-widest">Tráfego Orgânico</p>
+              <p className="text-zinc-600 dark:text-neutral-400 text-xs mt-3">Média de crescimento de acessos do Google no primeiro ano dos clientes.</p>
             </div>
-            <div className="bg-[#121212] p-10 rounded-3xl border border-white/5">
+            <div className="bg-white dark:bg-[#121212] p-10 rounded-3xl border border-black/5 dark:border-white/5">
               <h3 className="text-5xl lg:text-6xl font-extrabold text-green-400 mb-2">+60%</h3>
-              <p className="text-sm font-bold text-white uppercase tracking-widest">Taxa de Conversão</p>
-              <p className="text-neutral-400 text-xs mt-3">Melhoria na conversão de leads com layouts de alta performance e copywriting focado.</p>
+              <p className="text-sm font-bold text-zinc-900 dark:text-white uppercase tracking-widest">Taxa de Conversão</p>
+              <p className="text-zinc-600 dark:text-neutral-400 text-xs mt-3">Melhoria na conversão de leads com layouts de alta performance e copywriting focado.</p>
             </div>
-            <div className="bg-[#121212] p-10 rounded-3xl border border-white/5">
+            <div className="bg-white dark:bg-[#121212] p-10 rounded-3xl border border-black/5 dark:border-white/5">
               <h3 className="text-5xl lg:text-6xl font-extrabold text-green-400 mb-2">+50</h3>
-              <p className="text-sm font-bold text-white uppercase tracking-widest">Marcas Estruturadas</p>
-              <p className="text-neutral-400 text-xs mt-3">Negócios que confiam na nossa equipe para gerenciar sua presença digital.</p>
+              <p className="text-sm font-bold text-zinc-900 dark:text-white uppercase tracking-widest">Marcas Estruturadas</p>
+              <p className="text-zinc-600 dark:text-neutral-400 text-xs mt-3">Negócios que confiam na nossa equipe para gerenciar sua presença digital.</p>
             </div>
           </div>
-          <div className="bg-[#121212] p-8 sm:p-12 rounded-3xl text-white relative overflow-hidden shadow-2xl border border-white/5">
+          <div className="bg-white dark:bg-[#121212] p-8 sm:p-12 rounded-3xl text-zinc-900 dark:text-white relative overflow-hidden shadow-2xl border border-black/5 dark:border-white/5">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,_rgba(46,125,50,0.15),_transparent_60%)]" />
             <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
               <div>
                 <h4 className="text-xl font-bold">Projeção de Performance em SEO</h4>
-                <p className="text-neutral-400 text-xs mt-1">Comparação de visitas orgânicas após reestruturação técnica e conteúdo UmbuLab.</p>
+                <p className="text-zinc-600 dark:text-neutral-400 text-xs mt-1">Comparação de visitas orgânicas após reestruturação técnica e conteúdo UmbuLab.</p>
               </div>
               <div className="flex flex-wrap gap-4 text-xs font-semibold">
                 <span className="flex items-center gap-2"><span className="h-3.5 w-3.5 rounded-full bg-green-500" /> UmbuLab</span>
@@ -539,30 +539,30 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="section-padding bg-neutral-950 text-white relative z-10 px-6 sm:px-8 lg:px-12 overflow-hidden dot-pattern">
+      <section className="section-padding bg-transparent text-zinc-900 dark:text-white relative z-10 px-6 sm:px-8 lg:px-12 overflow-hidden dot-pattern">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_100%_100%,_rgba(46,125,50,0.1),_transparent_45%)]" />
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
           <div className="lg:col-span-6 space-y-6 animate-fade-in-up">
             <span className="text-xs font-extrabold uppercase tracking-widest text-green-400 bg-green-500/10 px-3 py-1.5 rounded-lg border border-green-500/15">
               SOBRE A UMBULAB
             </span>
-            <h2 className="text-white text-4xl sm:text-5xl font-extrabold leading-tight">
+            <h2 className="text-zinc-900 dark:text-white text-4xl sm:text-5xl font-extrabold leading-tight">
               Tecnologia digital com raízes fortes.
             </h2>
-            <p className="text-neutral-400 text-base leading-relaxed">
+            <p className="text-zinc-600 dark:text-neutral-400 text-base leading-relaxed">
               O **Umbu** é conhecido como a árvore sagrada do sertão brasileiro. Suas raízes são incrivelmente profundas e possuem reservatórios naturais que armazenam energia e água para florescer mesmo nos períodos mais difíceis.
             </p>
-            <p className="text-neutral-400 text-base leading-relaxed">
+            <p className="text-zinc-600 dark:text-neutral-400 text-base leading-relaxed">
               Inspirados por essa resiliência e solidez, fundamos a **UmbuLab**. Nosso papel é estruturar a base tecnológica e estratégica de empresas na internet, criando canais de atração orgânica que resistem às mudanças de mercado e algoritmos do Google, gerando crescimento seguro e consistente.
             </p>
           </div>
           <div className="lg:col-span-6 flex justify-center lg:justify-end animate-fade-in-up">
-            <div className="relative border border-neutral-800 rounded-3xl p-8 bg-[#121212]/60 max-w-md w-full">
-              <div className="absolute -top-4 -left-4 bg-green-700 text-white p-3 rounded-2xl shadow-lg">
+            <div className="relative border border-neutral-800 rounded-3xl p-8 bg-white dark:bg-[#121212]/60 max-w-md w-full">
+              <div className="absolute -top-4 -left-4 bg-green-700 text-zinc-900 dark:text-white p-3 rounded-2xl shadow-lg">
                 <TrendingUp size={24} />
               </div>
               <h4 className="text-xl font-bold mb-6 pt-2">Nossa Missão</h4>
-              <blockquote className="text-neutral-300 text-base italic leading-relaxed mb-6">
+              <blockquote className="text-zinc-700 dark:text-neutral-300 text-base italic leading-relaxed mb-6">
                 "Projetar sites de performance inquestionável, posicionar marcas com clareza e construir o canal de tráfego de crescimento mais estável e lucrativo que uma empresa pode possuir."
               </blockquote>
             </div>
@@ -573,13 +573,13 @@ export function HomePage() {
       <BlogSection />
       <LogoCarousel />
 
-      <section className="section-padding bg-[#0d0d0d] relative z-10 px-6 sm:px-8 lg:px-12 border-t border-white/5">
+      <section className="section-padding bg-transparent relative z-10 px-6 sm:px-8 lg:px-12 border-t border-black/5 dark:border-white/5">
         <div className="max-w-4xl mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <span className="text-xs font-extrabold uppercase tracking-widest text-green-400 bg-green-500/10 px-3 py-1.5 rounded-lg border border-green-500/20">
               DÚVIDAS FREQUENTES
             </span>
-            <h2 className="text-white text-4xl sm:text-5xl mt-6 font-extrabold">
+            <h2 className="text-zinc-900 dark:text-white text-4xl sm:text-5xl mt-6 font-extrabold">
               Perguntas Frequentes
             </h2>
           </div>
@@ -587,10 +587,10 @@ export function HomePage() {
             {faqItems.map((item, index) => {
               const isOpen = openFaqIndex === index;
               return (
-                <div key={index} className="border border-white/5 bg-[#121212] rounded-2xl overflow-hidden transition-all duration-300">
+                <div key={index} className="border border-black/5 dark:border-white/5 bg-white dark:bg-[#121212] rounded-2xl overflow-hidden transition-all duration-300">
                   <button
                     onClick={() => toggleFaq(index)}
-                    className="w-full px-6 py-5 flex items-center justify-between gap-4 text-left font-bold text-white hover:bg-white/[0.02] transition-colors"
+                    className="w-full px-6 py-5 flex items-center justify-between gap-4 text-left font-bold text-zinc-900 dark:text-white hover:bg-white/[0.02] transition-colors"
                   >
                     <span>{item.q}</span>
                     <span className="text-green-400 shrink-0">
@@ -598,7 +598,7 @@ export function HomePage() {
                     </span>
                   </button>
                   {isOpen && (
-                    <div className="px-6 pb-6 text-neutral-400 text-sm leading-relaxed border-t border-white/5 pt-4">
+                    <div className="px-6 pb-6 text-zinc-600 dark:text-neutral-400 text-sm leading-relaxed border-t border-black/5 dark:border-white/5 pt-4">
                       {item.a}
                     </div>
                   )}
@@ -609,15 +609,15 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="section-padding bg-[#0d0d0d] relative z-10 px-6 sm:px-8 lg:px-12 border-t border-white/5">
+      <section className="section-padding bg-transparent relative z-10 px-6 sm:px-8 lg:px-12 border-t border-black/5 dark:border-white/5">
         <div className="max-w-4xl mx-auto text-center space-y-8">
           <span className="text-xs font-extrabold uppercase tracking-widest text-amber-400 bg-amber-500/10 px-3 py-1.5 rounded-lg border border-amber-500/20">
             VAMOS COMEÇAR?
           </span>
-          <h2 className="text-white text-4xl sm:text-5xl font-extrabold leading-tight">
+          <h2 className="text-zinc-900 dark:text-white text-4xl sm:text-5xl font-extrabold leading-tight">
             Vamos fazer o seu negócio crescer de verdade?
           </h2>
-          <p className="text-neutral-400 text-lg leading-relaxed max-w-2xl mx-auto font-light">
+          <p className="text-zinc-600 dark:text-neutral-400 text-lg leading-relaxed max-w-2xl mx-auto font-light">
             Entre em contato hoje mesmo e agende uma conversa com um de nossos especialistas. Analisaremos sua presença digital atual e mostraremos os melhores caminhos para escalar seus resultados.
           </p>
           <div className="pt-6">

@@ -61,12 +61,12 @@ export function ProductDetailsPage() {
 
   if (isSeoGestaoActive === false) {
     return (
-      <div className="pt-32 pb-24 min-h-screen bg-[#0d0d0d] flex flex-col justify-center items-center text-center px-4 dot-pattern">
+      <div className="pt-32 pb-24 min-h-screen bg-transparent flex flex-col justify-center items-center text-center px-4 dot-pattern">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,_rgba(46,125,50,0.1),_transparent_50%)] pointer-events-none" />
-        <div className="max-w-md bg-[#121212] p-10 rounded-3xl border border-white/5 relative z-10 shadow-2xl animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <div className="max-w-md bg-white dark:bg-[#121212] p-10 rounded-3xl border border-black/5 dark:border-white/5 relative z-10 shadow-2xl animate-in fade-in slide-in-from-bottom-4 duration-700">
           <AlertTriangle className="mx-auto text-amber-500 mb-6" size={56} />
-          <h3 className="text-2xl font-bold text-white mb-2">SEO de Gestão Temporariamente Inativo</h3>
-          <p className="text-neutral-400 mb-8">Esta funcionalidade está temporariamente indisponível. Volte mais tarde!</p>
+          <h3 className="text-2xl font-bold text-zinc-900 dark:text-white mb-2">SEO de Gestão Temporariamente Inativo</h3>
+          <p className="text-zinc-600 dark:text-neutral-400 mb-8">Esta funcionalidade está temporariamente indisponível. Volte mais tarde!</p>
           <Link 
             to="/"
             className="btn btn-primary w-full justify-center"
@@ -97,7 +97,7 @@ export function ProductDetailsPage() {
           </p>
           <Link
             to="/"
-            className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
+            className="inline-flex items-center gap-2 bg-blue-600 text-zinc-900 dark:text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
           >
             <ArrowLeft size={20} />
             Voltar ao Início
@@ -152,7 +152,7 @@ export function ProductDetailsPage() {
                   href={product.cta_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 bg-blue-600 text-white text-center px-8 py-4 rounded-xl font-bold text-lg hover:bg-blue-700 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center justify-center gap-2"
+                  className="flex-1 bg-blue-600 text-zinc-900 dark:text-white text-center px-8 py-4 rounded-xl font-bold text-lg hover:bg-blue-700 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center justify-center gap-2"
                 >
                   {product.cta_label || 'Comprar Agora'}
                   <ExternalLink size={20} />

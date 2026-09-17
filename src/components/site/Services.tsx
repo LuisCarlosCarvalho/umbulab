@@ -26,7 +26,7 @@ export function Services({ title = 'Nossos Serviços', items }: ServicesProps) {
               key={index} 
               className="bg-white p-8 rounded-2xl shadow-sm border border-neutral-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
             >
-              <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-white transition-all">
+              <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-blue-600 group-hover:text-zinc-900 dark:text-zinc-900 dark:text-white transition-all">
                 <Sparkles className="w-6 h-6" />
               </div>
               <h3 className="text-xl font-bold text-neutral-900 mb-3">{item.name}</h3>

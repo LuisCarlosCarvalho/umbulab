@@ -49,7 +49,7 @@ export function VisualDemoPage() {
         <h1 className="text-2xl font-bold text-gray-900 mb-4">Demonstração não encontrada</h1>
         <button
           onClick={() => navigate('/portfolio')}
-          className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-zinc-900 dark:text-white rounded-lg hover:bg-blue-700 transition-colors"
         >
           <ArrowLeft size={20} />
           Voltar ao Portfólio
@@ -105,7 +105,7 @@ export function VisualDemoPage() {
         <div className="flex items-center gap-4">
           <button
             onClick={() => navigate('/contact')}
-            className="hidden sm:block bg-blue-600 text-white px-5 py-2 rounded-md text-sm font-bold hover:bg-blue-700 transition-colors"
+            className="hidden sm:block bg-blue-600 text-zinc-900 dark:text-white px-5 py-2 rounded-md text-sm font-bold hover:bg-blue-700 transition-colors"
           >
             Solicitar Projeto Similar
           </button>
@@ -155,7 +155,7 @@ export function VisualDemoPage() {
              <p className="text-gray-600 mb-6">Podemos criar algo ainda melhor para sua empresa.</p>
              <button 
                onClick={() => navigate('/contact')}
-               className="bg-blue-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-700 transition-all"
+               className="bg-blue-600 text-zinc-900 dark:text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-700 transition-all"
              >
                Solicitar Orçamento
              </button>

@@ -16,7 +16,7 @@ export function PortfolioTab({ items, onNewItem, onEditItem, onDeleteItem }: Por
         <h2 className="text-2xl font-bold">Portfólio</h2>
         <button
           onClick={onNewItem}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700"
+          className="bg-blue-600 text-zinc-900 dark:text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700"
         >
           <Plus size={18} />
           Novo Item

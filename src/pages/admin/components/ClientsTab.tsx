@@ -37,7 +37,7 @@ export function ClientsTab({ clients, onNewClient, onEditClient, onViewProjects 
           
           <button
             onClick={onNewClient}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 shrink-0"
+            className="bg-blue-600 text-zinc-900 dark:text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 shrink-0"
           >
             <Plus size={18} />
             Cadastrar Cliente
@@ -90,7 +90,7 @@ export function ClientsTab({ clients, onNewClient, onEditClient, onViewProjects 
               </button>
               <button
                 onClick={() => onViewProjects(client.id)}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-xs font-bold shadow-sm"
+                className="px-4 py-2 bg-blue-600 text-zinc-900 dark:text-white rounded-lg hover:bg-blue-700 transition-colors text-xs font-bold shadow-sm"
               >
                 Ver Projetos
               </button>

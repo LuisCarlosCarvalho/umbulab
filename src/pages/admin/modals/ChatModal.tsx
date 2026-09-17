@@ -56,7 +56,7 @@ export function ChatModal({
             projectMessages.map((msg) => (
               <div key={msg.id} className={`flex flex-col ${msg.sender_id === selectedProject.client_id ? 'items-start' : 'items-end'}`}>
                 <div className={`max-w-[80%] p-4 rounded-2xl text-sm ${
-                  msg.sender_id === selectedProject.client_id ? 'bg-white text-gray-800' : 'bg-blue-600 text-white shadow-lg shadow-blue-100'
+                  msg.sender_id === selectedProject.client_id ? 'bg-white text-gray-800' : 'bg-blue-600 text-zinc-900 dark:text-white shadow-lg shadow-blue-100'
                 }`}>
                   <p className="font-medium">{msg.message}</p>
                 </div>
@@ -82,7 +82,7 @@ export function ChatModal({
             <button
               onClick={handleSendProjectMessage}
               disabled={sendingProjectMessage || !newProjectMessage.trim()}
-              className="p-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 disabled:opacity-50 transition-all shadow-lg shadow-blue-100"
+              className="p-3 bg-blue-600 text-zinc-900 dark:text-white rounded-xl hover:bg-blue-700 disabled:opacity-50 transition-all shadow-lg shadow-blue-100"
             >
               <Send size={20} />
             </button>

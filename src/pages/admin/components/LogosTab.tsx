@@ -17,7 +17,7 @@ export function LogosTab({ logos, onNewLogo, onEditLogo, onDeleteLogo, onToggleS
         <h2 className="text-2xl font-bold text-gray-900 border-l-4 border-blue-600 pl-4">Carrossel de Clientes</h2>
         <button
           onClick={onNewLogo}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition-colors shadow-sm"
+          className="bg-blue-600 text-zinc-900 dark:text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition-colors shadow-sm"
         >
           <Plus size={18} />
           Adicionar Logo

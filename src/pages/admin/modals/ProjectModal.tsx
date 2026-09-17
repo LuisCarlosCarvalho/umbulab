@@ -222,7 +222,7 @@ export function ProjectModal({
         <div className="flex gap-4 mt-6">
           <button
             onClick={handleSaveProject}
-            className="flex-1 bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700"
+            className="flex-1 bg-blue-600 text-zinc-900 dark:text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700"
           >
             Salvar
           </button>

@@ -60,12 +60,12 @@ export function BlogPage() {
 
   if (isBlogActive === false) {
     return (
-      <div className="pt-32 pb-24 min-h-screen bg-[#0d0d0d] flex flex-col justify-center items-center text-center px-4 dot-pattern">
+      <div className="pt-32 pb-24 min-h-screen bg-transparent flex flex-col justify-center items-center text-center px-4 dot-pattern">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,_rgba(46,125,50,0.1),_transparent_50%)] pointer-events-none" />
-        <div className="max-w-md bg-[#121212] p-10 rounded-3xl border border-white/5 relative z-10 shadow-2xl">
+        <div className="max-w-md bg-white dark:bg-[#121212] p-10 rounded-3xl border border-black/5 dark:border-white/5 relative z-10 shadow-2xl">
           <AlertTriangle className="mx-auto text-amber-500 mb-6" size={56} />
-          <h3 className="text-2xl font-bold text-white mb-2">Blog Temporariamente Inativo</h3>
-          <p className="text-neutral-400 mb-8">Esta funcionalidade está temporariamente indisponível. Volte mais tarde!</p>
+          <h3 className="text-2xl font-bold text-zinc-900 dark:text-white mb-2">Blog Temporariamente Inativo</h3>
+          <p className="text-zinc-600 dark:text-neutral-400 mb-8">Esta funcionalidade está temporariamente indisponível. Volte mais tarde!</p>
           <button 
             onClick={() => navigate('/')}
             className="btn btn-primary w-full justify-center"
@@ -80,10 +80,10 @@ export function BlogPage() {
   // Tela de Erro (Fail-safe)
   if (errorStatus) {
     return (
-      <div className="pt-32 pb-24 min-h-screen bg-[#0d0d0d] flex flex-col justify-center text-center px-4">
+      <div className="pt-32 pb-24 min-h-screen bg-transparent flex flex-col justify-center text-center px-4">
         <AlertTriangle className="mx-auto text-red-500 mb-6" size={56} />
-        <h3 className="text-2xl font-bold text-white mb-2">Ops! Algo deu errado.</h3>
-        <p className="text-neutral-400 mb-8">Não conseguimos conectar ao servidor. Verifique sua internet.</p>
+        <h3 className="text-2xl font-bold text-zinc-900 dark:text-white mb-2">Ops! Algo deu errado.</h3>
+        <p className="text-zinc-600 dark:text-neutral-400 mb-8">Não conseguimos conectar ao servidor. Verifique sua internet.</p>
         <button 
           onClick={() => window.location.reload()}
           className="btn btn-primary mx-auto"
@@ -97,10 +97,10 @@ export function BlogPage() {
   // Skeletons de Carregamento
   if (loading) {
     return (
-      <div className="pt-32 pb-24 min-h-screen bg-[#0d0d0d] px-4">
+      <div className="pt-32 pb-24 min-h-screen bg-transparent px-4">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
           {[...Array(6)].map((_, i) => (
-            <div key={i} className="bg-[#121212] rounded-[32px] h-96 animate-pulse border border-white/5" />
+            <div key={i} className="bg-white dark:bg-[#121212] rounded-[32px] h-96 animate-pulse border border-black/5 dark:border-white/5" />
           ))}
         </div>
       </div>
@@ -108,7 +108,7 @@ export function BlogPage() {
   }
 
   return (
-    <div className="pt-32 pb-24 bg-[#0d0d0d] min-h-screen dot-pattern">
+    <div className="pt-32 pb-24 bg-transparent min-h-screen dot-pattern">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,_rgba(46,125,50,0.1),_transparent_50%)] pointer-events-none" />
       
       <div className="max-w-7xl mx-auto px-4 relative z-10">
@@ -116,27 +116,27 @@ export function BlogPage() {
           <span className="text-xs font-extrabold uppercase tracking-widest text-green-400 bg-green-500/10 px-3 py-1.5 rounded-lg border border-green-500/20">
             CONHECIMENTO & INSIGHTS
           </span>
-          <h1 className="text-5xl font-black text-white mt-6 mb-6 tracking-tight">
+          <h1 className="text-5xl font-black text-zinc-900 dark:text-white mt-6 mb-6 tracking-tight">
             Nosso <span className="text-green-400">Blog</span>
           </h1>
-          <p className="text-xl text-neutral-400 max-w-2xl mx-auto">
+          <p className="text-xl text-zinc-600 dark:text-neutral-400 max-w-2xl mx-auto">
             Insights sobre tecnologia, design e performance digital.
           </p>
         </header>
 
         {posts.length === 0 ? (
-          <div className="text-center py-20 bg-[#121212] rounded-3xl border border-white/5 shadow-sm">
-            <p className="text-neutral-400 font-medium">Nenhum artigo disponível no momento.</p>
+          <div className="text-center py-20 bg-white dark:bg-[#121212] rounded-3xl border border-black/5 dark:border-white/5 shadow-sm">
+            <p className="text-zinc-600 dark:text-neutral-400 font-medium">Nenhum artigo disponível no momento.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             {posts.map((post) => (
               <article 
                 key={post.id} 
-                className="group bg-[#121212] rounded-[32px] overflow-hidden border border-white/5 hover:border-green-600/35 hover:shadow-[0_0_30px_rgba(46,125,50,0.15)] transition-all duration-500 cursor-pointer flex flex-col"
+                className="group bg-white dark:bg-[#121212] rounded-[32px] overflow-hidden border border-black/5 dark:border-white/5 hover:border-green-600/35 hover:shadow-[0_0_30px_rgba(46,125,50,0.15)] transition-all duration-500 cursor-pointer flex flex-col"
                 onClick={() => navigate(`/blog/${post.slug}`)}
               >
-                <div className="aspect-[16/10] overflow-hidden border-b border-white/5 bg-neutral-900">
+                <div className="aspect-[16/10] overflow-hidden border-b border-black/5 dark:border-white/5 bg-neutral-900">
                   <img 
                     src={post.featured_image_url} 
                     alt={post.title} 
@@ -148,13 +148,13 @@ export function BlogPage() {
                     <Calendar size={14} />
                     {new Date(post.published_at).toLocaleDateString('pt-BR')}
                   </div>
-                  <h2 className="text-2xl font-bold text-white mb-4 group-hover:text-green-400 transition-colors">
+                  <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-4 group-hover:text-green-400 transition-colors">
                     {post.title}
                   </h2>
-                  <p className="text-neutral-400 text-sm line-clamp-3 mb-6">
+                  <p className="text-zinc-600 dark:text-neutral-400 text-sm line-clamp-3 mb-6">
                     {post.excerpt}
                   </p>
-                  <div className="mt-auto pt-4 flex items-center gap-2 font-bold text-white group-hover:text-green-400 transition-colors">
+                  <div className="mt-auto pt-4 flex items-center gap-2 font-bold text-zinc-900 dark:text-white group-hover:text-green-400 transition-colors">
                     Ler artigo <ArrowRight size={16} className="text-green-400 animate-pulse" />
                   </div>
                 </div>

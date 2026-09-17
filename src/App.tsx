@@ -11,6 +11,7 @@ import { supabase } from './lib/supabase';
 import { MaintenancePage } from './pages/MaintenancePage';
 import { usePageViews } from './hooks/usePageViews';
 import { NewsletterModal } from './components/NewsletterModal';
+import { ThemeProvider } from './contexts/ThemeContext';
 
 // Lazy loading pages
 const HomePage = lazy(() => import('./pages/HomePage').then(m => ({ default: m.HomePage })));
@@ -184,7 +185,7 @@ function Layout() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-umbu-light dark:bg-umbu-dark text-zinc-900 dark:text-white transition-colors duration-300">
       <Suspense fallback={null}>
         {user && profile?.force_password_reset && (
           <PasswordChangeModal 
@@ -335,12 +336,14 @@ export default function App() {
   // Removed strict EnvCheck block to allow safe fallbacks in supabase.ts to operate
   return (
     <HelmetProvider>
-      <ErrorBoundary>
-        <AuthProvider>
-          <Layout />
-          <ToastContainer />
-        </AuthProvider>
-      </ErrorBoundary>
+      <ThemeProvider>
+        <ErrorBoundary>
+          <AuthProvider>
+            <Layout />
+            <ToastContainer />
+          </AuthProvider>
+        </ErrorBoundary>
+      </ThemeProvider>
     </HelmetProvider>
   );
 }

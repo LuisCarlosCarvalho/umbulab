@@ -28,12 +28,12 @@ function DeviceScreen({ src, alt, type }: DeviceScreenProps) {
   if (hasError || !src) {
     if (type === 'monitor' || type === 'laptop') {
       return (
-        <div className="w-full h-full bg-[#0d0e15] p-6 flex flex-col justify-between text-white font-sans select-none border border-white/5 relative overflow-hidden">
+        <div className="w-full h-full bg-[#0d0e15] p-6 flex flex-col justify-between text-zinc-900 dark:text-white font-sans select-none border border-black/5 dark:border-white/5 relative overflow-hidden">
           {/* Subtle light effect */}
           <div className="absolute top-0 right-0 w-24 h-24 bg-blue-500/10 rounded-full blur-xl pointer-events-none" />
           
           {/* Header */}
-          <div className="flex justify-between items-center pb-2 border-b border-white/5">
+          <div className="flex justify-between items-center pb-2 border-b border-black/5 dark:border-white/5">
             <div className="flex items-center gap-1.5">
               <div className="w-3.5 h-3.5 rounded bg-green-500" />
               <div className="w-12 h-1.5 bg-white/20 rounded" />
@@ -52,7 +52,7 @@ function DeviceScreen({ src, alt, type }: DeviceScreenProps) {
             <div className="w-12 h-3.5 bg-blue-600 rounded mt-1" />
           </div>
           {/* Cards */}
-          <div className="grid grid-cols-3 gap-1.5 pt-2 border-t border-white/5">
+          <div className="grid grid-cols-3 gap-1.5 pt-2 border-t border-black/5 dark:border-white/5">
             <div className="h-5 bg-white/5 rounded p-1 space-y-1">
               <div className="w-1/2 h-0.5 bg-white/20 rounded" />
               <div className="w-full h-0.5 bg-white/10 rounded" />
@@ -70,11 +70,11 @@ function DeviceScreen({ src, alt, type }: DeviceScreenProps) {
       );
     } else if (type === 'tablet') {
       return (
-        <div className="w-full h-full bg-[#0d0e15] p-3 flex flex-col justify-between text-white font-sans select-none border border-white/5 relative overflow-hidden">
+        <div className="w-full h-full bg-[#0d0e15] p-3 flex flex-col justify-between text-zinc-900 dark:text-white font-sans select-none border border-black/5 dark:border-white/5 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-16 h-16 bg-blue-500/5 rounded-full blur-lg pointer-events-none" />
           
           {/* Header */}
-          <div className="flex justify-between items-center pb-2 border-b border-white/5">
+          <div className="flex justify-between items-center pb-2 border-b border-black/5 dark:border-white/5">
             <div className="flex items-center gap-1">
               <div className="w-2.5 h-2.5 rounded bg-green-500" />
             </div>
@@ -88,7 +88,7 @@ function DeviceScreen({ src, alt, type }: DeviceScreenProps) {
             <div className="w-10 h-3 bg-blue-600 rounded mt-0.5" />
           </div>
           {/* Grid */}
-          <div className="grid grid-cols-2 gap-1 pt-2 border-t border-white/5">
+          <div className="grid grid-cols-2 gap-1 pt-2 border-t border-black/5 dark:border-white/5">
             <div className="h-4 bg-white/5 rounded p-0.5">
               <div className="w-1/2 h-0.5 bg-white/20 rounded" />
             </div>
@@ -100,9 +100,9 @@ function DeviceScreen({ src, alt, type }: DeviceScreenProps) {
       );
     } else { // mobile
       return (
-        <div className="w-full h-full bg-[#0d0e15] p-2 flex flex-col justify-between text-white font-sans select-none border border-white/5 relative overflow-hidden">
+        <div className="w-full h-full bg-[#0d0e15] p-2 flex flex-col justify-between text-zinc-900 dark:text-white font-sans select-none border border-black/5 dark:border-white/5 relative overflow-hidden">
           {/* Header */}
-          <div className="flex justify-between items-center pb-1.5 border-b border-white/5">
+          <div className="flex justify-between items-center pb-1.5 border-b border-black/5 dark:border-white/5">
             <div className="w-2 h-2 rounded bg-green-500" />
             <div className="w-3 h-1 bg-white/10 rounded" />
           </div>
@@ -113,7 +113,7 @@ function DeviceScreen({ src, alt, type }: DeviceScreenProps) {
             <div className="w-8 h-2.5 bg-blue-600 rounded mt-0.5" />
           </div>
           {/* List */}
-          <div className="space-y-0.5 pt-1.5 border-t border-white/5">
+          <div className="space-y-0.5 pt-1.5 border-t border-black/5 dark:border-white/5">
             <div className="h-2 bg-white/5 rounded flex items-center px-1">
               <div className="w-1/3 h-0.5 bg-white/20 rounded" />
             </div>
@@ -181,7 +181,7 @@ export function PortfolioDetailsPage() {
           <h1 className="text-3xl font-bold text-gray-900 mb-4">Projeto não encontrado</h1>
           <button
             onClick={() => navigate('/portfolio')}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-all"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-zinc-900 dark:text-white rounded-xl font-bold hover:bg-blue-700 transition-all"
           >
             <ArrowLeft size={20} />
             Voltar ao Portfólio
@@ -207,7 +207,7 @@ export function PortfolioDetailsPage() {
         <div className="max-w-7xl mx-auto px-4 relative z-10">
           <button 
             onClick={() => navigate('/portfolio')}
-            className="inline-flex items-center gap-2 text-blue-400 hover:text-white transition-colors mb-12 font-bold uppercase tracking-widest text-xs"
+            className="inline-flex items-center gap-2 text-blue-400 hover:text-zinc-900 dark:text-white transition-colors mb-12 font-bold uppercase tracking-widest text-xs"
           >
             <ArrowLeft size={16} />
             Voltar ao Portfólio
@@ -225,28 +225,28 @@ export function PortfolioDetailsPage() {
                   </span>
                 )}
               </div>
-              <h1 className="text-5xl md:text-7xl font-black text-white leading-[1.1] tracking-tighter mb-8">
+              <h1 className="text-5xl md:text-7xl font-black text-zinc-900 dark:text-white leading-[1.1] tracking-tighter mb-8">
                 {item.title}
               </h1>
               
               <div className="flex flex-wrap gap-8 text-gray-400">
                 <div className="flex flex-col gap-1">
                   <span className="text-[10px] uppercase tracking-widest font-black text-gray-500">Cliente</span>
-                  <div className="flex items-center gap-2 text-white font-bold">
+                  <div className="flex items-center gap-2 text-zinc-900 dark:text-white font-bold">
                     <User size={14} className="text-blue-500" />
                     {item.client_name || 'Particular'}
                   </div>
                 </div>
                 <div className="flex flex-col gap-1">
                   <span className="text-[10px] uppercase tracking-widest font-black text-gray-500">Projeto</span>
-                  <div className="flex items-center gap-2 text-white font-bold">
+                  <div className="flex items-center gap-2 text-zinc-900 dark:text-white font-bold">
                     <Layers size={14} className="text-blue-500" />
                     {item.project_type || item.category}
                   </div>
                 </div>
                 <div className="flex flex-col gap-1">
                   <span className="text-[10px] uppercase tracking-widest font-black text-gray-500">Data</span>
-                  <div className="flex items-center gap-2 text-white font-bold">
+                  <div className="flex items-center gap-2 text-zinc-900 dark:text-white font-bold">
                     <Calendar size={14} className="text-blue-500" />
                     {new Date(item.created_at).toLocaleDateString('pt-BR', { year: 'numeric', month: 'long' })}
                   </div>
@@ -264,7 +264,7 @@ export function PortfolioDetailsPage() {
               <div className="absolute left-[15%] top-[5%] w-[58%] z-10 transition-all duration-500 hover:z-40 hover:scale-[1.02]">
                 {/* Screen frame */}
                 <div className="bg-[#1e1e24] p-2 rounded-2xl shadow-2xl border border-gray-700">
-                  <div className="aspect-[16/10] bg-gray-900 rounded-lg overflow-hidden border border-white/5 relative">
+                  <div className="aspect-[16/10] bg-gray-900 rounded-lg overflow-hidden border border-black/5 dark:border-white/5 relative">
                     <DeviceScreen src={item.image_url} alt="Monitor Layout" type="monitor" />
                   </div>
                 </div>
@@ -277,7 +277,7 @@ export function PortfolioDetailsPage() {
               {/* 2. Tablet Mockup (Top Right) */}
               <div className="absolute right-[2%] top-[10%] w-[26%] z-10 transition-all duration-500 hover:z-40 hover:scale-[1.03] rotate-1">
                 <div className="bg-gray-950 p-2 rounded-[20px] shadow-2xl border border-gray-800">
-                  <div className="aspect-[3/4] bg-gray-900 rounded-[14px] overflow-hidden border border-white/5 relative">
+                  <div className="aspect-[3/4] bg-gray-900 rounded-[14px] overflow-hidden border border-black/5 dark:border-white/5 relative">
                     <DeviceScreen src={item.tablet_image_url || item.image_url} alt="Tablet Layout" type="tablet" />
                   </div>
                 </div>
@@ -287,7 +287,7 @@ export function PortfolioDetailsPage() {
               <div className="absolute right-[10%] bottom-[8%] w-[48%] z-20 transition-all duration-500 hover:z-40 hover:scale-[1.02]">
                 {/* Screen */}
                 <div className="bg-gray-900 p-1.5 rounded-t-xl shadow-2xl border-t border-x border-gray-700">
-                  <div className="aspect-[16/10] bg-gray-900 rounded-lg overflow-hidden border border-white/5 relative">
+                  <div className="aspect-[16/10] bg-gray-900 rounded-lg overflow-hidden border border-black/5 dark:border-white/5 relative">
                     <DeviceScreen src={item.laptop_image_url || item.image_url} alt="Laptop Layout" type="laptop" />
                   </div>
                 </div>
@@ -304,7 +304,7 @@ export function PortfolioDetailsPage() {
                   {/* Notch */}
                   <div className="absolute top-0.5 left-1/2 -translate-x-1/2 w-10 h-2.5 bg-gray-950 rounded-b-md z-10" />
                   
-                  <div className="aspect-[9/19] bg-gray-900 rounded-[20px] overflow-hidden border border-white/5 relative">
+                  <div className="aspect-[9/19] bg-gray-900 rounded-[20px] overflow-hidden border border-black/5 dark:border-white/5 relative">
                     <DeviceScreen src={item.mobile_image_url || item.image_url} alt="Mobile Layout" type="mobile" />
                   </div>
                 </div>
@@ -424,7 +424,7 @@ export function PortfolioDetailsPage() {
                     {/* Simulated website header */}
                     <div className="flex justify-between items-center mb-10 pb-4 border-b border-gray-100">
                       <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-black text-sm">
+                        <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-zinc-900 dark:text-white font-black text-sm">
                           {item.title.charAt(0)}
                         </div>
                         <span className="font-black text-gray-900 tracking-tight text-sm uppercase">{item.client_name || 'Projeto'}</span>
@@ -435,7 +435,7 @@ export function PortfolioDetailsPage() {
                         <span className="hover:text-blue-600 cursor-pointer transition-colors">SERVIÇOS</span>
                         <span className="hover:text-blue-600 cursor-pointer transition-colors">PORTFÓLIO</span>
                       </div>
-                      <button className="bg-gray-900 text-white font-extrabold uppercase tracking-widest text-[9px] px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                      <button className="bg-gray-900 text-zinc-900 dark:text-white font-extrabold uppercase tracking-widest text-[9px] px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
                         Contato
                       </button>
                     </div>
@@ -458,7 +458,7 @@ export function PortfolioDetailsPage() {
                             href={item.project_url || '#'} 
                             target="_blank" 
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-extrabold uppercase tracking-widest text-xs px-6 py-3.5 rounded-xl transition-all shadow-lg shadow-blue-500/20 active:scale-95"
+                            className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-zinc-900 dark:text-white font-extrabold uppercase tracking-widest text-xs px-6 py-3.5 rounded-xl transition-all shadow-lg shadow-blue-500/20 active:scale-95"
                           >
                             Ver Site Oficial
                             <ChevronRight size={16} />
@@ -506,7 +506,7 @@ export function PortfolioDetailsPage() {
                 </div>
                 
                 {/* Phone Inner Container */}
-                <div className="bg-[#fafafa] rounded-[36px] overflow-hidden aspect-[9/19] relative flex flex-col justify-between pt-6 border border-white/5">
+                <div className="bg-[#fafafa] rounded-[36px] overflow-hidden aspect-[9/19] relative flex flex-col justify-between pt-6 border border-black/5 dark:border-white/5">
                   {/* Phone Screen Header */}
                   <div className="px-5 py-3 flex justify-between items-center border-b border-gray-100">
                     <span className="font-black text-xs text-gray-900 tracking-tight uppercase">{item.client_name ? item.client_name.split(' ')[0] : 'Projeto'}</span>
@@ -558,7 +558,7 @@ export function PortfolioDetailsPage() {
                       href={item.project_url || '#'} 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="w-full bg-gray-950 hover:bg-blue-600 text-white font-extrabold uppercase tracking-widest text-[9px] py-3.5 rounded-xl text-center transition-all block shadow-md"
+                      className="w-full bg-gray-950 hover:bg-blue-600 text-zinc-900 dark:text-white font-extrabold uppercase tracking-widest text-[9px] py-3.5 rounded-xl text-center transition-all block shadow-md"
                     >
                       Acessar Site Completo
                     </a>
@@ -590,19 +590,19 @@ export function PortfolioDetailsPage() {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-blue-600/10 blur-[120px] rounded-full pointer-events-none" />
         
         <div className="max-w-4xl mx-auto px-4 relative z-10">
-          <h2 className="text-4xl md:text-5xl font-black text-white mb-8 leading-tight">
+          <h2 className="text-4xl md:text-5xl font-black text-zinc-900 dark:text-white mb-8 leading-tight">
             Pronto para transformar o seu negócio em um <span className="text-blue-500 font-black italic">Case de Sucesso?</span>
           </h2>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-12">
             <button 
               onClick={() => navigate('/contact')}
-              className="px-12 py-5 bg-blue-600 text-white rounded-[24px] font-black text-lg hover:bg-blue-700 transition-all hover:scale-105 active:scale-95 shadow-2xl shadow-blue-900/40"
+              className="px-12 py-5 bg-blue-600 text-zinc-900 dark:text-white rounded-[24px] font-black text-lg hover:bg-blue-700 transition-all hover:scale-105 active:scale-95 shadow-2xl shadow-blue-900/40"
             >
               Iniciar meu Projeto
             </button>
             <button 
               onClick={() => navigate('/portfolio')}
-              className="px-8 py-5 bg-white/5 text-white border border-white/10 rounded-[24px] font-bold text-lg hover:bg-white/10 transition-all"
+              className="px-8 py-5 bg-white/5 text-zinc-900 dark:text-white border border-white/10 rounded-[24px] font-bold text-lg hover:bg-white/10 transition-all"
             >
               Explorar outros projetos
             </button>

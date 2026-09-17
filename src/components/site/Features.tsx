@@ -20,8 +20,8 @@ export function Features({ title = "Nossas Features", subtitle, items, primaryCo
     <section className="w-full py-32 bg-transparent px-6 relative overflow-hidden">
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="text-center mb-20 space-y-6">
-          <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-white drop-shadow-md">{title}</h2>
-          {subtitle && <p className="text-2xl text-neutral-400 max-w-3xl mx-auto font-light">{subtitle}</p>}
+          <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-zinc-900 dark:text-zinc-900 dark:text-white drop-shadow-md">{title}</h2>
+          {subtitle && <p className="text-2xl text-zinc-600 dark:text-zinc-600 dark:text-neutral-400 max-w-3xl mx-auto font-light">{subtitle}</p>}
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-fr">
@@ -48,9 +48,9 @@ export function Features({ title = "Nossas Features", subtitle, items, primaryCo
                     >
                       <CheckCircle2 className="w-8 h-8" />
                     </div>
-                    <h3 className={`font-bold mb-4 text-white ${isWide ? 'text-4xl' : 'text-2xl'}`}>{item.title}</h3>
+                    <h3 className={`font-bold mb-4 text-zinc-900 dark:text-zinc-900 dark:text-white ${isWide ? 'text-4xl' : 'text-2xl'}`}>{item.title}</h3>
                   </div>
-                  <p className="text-neutral-400 leading-relaxed font-light text-lg">{item.desc}</p>
+                  <p className="text-zinc-600 dark:text-zinc-600 dark:text-neutral-400 leading-relaxed font-light text-lg">{item.desc}</p>
                 </div>
               </div>
             );

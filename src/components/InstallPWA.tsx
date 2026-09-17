@@ -64,13 +64,13 @@ export function InstallPWA() {
           <img src="/app-icon.png" alt="Logo" className="w-8 h-8 object-contain" />
         </div>
         <div className="flex-grow">
-          <h3 className="font-bold text-slate-900 dark:text-white text-sm leading-tight">Acesso Rápido</h3>
+          <h3 className="font-bold text-slate-900 dark:text-zinc-900 dark:text-white text-sm leading-tight">Acesso Rápido</h3>
           <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-snug">Instale este site no seu dispositivo para acesso rápido e prático.</p>
         </div>
         <div className="flex items-center gap-2">
           <button
             onClick={handleInstall}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-blue-700 transition-colors flex items-center gap-2 whitespace-nowrap"
+            className="bg-blue-600 text-zinc-900 dark:text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-blue-700 transition-colors flex items-center gap-2 whitespace-nowrap"
           >
             <Download className="w-4 h-4" />
             Instalar

@@ -59,7 +59,7 @@ export function PasswordChangeModal({ userId, onSuccess }: PasswordChangeModalPr
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
       <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden animate-in fade-in zoom-in duration-300">
-        <div className="bg-blue-600 p-6 text-white text-center">
+        <div className="bg-blue-600 p-6 text-zinc-900 dark:text-white text-center">
           <div className="bg-white/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
             <Lock size={32} />
           </div>
@@ -147,7 +147,7 @@ export function PasswordChangeModal({ userId, onSuccess }: PasswordChangeModalPr
           <button
             type="submit"
             disabled={!isFormValid || loading}
-            className={`w-full py-3 rounded-xl font-bold text-white transition-all flex items-center justify-center gap-2 ${
+            className={`w-full py-3 rounded-xl font-bold text-zinc-900 dark:text-white transition-all flex items-center justify-center gap-2 ${
               isFormValid && !loading ? 'bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-200' : 'bg-gray-300 cursor-not-allowed'
             }`}
           >

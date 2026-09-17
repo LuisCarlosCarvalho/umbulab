@@ -513,7 +513,7 @@ export function ProductRegistrationStepper({ product, onSave, onClose }: Product
                           (document.getElementById('newAttrVal') as HTMLInputElement).value = '';
                         }
                       }}
-                      className="px-4 py-1 bg-gray-900 text-white text-[10px] font-bold rounded uppercase"
+                      className="px-4 py-1 bg-gray-900 text-zinc-900 dark:text-white text-[10px] font-bold rounded uppercase"
                     >
                       Add
                     </button>
@@ -530,7 +530,7 @@ export function ProductRegistrationStepper({ product, onSave, onClose }: Product
             
             <div className="bg-green-50/50 p-6 rounded-3xl border border-green-100">
                <div className="flex items-center gap-4 mb-6">
-                 <div className="w-12 h-12 bg-green-600 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-green-200">
+                 <div className="w-12 h-12 bg-green-600 text-zinc-900 dark:text-white rounded-2xl flex items-center justify-center shadow-lg shadow-green-200">
                    <ImageIcon size={24} />
                  </div>
                  <div>
@@ -549,13 +549,13 @@ export function ProductRegistrationStepper({ product, onSave, onClose }: Product
                             const newUrls = (formData.image_urls || []).filter((_, idx) => idx !== i);
                             setFormData({ ...formData, image_urls: newUrls });
                           }}
-                          className="w-full py-1 text-[10px] font-black text-white uppercase"
+                          className="w-full py-1 text-[10px] font-black text-zinc-900 dark:text-white uppercase"
                          >
                            Remover
                          </button>
                       </div>
                       {i === 0 && (
-                        <span className="absolute top-2 left-2 px-2 py-0.5 bg-green-600 text-white text-[8px] font-black uppercase rounded">Capa</span>
+                        <span className="absolute top-2 left-2 px-2 py-0.5 bg-green-600 text-zinc-900 dark:text-white text-[8px] font-black uppercase rounded">Capa</span>
                       )}
                    </div>
                  ))}
@@ -634,7 +634,7 @@ export function ProductRegistrationStepper({ product, onSave, onClose }: Product
                        <div className="space-y-2">
                          <h4 className="font-bold text-gray-900">{formData.title}</h4>
                          <p className="text-xs text-gray-500 line-clamp-2">{formData.subtitle}</p>
-                         <span className="inline-block px-3 py-1 bg-green-600 text-white text-[10px] font-bold rounded-lg">{formData.cta_label}</span>
+                         <span className="inline-block px-3 py-1 bg-green-600 text-zinc-900 dark:text-white text-[10px] font-bold rounded-lg">{formData.cta_label}</span>
                        </div>
                     </div>
                   </div>
@@ -676,7 +676,7 @@ export function ProductRegistrationStepper({ product, onSave, onClose }: Product
         {/* Header */}
         <div className="px-10 py-6 border-b flex items-center justify-between bg-white relative">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-green-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-green-100">
+            <div className="w-12 h-12 bg-green-600 rounded-2xl flex items-center justify-center text-zinc-900 dark:text-white shadow-lg shadow-green-100">
               <Sparkles size={24} />
             </div>
             <div>
@@ -698,7 +698,7 @@ export function ProductRegistrationStepper({ product, onSave, onClose }: Product
                     isActive ? 'scale-110' : 'opacity-40 hover:opacity-100'
                   }`}>
                     <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${
-                      isActive ? 'bg-green-600 text-white shadow-lg shadow-green-200' : isPast ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-400'
+                      isActive ? 'bg-green-600 text-zinc-900 dark:text-white shadow-lg shadow-green-200' : isPast ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-400'
                     }`}>
                       {isPast ? <CheckCircle2 size={18} /> : <Icon size={18} />}
                     </div>
@@ -742,7 +742,7 @@ export function ProductRegistrationStepper({ product, onSave, onClose }: Product
              {currentStep < 6 ? (
                <button 
                 onClick={handleNext}
-                className="px-8 py-4 bg-gray-900 text-white rounded-2xl font-bold hover:bg-green-600 transition-all flex items-center gap-2 shadow-lg shadow-gray-200 active:scale-95"
+                className="px-8 py-4 bg-gray-900 text-zinc-900 dark:text-white rounded-2xl font-bold hover:bg-green-600 transition-all flex items-center gap-2 shadow-lg shadow-gray-200 active:scale-95"
                >
                  Próxima Etapa
                  <ChevronRight size={20} />
@@ -758,7 +758,7 @@ export function ProductRegistrationStepper({ product, onSave, onClose }: Product
                   }
                 }}
                 disabled={isSubmitting}
-                className={`px-8 py-4 bg-green-600 text-white rounded-2xl font-bold transition-all flex items-center gap-2 shadow-xl shadow-green-200 ${
+                className={`px-8 py-4 bg-green-600 text-zinc-900 dark:text-white rounded-2xl font-bold transition-all flex items-center gap-2 shadow-xl shadow-green-200 ${
                   isSubmitting ? 'opacity-70 cursor-wait' : 'hover:bg-green-700 active:scale-95'
                 }`}
                >

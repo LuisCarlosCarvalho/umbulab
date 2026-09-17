@@ -147,20 +147,20 @@ export function DesenharSitePage() {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-white pt-24 pb-12 px-4 sm:px-6 lg:px-8 font-sans">
+    <div className="min-h-screen bg-transparent text-zinc-900 dark:text-white pt-24 pb-12 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center gap-4 mb-8">
           <button 
             onClick={() => navigate(-1)}
             className="p-2 hover:bg-neutral-800 rounded-full transition-colors"
           >
-            <ArrowLeft className="w-6 h-6 text-neutral-400" />
+            <ArrowLeft className="w-6 h-6 text-zinc-600 dark:text-neutral-400" />
           </button>
           <div>
             <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">
               Gerar Ideia de Site
             </h1>
-            <p className="text-neutral-400 mt-2">Veja o seu modelo a ser desenhado em tempo real (Máximo: 2 por email).</p>
+            <p className="text-zinc-600 dark:text-neutral-400 mt-2">Veja o seu modelo a ser desenhado em tempo real (Máximo: 2 por email).</p>
           </div>
         </div>
 
@@ -170,38 +170,38 @@ export function DesenharSitePage() {
             {!isFinished ? (
               <form onSubmit={handleGenerate} className="space-y-5">
                 <div>
-                  <label className="block text-sm font-medium text-neutral-300 mb-1">Seu Email *</label>
+                  <label className="block text-sm font-medium text-zinc-700 dark:text-neutral-300 mb-1">Seu Email *</label>
                   <input
                     type="email"
                     name="email"
                     required
                     value={formData.email}
                     onChange={handleInputChange}
-                    className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-2.5 text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition-all"
+                    className="w-full bg-transparent border border-neutral-800 rounded-lg px-4 py-2.5 text-zinc-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition-all"
                     placeholder="seu@email.com"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-neutral-300 mb-1">Nome da Empresa *</label>
+                  <label className="block text-sm font-medium text-zinc-700 dark:text-neutral-300 mb-1">Nome da Empresa *</label>
                   <input
                     type="text"
                     name="company_name"
                     required
                     value={formData.company_name}
                     onChange={handleInputChange}
-                    className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-2.5 text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition-all"
+                    className="w-full bg-transparent border border-neutral-800 rounded-lg px-4 py-2.5 text-zinc-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition-all"
                     placeholder="Ex: UmbuLab"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-neutral-300 mb-1">Tipo de Negócio</label>
+                  <label className="block text-sm font-medium text-zinc-700 dark:text-neutral-300 mb-1">Tipo de Negócio</label>
                   <select
                     name="business_type"
                     value={formData.business_type}
                     onChange={handleInputChange}
-                    className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-2.5 text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition-all"
+                    className="w-full bg-transparent border border-neutral-800 rounded-lg px-4 py-2.5 text-zinc-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition-all"
                   >
                     <option value="service">Serviços</option>
                     <option value="ecommerce">E-commerce</option>
@@ -212,12 +212,12 @@ export function DesenharSitePage() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-neutral-300 mb-1">Estilo Visual</label>
+                    <label className="block text-sm font-medium text-zinc-700 dark:text-neutral-300 mb-1">Estilo Visual</label>
                     <select
                       name="style"
                       value={formData.style}
                       onChange={handleInputChange}
-                      className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-2.5 text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition-all"
+                      className="w-full bg-transparent border border-neutral-800 rounded-lg px-4 py-2.5 text-zinc-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition-all"
                     >
                       <option value="modern">Moderno</option>
                       <option value="minimalist">Minimalista</option>
@@ -226,27 +226,27 @@ export function DesenharSitePage() {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-neutral-300 mb-1">Cores</label>
+                    <label className="block text-sm font-medium text-zinc-700 dark:text-neutral-300 mb-1">Cores</label>
                     <input
                       type="text"
                       name="colors"
                       value={formData.colors}
                       onChange={handleInputChange}
-                      className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-2.5 text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition-all"
+                      className="w-full bg-transparent border border-neutral-800 rounded-lg px-4 py-2.5 text-zinc-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition-all"
                       placeholder="Ex: #000, Azul"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-neutral-300 mb-1">Descrição Breve *</label>
+                  <label className="block text-sm font-medium text-zinc-700 dark:text-neutral-300 mb-1">Descrição Breve *</label>
                   <textarea
                     name="description"
                     required
                     rows={4}
                     value={formData.description}
                     onChange={handleInputChange}
-                    className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-4 py-2.5 text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition-all resize-none"
+                    className="w-full bg-transparent border border-neutral-800 rounded-lg px-4 py-2.5 text-zinc-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition-all resize-none"
                     placeholder="Descreva o que a empresa faz..."
                   />
                 </div>
@@ -254,7 +254,7 @@ export function DesenharSitePage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-lg shadow-emerald-900/20 disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-zinc-900 dark:text-white font-bold py-3 px-4 rounded-xl transition-all shadow-lg shadow-emerald-900/20 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                   {loading ? (
                     <>
@@ -272,21 +272,21 @@ export function DesenharSitePage() {
                   <Monitor className="w-12 h-12 text-emerald-400" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-white mb-2">Modelo Concluído</h3>
-                  <p className="text-neutral-400 text-sm">Este é apenas um modelo visual não-funcional para ter uma ideia do nosso trabalho.</p>
+                  <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-2">Modelo Concluído</h3>
+                  <p className="text-zinc-600 dark:text-neutral-400 text-sm">Este é apenas um modelo visual não-funcional para ter uma ideia do nosso trabalho.</p>
                 </div>
                 
                 <div className="w-full space-y-3 pt-4 border-t border-neutral-800">
                   <button
                     onClick={handleSendIdea}
-                    className="w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-4 rounded-xl transition-all shadow-lg shadow-emerald-900/20"
+                    className="w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-zinc-900 dark:text-white font-bold py-3 px-4 rounded-xl transition-all shadow-lg shadow-emerald-900/20"
                   >
                     <Send className="w-5 h-5" />
                     Enviar ideia para o time UmbuLab
                   </button>
                   <button
                     onClick={() => navigate('/')}
-                    className="w-full flex items-center justify-center gap-2 bg-neutral-800 hover:bg-neutral-700 text-white font-bold py-3 px-4 rounded-xl transition-all"
+                    className="w-full flex items-center justify-center gap-2 bg-neutral-800 hover:bg-neutral-700 text-zinc-900 dark:text-white font-bold py-3 px-4 rounded-xl transition-all"
                   >
                     <XCircle className="w-5 h-5" />
                     Sair da página
@@ -299,18 +299,18 @@ export function DesenharSitePage() {
           {/* Preview Area (Direita) */}
           <div className="lg:col-span-8 bg-neutral-900 border border-neutral-800 rounded-2xl flex flex-col overflow-hidden h-[800px]">
             {/* Toolbar do Preview */}
-            <div className="flex items-center justify-between p-4 border-b border-neutral-800 bg-neutral-950/50">
+            <div className="flex items-center justify-between p-4 border-b border-neutral-800 bg-transparent/50">
               <div className="flex items-center gap-2 bg-neutral-900 p-1 rounded-lg border border-neutral-800">
                 <button
                   onClick={() => setPreviewMode('desktop')}
-                  className={`p-2 rounded-md transition-colors ${previewMode === 'desktop' ? 'bg-neutral-800 text-emerald-400' : 'text-neutral-500 hover:text-white'}`}
+                  className={`p-2 rounded-md transition-colors ${previewMode === 'desktop' ? 'bg-neutral-800 text-emerald-400' : 'text-neutral-500 hover:text-zinc-900 dark:text-white'}`}
                   title="Visualização Desktop"
                 >
                   <Monitor className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => setPreviewMode('mobile')}
-                  className={`p-2 rounded-md transition-colors ${previewMode === 'mobile' ? 'bg-neutral-800 text-emerald-400' : 'text-neutral-500 hover:text-white'}`}
+                  className={`p-2 rounded-md transition-colors ${previewMode === 'mobile' ? 'bg-neutral-800 text-emerald-400' : 'text-neutral-500 hover:text-zinc-900 dark:text-white'}`}
                   title="Visualização Mobile"
                 >
                   <Smartphone className="w-4 h-4" />
@@ -319,12 +319,12 @@ export function DesenharSitePage() {
             </div>
 
             {/* Iframe Area */}
-            <div className="flex-grow bg-neutral-950 relative flex items-center justify-center p-4">
+            <div className="flex-grow bg-transparent relative flex items-center justify-center p-4">
               {loading && !isFinished && (
-                <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-neutral-950 px-6 text-center">
+                <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-transparent px-6 text-center">
                   <div className="w-16 h-16 border-4 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin mb-6" />
                   <p className="text-xl font-bold text-emerald-400 mb-2">A desenhar o seu modelo...</p>
-                  <p className="text-sm text-neutral-400 mb-8 max-w-md">A Umbulab está a desenvolver a página, a estruturar o layout e a aplicar o design. Por favor, não feche a página.</p>
+                  <p className="text-sm text-zinc-600 dark:text-neutral-400 mb-8 max-w-md">A Umbulab está a desenvolver a página, a estruturar o layout e a aplicar o design. Por favor, não feche a página.</p>
                   
                   <div className="w-full max-w-md bg-neutral-800 rounded-full h-3 mb-3 overflow-hidden border border-neutral-700 relative">
                     <div 
@@ -362,8 +362,8 @@ export function DesenharSitePage() {
                     <div className="w-16 h-16 bg-red-500/20 text-red-400 rounded-full flex items-center justify-center mb-4">
                       <i className="fas fa-exclamation-triangle text-2xl"></i>
                     </div>
-                    <h3 className="text-xl font-bold text-white mb-2">Falha ao gerar site válido</h3>
-                    <p className="text-neutral-400 max-w-md">
+                    <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-2">Falha ao gerar site válido</h3>
+                    <p className="text-zinc-600 dark:text-neutral-400 max-w-md">
                       A Inteligência Artificial não conseguiu gerar um código estruturado a 100%. Por favor, tente gerar novamente.
                     </p>
                   </div>

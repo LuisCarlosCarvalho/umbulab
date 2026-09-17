@@ -130,7 +130,7 @@ export function AdminRssSettings() {
           <button
             onClick={handleSave}
             disabled={loading}
-            className="px-5 py-3 bg-gray-900 text-white rounded-xl font-bold hover:bg-gray-800 transition-colors flex items-center gap-2"
+            className="px-5 py-3 bg-gray-900 text-zinc-900 dark:text-white rounded-xl font-bold hover:bg-gray-800 transition-colors flex items-center gap-2"
           >
             {loading ? <RefreshCw className="animate-spin" size={18} /> : <Save size={18} />}
             Salvar

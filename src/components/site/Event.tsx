@@ -30,7 +30,7 @@ export function Event({ title = "Detalhes do Evento", date = "Em breve", time = 
               <Calendar className="w-6 h-6" />
             </div>
             <div>
-              <p className="text-sm font-bold text-neutral-400 uppercase tracking-wider">Data</p>
+              <p className="text-sm font-bold text-zinc-600 dark:text-zinc-600 dark:text-neutral-400 uppercase tracking-wider">Data</p>
               <p className="font-bold text-xl">{date}</p>
             </div>
           </div>
@@ -40,16 +40,16 @@ export function Event({ title = "Detalhes do Evento", date = "Em breve", time = 
               <Clock className="w-6 h-6" />
             </div>
             <div>
-              <p className="text-sm font-bold text-neutral-400 uppercase tracking-wider">Hora</p>
+              <p className="text-sm font-bold text-zinc-600 dark:text-zinc-600 dark:text-neutral-400 uppercase tracking-wider">Hora</p>
               <p className="font-bold text-xl">{time}</p>
             </div>
           </div>
         </div>
 
-        <div className="flex items-center justify-center gap-4 bg-neutral-900 text-white px-8 py-6 rounded-3xl mx-auto max-w-2xl text-center">
+        <div className="flex items-center justify-center gap-4 bg-neutral-900 text-zinc-900 dark:text-zinc-900 dark:text-white px-8 py-6 rounded-3xl mx-auto max-w-2xl text-center">
           <MapPin className="w-8 h-8 text-emerald-400 flex-shrink-0" />
           <div className="text-left">
-            <p className="text-xs font-bold text-neutral-400 uppercase tracking-wider mb-1">Localização</p>
+            <p className="text-xs font-bold text-zinc-600 dark:text-zinc-600 dark:text-neutral-400 uppercase tracking-wider mb-1">Localização</p>
             <p className="font-medium text-lg md:text-xl">{location}</p>
           </div>
         </div>

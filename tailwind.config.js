@@ -1,9 +1,20 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class',
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       colors: {
+        umbu: {
+          dark: '#0B0B0B',
+          cardDark: '#121212',
+          light: '#F8F9FA',
+          cardLight: '#FFFFFF',
+          neon: '#7ED321',
+          primary: '#2E7D32',
+          secondary: '#66BB6A',
+          accent: '#FFB300',
+        },
         blue: {
           50: '#F1F8F5',   // Extremely soft green for warning/info banners
           100: '#D8ECE2',  // Light green borders

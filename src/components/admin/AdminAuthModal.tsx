@@ -85,7 +85,7 @@ export const AdminAuthModal: React.FC<AdminAuthModalProps> = ({
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gray-900 text-white py-5 rounded-2xl font-black hover:bg-black transition-all shadow-xl shadow-gray-200 active:scale-95 disabled:opacity-50 disabled:active:scale-100 flex items-center justify-center gap-3"
+              className="w-full bg-gray-900 text-zinc-900 dark:text-white py-5 rounded-2xl font-black hover:bg-black transition-all shadow-xl shadow-gray-200 active:scale-95 disabled:opacity-50 disabled:active:scale-100 flex items-center justify-center gap-3"
             >
               {loading ? <Loader2 className="animate-spin" size={20} /> : <ShieldCheck size={20} />}
               Validar e Salvar

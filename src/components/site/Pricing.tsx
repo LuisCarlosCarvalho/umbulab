@@ -31,12 +31,12 @@ export function Pricing({ title = "Planos e Preços", subtitle, plans }: Pricing
               key={i} 
               className={`relative p-8 rounded-3xl border transition-all duration-300 ${
                 plan.isPopular 
-                  ? 'bg-neutral-900 text-white border-neutral-900 shadow-2xl scale-105 z-10' 
+                  ? 'bg-neutral-900 text-zinc-900 dark:text-zinc-900 dark:text-white border-neutral-900 shadow-2xl scale-105 z-10' 
                   : 'bg-white text-neutral-900 border-neutral-200 hover:shadow-xl'
               }`}
             >
               {plan.isPopular && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-emerald-500 text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-emerald-500 text-zinc-900 dark:text-zinc-900 dark:text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
                   Mais Popular
                 </div>
               )}
@@ -49,7 +49,7 @@ export function Pricing({ title = "Planos e Preços", subtitle, plans }: Pricing
                 {(plan.features || ["Feature incrível inclusa", "Suporte 24/7", "Acesso total"]).map((feat, idx) => (
                   <li key={idx} className="flex items-center gap-3">
                     <Check className={`w-5 h-5 ${plan.isPopular ? 'text-emerald-400' : 'text-emerald-600'}`} />
-                    <span className={plan.isPopular ? 'text-neutral-300' : 'text-neutral-600'}>{feat}</span>
+                    <span className={plan.isPopular ? 'text-zinc-700 dark:text-zinc-700 dark:text-neutral-300' : 'text-neutral-600'}>{feat}</span>
                   </li>
                 ))}
               </ul>
@@ -57,7 +57,7 @@ export function Pricing({ title = "Planos e Preços", subtitle, plans }: Pricing
               <button 
                 className={`w-full py-4 rounded-xl font-bold transition-all ${
                   plan.isPopular 
-                    ? 'bg-emerald-500 hover:bg-emerald-400 text-white' 
+                    ? 'bg-emerald-500 hover:bg-emerald-400 text-zinc-900 dark:text-zinc-900 dark:text-white' 
                     : 'bg-neutral-100 hover:bg-neutral-200 text-neutral-900'
                 }`}
                 disabled

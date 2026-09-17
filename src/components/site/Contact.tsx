@@ -8,7 +8,7 @@ interface ContactProps {
 
 export function Contact({ title = 'Fale Conosco', email }: ContactProps) {
   return (
-    <section className="py-24 px-6 bg-blue-600 text-white w-full relative overflow-hidden">
+    <section className="py-24 px-6 bg-blue-600 text-zinc-900 dark:text-zinc-900 dark:text-white w-full relative overflow-hidden">
       {/* Decorative Elements */}
       <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/3 w-96 h-96 bg-blue-500 rounded-full filter blur-3xl opacity-50" />
       <div className="absolute bottom-0 left-0 translate-y-1/3 -translate-x-1/3 w-96 h-96 bg-blue-700 rounded-full filter blur-3xl opacity-50" />
@@ -31,7 +31,7 @@ export function Contact({ title = 'Fale Conosco', email }: ContactProps) {
             {email}
           </a>
           <button 
-            className="flex items-center gap-2 px-8 py-4 rounded-full font-bold text-lg text-white border-2 border-white/20 hover:bg-white/10 transition-all"
+            className="flex items-center gap-2 px-8 py-4 rounded-full font-bold text-lg text-zinc-900 dark:text-zinc-900 dark:text-white border-2 border-white/20 hover:bg-white/10 transition-all"
             disabled
           >
             Saber mais <ArrowRight className="w-5 h-5" />

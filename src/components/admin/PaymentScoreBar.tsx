@@ -45,7 +45,7 @@ export const PaymentScoreBar: React.FC<PaymentScoreBarProps> = ({ score }) => {
           </span>
           <div className="group relative">
             <Info size={14} className="text-gray-300 cursor-help" />
-            <div className="absolute left-0 bottom-full mb-2 w-64 p-3 bg-gray-900 text-white text-[10px] rounded-xl opacity-0 group-hover:opacity-100 transition-opacity z-10 pointer-events-none shadow-2xl">
+            <div className="absolute left-0 bottom-full mb-2 w-64 p-3 bg-gray-900 text-zinc-900 dark:text-white text-[10px] rounded-xl opacity-0 group-hover:opacity-100 transition-opacity z-10 pointer-events-none shadow-2xl">
               <p className="font-bold mb-1">Entenda o Score:</p>
               {status.message}
             </div>

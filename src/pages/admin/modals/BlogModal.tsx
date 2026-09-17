@@ -116,7 +116,7 @@ export function BlogModal({
         <div className="flex gap-4 mt-8">
           <button
             onClick={handleSaveBlogPost}
-            className="flex-1 bg-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 transition-colors"
+            className="flex-1 bg-blue-600 text-zinc-900 dark:text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 transition-colors"
           >
             {editingBlogPost ? 'Atualizar Artigo' : 'Salvar Artigo'}
           </button>

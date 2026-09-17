@@ -39,7 +39,7 @@ export function ContractModal({
             onClick={() => handleGenerateContract('service')}
             className="group flex flex-col p-8 bg-white border-2 border-gray-100 rounded-[24px] hover:border-green-600 transition-all text-left shadow-sm hover:shadow-xl hover:shadow-green-50 active:scale-95"
           >
-            <div className="w-14 h-14 bg-green-50 text-green-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-green-600 group-hover:text-white transition-all">
+            <div className="w-14 h-14 bg-green-50 text-green-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-green-600 group-hover:text-zinc-900 dark:text-white transition-all">
               <Shield size={28} />
             </div>
             <h3 className="font-extrabold text-gray-900 mb-2 uppercase tracking-tight">Prestação de Serviço</h3>
@@ -50,7 +50,7 @@ export function ContractModal({
             onClick={() => handleGenerateContract('maintenance')}
             className="group flex flex-col p-8 bg-white border-2 border-gray-100 rounded-[24px] hover:border-green-600 transition-all text-left shadow-sm hover:shadow-xl hover:shadow-green-50 active:scale-95"
           >
-            <div className="w-14 h-14 bg-orange-50 text-orange-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-orange-600 group-hover:text-white transition-all">
+            <div className="w-14 h-14 bg-orange-50 text-orange-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-orange-600 group-hover:text-zinc-900 dark:text-white transition-all">
               <TrendingUp size={28} />
             </div>
             <h3 className="font-extrabold text-gray-900 mb-2 uppercase tracking-tight">Manutenção Mensal</h3>

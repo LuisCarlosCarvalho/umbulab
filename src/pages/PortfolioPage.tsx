@@ -142,7 +142,7 @@ export function PortfolioPage() {
   };
 
   return (
-    <div className="min-h-screen py-20 px-4 sm:px-6 lg:px-8 bg-[#0d0d0d] dot-pattern">
+    <div className="min-h-screen py-20 px-4 sm:px-6 lg:px-8 bg-transparent dot-pattern">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,_rgba(46,125,50,0.1),_transparent_50%)] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
@@ -150,8 +150,8 @@ export function PortfolioPage() {
           <span className="text-xs font-extrabold uppercase tracking-widest text-green-400 bg-green-500/10 px-3 py-1.5 rounded-lg border border-green-500/20">
             NOSSO TRABALHO
           </span>
-          <h1 className="text-5xl font-black text-white mt-6 mb-6 tracking-tight">Portfolio</h1>
-          <p className="text-xl text-neutral-400 max-w-3xl mx-auto mb-12 leading-relaxed">
+          <h1 className="text-5xl font-black text-zinc-900 dark:text-white mt-6 mb-6 tracking-tight">Portfolio</h1>
+          <p className="text-xl text-zinc-600 dark:text-neutral-400 max-w-3xl mx-auto mb-12 leading-relaxed">
             Conheça alguns dos projetos que desenvolvemos com excelência e dedicação.
           </p>
 
@@ -162,8 +162,8 @@ export function PortfolioPage() {
                 onClick={() => setSelectedCategory(category)}
                 className={`px-6 py-2.5 rounded-xl font-semibold text-sm transition-all duration-300 ${
                   selectedCategory === category
-                    ? "bg-green-700 text-white shadow-lg shadow-green-700/25"
-                    : "bg-[#121212] text-neutral-300 hover:bg-neutral-800 border border-white/5"
+                    ? "bg-green-700 text-zinc-900 dark:text-white shadow-lg shadow-green-700/25"
+                    : "bg-white dark:bg-[#121212] text-zinc-700 dark:text-neutral-300 hover:bg-neutral-800 border border-black/5 dark:border-white/5"
                 }`}
               >
                 {category}
@@ -175,11 +175,11 @@ export function PortfolioPage() {
         {errorStatus ? (
           <div className="text-center py-20 bg-red-950/20 rounded-3xl border border-red-900/50 mt-12 mx-auto max-w-2xl">
             <AlertTriangle className="mx-auto text-red-500 mb-4" size={48} />
-            <h3 className="text-xl font-bold text-white mb-2">Erro de Conexão</h3>
-            <p className="text-neutral-400 font-medium">Os dados demoraram muito para responder. Isso indica uma falha de rede ou no banco. Limpamos seu cache de sessão local.</p>
+            <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-2">Erro de Conexão</h3>
+            <p className="text-zinc-600 dark:text-neutral-400 font-medium">Os dados demoraram muito para responder. Isso indica uma falha de rede ou no banco. Limpamos seu cache de sessão local.</p>
             <button 
               onClick={() => window.location.reload()}
-              className="mt-6 btn bg-red-700 hover:bg-red-800 text-white font-bold transition-colors"
+              className="mt-6 btn bg-red-700 hover:bg-red-800 text-zinc-900 dark:text-white font-bold transition-colors"
             >
               Tentar Novamente
             </button>
@@ -187,7 +187,7 @@ export function PortfolioPage() {
         ) : loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
             {[...Array(6)].map((_, i) => (
-              <div key={i} className="bg-[#121212] rounded-3xl overflow-hidden border border-white/5 shadow-md animate-pulse">
+              <div key={i} className="bg-white dark:bg-[#121212] rounded-3xl overflow-hidden border border-black/5 dark:border-white/5 shadow-md animate-pulse">
                 <div className="aspect-[4/3] bg-neutral-850" />
                 <div className="p-6 space-y-4">
                   <div className="h-6 bg-neutral-800 rounded w-3/4" />
@@ -199,7 +199,7 @@ export function PortfolioPage() {
           </div>
         ) : filteredItems.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-neutral-400 text-lg">
+            <p className="text-zinc-600 dark:text-neutral-400 text-lg">
               {selectedCategory === "Todos"
                 ? "Nenhum projeto disponível no momento."
                 : `Nenhum projeto encontrado na categoria "${selectedCategory}".`}
@@ -210,7 +210,7 @@ export function PortfolioPage() {
             {/* Left navigation arrow */}
             <button
               onClick={() => scroll('left')}
-              className="absolute left-4 top-1/2 -translate-y-1/2 z-30 bg-[#121212]/90 border border-white/10 hover:border-green-500/30 text-white hover:text-green-400 p-4 rounded-full shadow-2xl backdrop-blur-md opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-300 active:scale-95 cursor-pointer"
+              className="absolute left-4 top-1/2 -translate-y-1/2 z-30 bg-white dark:bg-[#121212]/90 border border-white/10 hover:border-green-500/30 text-zinc-900 dark:text-white hover:text-green-400 p-4 rounded-full shadow-2xl backdrop-blur-md opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-300 active:scale-95 cursor-pointer"
               aria-label="Anterior"
             >
               <ChevronLeft size={24} />
@@ -219,7 +219,7 @@ export function PortfolioPage() {
             {/* Right navigation arrow */}
             <button
               onClick={() => scroll('right')}
-              className="absolute right-4 top-1/2 -translate-y-1/2 z-30 bg-[#121212]/90 border border-white/10 hover:border-green-500/30 text-white hover:text-green-400 p-4 rounded-full shadow-2xl backdrop-blur-md opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-300 active:scale-95 cursor-pointer"
+              className="absolute right-4 top-1/2 -translate-y-1/2 z-30 bg-white dark:bg-[#121212]/90 border border-white/10 hover:border-green-500/30 text-zinc-900 dark:text-white hover:text-green-400 p-4 rounded-full shadow-2xl backdrop-blur-md opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-300 active:scale-95 cursor-pointer"
               aria-label="Próximo"
             >
               <ChevronRight size={24} />
@@ -236,7 +236,7 @@ export function PortfolioPage() {
               {filteredItems.map((item) => (
                 <div
                   key={item.id}
-                  className="flex-shrink-0 w-[300px] sm:w-[380px] aspect-[3/4] relative rounded-[28px] overflow-hidden bg-neutral-950 border border-white/5 cursor-pointer shadow-xl snap-start transition-all duration-500 ease-out hover:scale-105 hover:-translate-y-4 hover:z-20 hover:border-green-500/40 hover:shadow-[0_20px_50px_rgba(46,125,50,0.3)] group"
+                  className="flex-shrink-0 w-[300px] sm:w-[380px] aspect-[3/4] relative rounded-[28px] overflow-hidden bg-transparent border border-black/5 dark:border-white/5 cursor-pointer shadow-xl snap-start transition-all duration-500 ease-out hover:scale-105 hover:-translate-y-4 hover:z-20 hover:border-green-500/40 hover:shadow-[0_20px_50px_rgba(46,125,50,0.3)] group"
                   onClick={() => navigate(`/portfolio/${item.id}`)}
                 >
                   {/* Background Image */}
@@ -257,19 +257,19 @@ export function PortfolioPage() {
                     <span className="inline-block px-3 py-1 bg-green-500/20 text-green-400 text-[10px] font-black uppercase tracking-[0.2em] rounded-md border border-green-500/20 mb-4 self-start">
                       {item.category}
                     </span>
-                    <h3 className="text-2xl sm:text-3xl font-black text-white leading-tight tracking-tighter mb-2 group-hover:text-green-400 transition-colors duration-300">
+                    <h3 className="text-2xl sm:text-3xl font-black text-zinc-900 dark:text-white leading-tight tracking-tighter mb-2 group-hover:text-green-400 transition-colors duration-300">
                       {item.title}
                     </h3>
                     <div className="h-0.5 w-12 bg-green-500 transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500 delay-75" />
                     
                     {/* Collapsible description that slides up on hover */}
                     <div className="max-h-0 opacity-0 overflow-hidden transition-all duration-500 ease-out group-hover:max-h-24 group-hover:opacity-100 group-hover:mt-4">
-                      <p className="text-neutral-300 text-sm leading-relaxed max-w-xs">
+                      <p className="text-zinc-700 dark:text-neutral-300 text-sm leading-relaxed max-w-xs">
                         {item.description}
                       </p>
                     </div>
 
-                    <div className="inline-flex items-center gap-2 mt-4 text-xs font-extrabold uppercase tracking-widest text-neutral-400 group-hover:text-white transition-colors duration-300">
+                    <div className="inline-flex items-center gap-2 mt-4 text-xs font-extrabold uppercase tracking-widest text-zinc-600 dark:text-neutral-400 group-hover:text-zinc-900 dark:text-white transition-colors duration-300">
                       Ver Projeto <ArrowRight size={16} className="text-green-400 group-hover:translate-x-1.5 transition-transform duration-300" />
                     </div>
                   </div>
@@ -279,7 +279,7 @@ export function PortfolioPage() {
 
             {/* Scroll progress bar */}
             {filteredItems.length > 0 && (
-              <div className="max-w-xs mx-auto mt-6 bg-neutral-900 h-[2px] rounded-full overflow-hidden border border-white/5">
+              <div className="max-w-xs mx-auto mt-6 bg-neutral-900 h-[2px] rounded-full overflow-hidden border border-black/5 dark:border-white/5">
                 <div
                   className="bg-gradient-to-r from-green-600 to-green-400 h-full transition-all duration-150"
                   style={{ width: `${scrollProgress}%` }}
@@ -290,12 +290,12 @@ export function PortfolioPage() {
         )}
 
         {/* CTA Section */}
-        <div className="mt-20 bg-gradient-to-r from-green-950/40 to-neutral-900/60 rounded-3xl p-12 text-center text-white border border-white/5 relative overflow-hidden group shadow-2xl">
+        <div className="mt-20 bg-gradient-to-r from-green-950/40 to-neutral-900/60 rounded-3xl p-12 text-center text-zinc-900 dark:text-white border border-black/5 dark:border-white/5 relative overflow-hidden group shadow-2xl">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,_rgba(46,125,50,0.1),_transparent_60%)]" />
           <h2 className="text-3xl font-bold mb-4 relative z-10">
             Pronto para Iniciar Seu Projeto?
           </h2>
-          <p className="text-xl text-neutral-300 mb-8 max-w-2xl mx-auto relative z-10">
+          <p className="text-xl text-zinc-700 dark:text-neutral-300 mb-8 max-w-2xl mx-auto relative z-10">
             Entre em contato conosco e transforme suas ideias em realidade digital.
           </p>
           <Link

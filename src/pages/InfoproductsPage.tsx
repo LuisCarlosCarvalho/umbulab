@@ -95,12 +95,12 @@ export function InfoproductsPage() {
 
   if (isSeoGestaoActive === false) {
     return (
-      <div className="pt-32 pb-24 min-h-screen bg-[#0d0d0d] flex flex-col justify-center items-center text-center px-4 dot-pattern">
+      <div className="pt-32 pb-24 min-h-screen bg-transparent flex flex-col justify-center items-center text-center px-4 dot-pattern">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,_rgba(46,125,50,0.1),_transparent_50%)] pointer-events-none" />
-        <div className="max-w-md bg-[#121212] p-10 rounded-3xl border border-white/5 relative z-10 shadow-2xl animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <div className="max-w-md bg-white dark:bg-[#121212] p-10 rounded-3xl border border-black/5 dark:border-white/5 relative z-10 shadow-2xl animate-in fade-in slide-in-from-bottom-4 duration-700">
           <AlertTriangle className="mx-auto text-amber-500 mb-6" size={56} />
-          <h3 className="text-2xl font-bold text-white mb-2">SEO de Gestão Temporariamente Inativo</h3>
-          <p className="text-neutral-400 mb-8">Esta funcionalidade está temporariamente indisponível. Volte mais tarde!</p>
+          <h3 className="text-2xl font-bold text-zinc-900 dark:text-white mb-2">SEO de Gestão Temporariamente Inativo</h3>
+          <p className="text-zinc-600 dark:text-neutral-400 mb-8">Esta funcionalidade está temporariamente indisponível. Volte mais tarde!</p>
           <Link 
             to="/"
             className="btn btn-primary w-full justify-center"
@@ -113,7 +113,7 @@ export function InfoproductsPage() {
   }
 
   return (
-    <div className="min-h-screen py-20 px-4 sm:px-6 lg:px-8 bg-[#0d0d0d] dot-pattern">
+    <div className="min-h-screen py-20 px-4 sm:px-6 lg:px-8 bg-transparent dot-pattern">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,_rgba(46,125,50,0.1),_transparent_50%)] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
@@ -121,8 +121,8 @@ export function InfoproductsPage() {
           <span className="text-xs font-extrabold uppercase tracking-widest text-green-400 bg-green-500/10 px-3 py-1.5 rounded-lg border border-green-500/20">
             SOLUÇÕES PRONTAS
           </span>
-          <h1 className="text-5xl font-black text-white mt-6 mb-6 tracking-tight">SEO de Gestão</h1>
-          <p className="text-xl text-neutral-400 max-w-3xl mx-auto leading-relaxed">
+          <h1 className="text-5xl font-black text-zinc-900 dark:text-white mt-6 mb-6 tracking-tight">SEO de Gestão</h1>
+          <p className="text-xl text-zinc-600 dark:text-neutral-400 max-w-3xl mx-auto leading-relaxed">
             Soluções completas de SEO e gestão digital para impulsionar sua presença online e resultados.
           </p>
         </div>
@@ -130,11 +130,11 @@ export function InfoproductsPage() {
         {errorStatus ? (
           <div className="text-center py-20 bg-red-950/20 rounded-3xl border border-red-900/50 mt-12 mx-auto max-w-2xl">
             <AlertTriangle className="mx-auto text-red-500 mb-4" size={48} />
-            <h3 className="text-xl font-bold text-white mb-2">Erro de Conexão</h3>
-            <p className="text-neutral-400 font-medium">Os dados demoraram muito para responder. Isso indica uma falha de rede ou no banco. Limpamos seu cache de sessão local.</p>
+            <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-2">Erro de Conexão</h3>
+            <p className="text-zinc-600 dark:text-neutral-400 font-medium">Os dados demoraram muito para responder. Isso indica uma falha de rede ou no banco. Limpamos seu cache de sessão local.</p>
             <button 
               onClick={() => window.location.reload()}
-              className="mt-6 btn bg-red-700 hover:bg-red-800 text-white font-bold transition-colors"
+              className="mt-6 btn bg-red-700 hover:bg-red-800 text-zinc-900 dark:text-white font-bold transition-colors"
             >
               Tentar Novamente
             </button>
@@ -142,15 +142,15 @@ export function InfoproductsPage() {
         ) : loading ? (
           <div className="text-center py-12">
             <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-green-700"></div>
-            <p className="mt-4 text-neutral-400">Carregando produtos...</p>
+            <p className="mt-4 text-zinc-600 dark:text-neutral-400">Carregando produtos...</p>
           </div>
         ) : products.length === 0 ? (
-          <div className="text-center py-12 bg-[#121212] rounded-3xl border border-white/5 p-12">
+          <div className="text-center py-12 bg-white dark:bg-[#121212] rounded-3xl border border-black/5 dark:border-white/5 p-12">
             <ShoppingCart size={64} className="mx-auto text-neutral-600 mb-6" />
-            <h3 className="text-2xl font-semibold text-white mb-2">
+            <h3 className="text-2xl font-semibold text-zinc-900 dark:text-white mb-2">
               Nenhum produto disponível no momento
             </h3>
-            <p className="text-neutral-400 max-w-md mx-auto">
+            <p className="text-zinc-600 dark:text-neutral-400 max-w-md mx-auto">
               Estamos preparando novas soluções de SEO e gestão para você. Fique atento às novidades!
             </p>
           </div>
@@ -159,10 +159,10 @@ export function InfoproductsPage() {
             {products.map((product) => (
               <div
                 key={product.id}
-                className="bg-[#121212] border border-white/5 rounded-2xl overflow-hidden flex flex-col group hover:border-green-600/35 hover:shadow-[0_0_30px_rgba(46,125,50,0.15)] transition-all duration-300 shadow-xl"
+                className="bg-white dark:bg-[#121212] border border-black/5 dark:border-white/5 rounded-2xl overflow-hidden flex flex-col group hover:border-green-600/35 hover:shadow-[0_0_30px_rgba(46,125,50,0.15)] transition-all duration-300 shadow-xl"
               >
                 {/* Image Area */}
-                <div className="relative aspect-video bg-neutral-900 overflow-hidden border-b border-white/5">
+                <div className="relative aspect-video bg-neutral-900 overflow-hidden border-b border-black/5 dark:border-white/5">
                    {product.image_urls && product.image_urls.length > 0 ? (
                     <LazyImage
                       src={product.image_urls[0]}
@@ -190,7 +190,7 @@ export function InfoproductsPage() {
                         e.preventDefault();
                         copyToClipboard(product.public_code);
                       }}
-                      className="bg-black/80 backdrop-blur text-neutral-300 p-2 rounded-full hover:bg-neutral-800 hover:text-white shadow-sm transition-colors border border-white/5"
+                      className="bg-black/80 backdrop-blur text-zinc-700 dark:text-neutral-300 p-2 rounded-full hover:bg-neutral-800 hover:text-zinc-900 dark:text-white shadow-sm transition-colors border border-black/5 dark:border-white/5"
                       title="Copiar Link"
                     >
                       <LinkIcon size={18} />
@@ -200,12 +200,12 @@ export function InfoproductsPage() {
 
                 <div className="p-6 flex-grow flex flex-col">
                   <div className="mb-4">
-                    <span className="text-xs font-mono bg-white/5 text-neutral-400 px-2.5 py-1 rounded-lg border border-white/5">
+                    <span className="text-xs font-mono bg-white/5 text-zinc-600 dark:text-neutral-400 px-2.5 py-1 rounded-lg border border-black/5 dark:border-white/5">
                       #{product.public_code}
                     </span>
                   </div>
 
-                  <h3 className="text-xl font-bold text-white mb-2 line-clamp-2">
+                  <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-2 line-clamp-2">
                     {product.title}
                   </h3>
                   
@@ -215,14 +215,14 @@ export function InfoproductsPage() {
                     </p>
                   )}
 
-                  <p className="text-neutral-400 mb-6 line-clamp-3 text-sm flex-grow">
+                  <p className="text-zinc-600 dark:text-neutral-400 mb-6 line-clamp-3 text-sm flex-grow">
                     {product.description}
                   </p>
 
-                  <div className="pt-4 border-t border-white/5 mt-auto">
+                  <div className="pt-4 border-t border-black/5 dark:border-white/5 mt-auto">
                     <Link
                       to={`/${product.public_code}`}
-                      className="w-full inline-flex items-center justify-center gap-2 bg-green-700 text-white px-6 py-3 rounded-xl font-semibold hover:bg-green-800 transition-colors"
+                      className="w-full inline-flex items-center justify-center gap-2 bg-green-700 text-zinc-900 dark:text-white px-6 py-3 rounded-xl font-semibold hover:bg-green-800 transition-colors"
                     >
                       Ver Detalhes
                       <ExternalLink size={18} />
@@ -235,13 +235,13 @@ export function InfoproductsPage() {
         )}
 
         {/* CTA Section */}
-        <div className="mt-20 bg-gradient-to-r from-green-950/40 to-neutral-900/60 rounded-3xl p-12 text-center text-white border border-white/5 relative overflow-hidden group shadow-2xl">
+        <div className="mt-20 bg-gradient-to-r from-green-950/40 to-neutral-900/60 rounded-3xl p-12 text-center text-zinc-900 dark:text-white border border-black/5 dark:border-white/5 relative overflow-hidden group shadow-2xl">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,_rgba(46,125,50,0.1),_transparent_60%)]" />
           <div className="relative z-10">
             <h2 className="text-3xl font-bold mb-4">
               Precisa de uma solução personalizada?
             </h2>
-            <p className="text-xl text-neutral-300 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-zinc-700 dark:text-neutral-300 mb-8 max-w-2xl mx-auto">
               Nossa equipe de especialistas em SEO e gestão digital está pronta para criar uma estratégia exclusiva para o seu negócio.
             </p>
             <Link

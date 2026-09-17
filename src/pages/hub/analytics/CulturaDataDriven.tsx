@@ -169,12 +169,12 @@ const CulturaDataDriven = () => {
           <li><strong>Deploy do Single Source of Truth:</strong> Centralize bancos analíticos em repositórios massivos (ex: Looker + BigQuery).</li>
         </ol>
 
-        <div className="bg-slate-900 text-white p-8 rounded-3xl mt-12 mb-8 shadow-2xl">
+        <div className="bg-slate-900 text-zinc-900 dark:text-white p-8 rounded-3xl mt-12 mb-8 shadow-2xl">
           <h2 className="text-3xl font-black mb-4">Eleve Sua Corporação com Data Analytics Profissional</h2>
           <p className="text-slate-300 text-xl font-medium mb-8">
             A infraestrutura ideal entre Big Data, BI e Taggeamento precisa de direcionamento cirúrgico para fugir dos passivos da má configuração de mercado. Pronto para parar de adivinhar onde investir?
           </p>
-          <Link onClick={handleCTAClick} to="/solucoes/data-analytics-BI" className="premium-button bg-green-600 text-white hover:bg-green-700 w-full sm:w-auto text-lg py-4 px-10">
+          <Link onClick={handleCTAClick} to="/solucoes/data-analytics-BI" className="premium-button bg-green-600 text-zinc-900 dark:text-white hover:bg-green-700 w-full sm:w-auto text-lg py-4 px-10">
             Conheça as Soluções de Data Analytics
           </Link>
         </div>

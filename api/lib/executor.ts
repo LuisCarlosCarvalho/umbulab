@@ -13,25 +13,33 @@ export interface AgentAction {
   element?: any; // Para add_element
 }
 
-// Inicializa o cliente do Supabase no lado do Servidor/Vercel Edge
-// Utiliza a chave de Serviço se disponível (para bypass do RLS) ou a chave anónima
 const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-const supabase = createClient(supabaseUrl, supabaseKey);
+const supabaseAnonKey = process.env.VITE_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 
 /**
  * Função principal para executar uma série de ações num JSON de uma página e guardar no Supabase
  * @param pageId ID da página na tabela site_pages
  * @param actions Array de ações extraídas do LLM
+ * @param authHeader Bearer token do utilizador autenticado
  * @returns { success, data, error }
  */
-export async function executeAgentActions(pageId: string, actions: AgentAction[]) {
-  if (!supabaseUrl || !supabaseKey) {
+export async function executeAgentActions(pageId: string, actions: AgentAction[], authHeader: string) {
+  if (!supabaseUrl || !supabaseAnonKey) {
     return { success: false, error: 'Credenciais Supabase ausentes no servidor.' };
   }
+  
+  if (!authHeader) {
+     return { success: false, error: 'Token de autenticação não fornecido para o executor.' };
+  }
+
+  // Inicializa o cliente do Supabase no lado do Servidor/Vercel Edge
+  // Utiliza a chave anónima COM o JWT do utilizador atual para garantir que o RLS funciona corretamente.
+  const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+    global: { headers: { Authorization: authHeader } }
+  });
 
   try {
-    // 1. Obter o estado atual do JSON da página
+    // 1. Obter o estado atual do JSON da página (validação de RLS)
     const { data: pageRecord, error: fetchError } = await supabase
       .from('site_pages')
       .select('content')
@@ -39,7 +47,7 @@ export async function executeAgentActions(pageId: string, actions: AgentAction[]
       .single();
 
     if (fetchError || !pageRecord) {
-      throw new Error(fetchError?.message || 'Página não encontrada.');
+      throw new Error(fetchError?.message || 'Página não encontrada ou sem permissão de leitura.');
     }
 
     // Clone profundo para não mutar diretamente a referência original acidentalmente
@@ -51,15 +59,13 @@ export async function executeAgentActions(pageId: string, actions: AgentAction[]
 
       // Segurança: Verifica se a seção existe no JSON
       if (!content[section]) {
-        content[section] = {}; // Pode criar uma secção vazia ou ignorar. Vamos permitir criar.
+        content[section] = {}; // Permitir criar a seção se estiver vazia
       }
 
       switch (type) {
         case 'update_text':
           if (field) {
-            // Ex: atualizar "hero.title"
             if (Array.isArray(content[section])) {
-              // Se for array (ex: gallery), precisa do ID
               if (id) {
                 const idx = content[section].findIndex((item: any) => item.id === id);
                 if (idx !== -1) content[section][idx][field] = value;
@@ -76,7 +82,6 @@ export async function executeAgentActions(pageId: string, actions: AgentAction[]
               const idx = content[section].findIndex((item: any) => item.id === id);
               if (idx !== -1) content[section][idx].url = new_url;
             } else if (!Array.isArray(content[section])) {
-              // Se for apenas hero.image, assumimos que o field não foi enviado e o default é "image" ou usar o "field"
               const targetField = field || 'image';
               content[section][targetField] = new_url;
             }
@@ -93,8 +98,6 @@ export async function executeAgentActions(pageId: string, actions: AgentAction[]
 
         case 'add_element':
           if (Array.isArray(content[section]) && element) {
-            // Adicionar a um array (ex: nova imagem na galeria)
-            // Gera um ID simples se não existir
             if (!element.id) element.id = Math.random().toString(36).substr(2, 6);
             content[section].push(element);
           } else if (field && element && !Array.isArray(content[section])) {
@@ -107,7 +110,7 @@ export async function executeAgentActions(pageId: string, actions: AgentAction[]
       }
     }
 
-    // 3. Atualizar o Supabase
+    // 3. Atualizar o Supabase (validação de RLS na escrita)
     const { data: updatedRecord, error: updateError } = await supabase
       .from('site_pages')
       .update({ content, updated_at: new Date().toISOString() })

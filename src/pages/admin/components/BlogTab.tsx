@@ -42,7 +42,7 @@ export function BlogTab({
           
           <button
             onClick={onNewPost}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition-colors shadow-sm"
+            className="bg-blue-600 text-zinc-900 dark:text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition-colors shadow-sm"
           >
             <Plus size={18} />
             Novo Artigo
@@ -67,7 +67,7 @@ export function BlogTab({
               )}
               <div className="absolute top-3 right-3 flex gap-2">
                 <span className={`px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                  post.status === 'published' ? 'bg-green-500 text-white' : 'bg-gray-500 text-white'
+                  post.status === 'published' ? 'bg-green-500 text-zinc-900 dark:text-white' : 'bg-gray-500 text-zinc-900 dark:text-white'
                 }`}>
                   {post.status === 'published' ? 'Publicado' : 'Rascunho'}
                 </span>

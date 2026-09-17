@@ -26,11 +26,11 @@ export function Hero({ title, subtitle, cta_text, variant = 'centered', imageUrl
         <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center z-10 animate-in fade-in slide-in-from-bottom-8 duration-1000">
           <div className="space-y-8 text-left p-8 md:p-12 rounded-[2rem] bg-white/5 backdrop-blur-2xl border border-white/10 shadow-2xl relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-[1.05] text-white">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-[1.05] text-zinc-900 dark:text-zinc-900 dark:text-white">
               {title}
             </h1>
             {subtitle && (
-              <p className="text-xl md:text-2xl text-neutral-300 leading-relaxed font-light">
+              <p className="text-xl md:text-2xl text-zinc-700 dark:text-zinc-700 dark:text-neutral-300 leading-relaxed font-light">
                 {subtitle}
               </p>
             )}
@@ -57,7 +57,7 @@ export function Hero({ title, subtitle, cta_text, variant = 'centered', imageUrl
 
   if (variant === 'full-image') {
     return (
-      <section className="relative w-full min-h-[100vh] flex items-center justify-center text-white px-6 py-24 overflow-hidden">
+      <section className="relative w-full min-h-[100vh] flex items-center justify-center text-zinc-900 dark:text-zinc-900 dark:text-white px-6 py-24 overflow-hidden">
         <div className="absolute inset-0 z-0 bg-neutral-900">
           <img 
             src={finalImageUrl} 
@@ -104,11 +104,11 @@ export function Hero({ title, subtitle, cta_text, variant = 'centered', imageUrl
       </div>
 
       <div className="relative z-10 max-w-5xl mx-auto text-center space-y-10 animate-in fade-in slide-in-from-bottom-10 duration-1000">
-        <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-white leading-[1]">
+        <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-zinc-900 dark:text-zinc-900 dark:text-white leading-[1]">
           {title}
         </h1>
         {subtitle && (
-          <p className="text-2xl md:text-3xl text-neutral-400 max-w-3xl mx-auto leading-relaxed font-light">
+          <p className="text-2xl md:text-3xl text-zinc-600 dark:text-zinc-600 dark:text-neutral-400 max-w-3xl mx-auto leading-relaxed font-light">
             {subtitle}
           </p>
         )}

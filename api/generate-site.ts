@@ -2,6 +2,30 @@ export const config = {
   runtime: 'edge',
 };
 
+import { createClient } from '@supabase/supabase-js';
+
+// Rate limiting simples em memória
+const RATE_LIMIT_WINDOW = 60000;
+const MAX_REQUESTS = 5;
+const ipRequests = new Map<string, { count: number; timestamp: number }>();
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const record = ipRequests.get(ip);
+
+  if (!record || (now - record.timestamp > RATE_LIMIT_WINDOW)) {
+    ipRequests.set(ip, { count: 1, timestamp: now });
+    return false;
+  }
+
+  if (record.count >= MAX_REQUESTS) {
+    return true;
+  }
+
+  record.count += 1;
+  return false;
+}
+
 export default async function handler(req: Request) {
   if (req.method !== 'POST') {
     return new Response(JSON.stringify({ error: 'Method not allowed' }), {
@@ -10,9 +34,58 @@ export default async function handler(req: Request) {
     });
   }
 
+  // 1. Rate Limiting
+  const ip = req.headers.get('x-forwarded-for') || 'unknown';
+  if (isRateLimited(ip)) {
+    return new Response(JSON.stringify({ error: 'Too many requests, please try again later.' }), {
+      status: 429,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
   try {
+    // 2. Extrair Bearer Token e Autenticar
+    const authHeader = req.headers.get('authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return new Response(JSON.stringify({ error: 'Missing or invalid Authorization header' }), {
+        status: 401,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+    const supabaseAnonKey = process.env.VITE_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+    
+    if (!supabaseUrl || !supabaseAnonKey) {
+       return new Response(JSON.stringify({ error: 'Server misconfiguration' }), { status: 500 });
+    }
+
+    const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+      global: { headers: { Authorization: authHeader } }
+    });
+
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    if (authError || !user) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 });
+    }
+
+    // 3. Payload size check
+    const cloneReq = req.clone();
+    const rawBody = await cloneReq.text();
+    if (rawBody.length > 50000) { // Max 50KB payload
+      return new Response(JSON.stringify({ error: 'Payload too large' }), { status: 413 });
+    }
+
     const body: any = await req.json();
     const { company_name, logo_url, business_type, number_of_pages, style, colors, description } = body;
+
+    // Simple schema validation
+    if (!company_name || typeof company_name !== 'string' || company_name.length > 200) {
+      return new Response(JSON.stringify({ error: 'Invalid company_name' }), { status: 400 });
+    }
+    if (!description || typeof description !== 'string' || description.length > 2000) {
+      return new Response(JSON.stringify({ error: 'Invalid description' }), { status: 400 });
+    }
 
     const fullPrompt = `You are a strict HTML generator.
 
@@ -22,6 +95,9 @@ CRITICAL RULES:
 - NEVER output broken attributes (e.g. href without <a>)
 - NEVER output partial elements
 - ALWAYS validate structure before finishing
+- DO NOT INCLUDE ANY SCRIPT TAGS (<script>).
+- DO NOT INCLUDE INLINE EVENT HANDLERS (onclick, etc.).
+- DO NOT USE javascript: PROTOCOLS.
 
 ---
 
@@ -74,12 +150,12 @@ OUTPUT RULES:
 
 INPUT:
 Business Name: ${company_name}
-Business Type: ${business_type}
-Style: ${style}
+Business Type: ${business_type || 'General'}
+Style: ${style || 'Modern'}
 Description: ${description}
-Number of Pages / Sections desired: ${number_of_pages}
+Number of Pages / Sections desired: ${number_of_pages || 1}
 Logo URL: ${logo_url || 'Use a text-based logo using the company name'}
-Primary Colors: ${colors}
+Primary Colors: ${colors || 'Blue and White'}
 
 ---
 
@@ -132,8 +208,8 @@ Respond ONLY in Portuguese (Portugal e Brasil).`;
     });
 
   } catch (error: any) {
-    console.error('API Error:', error);
-    return new Response(JSON.stringify({ error: error.message || 'Internal Server Error' }), {
+    console.error('API Error:', error.message);
+    return new Response(JSON.stringify({ error: 'Internal Server Error' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });

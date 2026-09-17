@@ -157,7 +157,7 @@ export function PaymentConfigTab() {
         >
           <div className="flex items-center gap-4">
             <div className={`flex h-12 w-12 items-center justify-center rounded-xl transition-all shadow-md ${
-              isOpen ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-500'
+              isOpen ? 'bg-blue-600 text-zinc-900 dark:text-white' : 'bg-gray-100 text-gray-500'
             }`}>
               <Icon size={24} />
             </div>
@@ -205,7 +205,7 @@ export function PaymentConfigTab() {
           onClick={saveSettings}
           disabled={isSaving}
           className={`px-8 py-4 rounded-2xl font-black uppercase tracking-widest transition-all shadow-xl hover:scale-105 active:scale-95 flex items-center gap-3 ${
-            isSaving ? 'bg-gray-100 text-gray-400' : 'bg-blue-600 text-white shadow-blue-200 hover:bg-blue-700'
+            isSaving ? 'bg-gray-100 text-gray-400' : 'bg-blue-600 text-zinc-900 dark:text-white shadow-blue-200 hover:bg-blue-700'
           }`}
         >
           {isSaving ? (
@@ -237,7 +237,7 @@ export function PaymentConfigTab() {
                     </button>
                     <button 
                       onClick={() => setGlobalSettings({...globalSettings, mode: 'production'})}
-                      className={`flex-1 py-3 rounded-lg text-xs font-black uppercase tracking-widest transition-all ${globalSettings.mode === 'production' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-400'}`}
+                      className={`flex-1 py-3 rounded-lg text-xs font-black uppercase tracking-widest transition-all ${globalSettings.mode === 'production' ? 'bg-blue-600 text-zinc-900 dark:text-white shadow-lg' : 'text-gray-400'}`}
                     >
                       Production (Live)
                     </button>
@@ -594,7 +594,7 @@ export function PaymentConfigTab() {
 
         {/* Sidebar Status & Monitoring */}
         <div className="lg:col-span-4 space-y-6">
-          <div className="bg-gray-900 rounded-[32px] p-8 text-white shadow-2xl relative overflow-hidden">
+          <div className="bg-gray-900 rounded-[32px] p-8 text-zinc-900 dark:text-white shadow-2xl relative overflow-hidden">
             <div className="absolute top-0 right-0 p-8 opacity-10">
               <ShieldCheck size={120} />
             </div>

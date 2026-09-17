@@ -241,7 +241,7 @@ export function PortfolioModal({
         <div className="flex gap-4 mt-12">
           <button
             onClick={handleSavePortfolio}
-            className="flex-grow bg-blue-600 text-white px-10 py-5 rounded-[24px] font-black text-lg hover:bg-blue-700 transition-all active:scale-[0.98] shadow-2xl shadow-blue-200"
+            className="flex-grow bg-blue-600 text-zinc-900 dark:text-white px-10 py-5 rounded-[24px] font-black text-lg hover:bg-blue-700 transition-all active:scale-[0.98] shadow-2xl shadow-blue-200"
           >
             {editingPortfolio ? 'Atualizar Case Study' : 'Publicar Projeto'}
           </button>

@@ -1,4 +1,4 @@
-import { FolderOpen, Users, MessageSquare, FileText, TrendingUp, Clock, CheckCircle, AlertCircle } from 'lucide-react';
+import { FolderOpen, Users, MessageSquare, FileText, TrendingUp, Clock, CheckCircle, AlertCircle, Eye } from 'lucide-react';
 
 type OverviewTabProps = {
   stats: {
@@ -7,6 +7,7 @@ type OverviewTabProps = {
     quotes: number;
     blogPosts: number;
   };
+  siteViews?: number | null;
   loading: boolean;
   onNewProject: () => void;
   onNewClient: () => void;
@@ -15,7 +16,8 @@ type OverviewTabProps = {
 };
 
 export function OverviewTab({ 
-  stats, 
+  stats,
+  siteViews,
   loading,
   onNewProject,
   onNewClient,
@@ -23,6 +25,13 @@ export function OverviewTab({
   onViewMessages
 }: OverviewTabProps) {
   const cards = [
+    {
+      title: 'Visitas',
+      value: siteViews !== null && siteViews !== undefined ? siteViews : '-',
+      icon: Eye,
+      color: 'bg-emerald-500',
+      description: 'Acessos ao site'
+    },
     {
       title: 'Projetos Ativos',
       value: stats.projects,
@@ -55,8 +64,8 @@ export function OverviewTab({
 
   if (loading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-pulse">
-        {[1, 2, 3, 4].map((i) => (
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 animate-pulse">
+        {[1, 2, 3, 4, 5].map((i) => (
           <div key={i} className="bg-gray-100 h-32 rounded-2xl"></div>
         ))}
       </div>
@@ -67,11 +76,11 @@ export function OverviewTab({
     <div className="space-y-8">
       <div>
         <h2 className="text-2xl font-bold text-gray-900 border-l-4 border-blue-600 pl-4 mb-6">Visão Geral</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
           {cards.map((card, index) => (
             <div key={index} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
               <div className="flex items-center justify-between mb-4">
-                <div className={`${card.color} p-3 rounded-xl text-white`}>
+                <div className={`${card.color} p-3 rounded-xl text-zinc-900 dark:text-white`}>
                   <card.icon size={24} />
                 </div>
                 <TrendingUp size={20} className="text-green-500" />

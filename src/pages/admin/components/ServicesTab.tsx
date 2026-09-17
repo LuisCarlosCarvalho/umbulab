@@ -15,7 +15,7 @@ export function ServicesTab({ services, onNewService, onEditService, onDeleteSer
         <h2 className="text-2xl font-bold">Serviços</h2>
         <button
           onClick={onNewService}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700"
+          className="bg-blue-600 text-zinc-900 dark:text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700"
         >
           <Plus size={18} />
           Novo Serviço

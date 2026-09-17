@@ -284,7 +284,7 @@ export function ClientDashboard() {
                      profile?.full_name?.charAt(0)
                    )}
                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                     <Plus size={16} className="text-white" />
+                     <Plus size={16} className="text-zinc-900 dark:text-white" />
                    </div>
                  </div>
                  <input type="file" className="hidden" accept="image/*" onChange={handleAvatarUpload} disabled={uploadingFile} />
@@ -332,7 +332,7 @@ export function ClientDashboard() {
                     setSelectedProject(project);
                     setActiveTab('overview');
                   }}
-                  className="w-full py-4 bg-gray-900 text-white rounded-2xl font-bold hover:bg-green-700 shadow-lg shadow-gray-200 hover:shadow-green-200 transition-all active:scale-95 flex items-center justify-center gap-2"
+                  className="w-full py-4 bg-gray-900 text-zinc-900 dark:text-white rounded-2xl font-bold hover:bg-green-700 shadow-lg shadow-gray-200 hover:shadow-green-200 transition-all active:scale-95 flex items-center justify-center gap-2"
                 >
                   Abrir Projeto
                   <ArrowLeft className="rotate-180" size={18} />
@@ -360,12 +360,12 @@ export function ClientDashboard() {
                  </div>
                )}
                <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                 <p className="text-white text-xs font-bold uppercase tracking-widest">Alterar Foto</p>
+                 <p className="text-zinc-900 dark:text-white text-xs font-bold uppercase tracking-widest">Alterar Foto</p>
                </div>
              </div>
              <input type="file" className="hidden" accept="image/*" onChange={handleAvatarUpload} disabled={uploadingFile} />
              {uploadingFile && (
-               <div className="absolute -bottom-2 right-0 bg-green-700 text-white p-1.5 rounded-full animate-spin">
+               <div className="absolute -bottom-2 right-0 bg-green-700 text-zinc-900 dark:text-white p-1.5 rounded-full animate-spin">
                  <Clock size={14} />
                </div>
              )}
@@ -382,7 +382,7 @@ export function ClientDashboard() {
 
            <a 
             href="/contact" 
-            className="inline-flex items-center gap-3 bg-green-700 text-white px-10 py-5 rounded-3xl font-bold hover:bg-green-800 transition-all shadow-2xl shadow-green-200 hover:-translate-y-1 active:scale-95"
+            className="inline-flex items-center gap-3 bg-green-700 text-zinc-900 dark:text-white px-10 py-5 rounded-3xl font-bold hover:bg-green-800 transition-all shadow-2xl shadow-green-200 hover:-translate-y-1 active:scale-95"
            >
              Acompanhe seu Projeto
              <ArrowLeft className="rotate-180" size={20} />
@@ -427,7 +427,7 @@ export function ClientDashboard() {
                    profile?.full_name?.charAt(0)
                  )}
                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                   <Plus size={12} className="text-white" />
+                   <Plus size={12} className="text-zinc-900 dark:text-white" />
                  </div>
                </div>
                <input type="file" className="hidden" accept="image/*" onChange={handleAvatarUpload} disabled={uploadingFile} />
@@ -435,35 +435,35 @@ export function ClientDashboard() {
              <div className="flex items-center gap-2">
              <button 
               onClick={() => setActiveTab('overview')}
-              className={`px-6 py-3 rounded-2xl text-sm font-bold transition-all flex items-center gap-2 ${activeTab === 'overview' ? 'bg-green-700 text-white shadow-lg shadow-green-100' : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50'}`}
+              className={`px-6 py-3 rounded-2xl text-sm font-bold transition-all flex items-center gap-2 ${activeTab === 'overview' ? 'bg-green-700 text-zinc-900 dark:text-white shadow-lg shadow-green-100' : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50'}`}
              >
                <LayoutDashboard size={18} />
                <span className="hidden md:inline">Visão Geral</span>
              </button>
              <button 
               onClick={() => setActiveTab('progress')}
-              className={`px-6 py-3 rounded-2xl text-sm font-bold transition-all flex items-center gap-2 ${activeTab === 'progress' ? 'bg-green-700 text-white shadow-lg shadow-green-100' : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50'}`}
+              className={`px-6 py-3 rounded-2xl text-sm font-bold transition-all flex items-center gap-2 ${activeTab === 'progress' ? 'bg-green-700 text-zinc-900 dark:text-white shadow-lg shadow-green-100' : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50'}`}
              >
                <CheckSquare size={18} />
                <span className="hidden md:inline">Andamento</span>
              </button>
              <button 
               onClick={() => setActiveTab('messages')}
-              className={`px-6 py-3 rounded-2xl text-sm font-bold transition-all flex items-center gap-2 ${activeTab === 'messages' ? 'bg-green-700 text-white shadow-lg shadow-green-100' : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50'}`}
+              className={`px-6 py-3 rounded-2xl text-sm font-bold transition-all flex items-center gap-2 ${activeTab === 'messages' ? 'bg-green-700 text-zinc-900 dark:text-white shadow-lg shadow-green-100' : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50'}`}
              >
                <MessageSquare size={18} />
                <span className="hidden md:inline">Mensagens</span>
              </button>
              <button 
               onClick={() => setActiveTab('files')}
-              className={`px-6 py-3 rounded-2xl text-sm font-bold transition-all flex items-center gap-2 ${activeTab === 'files' ? 'bg-green-700 text-white shadow-lg shadow-green-100' : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50'}`}
+              className={`px-6 py-3 rounded-2xl text-sm font-bold transition-all flex items-center gap-2 ${activeTab === 'files' ? 'bg-green-700 text-zinc-900 dark:text-white shadow-lg shadow-green-100' : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50'}`}
              >
                <FileText size={18} />
                <span className="hidden md:inline">Arquivos</span>
              </button>
              <button 
               onClick={() => setActiveTab('finance')}
-              className={`px-6 py-3 rounded-2xl text-sm font-bold transition-all flex items-center gap-2 ${activeTab === 'finance' ? 'bg-green-700 text-white shadow-lg shadow-green-100' : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50'}`}
+              className={`px-6 py-3 rounded-2xl text-sm font-bold transition-all flex items-center gap-2 ${activeTab === 'finance' ? 'bg-green-700 text-zinc-900 dark:text-white shadow-lg shadow-green-100' : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50'}`}
              >
                <DollarSign size={18} />
                <span className="hidden md:inline">Financeiro</span>
@@ -592,7 +592,7 @@ export function ClientDashboard() {
                               className={`flex gap-6 p-8 rounded-3xl border transition-all ${step.is_completed ? 'bg-green-50/30 border-green-100 opacity-80' : 'bg-white border-gray-100 shadow-sm'}`}
                              >
                                 <div className="flex flex-col items-center gap-2">
-                                   <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg transition-all ${step.is_completed ? 'bg-green-500 text-white' : 'bg-white text-gray-200 border border-gray-100'}`}>
+                                   <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg transition-all ${step.is_completed ? 'bg-green-500 text-zinc-900 dark:text-white' : 'bg-white text-gray-200 border border-gray-100'}`}>
                                       {step.is_completed ? <CheckCircle2 size={24} /> : <Circle size={24} />}
                                    </div>
                                    {index < selectedProject!.steps.length - 1 && (
@@ -666,16 +666,16 @@ export function ClientDashboard() {
                         return (
                           <div key={message.id} className={`flex ${isMe ? 'justify-end' : 'justify-start'}`}>
                              <div className={`max-w-[80%] ${isMe ? 'items-end' : 'items-start'} flex flex-col gap-2`}>
-                                <div className={`p-6 rounded-[30px] shadow-sm ${isMe ? 'bg-gray-900 text-white rounded-tr-none' : 'bg-gray-50 text-gray-800 rounded-tl-none border border-gray-100'}`}>
+                                <div className={`p-6 rounded-[30px] shadow-sm ${isMe ? 'bg-gray-900 text-zinc-900 dark:text-white rounded-tr-none' : 'bg-gray-50 text-gray-800 rounded-tl-none border border-gray-100'}`}>
                                    <p className="text-sm leading-relaxed font-medium">{message.message}</p>
                                    {(message as any).payload?.type === 'attachment' && (
                                      <div className="mt-4 p-4 bg-black/10 rounded-2xl flex items-center gap-3 backdrop-blur-sm">
-                                        <File size={16} className="text-white/50" />
+                                        <File size={16} className="text-zinc-900 dark:text-white/50" />
                                         <a 
                                           href={`${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/project-attachments/${(message as any).payload.file_url}`}
                                           target="_blank"
                                           rel="noopener noreferrer"
-                                          className="text-xs font-black text-white hover:underline truncate"
+                                          className="text-xs font-black text-zinc-900 dark:text-white hover:underline truncate"
                                         >
                                           Abrir Anexo
                                         </a>
@@ -710,7 +710,7 @@ export function ClientDashboard() {
                         <button 
                           onClick={sendMessage}
                           disabled={sendingMessage || !newMessage.trim()}
-                          className="w-14 h-14 bg-gray-900 text-white rounded-2xl flex items-center justify-center hover:bg-green-700 shadow-lg shadow-gray-200 hover:shadow-green-200 transition-all active:scale-90 disabled:opacity-20"
+                          className="w-14 h-14 bg-gray-900 text-zinc-900 dark:text-white rounded-2xl flex items-center justify-center hover:bg-green-700 shadow-lg shadow-gray-200 hover:shadow-green-200 transition-all active:scale-90 disabled:opacity-20"
                         >
                           <Send size={18} />
                         </button>
@@ -792,8 +792,8 @@ export function ClientDashboard() {
                           <p className="text-gray-400 font-medium mt-1">Informações sobre investimentos e pagamentos do projeto.</p>
                         </div>
                         <div className={`px-4 py-2 rounded-2xl text-xs font-black uppercase tracking-widest shadow-xl shadow-green-50 ${
-                          selectedProject!.payment_status === 'paid' ? 'bg-green-600 text-white' : 
-                          selectedProject!.payment_status === 'pending' ? 'bg-orange-500 text-white' : 'bg-green-700 text-white'
+                          selectedProject!.payment_status === 'paid' ? 'bg-green-600 text-zinc-900 dark:text-white' : 
+                          selectedProject!.payment_status === 'pending' ? 'bg-orange-500 text-zinc-900 dark:text-white' : 'bg-green-700 text-zinc-900 dark:text-white'
                         }`}>
                            {selectedProject!.payment_status === 'paid' ? 'QUITADO' : 
                             selectedProject!.payment_status === 'pending' ? 'AGUARDANDO' : 'EM DIA'}
@@ -801,13 +801,13 @@ export function ClientDashboard() {
                      </div>
 
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-                        <div className="bg-gray-900 rounded-[35px] p-8 text-white shadow-2xl shadow-gray-200 relative overflow-hidden">
-                           <DollarSign className="absolute -bottom-4 -right-4 text-white/5 opacity-40" size={160} />
-                           <p className="text-xs font-black text-white/40 uppercase tracking-[0.2em] mb-2 font-mono italic">Valor Total Contratado</p>
+                        <div className="bg-gray-900 rounded-[35px] p-8 text-zinc-900 dark:text-white shadow-2xl shadow-gray-200 relative overflow-hidden">
+                           <DollarSign className="absolute -bottom-4 -right-4 text-zinc-900 dark:text-white/5 opacity-40" size={160} />
+                           <p className="text-xs font-black text-zinc-900 dark:text-white/40 uppercase tracking-[0.2em] mb-2 font-mono italic">Valor Total Contratado</p>
                            <h4 className="text-5xl font-black tracking-tighter">
                              {selectedProject!.total_value ? `R$ ${selectedProject!.total_value.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}` : 'R$ ---'}
                            </h4>
-                           <p className="mt-6 text-xs text-white/60 font-medium leading-relaxed">Este valor engloba todos os serviços acordados.</p>
+                           <p className="mt-6 text-xs text-zinc-900 dark:text-white/60 font-medium leading-relaxed">Este valor engloba todos os serviços acordados.</p>
                         </div>
                         <div className="bg-green-50 rounded-[35px] p-8 border border-green-100 flex flex-col justify-between">
                             <div>
@@ -861,7 +861,7 @@ export function ClientDashboard() {
                 </div>
              </div>
 
-             <div className="bg-gradient-to-br from-green-700 to-green-900 rounded-3xl p-8 text-white shadow-xl shadow-green-100">
+             <div className="bg-gradient-to-br from-green-700 to-green-900 rounded-3xl p-8 text-zinc-900 dark:text-white shadow-xl shadow-green-100">
                 <Plus size={32} className="mb-6 opacity-40" />
                 <h4 className="text-xl font-bold mb-2">Novo Serviço?</h4>
                 <p className="text-green-100 text-sm leading-relaxed mb-6 font-medium">Precisa de algo extra para seu projeto? Solicite um novo orçamento agora mesmo.</p>

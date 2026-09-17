@@ -124,20 +124,20 @@ export function ProposalViewer() {
       
       <div className="fixed inset-0 z-[99999] bg-black overflow-hidden flex flex-col">
         {/* Barra Superior - Indicador de Visualização */}
-        <div className="bg-neutral-900 text-white p-3 flex items-center justify-between border-b border-neutral-800 shrink-0 shadow-lg relative z-50">
+        <div className="bg-neutral-900 text-zinc-900 dark:text-white p-3 flex items-center justify-between border-b border-neutral-800 shrink-0 shadow-lg relative z-50">
           <div className="flex items-center gap-3">
             <div className="bg-amber-500/10 text-amber-500 p-2 rounded-lg border border-amber-500/20">
               <ShieldAlert size={20} />
             </div>
             <div>
-              <h2 className="text-xs font-black uppercase tracking-widest text-neutral-300">Modo de Visualização Seguro</h2>
+              <h2 className="text-xs font-black uppercase tracking-widest text-zinc-700 dark:text-neutral-300">Modo de Visualização Seguro</h2>
               <p className="text-[10px] text-amber-500/80 font-medium">Interações, cópias e impressões desativadas</p>
             </div>
           </div>
           
-          <div className="hidden sm:flex items-center gap-2 bg-black/50 px-4 py-2 rounded-xl border border-white/5">
+          <div className="hidden sm:flex items-center gap-2 bg-black/50 px-4 py-2 rounded-xl border border-black/5 dark:border-white/5">
             <span className="text-xs text-neutral-500">Proposta de Referência:</span>
-            <span className="font-mono text-sm font-bold text-white tracking-wider">{codigo.toUpperCase()}</span>
+            <span className="font-mono text-sm font-bold text-zinc-900 dark:text-white tracking-wider">{codigo.toUpperCase()}</span>
           </div>
 
           <button 

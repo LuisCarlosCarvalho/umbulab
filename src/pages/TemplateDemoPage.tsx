@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Loader2, Monitor, Smartphone, Tablet } from 'lucide-react';
+import DOMPurify from 'dompurify';
+
+// Configuração segura do DOMPurify para preservar HTML legítimo de templates mas barrar XSS
+const sanitizeConfig = {
+  FORBID_TAGS: ['script', 'iframe', 'object', 'embed', 'form'],
+  FORBID_ATTR: ['onerror', 'onload', 'onclick', 'onmouseover', 'onmouseout', 'onkeydown', 'onkeyup'],
+  // Mantemos style ativo porque templates costumam usar inline styles
+};
 
 interface ElementorWidget {
   id: string;
@@ -58,7 +66,7 @@ export function TemplateDemoPage() {
 
   if (error || !template) {
     return (
-      <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center text-white p-4">
+      <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center text-zinc-900 dark:text-white p-4">
         <h1 className="text-2xl font-bold mb-4">Erro ao carregar o modelo</h1>
         <p className="text-slate-400 mb-8">{error || 'Modelo não encontrado'}</p>
         <button
@@ -86,7 +94,7 @@ export function TemplateDemoPage() {
               textAlign: settings.align || 'left',
               fontSize: settings.typography_font_size?.size ? `${settings.typography_font_size.size}px` : undefined
             }}
-            dangerouslySetInnerHTML={{ __html: settings.title }}
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(settings.title, sanitizeConfig) }}
           />
         );
       
@@ -98,7 +106,7 @@ export function TemplateDemoPage() {
               color: settings.text_color,
               textAlign: settings.align || 'left'
             }}
-            dangerouslySetInnerHTML={{ __html: settings.editor }}
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(settings.editor, sanitizeConfig) }}
           />
         );
 
@@ -225,7 +233,7 @@ export function TemplateDemoPage() {
 
         <div className="flex items-center gap-2">
            <span className="hidden md:inline text-xs text-slate-400 mr-4">Preview do Modelo de Página</span>
-           <button className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors">
+           <button className="bg-green-600 text-zinc-900 dark:text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors">
              Comprar Template
            </button>
         </div>
@@ -244,7 +252,7 @@ export function TemplateDemoPage() {
           {template.content?.map((section: any) => renderSection(section))}
           
           {/* Footer Disclaimer Inside Frame */}
-          <footer className="bg-slate-900 text-white py-12 px-6 text-center border-t border-slate-800">
+          <footer className="bg-slate-900 text-zinc-900 dark:text-white py-12 px-6 text-center border-t border-slate-800">
              <p className="text-slate-400 text-sm">
                &copy; {new Date().getFullYear()} UmbuLab. Este é um preview demonstrativo do modelo de página.
              </p>

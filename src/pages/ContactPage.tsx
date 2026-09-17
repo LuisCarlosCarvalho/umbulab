@@ -169,7 +169,7 @@ export function ContactPage() {
                 <h2 className="text-xl font-bold text-gray-900 mb-5">Informações de Contato</h2>
                 <div className="space-y-5">
                   <div className="flex items-center gap-4 group">
-                    <div className="bg-green-50 p-4 rounded-2xl group-hover:bg-green-600 group-hover:text-white transition-all duration-300 text-green-600">
+                    <div className="bg-green-50 p-4 rounded-2xl group-hover:bg-green-600 group-hover:text-zinc-900 dark:text-white transition-all duration-300 text-green-600">
                       <Mail size={24} />
                     </div>
                     <div>
@@ -179,7 +179,7 @@ export function ContactPage() {
                   </div>
 
                   <div className="flex items-center gap-4 group">
-                    <div className="bg-green-50 p-4 rounded-2xl group-hover:bg-green-600 group-hover:text-white transition-all duration-300 text-green-600">
+                    <div className="bg-green-50 p-4 rounded-2xl group-hover:bg-green-600 group-hover:text-zinc-900 dark:text-white transition-all duration-300 text-green-600">
                       <Phone size={24} />
                     </div>
                     <div>
@@ -189,7 +189,7 @@ export function ContactPage() {
                   </div>
 
                   <div className="flex items-center gap-4 group">
-                    <div className="bg-orange-50 p-4 rounded-2xl group-hover:bg-orange-600 group-hover:text-white transition-all duration-300 text-orange-600">
+                    <div className="bg-orange-50 p-4 rounded-2xl group-hover:bg-orange-600 group-hover:text-zinc-900 dark:text-white transition-all duration-300 text-orange-600">
                       <MapPin size={24} />
                     </div>
                     <div>
@@ -229,7 +229,7 @@ export function ContactPage() {
                   <div className="text-center py-16 animate-in zoom-in-95 duration-700">
                     <div className="relative w-32 h-32 mx-auto mb-8">
                       <div className="absolute inset-0 bg-green-100 rounded-full animate-ping opacity-60"></div>
-                      <div className="relative w-full h-full bg-gradient-to-tr from-green-400 to-green-500 text-white rounded-full flex items-center justify-center shadow-2xl shadow-green-200 transform hover:scale-105 transition-transform duration-500">
+                      <div className="relative w-full h-full bg-gradient-to-tr from-green-400 to-green-500 text-zinc-900 dark:text-white rounded-full flex items-center justify-center shadow-2xl shadow-green-200 transform hover:scale-105 transition-transform duration-500">
                         <ShieldCheck size={64} className="animate-bounce" />
                       </div>
                     </div>
@@ -239,7 +239,7 @@ export function ContactPage() {
                     </p>
                     <button 
                       onClick={() => setSubmitSuccess(false)}
-                      className="bg-gray-900 text-white px-10 py-4 rounded-2xl font-bold hover:bg-black transition-all shadow-lg hover:shadow-xl hover:-translate-y-1"
+                      className="bg-gray-900 text-zinc-900 dark:text-white px-10 py-4 rounded-2xl font-bold hover:bg-black transition-all shadow-lg hover:shadow-xl hover:-translate-y-1"
                     >
                       Nova Solicitação
                     </button>
@@ -373,7 +373,7 @@ export function ContactPage() {
                           type="submit"
                           disabled={loading}
                           onClick={() => setSubmitType('whatsapp')}
-                          className="bg-[#25D366] text-white px-8 py-5 rounded-2xl font-black hover:bg-[#1DA851] transition-all flex items-center justify-center gap-3 shadow-lg shadow-[#25D366]/30 disabled:opacity-50"
+                          className="bg-[#25D366] text-zinc-900 dark:text-white px-8 py-5 rounded-2xl font-black hover:bg-[#1DA851] transition-all flex items-center justify-center gap-3 shadow-lg shadow-[#25D366]/30 disabled:opacity-50"
                         >
                           {loading && submitType === 'whatsapp' ? 'Gerando Link Wa.me...' : (
                             <>
@@ -386,7 +386,7 @@ export function ContactPage() {
                           type="submit"
                           disabled={loading}
                           onClick={() => setSubmitType('email')}
-                          className="bg-black text-white px-8 py-5 rounded-2xl font-black hover:bg-gray-900 transition-all flex items-center justify-center gap-3 shadow-lg shadow-gray-200 disabled:opacity-50"
+                          className="bg-black text-zinc-900 dark:text-white px-8 py-5 rounded-2xl font-black hover:bg-gray-900 transition-all flex items-center justify-center gap-3 shadow-lg shadow-gray-200 disabled:opacity-50"
                         >
                           {loading && submitType === 'email' ? 'Registrando Lead...' : (
                             <>
@@ -408,7 +408,7 @@ export function ContactPage() {
         </div>
 
         {/* Suporte Estratégico Card placed full-width below the grid */}
-        <div className="bg-gradient-to-br from-green-800 to-emerald-950 rounded-3xl p-8 md:p-10 text-white shadow-lg shadow-green-900/10 mt-8">
+        <div className="bg-gradient-to-br from-green-800 to-emerald-950 rounded-3xl p-8 md:p-10 text-zinc-900 dark:text-white shadow-lg shadow-green-900/10 mt-8">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-8">
             <div className="space-y-2">
               <h3 className="text-2xl font-black tracking-tight">Suporte Estratégico</h3>

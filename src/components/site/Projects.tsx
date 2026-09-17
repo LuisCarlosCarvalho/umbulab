@@ -24,10 +24,10 @@ export function Projects({ title = "Nossos Projetos", subtitle, items, primaryCo
       <div className="max-w-[90rem] mx-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
           <div className="space-y-6">
-            <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-white drop-shadow-md">{title}</h2>
-            {subtitle && <p className="text-2xl text-neutral-400 max-w-2xl font-light">{subtitle}</p>}
+            <h2 className="text-5xl md:text-7xl font-black tracking-tighter text-zinc-900 dark:text-zinc-900 dark:text-white drop-shadow-md">{title}</h2>
+            {subtitle && <p className="text-2xl text-zinc-600 dark:text-zinc-600 dark:text-neutral-400 max-w-2xl font-light">{subtitle}</p>}
           </div>
-          <div className="hidden md:flex items-center gap-4 text-neutral-400">
+          <div className="hidden md:flex items-center gap-4 text-zinc-600 dark:text-zinc-600 dark:text-neutral-400">
             <span className="h-[1px] w-24 bg-white/20"></span>
             <span className="text-sm font-bold tracking-widest uppercase" style={{ color: primaryColor }}>Scroll to explore</span>
           </div>
@@ -38,7 +38,7 @@ export function Projects({ title = "Nossos Projetos", subtitle, items, primaryCo
             const finalImageUrl = item.imageUrl || `https://image.pollinations.ai/prompt/${encodeURIComponent((item.category || 'creative') + ' ' + item.title + ' masterpiece portfolio high quality')}?width=1200&height=800&nologo=true&enhance=true`;
             
             return (
-            <div key={i} className="group relative rounded-[2rem] overflow-hidden bg-neutral-900 h-[60vh] min-h-[400px] cursor-pointer shadow-2xl border border-white/5">
+            <div key={i} className="group relative rounded-[2rem] overflow-hidden bg-neutral-900 h-[60vh] min-h-[400px] cursor-pointer shadow-2xl border border-black/5 dark:border-black/5 dark:border-white/5">
               <img 
                 src={finalImageUrl} 
                 alt={item.title} 
@@ -50,7 +50,7 @@ export function Projects({ title = "Nossos Projetos", subtitle, items, primaryCo
               <div className="absolute inset-0 p-10 flex flex-col justify-end transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700 ease-out">
                 {item.category && (
                   <span 
-                    className="inline-block px-4 py-1.5 mb-6 text-xs font-black uppercase tracking-widest text-white backdrop-blur-xl rounded-full w-fit border border-white/20"
+                    className="inline-block px-4 py-1.5 mb-6 text-xs font-black uppercase tracking-widest text-zinc-900 dark:text-zinc-900 dark:text-white backdrop-blur-xl rounded-full w-fit border border-white/20"
                     style={{ backgroundColor: `${primaryColor}60` }}
                   >
                     {item.category}
@@ -58,15 +58,15 @@ export function Projects({ title = "Nossos Projetos", subtitle, items, primaryCo
                 )}
                 
                 <div className="backdrop-blur-md bg-black/20 p-8 rounded-3xl border border-white/10 group-hover:border-white/20 transition-colors duration-700">
-                  <h3 className="text-4xl lg:text-5xl font-bold text-white mb-4 tracking-tight drop-shadow-md">{item.title}</h3>
+                  <h3 className="text-4xl lg:text-5xl font-bold text-zinc-900 dark:text-zinc-900 dark:text-white mb-4 tracking-tight drop-shadow-md">{item.title}</h3>
                   {item.description && (
-                    <p className="text-xl text-neutral-300 mb-0 opacity-0 h-0 group-hover:opacity-100 group-hover:h-auto group-hover:mb-8 transition-all duration-700 ease-out font-light line-clamp-3">
+                    <p className="text-xl text-zinc-700 dark:text-zinc-700 dark:text-neutral-300 mb-0 opacity-0 h-0 group-hover:opacity-100 group-hover:h-auto group-hover:mb-8 transition-all duration-700 ease-out font-light line-clamp-3">
                       {item.description}
                     </p>
                   )}
                   
                   {item.link && (
-                    <button className="flex items-center gap-3 text-white font-bold tracking-wide uppercase text-sm group-hover:text-white transition-colors opacity-0 group-hover:opacity-100 duration-700 delay-100">
+                    <button className="flex items-center gap-3 text-zinc-900 dark:text-zinc-900 dark:text-white font-bold tracking-wide uppercase text-sm group-hover:text-zinc-900 dark:text-zinc-900 dark:text-white transition-colors opacity-0 group-hover:opacity-100 duration-700 delay-100">
                       <span style={{ color: primaryColor }}>View Project</span> 
                       <ArrowRight className="w-5 h-5" style={{ color: primaryColor }} />
                     </button>
