@@ -159,3 +159,22 @@ Para o robô ter permissão de gravar novos artigos no Supabase ignorando as pol
    - Key: `SUPABASE_SERVICE_ROLE_KEY`
    - Value: *(sua chave)*
 4. Faça um "Redeploy" na Vercel para aplicar a chave.
+
+## Segurança e Manutenção (Atualizações Recentes)
+
+O projeto passou recentemente por um processo de *Hardening* (fortalecimento de segurança):
+
+### Rate Limiting Persistente
+As funções Serverless (como geração de sites via IA e Chatbot) agora utilizam Rate Limiting nativo via banco de dados (tabela `rate_limits`). Isso impede abusos e excesso de pedidos, mesmo em ambientes serverless como a Vercel, onde os limites em memória falhariam devido à mudança constante de instâncias.
+
+### Segurança da Tabela de Leads
+A tabela `newsletter_leads` possui políticas RLS (Row Level Security) rigorosas:
+- **Visitantes Anónimos**: Têm permissão para inserir o seu e-mail (`INSERT`), mas estão totalmente bloqueados de fazer leitura (`SELECT`).
+- **Administradores**: Têm acesso total. Isso impede que os dados de leads sejam extraídos publicamente por atacantes.
+
+### Contador de Visitas
+O sistema de métricas (`site_analytics`) foi atualizado para utilizar incrementos atómicos (função `increment_site_views`). A tabela foi configurada com RLS permitindo que visitantes anónimos façam a leitura do contador (`total_views`), garantindo que o número correto aparece sempre na página principal.
+
+### Falsos Alertas na Vercel (Branch "deploy")
+Se notar falhas de build na Vercel referenciando a branch `deploy` (erro "vite: command not found"), **pode ignorar**. Isso ocorre porque a automação do GitHub (`deploy.yml`) gera uma versão estática na branch `deploy` para outra hospedagem, e a Vercel tenta compilar essa branch sem sucesso por não ter os ficheiros de source. O site em Produção (branch `main`) não é afetado.
+Para ocultar estes avisos, vá à Vercel em **Settings > General > Ignored Build Step**, selecione "Command" e insira: `bash -c "[[ $VERCEL_GIT_COMMIT_REF != 'deploy' ]]"`
