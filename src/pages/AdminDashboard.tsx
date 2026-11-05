@@ -1,12 +1,13 @@
 import { useState, useEffect, Suspense, lazy } from 'react';
 import { showToast } from '../components/ui/Toast';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
 import { Project, Service, Profile, QuoteRequest, MarketingProduct, Portfolio, ProjectStep, BlogPost, ClientLogo } from '../types';
 import { getErrorMessage } from '../lib/errors';
 import { GlobalPaymentSettings, PaymentMethodsState } from '../types';
-import { Users, FolderOpen, MessageSquare, CheckSquare, Settings, Briefcase, TrendingUp, Lock, BarChart3, MessageCircle, FileText, ShoppingCart, Activity, AlertTriangle, Loader2 } from 'lucide-react';
+import { isValidGrowthOsSection } from '../types/growthOs';
+import { Users, FolderOpen, MessageSquare, CheckSquare, Settings, Briefcase, TrendingUp, Lock, BarChart3, MessageCircle, FileText, ShoppingCart, Activity, AlertTriangle, Loader2, Sparkles } from 'lucide-react';
 import { generateContractPDF } from '../lib/contracts';
 import { useAdminData } from '../hooks/useAdminData';
 
@@ -24,6 +25,7 @@ const OverviewTab = lazy(() => import('./admin/components/OverviewTab').then(m =
 const PaymentConfigTab = lazy(() => import('./admin/components/PaymentConfigTab').then(m => ({ default: m.PaymentConfigTab })));
 const Dashboard = lazy(() => import('./admin/Dashboard'));
 const FinancialIntelligence = lazy(() => import('./admin/FinancialIntelligence'));
+const GrowthOsShell = lazy(() => import('./admin/growth-os/GrowthOsShell'));
 
 const AdminAuthModal = lazy(() => import('../components/admin/AdminAuthModal').then(m => ({ default: m.AdminAuthModal })));
 const ProductRegistrationStepper = lazy(() => import('./admin/components/ProductRegistrationStepper').then(m => ({ default: m.ProductRegistrationStepper })));
@@ -39,32 +41,110 @@ const ReplyModal = lazy(() => import('./admin/modals/ReplyModal').then(m => ({ d
 const PortfolioModal = lazy(() => import('./admin/modals/PortfolioModal').then(m => ({ default: m.PortfolioModal })));
 const ServiceModal = lazy(() => import('./admin/modals/ServiceModal').then(m => ({ default: m.ServiceModal })));
 
-type Tab = 'overview' | 'engine_control' | 'financial_intelligence' | 'projects' | 'clients' | 'messages' | 'quotes' | 'infoproducts' | 'portfolio' | 'blog' | 'logos' | 'services' | 'checkout_config';
+type Tab = 'overview' | 'growth_os' | 'engine_control' | 'financial_intelligence' | 'projects' | 'clients' | 'messages' | 'quotes' | 'infoproducts' | 'portfolio' | 'blog' | 'logos' | 'services' | 'checkout_config';
+
+const ADMIN_TABS: readonly Tab[] = [
+  'overview',
+  'growth_os',
+  'engine_control',
+  'financial_intelligence',
+  'projects',
+  'clients',
+  'messages',
+  'quotes',
+  'infoproducts',
+  'portfolio',
+  'blog',
+  'logos',
+  'services',
+  'checkout_config',
+];
+
+function resolveTabFromSearch(params: URLSearchParams): Tab {
+  if (params.get('connected') === 'true') {
+    return 'overview';
+  }
+  const rawTab = params.get('tab');
+  if (rawTab && (ADMIN_TABS as readonly string[]).includes(rawTab)) {
+    return rawTab as Tab;
+  }
+  return 'overview';
+}
 
 export function AdminDashboard() {
   const { user, profile } = useAuth();
-  const [activeTab, setActiveTab] = useState<Tab>('overview');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [activeTab, setActiveTab] = useState<Tab>(() => resolveTabFromSearch(searchParams));
 
-  // Handle URL params for tab switching (e.g. returning from GSC Auth)
+  // Sincroniza URL -> estado (carregamento inicial, retorno OAuth GSC e navegação Voltar/Avançar / popstate)
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const tab = params.get('tab');
-    const connected = params.get('connected');
-    
-    if (tab && [
-      'overview', 'engine_control', 'financial_intelligence', 'projects', 'clients', 'messages', 'quotes', 
-      'infoproducts', 'portfolio', 'blog', 'logos', 'services', 
-      'checkout_config'
-    ].includes(tab)) {
-      setActiveTab(tab as Tab);
+    if (searchParams.get('connected') === 'true') {
+      showToast('GSC Conectado com sucesso!', 'success');
+      setActiveTab('overview');
+      setSearchParams(
+        (prev) => {
+          const next = new URLSearchParams(prev);
+          next.delete('connected');
+          next.delete('section');
+          next.set('tab', 'overview');
+          return next;
+        },
+        { replace: true }
+      );
+      return;
     }
 
-    if (connected === 'true') {
-      showToast('GSC Conectado com sucesso!', 'success');
-      // Limpamos a URL e mantemos na visão geral como fallback
-      window.history.replaceState({}, '', `/admin?tab=overview`);
+    const urlTab = resolveTabFromSearch(searchParams);
+    setActiveTab((prev) => (prev !== urlTab ? urlTab : prev));
+  }, [searchParams, setSearchParams]);
+
+  // Sincroniza estado -> URL preservando parâmetros alheios e histórico BrowserRouter
+  useEffect(() => {
+    const liveParams = new URLSearchParams(window.location.search);
+    if (liveParams.get('connected') === 'true') {
+      return;
     }
-  }, []);
+
+    if (activeTab === 'growth_os') {
+      const currentRawTab = liveParams.get('tab');
+      const hasValidSection = isValidGrowthOsSection(liveParams.get('section'));
+
+      if (currentRawTab === 'growth_os' && hasValidSection) {
+        return;
+      }
+
+      setSearchParams(
+        (prev) => {
+          const next = new URLSearchParams(prev);
+          next.set('tab', 'growth_os');
+          if (!isValidGrowthOsSection(next.get('section'))) {
+            next.set('section', 'overview');
+          }
+          return next;
+        },
+        { replace: currentRawTab === 'growth_os' }
+      );
+      return;
+    }
+
+    const liveTab = resolveTabFromSearch(liveParams);
+    const hasSectionParam = liveParams.has('section');
+    const hasInvalidTabParam = liveParams.has('tab') && liveParams.get('tab') !== activeTab;
+
+    if (activeTab === liveTab && !hasSectionParam && !hasInvalidTabParam) {
+      return;
+    }
+
+    setSearchParams(
+      (prev) => {
+        const next = new URLSearchParams(prev);
+        next.set('tab', activeTab);
+        next.delete('section');
+        return next;
+      },
+      { replace: activeTab === liveTab }
+    );
+  }, [activeTab, setSearchParams]);
   
   const {
     projects,
@@ -982,6 +1062,22 @@ export function AdminDashboard() {
               <Activity size={20} />
               Controladoria Analítica
             </button>
+            <button
+              onClick={() => setActiveTab('growth_os')}
+              className={`w-full px-4 py-3 rounded-xl font-bold text-sm flex items-center justify-between gap-2 transition-all ${
+                activeTab === 'growth_os'
+                  ? 'bg-blue-50 text-blue-700 shadow-sm ring-1 ring-blue-100'
+                  : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'
+              }`}
+            >
+              <span className="flex items-center gap-3">
+                <Sparkles size={20} />
+                <span>AI Growth OS</span>
+              </span>
+              <span className="px-1.5 py-0.5 rounded text-[10px] font-extrabold uppercase tracking-wider bg-amber-100 text-amber-800 border border-amber-200">
+                Preview
+              </span>
+            </button>
 
             <div className="pt-4 pb-2 px-4 text-xs font-black text-gray-400 uppercase tracking-widest">
               Gestão
@@ -1240,6 +1336,9 @@ export function AdminDashboard() {
                 )}
                 {activeTab === 'financial_intelligence' && (
                   <FinancialIntelligence />
+                )}
+                {activeTab === 'growth_os' && (
+                  <GrowthOsShell onNavigateAdminTab={(tab) => setActiveTab(tab)} />
                 )}
                 {activeTab === 'projects' && (
                   <ProjectsTab
