@@ -42,14 +42,25 @@ export function DesenharSitePage() {
     let progressInterval: ReturnType<typeof setInterval>;
 
     try {
-      // 1. Check usage limit
-      const { count, error: countError } = await supabase
-        .from('ai_generated_sites')
-        .select('*', { count: 'exact', head: true })
-        .eq('form_data->>email', formData.email);
+      // 1. Check usage limit via isolated quota RPC (with fallback before SQL migration is applied)
+      let isQuotaAllowed = true;
+      const { data: rpcQuota, error: rpcError } = await supabase.rpc('check_ai_site_draw_quota', {
+        p_email: formData.email,
+      });
 
-      if (countError) throw new Error('Erro ao verificar limite de uso.');
-      if (count && count >= 2) {
+      if (!rpcError && rpcQuota && typeof rpcQuota === 'object' && 'allowed' in rpcQuota) {
+        isQuotaAllowed = Boolean((rpcQuota as { allowed?: boolean }).allowed);
+      } else {
+        const { count, error: countError } = await supabase
+          .from('ai_generated_sites')
+          .select('*', { count: 'exact', head: true })
+          .eq('form_data->>email', formData.email);
+
+        if (countError) throw new Error('Erro ao verificar limite de uso.');
+        isQuotaAllowed = (count || 0) < 2;
+      }
+
+      if (!isQuotaAllowed) {
         throw new Error('Limite excedido. Já gerou o máximo de 2 modelos gratuitos com este email. Por favor, contacte a UmbuLab.');
       }
 

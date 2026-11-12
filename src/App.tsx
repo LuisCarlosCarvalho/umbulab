@@ -39,6 +39,7 @@ const AtivarPage = lazy(() => import('./pages/AtivarPage').then(m => ({ default:
 const GeneratePage = lazy(() => import('./pages/GeneratePage').then(m => ({ default: m.GeneratePage })));
 const PreviewPage = lazy(() => import('./pages/PreviewPage').then(m => ({ default: m.PreviewPage })));
 const LeadAdminPage = lazy(() => import('./pages/LeadAdminPage').then(m => ({ default: m.LeadAdminPage })));
+const DiagnosticoDigitalPage = lazy(() => import('./pages/DiagnosticoDigitalPage'));
 // Loading Fallback
 function PageLoader() {
   return (
@@ -72,10 +73,7 @@ function RequireAuth({ children }: { children: JSX.Element }) {
 function RequireAdmin({ children }: { children: JSX.Element }) {
   const { user, profile, loading } = useAuth();
 
-  // Fast-path for master admin avoids awaiting initial profile download
-  const isMasterAdmin = user?.email?.includes('admin@');
-  
-  if (loading && !isMasterAdmin) {
+  if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
@@ -83,12 +81,8 @@ function RequireAdmin({ children }: { children: JSX.Element }) {
     );
   }
 
-  // Se já temos a identidade, mas sem o profile oficial, e for o master, bypass!
-  if ((!user || profile?.role !== 'admin') && !isMasterAdmin) {
-    // Only kick out once loading is totally done
-    if (!loading) {
-      return <Navigate to="/" replace />;
-    }
+  if (!user || profile?.role !== 'admin') {
+    return <Navigate to="/" replace />;
   }
 
   return children;
@@ -218,6 +212,7 @@ function Layout() {
           <Route path="/ativar" element={<AtivarPage />} />
           <Route path="/generate" element={<GeneratePage />} />
           <Route path="/preview" element={<PreviewPage />} />
+          <Route path="/diagnostico-digital" element={<DiagnosticoDigitalPage />} />
 
           {/* Auth Routes */}
           <Route path="/login" element={<LoginPage />} />

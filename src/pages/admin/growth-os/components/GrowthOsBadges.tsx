@@ -1,6 +1,6 @@
 import React from 'react';
 import { AlertTriangle, Monitor, Server, Shield, PauseCircle } from 'lucide-react';
-import { ExecutionMode, GrowthOsCurrency, RiskLevel } from '../../../../types/growthOs';
+import { ExecutionMode, GrowthOsCurrency, GrowthOsMarket, RiskLevel } from '../../../../types/growthOs';
 
 export const DemoDataBadge: React.FC<{ label?: string }> = ({ label = 'Dados Fictícios • Demo' }) => (
   <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold leading-snug bg-amber-50 text-amber-800 border border-amber-200 dark:bg-amber-950/60 dark:text-amber-300 dark:border-amber-800/70">
@@ -40,7 +40,12 @@ export const ExecutionModeBadge: React.FC<{ mode: ExecutionMode }> = ({ mode }) 
   );
 };
 
-export const RiskGateBadge: React.FC<{ level: RiskLevel }> = ({ level }) => {
+export const RiskGateBadge: React.FC<{
+  level?: RiskLevel;
+  risk?: RiskLevel;
+  requiresHumanApproval?: boolean;
+}> = ({ level, risk }) => {
+  const resolvedLevel: RiskLevel = level || risk || 'L1';
   const styles: Record<RiskLevel, { classes: string; text: string }> = {
     L0: {
       classes: 'bg-emerald-50 text-emerald-800 border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800/70',
@@ -56,7 +61,7 @@ export const RiskGateBadge: React.FC<{ level: RiskLevel }> = ({ level }) => {
     },
   };
 
-  const current = styles[level];
+  const current = styles[resolvedLevel];
   return (
     <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold leading-snug border ${current.classes}`}>
       <Shield size={12} className="shrink-0" aria-hidden="true" />
@@ -64,6 +69,12 @@ export const RiskGateBadge: React.FC<{ level: RiskLevel }> = ({ level }) => {
     </span>
   );
 };
+
+export const MarketBadge: React.FC<{ market: GrowthOsMarket }> = ({ market }) => (
+  <span className="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-extrabold tracking-wide bg-zinc-100 text-zinc-800 border border-zinc-200 dark:bg-zinc-800 dark:text-zinc-200 dark:border-zinc-700">
+    {market}
+  </span>
+);
 
 export const CurrencyCodeBadge: React.FC<{ currency: GrowthOsCurrency }> = ({ currency }) => (
   <span className="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-extrabold tracking-wide bg-umbu-primary/10 text-umbu-primary border border-umbu-primary/25 dark:bg-umbu-secondary/15 dark:text-umbu-secondary dark:border-umbu-secondary/30">

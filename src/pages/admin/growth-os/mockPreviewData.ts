@@ -90,6 +90,13 @@ export function formatDemoMoneyCents(cents: number, currency: GrowthOsCurrency):
   }).format(major);
 }
 
+export const formatCents = formatDemoMoneyCents;
+
+export function getAgentDisplayName(agentKey: string): string {
+  const found = DEMO_AGENTS_TEAM.find((a) => a.agent_key === agentKey);
+  return found ? found.display_name : agentKey;
+}
+
 export const DEMO_AGENTS_TEAM: DemoAgentSpec[] = [
   {
     agent_key: 'ops_director',

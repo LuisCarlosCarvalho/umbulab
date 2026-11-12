@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { Logo } from '../components/Logo';
-import { Eye, EyeOff, Shield, Power, Loader2 } from 'lucide-react';
+import { Eye, EyeOff, Shield, Power, Loader2, Lock } from 'lucide-react';
 import { showToast } from '../components/ui/Toast';
+import { useAuth } from '../contexts/AuthContext';
 
 export function AtivarPage() {
+  const { user, profile, loading: authLoading } = useAuth();
+  const isAdminSession = Boolean(user && profile?.role === 'admin');
   const [isActive, setIsActive] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(true);
   const [actionLoading, setActionLoading] = useState<boolean>(false);
@@ -39,8 +42,8 @@ export function AtivarPage() {
   }, []);
 
   const handleToggle = async () => {
-    if (!secretKey.trim()) {
-      showToast('Digite a chave de segurança para autorizar.', 'error');
+    if (!isAdminSession && !secretKey.trim()) {
+      showToast('Inicie sessão como Administrador ou digite a chave de segurança.', 'error');
       return;
     }
 
@@ -51,7 +54,7 @@ export function AtivarPage() {
       const maintenanceVal = !isActive;
 
       const { data, error } = await supabase.rpc('toggle_maintenance', {
-        secret_key: secretKey,
+        secret_key: secretKey || 'admin_session_verified',
         is_active_val: maintenanceVal
       });
 
@@ -73,13 +76,13 @@ export function AtivarPage() {
       }
     } catch (err: any) {
       console.error('Erro ao atualizar estado:', err);
-      showToast('Falha na autenticação ou erro de conexão.', 'error');
+      showToast('Acesso restrito a administradores autenticados ou falha de conexão.', 'error');
     } finally {
       setActionLoading(false);
     }
   };
 
-  if (loading) {
+  if (loading || authLoading) {
     return (
       <div className="min-h-screen bg-[#090d16] flex items-center justify-center">
         <div className="flex flex-col items-center">
@@ -133,6 +136,20 @@ export function AtivarPage() {
           </div>
 
           <div className="space-y-6">
+            <div className="flex items-center justify-between rounded-xl border border-white/10 bg-slate-950/50 px-3.5 py-2.5 text-xs text-gray-300">
+              <span className="flex items-center gap-2">
+                <Lock size={14} className={isAdminSession ? 'text-green-400' : 'text-amber-400'} />
+                {isAdminSession
+                  ? `Sessão Admin verificada (${user?.email})`
+                  : 'Requer sessão de Administrador após ativação do Hardening P0'}
+              </span>
+              {!isAdminSession && (
+                <a href="/login" className="font-semibold text-green-400 hover:underline">
+                  Entrar
+                </a>
+              )}
+            </div>
+
             {/* Password Input */}
             <div>
               <label className="block text-xs font-bold text-gray-300 uppercase tracking-wider mb-2">

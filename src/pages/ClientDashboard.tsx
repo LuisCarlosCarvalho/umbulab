@@ -26,6 +26,17 @@ export function ClientDashboard() {
   const [loading, setLoading] = useState(true);
   const [sendingMessage, setSendingMessage] = useState(false);
   const [uploadingFile, setUploadingFile] = useState(false);
+  const [clientDiagnostics, setClientDiagnostics] = useState<
+    Array<{
+      order_id: string;
+      order_code: string;
+      company: string;
+      payment_status: string;
+      delivery_status: string;
+      approved_summary: string | null;
+      created_at: string;
+    }>
+  >([]);
 
   const loadProjects = useCallback(async () => {
     if (!user?.id) return;
@@ -106,6 +117,21 @@ export function ClientDashboard() {
         }
         
         setQuotes(quotesData || []);
+      }
+
+      // Carregar Diagnósticos Digitais UmbuLab do cliente autenticado (se existirem)
+      try {
+        const diagResp = await fetch('/api/growth-os?action=get_client_diagnostics', {
+          headers: { Authorization: `Bearer ${session.access_token}` },
+        });
+        if (diagResp.ok) {
+          const diagJson = await diagResp.json();
+          if (diagJson?.ok && Array.isArray(diagJson.diagnostics)) {
+            setClientDiagnostics(diagJson.diagnostics);
+          }
+        }
+      } catch {
+        // Ignora silenciosamente se endpoint serverless não estiver ativo no dev local
       }
 
       // Auto-select if only one project exists and none is selected
@@ -872,6 +898,40 @@ export function ClientDashboard() {
                   Contratar Agora
                 </a>
              </div>
+
+             {clientDiagnostics.length > 0 && (
+               <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm space-y-4">
+                 <h4 className="text-sm font-black text-gray-900 uppercase tracking-widest">
+                   Diagnósticos Digitais UmbuLab
+                 </h4>
+                 <div className="space-y-3">
+                   {clientDiagnostics.map((d) => (
+                     <div
+                       key={d.order_id}
+                       className="rounded-2xl border border-gray-100 bg-gray-50 p-4 space-y-1.5"
+                     >
+                       <div className="flex items-center justify-between text-xs font-bold text-gray-900">
+                         <span>{d.order_code || d.company}</span>
+                         <span className="px-2 py-0.5 rounded-full bg-green-100 text-green-800">
+                           {d.delivery_status === 'approved_and_delivered'
+                             ? 'Entregue'
+                             : 'Em Revisão Humana'}
+                         </span>
+                       </div>
+                       {d.approved_summary ? (
+                         <p className="text-xs text-gray-600 whitespace-pre-line">
+                           {d.approved_summary}
+                         </p>
+                       ) : (
+                         <p className="text-xs text-gray-500">
+                           O diagnóstico está em preparação/revisão pela equipa UmbuLab.
+                         </p>
+                       )}
+                     </div>
+                   ))}
+                 </div>
+               </div>
+             )}
 
              <div className="bg-gray-50 border-2 border-dashed border-gray-200 rounded-3xl p-8 text-center opacity-60">
                 <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Acesso Cliente</p>
