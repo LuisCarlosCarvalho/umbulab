@@ -32,10 +32,91 @@ export interface GeminiModelSpec {
   reference_pricing_note: string;
 }
 
-export const DEFAULT_ECONOMIC_MODEL = 'gemini-3.5-flash-lite';
-export const DEFAULT_ADVANCED_CANDIDATE_MODEL = 'gemini-3.8-flash';
+export const DEFAULT_ECONOMIC_MODEL = 'gemini-2.5-flash';
+export const DEFAULT_ADVANCED_CANDIDATE_MODEL = 'gemini-2.5-flash';
 
 export const GEMINI_MODEL_CATALOG: Record<string, GeminiModelSpec> = {
+  'gemini-2.5-flash': {
+    model_name: 'gemini-2.5-flash',
+    provider_key: 'google_gemini',
+    tier: 'economic',
+    operational_status: 'validated_live',
+    supported_complexities: ['low', 'medium', 'high'],
+    capabilities: [
+      'text_generation',
+      'classification',
+      'summarization',
+      'structured_json',
+      'data_organization',
+      'deep_reasoning',
+      'complex_orchestration',
+      'grounding_search',
+    ],
+    pricing_usd_per_1m_input: 0.15,
+    pricing_usd_per_1m_output: 0.60,
+    reference_pricing_note:
+      'Tarifa padrão Google Gemini 2.5 Flash ($0.15/1M input, $0.60/1M output). Alta velocidade e excelente capacidade analítica.',
+  },
+  'gemini-2.0-flash': {
+    model_name: 'gemini-2.0-flash',
+    provider_key: 'google_gemini',
+    tier: 'economic',
+    operational_status: 'validated_live',
+    supported_complexities: ['low', 'medium', 'high'],
+    capabilities: [
+      'text_generation',
+      'classification',
+      'summarization',
+      'structured_json',
+      'data_organization',
+      'deep_reasoning',
+      'complex_orchestration',
+      'grounding_search',
+    ],
+    pricing_usd_per_1m_input: 0.10,
+    pricing_usd_per_1m_output: 0.40,
+    reference_pricing_note:
+      'Tarifa padrão Google Gemini 2.0 Flash ($0.10/1M input, $0.40/1M output). Modelo multimodelo de nova geração.',
+  },
+  'gemini-1.5-flash': {
+    model_name: 'gemini-1.5-flash',
+    provider_key: 'google_gemini',
+    tier: 'economic',
+    operational_status: 'validated_live',
+    supported_complexities: ['low', 'medium'],
+    capabilities: [
+      'text_generation',
+      'classification',
+      'summarization',
+      'structured_json',
+      'data_organization',
+    ],
+    pricing_usd_per_1m_input: 0.075,
+    pricing_usd_per_1m_output: 0.30,
+    reference_pricing_note:
+      'Tarifa Google Gemini 1.5 Flash estável ($0.075/1M input, $0.30/1M output).',
+  },
+  'gemini-flash-latest': {
+    model_name: 'gemini-flash-latest',
+    provider_key: 'google_gemini',
+    tier: 'economic',
+    operational_status: 'validated_live',
+    supported_complexities: ['low', 'medium', 'high'],
+    capabilities: [
+      'text_generation',
+      'classification',
+      'summarization',
+      'structured_json',
+      'data_organization',
+      'deep_reasoning',
+      'complex_orchestration',
+      'grounding_search',
+    ],
+    pricing_usd_per_1m_input: 0.15,
+    pricing_usd_per_1m_output: 0.60,
+    reference_pricing_note:
+      'Alias oficial Google Gemini Flash Latest (usado pelo gerador de websites da UmbuLab).',
+  },
   'gemini-3.5-flash-lite': {
     model_name: 'gemini-3.5-flash-lite',
     provider_key: 'google_gemini',

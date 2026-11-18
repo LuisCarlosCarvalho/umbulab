@@ -24,3 +24,10 @@ dist-ssr
 
 .vercel
 .env*
+
+# Backups locais de base de dados e storage
+backups/
+scratch/
+*.dump
+*.sql.bak
+supabase/.temp/

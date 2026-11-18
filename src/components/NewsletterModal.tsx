@@ -1,56 +1,129 @@
-import React, { useState, useEffect } from 'react';
-import { X, Loader2 } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useLocation } from 'react-router-dom';
+import { X, Loader2, Sparkles } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import emailjs from '@emailjs/browser';
 
 export function NewsletterModal() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isExitIntent, setIsExitIntent] = useState(false);
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
+  const location = useLocation();
 
-  useEffect(() => {
-    // 1. Checa a persistência de bloqueio (14 dias)
-    const isDismissed = localStorage.getItem('umbulab_newsletter_dismissed');
-    if (isDismissed) {
+  // Rotas restritas/administrativas onde o popup de newsletter NUNCA deve aparecer
+  const isExcludedRoute = 
+    location.pathname.startsWith('/admin') ||
+    location.pathname.startsWith('/dashboard') ||
+    location.pathname.startsWith('/login') ||
+    location.pathname.startsWith('/register') ||
+    location.pathname.startsWith('/approvals') ||
+    location.pathname.startsWith('/ativar') ||
+    location.pathname.startsWith('/proposta/');
+
+  const checkIsSubscribed = useCallback(() => {
+    try {
+      return localStorage.getItem('umbulab_newsletter_subscribed') === 'true';
+    } catch {
+      return false;
+    }
+  }, []);
+
+  const checkIsDismissedRecently = useCallback(() => {
+    try {
+      const isDismissed = localStorage.getItem('umbulab_newsletter_dismissed');
+      if (!isDismissed) return false;
       const dismissedAt = new Date(isDismissed).getTime();
-      const now = new Date().getTime();
-      const fourteenDays = 14 * 24 * 60 * 60 * 1000;
-      
-      if (now - dismissedAt < fourteenDays) return;
-      localStorage.removeItem('umbulab_newsletter_dismissed');
+      const now = Date.now();
+      const sevenDays = 7 * 24 * 60 * 60 * 1000;
+      return (now - dismissedAt) < sevenDays;
+    } catch {
+      return false;
+    }
+  }, []);
+
+  const checkHasShownInSession = useCallback(() => {
+    try {
+      return sessionStorage.getItem('umbulab_newsletter_shown_in_session') === 'true';
+    } catch {
+      return false;
+    }
+  }, []);
+
+  const checkHasExitShown = useCallback(() => {
+    try {
+      return sessionStorage.getItem('umbulab_newsletter_exit_shown') === 'true';
+    } catch {
+      return false;
+    }
+  }, []);
+
+  const dismissModal = useCallback(() => {
+    setIsOpen(false);
+    try {
+      localStorage.setItem('umbulab_newsletter_dismissed', new Date().toISOString());
+      sessionStorage.setItem('umbulab_newsletter_shown_in_session', 'true');
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  // 1. Disparo de primeiro acesso no site (apenas no primeiro acesso real da sessão)
+  useEffect(() => {
+    if (isExcludedRoute) return;
+    if (checkIsSubscribed() || checkIsDismissedRecently() || checkHasShownInSession()) {
+      return;
     }
 
-    // 2. Disparo por Tempo (8 segundos)
-    const timer = setTimeout(() => setIsOpen(true), 8000);
+    // Abre suavemente após 3 segundos no primeiro acesso do site
+    const timer = setTimeout(() => {
+      if (!checkIsSubscribed() && !checkHasShownInSession()) {
+        setIsExitIntent(false);
+        setIsOpen(true);
+        try {
+          sessionStorage.setItem('umbulab_newsletter_shown_in_session', 'true');
+        } catch {
+          // ignore
+        }
+      }
+    }, 3000);
 
-    // 3. Disparo por Scroll (35%)
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      const windowHeight = window.innerHeight;
-      const documentHeight = document.body.scrollHeight;
-      
-      if (documentHeight > windowHeight) {
-        const scrollPercentage = (scrollPosition / (documentHeight - windowHeight)) * 100;
-        if (scrollPercentage >= 35) {
+    return () => clearTimeout(timer);
+  }, [isExcludedRoute, checkIsSubscribed, checkIsDismissedRecently, checkHasShownInSession]);
+
+  // 2. Disparo por Exit-Intent (quando o visitante for fechar a página / sair pelo topo)
+  useEffect(() => {
+    if (isExcludedRoute) return;
+
+    const handleMouseLeave = (e: MouseEvent) => {
+      // Detecta quando o cursor se move para fora do topo da janela (área das abas/barra de navegação)
+      if (e.clientY <= 0) {
+        if (!checkIsSubscribed() && !checkHasExitShown() && !isOpen) {
+          setIsExitIntent(true);
           setIsOpen(true);
-          window.removeEventListener('scroll', handleScroll);
+          try {
+            sessionStorage.setItem('umbulab_newsletter_exit_shown', 'true');
+            sessionStorage.setItem('umbulab_newsletter_shown_in_session', 'true');
+          } catch {
+            // ignore
+          }
         }
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    document.addEventListener('mouseleave', handleMouseLeave);
+    return () => document.removeEventListener('mouseleave', handleMouseLeave);
+  }, [isExcludedRoute, checkIsSubscribed, checkHasExitShown, isOpen]);
 
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener('scroll', handleScroll);
+  // Fechamento via tecla ESC
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) dismissModal();
     };
-  }, []);
-
-  const dismissModal = () => {
-    setIsOpen(false);
-    localStorage.setItem('umbulab_newsletter_dismissed', new Date().toISOString());
-  };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, dismissModal]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -66,8 +139,13 @@ export function NewsletterModal() {
     const { error } = await supabase.from('newsletter_leads').insert([{ email }]);
 
     if (error) {
-      // Se for violação unique (e-mail já existe), apenas agradecemos
+      // Se for violação unique (e-mail já cadastrado), confirma e encerra
       if (error.code === '23505') {
+        try {
+          localStorage.setItem('umbulab_newsletter_subscribed', 'true');
+        } catch {
+          // ignore
+        }
         setStatus('success');
         setTimeout(dismissModal, 2500);
         return;
@@ -78,9 +156,13 @@ export function NewsletterModal() {
     }
 
     try {
-      // Disparo duplo pelo EmailJS:
-      // O template configurado no EmailJS deve ter 'to_email' para o usuário
-      // e pode disparar uma cópia (ou usar um segundo send) para a UmbuLab
+      localStorage.setItem('umbulab_newsletter_subscribed', 'true');
+      localStorage.removeItem('umbulab_newsletter_dismissed');
+    } catch {
+      // ignore
+    }
+
+    try {
       await emailjs.send(
         import.meta.env.VITE_EMAILJS_SERVICE_ID || 'YOUR_SERVICE_ID',
         import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'YOUR_TEMPLATE_ID',
@@ -93,28 +175,17 @@ export function NewsletterModal() {
       );
     } catch (emailError) {
       console.error('UmbuLab: Erro no disparo do emailJS', emailError);
-      // Não interrompemos a experiência do usuário se o e-mail falhar, 
-      // já que o lead foi gravado no banco de dados com sucesso.
     }
 
     setStatus('success');
     setTimeout(dismissModal, 3000);
   };
 
-  useEffect(() => {
-    // Fechamento via ESC
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) dismissModal();
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen]);
-
-  if (!isOpen) return null;
+  if (isExcludedRoute || !isOpen) return null;
 
   return (
     <div 
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-opacity" 
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-opacity animate-in fade-in duration-300" 
       onClick={dismissModal}
     >
       <div 
@@ -123,14 +194,21 @@ export function NewsletterModal() {
       >
         <button 
           onClick={dismissModal}
-          className="absolute top-4 right-4 text-zinc-400 hover:text-zinc-900 dark:text-white transition-colors"
+          className="absolute top-4 right-4 text-zinc-400 hover:text-white transition-colors"
           aria-label="Fechar"
         >
           <X className="w-5 h-5" />
         </button>
 
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-2 tracking-tight">
+          {isExitIntent && (
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 mb-3 text-xs font-semibold bg-[#7ED321]/15 text-[#7ED321] rounded-full border border-[#7ED321]/30">
+              <Sparkles className="w-3.5 h-3.5" />
+              Antes de sair... Não perca seus insights exclusivos!
+            </div>
+          )}
+
+          <h2 className="text-2xl font-bold text-white mb-2 tracking-tight">
             Acelere seu <span className="text-[#7ED321]">crescimento</span>
           </h2>
           <p className="text-zinc-400 mb-6 text-sm">
@@ -151,7 +229,7 @@ export function NewsletterModal() {
                   setEmail(e.target.value);
                   if (status === 'error') setStatus('idle');
                 }}
-                className="w-full px-4 py-3 bg-zinc-900/50 border border-zinc-800 rounded-lg text-zinc-900 dark:text-white placeholder-zinc-500 focus:outline-none focus:border-[#7ED321] focus:ring-1 focus:ring-[#7ED321] transition-all"
+                className="w-full px-4 py-3 bg-zinc-900/50 border border-zinc-800 rounded-lg text-white placeholder-zinc-500 focus:outline-none focus:border-[#7ED321] focus:ring-1 focus:ring-[#7ED321] transition-all"
                 disabled={status === 'loading'}
               />
               {status === 'error' && (
