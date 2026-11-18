@@ -7,6 +7,7 @@ import {
   type ModelCapability,
   type TaskComplexity,
 } from './modelRouter.js';
+import { resolveSkillInstructions } from './skillsCatalog.js';
 
 /**
  * Adaptadores de Fornecedores Externos & Motor de Teste de Ligação
@@ -580,7 +581,7 @@ export async function executeAgentPrompt(
     const primaryAttempt = await invokeGeminiSingleAttempt({
       model: routing.selected_model,
       apiKey: resolvedKey.key,
-      systemPrompt: req.system_prompt,
+      systemPrompt: `${req.system_prompt}${resolveSkillInstructions(req.skill_key)}`,
       userPrompt: req.user_prompt,
       temperature: req.temperature,
       maxTokens: safeMaxTokens,

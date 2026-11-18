@@ -101,7 +101,7 @@ export const OpportunityRadarView: React.FC<OpportunityRadarViewProps> = ({
     setConverting(true);
     try {
       const budgetCents = Math.max(
-        100,
+        10,
         Math.round(parseFloat(convertBudget.replace(',', '.')) * 100 || 1500)
       );
       const mission = await convertOpportunityToMission(convertTarget.opportunity_id, {

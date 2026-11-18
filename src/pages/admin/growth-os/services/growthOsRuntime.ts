@@ -1236,6 +1236,7 @@ export interface CreateMissionInput {
   priority: 'low' | 'medium' | 'high' | 'critical';
   execution_mode: AgentAutonomyMode;
   success_criteria?: string;
+  target_agent_key?: AgentKey;
 }
 
 export async function createAndExecuteMission(
@@ -1279,7 +1280,15 @@ export async function createAndExecuteMission(
     input.title.toLowerCase().includes('produtos digitais') ||
     input.objective.toLowerCase().includes('produtos digitais');
 
-  const estimatedStepCents = Math.max(25, Math.floor(input.budget_cap_cents / 4));
+  const isSingleAgentCommercial =
+    input.target_agent_key === 'commercial_analyst' ||
+    input.title.toLowerCase().includes('diagnóstico') ||
+    input.objective.toLowerCase().includes('diagnóstico') ||
+    input.budget_cap_cents <= 50;
+
+  const estimatedStepCents = isSingleAgentCommercial
+    ? input.budget_cap_cents
+    : Math.max(1, Math.floor(input.budget_cap_cents / 4));
 
   let tasks: OperationalTaskRecord[] = [];
   let newRuns: OperationalTaskRunRecord[] = [];
@@ -1289,41 +1298,60 @@ export async function createAndExecuteMission(
 
   if (missionAdapterMode === 'live_provider_api' && token) {
     // Execução REAL na API backend (/api/growth-os?action=execute_agent_step): 1 agente por chamada HTTP
-    const livePlan = [
-      {
-        step_order: 1,
-        agent_key: 'ops_director' as AgentKey,
-        skill_key: 'mission_decomposition_dag',
-        complexity: 'medium' as const,
-        required_capabilities: ['structured_json', 'summarization'],
-        title: `Coordenação e Estruturação — ${input.title}`,
-        buildPrompt: () =>
-          `Missão: "${input.title}". Objetivo: "${input.objective}". Mercado: ${input.market}. Estrutura em português (máximo 6 tópicos) o público-alvo, entregáveis e limites RGPD sem inventar estatísticas.`,
-        max_tokens: 450,
-      },
-      {
-        step_order: 2,
-        agent_key: 'commercial_analyst' as AgentKey,
-        skill_key: 'unit_economics_scorecard',
-        complexity: 'medium' as const,
-        required_capabilities: ['text_generation', 'structured_json'],
-        title: `Análise Comercial e Proposta — ${input.title}`,
-        buildPrompt: (prev: string[]) =>
-          `Com base na coordenação:\n${prev[0]}\n\nProduz uma proposta inicial estruturada para "${input.title}" (${input.market}). Marca qualquer preço sugerido como "sugestão interna pendente de aprovação da gestão" e não prometas retorno financeiro garantido.`,
-        max_tokens: 750,
-      },
-      {
-        step_order: 3,
-        agent_key: 'quality_auditor' as AgentKey,
-        skill_key: 'quality_and_compliance_gate',
-        complexity: 'low' as const,
-        required_capabilities: ['classification', 'summarization'],
-        title: 'Auditoria de Qualidade, RGPD e Aprovação Humana',
-        buildPrompt: (prev: string[]) =>
-          `Revê a proposta gerada:\n${prev[1]}\n\nVerifica RGPD, ausência de promessas de ROI garantido, preço como sugestão interna não aprovada e distinção entre IA e supervisão humana. Devolve veredicto e pontos a validar.`,
-        max_tokens: 450,
-      },
-    ];
+    const livePlan = isSingleAgentCommercial
+      ? [
+          {
+            step_order: 1,
+            agent_key: 'commercial_analyst' as AgentKey,
+            skill_key: 'offers',
+            complexity: 'low' as const,
+            required_capabilities: ['text_generation', 'structured_json'],
+            title: `Diagnóstico Digital e Estratégia Comercial — ${input.title}`,
+            buildPrompt: () =>
+              `Missão: "${input.title}". Objetivo: "${input.objective}". Mercado: ${input.market}. Moeda: ${input.currency}.
+Produz um Diagnóstico Digital comercial objetivo com:
+1. FATOS OBSERVADOS: Identificação de 2 pontos fortes e 2 lacunas digitais observáveis na presença/oferta.
+2. OPORTUNIDADE DE RECEITA: 1 proposta de melhoria de alto impacto (posicionamento ou produto).
+3. PLANO DE AÇÃO: 3 passos práticos e priorizados para execução imediata.
+Regras estritas: Linguagem executiva em português, sem clichês, sem inventar estatísticas e sem prometer retorno financeiro garantido. Limite de 450 tokens.`,
+            max_tokens: 450,
+          },
+        ]
+      : [
+          {
+            step_order: 1,
+            agent_key: 'ops_director' as AgentKey,
+            skill_key: 'mission_decomposition_dag',
+            complexity: 'medium' as const,
+            required_capabilities: ['structured_json', 'summarization'],
+            title: `Coordenação e Estruturação — ${input.title}`,
+            buildPrompt: () =>
+              `Missão: "${input.title}". Objetivo: "${input.objective}". Mercado: ${input.market}. Estrutura em português (máximo 6 tópicos) o público-alvo, entregáveis e limites RGPD sem inventar estatísticas.`,
+            max_tokens: 450,
+          },
+          {
+            step_order: 2,
+            agent_key: 'commercial_analyst' as AgentKey,
+            skill_key: 'unit_economics_scorecard',
+            complexity: 'medium' as const,
+            required_capabilities: ['text_generation', 'structured_json'],
+            title: `Análise Comercial e Proposta — ${input.title}`,
+            buildPrompt: (prev: string[]) =>
+              `Com base na coordenação:\n${prev[0]}\n\nProduz uma proposta inicial estruturada para "${input.title}" (${input.market}). Marca qualquer preço sugerido como "sugestão interna pendente de aprovação da gestão" e não prometas retorno financeiro garantido.`,
+            max_tokens: 750,
+          },
+          {
+            step_order: 3,
+            agent_key: 'quality_auditor' as AgentKey,
+            skill_key: 'quality_and_compliance_gate',
+            complexity: 'low' as const,
+            required_capabilities: ['classification', 'summarization'],
+            title: 'Auditoria de Qualidade, RGPD e Aprovação Humana',
+            buildPrompt: (prev: string[]) =>
+              `Revê a proposta gerada:\n${prev[1]}\n\nVerifica RGPD, ausência de promessas de ROI garantido, preço como sugestão interna não aprovada e distinção entre IA e supervisão humana. Devolve veredicto e pontos a validar.`,
+            max_tokens: 450,
+          },
+        ];
 
     const outputs: string[] = [];
     for (const step of livePlan) {
@@ -1376,10 +1404,10 @@ export async function createAndExecuteMission(
         title: step.title,
         assigned_agent_key: step.agent_key,
         skill_key: step.skill_key,
-        status: step.step_order === 3 ? 'awaiting_approval' : 'completed',
-        execution_mode: step.step_order === 3 ? 'approval_required' : input.execution_mode,
-        risk_level: step.step_order === 3 ? 'L1' : 'L0',
-        requires_approval: step.step_order === 3,
+        status: step.step_order === livePlan.length ? 'awaiting_approval' : 'completed',
+        execution_mode: step.step_order === livePlan.length ? 'approval_required' : input.execution_mode,
+        risk_level: step.step_order === livePlan.length ? 'L1' : 'L0',
+        requires_approval: step.step_order === livePlan.length,
         approval_level: input.budget_cap_cents >= 10000 ? 'L2_financial_admin' : 'L1_content_ops',
         estimated_cost_cents: estimatedStepCents,
         actual_cost_cents: 0,
@@ -1398,12 +1426,12 @@ export async function createAndExecuteMission(
           cost_confirmation_note: exec.cost_confirmation_note || null,
         },
         auditor_verdict:
-          step.step_order === 3
-            ? 'Auditoria real concluída — aguarda aprovação humana'
+          step.step_order === livePlan.length
+            ? 'Diagnóstico executado — aguarda aprovação humana'
             : `Executado com ${exec.executed_model}`,
         finance_verdict: `Custo estimado: ${exec.raw_cost_usd_micros} µUSD (sem cobrança confirmada pela API)`,
         started_at: now,
-        completed_at: step.step_order === 3 ? null : now,
+        completed_at: step.step_order === livePlan.length ? null : now,
       });
 
       newRuns.push({
@@ -1415,7 +1443,7 @@ export async function createAndExecuteMission(
         skill_key: step.skill_key,
         correlation_id: `corr_${missionId}`,
         idempotency_key: `idem_${taskId}`,
-        execution_mode: step.step_order === 3 ? 'approval_required' : input.execution_mode,
+        execution_mode: step.step_order === livePlan.length ? 'approval_required' : input.execution_mode,
         adapter_mode: 'live_provider_api',
         status: 'completed',
         model_provider: 'google_gemini',
@@ -1462,7 +1490,73 @@ export async function createAndExecuteMission(
       },
     ];
     consolidatedSummary = outputs[1] || outputs[0] || '';
-    auditorNotes = outputs[2] || 'Aguarda revisão humana.';
+    auditorNotes = outputs[2] || outputs[0] || 'Aguarda revisão humana.';
+  } else if (isSingleAgentCommercial) {
+    tasks = [
+      {
+        task_id: `${missionId}-STEP-1`,
+        mission_id: missionId,
+        step_order: 1,
+        title: `Diagnóstico Digital e Estratégia Comercial — ${input.title}`,
+        assigned_agent_key: 'commercial_analyst',
+        skill_key: 'offers',
+        status: 'awaiting_approval',
+        execution_mode: 'approval_required',
+        risk_level: 'L1',
+        requires_approval: true,
+        approval_level: 'L1_content_ops',
+        estimated_cost_cents: estimatedStepCents,
+        actual_cost_cents: Math.max(1, Math.round(estimatedStepCents * 0.5)),
+        currency: input.currency,
+        input_summary: `Objetivo: ${input.objective} | Mercado: ${input.market}`,
+        output_summary: `[SIMULAÇÃO] Diagnóstico Digital concluído pelo Estrategista Comercial. Fatos observados e oportunidades estruturados para "${input.title}".`,
+        structured_output: { simulated: true, agent: 'commercial_analyst' },
+        auditor_verdict: 'Pronto para decisão humana em Tarefas e Aprovações',
+        finance_verdict: `Reserva ativa (${reservationId}) aguarda decisão`,
+        started_at: now,
+        completed_at: null,
+      },
+    ];
+    deliverables = [
+      {
+        deliverable_id: `${missionId}-DELIV-1`,
+        title: `Diagnóstico Digital — ${input.title}`,
+        produced_by_agent: 'commercial_analyst',
+        category: 'viability_scorecard',
+        summary: 'Diagnóstico estruturado com fatos observados, oportunidade de receita e plano de ação.',
+        verified_facts: ['Estrutura técnica e comercial analisada.'],
+        hypotheses: ['Validar interesse do cliente nos 3 passos do plano.'],
+        recommendations: ['Aprovar ou rejeitar em Tarefas e Aprovações.'],
+      },
+    ];
+    newRuns = tasks.map((t, idx) => ({
+      run_id: `RUN-${missionId}-${idx + 1}`,
+      task_id: t.task_id,
+      mission_id: missionId,
+      mission_title: input.title,
+      agent_key: t.assigned_agent_key,
+      skill_key: t.skill_key,
+      correlation_id: `corr_${missionId}`,
+      idempotency_key: `idem_${t.task_id}`,
+      execution_mode: t.execution_mode,
+      adapter_mode: 'sandbox_test_adapter',
+      status: t.status,
+      model_provider: 'google_gemini',
+      model_name: 'gemini-flash-latest (ambiente de testes)',
+      prompt_tokens: 180,
+      completion_tokens: 240,
+      raw_cost_usd_micros: 0,
+      cost_source: 'estimated',
+      latency_ms: 85,
+      sanitized_input: { mission_code: missionCode, step_order: t.step_order, input_summary: t.input_summary },
+      sanitized_output: { output_summary: t.output_summary, structured_output: t.structured_output },
+      audit_notes: t.auditor_verdict,
+      error_message: null,
+      created_at: now,
+    }));
+    consolidatedSummary =
+      'Diagnóstico Digital executado em Ambiente de Testes (Simulado). Aguarda aprovação humana.';
+    auditorNotes = 'Análise do Estrategista Comercial concluída; sem gastos externos.';
   } else {
     tasks = [
       {

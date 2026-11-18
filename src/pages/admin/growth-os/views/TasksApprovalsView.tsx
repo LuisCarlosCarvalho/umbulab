@@ -15,6 +15,7 @@ import {
   ArrowLeft,
   Lock,
   Bot,
+  Users,
 } from 'lucide-react';
 import type {
   AgentAutonomyMode,
@@ -51,7 +52,8 @@ export const TasksApprovalsView: React.FC = () => {
   );
   const [market, setMarket] = useState<GrowthOsMarket>('PT');
   const [currency, setCurrency] = useState<GrowthOsCurrency>('EUR');
-  const [budgetAmount, setBudgetAmount] = useState('15.00');
+  const [budgetAmount, setBudgetAmount] = useState('0.10');
+  const [targetAgentScope, setTargetAgentScope] = useState<'commercial_analyst' | 'all'>('commercial_analyst');
   const [priority, setPriority] = useState<'low' | 'medium' | 'high' | 'critical'>('high');
   const [executionMode, setExecutionMode] = useState<AgentAutonomyMode>('approval_required');
   const [submitting, setSubmitting] = useState(false);
@@ -84,7 +86,7 @@ export const TasksApprovalsView: React.FC = () => {
     setSubmitting(true);
     try {
       const budgetCents = Math.max(
-        50,
+        10,
         Math.round(parseFloat(budgetAmount.replace(',', '.')) * 100 || 1500)
       );
       const created = await createAndExecuteMission({
@@ -95,6 +97,7 @@ export const TasksApprovalsView: React.FC = () => {
         budget_cap_cents: budgetCents,
         priority,
         execution_mode: executionMode,
+        target_agent_key: targetAgentScope === 'all' ? undefined : targetAgentScope,
       });
       setExpandedMissionIds((prev) => ({ ...prev, [created.mission_id]: true }));
       setMissionStep(1);
@@ -153,23 +156,45 @@ export const TasksApprovalsView: React.FC = () => {
           <div className="flex flex-wrap items-center justify-between gap-2.5 pt-2">
             <ExperienceModeSwitch mode={experienceMode} onChange={setExperienceMode} />
 
-            <button
-              type="button"
-              onClick={() => {
-                setTitle('Pesquisar oportunidades de produtos digitais para a UmbuLab');
-                setObjective(
-                  'Encontrar 3 oportunidades de produtos digitais, comparar custos, avaliar riscos e apresentar uma recomendação.'
-                );
-                setMarket('PT');
-                setCurrency('EUR');
-                setBudgetAmount('15.00');
-                setMissionStep(1);
-              }}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-blue-400/50 bg-blue-500/10 px-3 py-1.5 text-xs font-bold text-blue-700 dark:text-blue-300 hover:bg-blue-500/20"
-            >
-              <Sparkles size={13} />
-              Preencher Exemplo Recomendado
-            </button>
+            <div className="flex flex-wrap items-center gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setTitle('Diagnóstico Digital e Estratégia Comercial — PME');
+                  setObjective(
+                    'Identificar 2 pontos fortes, 2 lacunas digitais, 1 oportunidade de receita e plano de ação em 3 passos.'
+                  );
+                  setMarket('PT');
+                  setCurrency('EUR');
+                  setBudgetAmount('0.10');
+                  setTargetAgentScope('commercial_analyst');
+                  setMissionStep(1);
+                }}
+                className="inline-flex items-center gap-1.5 rounded-xl border border-emerald-400/50 bg-emerald-500/10 px-3 py-1.5 text-xs font-bold text-emerald-800 dark:text-emerald-300 hover:bg-emerald-500/20"
+              >
+                <Sparkles size={13} />
+                Exemplo: Diagnóstico Real (€0,10)
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setTitle('Pesquisar oportunidades de produtos digitais para a UmbuLab');
+                  setObjective(
+                    'Encontrar 3 oportunidades de produtos digitais, comparar custos, avaliar riscos e apresentar uma recomendação.'
+                  );
+                  setMarket('PT');
+                  setCurrency('EUR');
+                  setBudgetAmount('15.00');
+                  setTargetAgentScope('all');
+                  setMissionStep(1);
+                }}
+                className="inline-flex items-center gap-1.5 rounded-xl border border-blue-400/50 bg-blue-500/10 px-3 py-1.5 text-xs font-bold text-blue-700 dark:text-blue-300 hover:bg-blue-500/20"
+              >
+                <Users size={13} />
+                Exemplo: Multiagente (€15,00)
+              </button>
+            </div>
           </div>
         </div>
 
@@ -256,6 +281,64 @@ export const TasksApprovalsView: React.FC = () => {
                   <option value="GLOBAL">Global / Internacional</option>
                 </select>
               </div>
+
+              <div className="lg:col-span-12">
+                <FieldLabelWithHelp
+                  label="Modalidade de Execução e Especialistas"
+                  help={{
+                    meaning: 'Escolha se a tarefa será executada por 1 especialista focado ou pela equipa completa de 5 agentes.',
+                    purpose: 'Permitir missões rápidas e económicas com apenas 1 agente, ou planos coordenados com vários agentes.',
+                    howToFill: 'Escolha "Apenas Estrategista Comercial" para o Diagnóstico Digital de €0,10.',
+                    example: 'Apenas Estrategista Comercial (1 chamada Gemini)',
+                    required: true,
+                    effect: 'Define se é feita 1 chamada pontual ou se a missão coordena vários agentes.',
+                    costOrExternalImpact: targetAgentScope === 'commercial_analyst' ? 'Apenas 1 chamada Gemini (~€0,0002).' : 'Múltiplas chamadas distribuídas.',
+                  }}
+                />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-1.5">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setTargetAgentScope('commercial_analyst');
+                      if (parseFloat(budgetAmount) > 1) setBudgetAmount('0.10');
+                    }}
+                    className={`rounded-xl border p-3 text-left transition-all ${
+                      targetAgentScope === 'commercial_analyst'
+                        ? 'border-umbu-primary bg-umbu-primary/10 text-zinc-900 dark:text-white'
+                        : 'border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/60 text-zinc-600 dark:text-zinc-400'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2 font-bold text-xs sm:text-sm">
+                      <Bot size={15} className="text-umbu-primary shrink-0" />
+                      <span>Estrategista Comercial (Execução Individual)</span>
+                    </div>
+                    <p className="text-[11px] text-zinc-500 mt-1">
+                      Apenas 1 especialista e 1 única chamada Gemini. Ideal para o Diagnóstico Digital (€0,10).
+                    </p>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setTargetAgentScope('all');
+                      if (parseFloat(budgetAmount) < 1) setBudgetAmount('15.00');
+                    }}
+                    className={`rounded-xl border p-3 text-left transition-all ${
+                      targetAgentScope === 'all'
+                        ? 'border-umbu-primary bg-umbu-primary/10 text-zinc-900 dark:text-white'
+                        : 'border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/60 text-zinc-600 dark:text-zinc-400'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2 font-bold text-xs sm:text-sm">
+                      <Users size={15} className="text-blue-500 shrink-0" />
+                      <span>Equipa Completa (5 Especialistas Coordenados)</span>
+                    </div>
+                    <p className="text-[11px] text-zinc-500 mt-1">
+                      Pesquisa, modelação comercial, redação de conteúdo e auditoria de qualidade em conjunto.
+                    </p>
+                  </button>
+                </div>
+              </div>
             </div>
 
             <div>
@@ -341,8 +424,8 @@ export const TasksApprovalsView: React.FC = () => {
                   help={{
                     meaning: 'O valor máximo que autoriza reservar para esta missão.',
                     purpose: 'Garantir que a missão nunca ultrapassa o valor definido por si.',
-                    howToFill: 'Digite o valor máximo (ex.: 15.00).',
-                    example: '15.00',
+                    howToFill: 'Digite o valor máximo (ex.: 0.10 ou 5.00).',
+                    example: '0.10',
                     required: true,
                     effect: 'Catia preventivamente este valor no orçamento disponível enquanto a missão decorre.',
                     costOrExternalImpact: geminiConnected
@@ -352,8 +435,8 @@ export const TasksApprovalsView: React.FC = () => {
                 />
                 <input
                   type="number"
-                  step="0.50"
-                  min="0.50"
+                  step="0.05"
+                  min="0.10"
                   value={budgetAmount}
                   onChange={(e) => setBudgetAmount(e.target.value)}
                   className="w-full rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3.5 py-2.5 font-mono text-sm font-bold text-zinc-900 dark:text-white"
@@ -472,16 +555,21 @@ export const TasksApprovalsView: React.FC = () => {
 
               <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 p-3.5 space-y-2">
                 <span className="text-zinc-500 block text-xs font-bold">
-                  Especialistas que vão trabalhar nesta missão:
+                  {targetAgentScope === 'commercial_analyst'
+                    ? 'Especialista responsável pela execução:'
+                    : 'Especialistas que vão trabalhar nesta missão:'}
                 </span>
                 <div className="flex flex-wrap gap-1.5">
-                  {[
-                    'Diretor de Operações (Coordenador)',
-                    'Inteligência de Mercado',
-                    'Estrategista Comercial',
-                    'Conteúdo & SEO',
-                    'Auditor de Qualidade',
-                  ].map((ag) => (
+                  {(targetAgentScope === 'commercial_analyst'
+                    ? ['Estrategista Comercial (commercial_analyst)']
+                    : [
+                        'Diretor de Operações (Coordenador)',
+                        'Inteligência de Mercado',
+                        'Estrategista Comercial',
+                        'Conteúdo & SEO',
+                        'Auditor de Qualidade',
+                      ]
+                  ).map((ag) => (
                     <span
                       key={ag}
                       className="inline-flex items-center gap-1 rounded-lg bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 px-2.5 py-1 text-xs font-bold text-zinc-800 dark:text-zinc-200"
@@ -492,7 +580,10 @@ export const TasksApprovalsView: React.FC = () => {
                   ))}
                 </div>
                 <p className="text-[11px] text-zinc-600 dark:text-zinc-400 pt-1">
-                  <strong>O que acontecerá a seguir:</strong> O valor de {budgetAmount} {currency} ficará cativo como "Reservado" no orçamento, os 5 especialistas produzirão os resultados e o pedido ficará a aguardar a sua decisão no Centro de Aprovações abaixo.
+                  <strong>O que acontecerá a seguir:</strong>{' '}
+                  {targetAgentScope === 'commercial_analyst'
+                    ? `O valor de ${budgetAmount} ${currency} ficará cativo como "Reservado" no orçamento, o Estrategista Comercial executará exatamente 1 única chamada Gemini (sem Grounding e sem retries) e o resultado ficará retido no Centro de Aprovações abaixo para a sua decisão humana.`
+                    : `O valor de ${budgetAmount} ${currency} ficará cativo como "Reservado" no orçamento, os 5 especialistas produzirão os resultados coordenados e o pedido ficará a aguardar a sua decisão no Centro de Aprovações abaixo.`}
                 </p>
               </div>
             </div>
